@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Koto · Slipcast-Dev</title><link rel="stylesheet" href="popup.css">
+<body><header><img src="icon128.png" alt=""><div><h1>Koto</h1><small>Slipcast-Dev</small></div></header>
+<label>С языка<select id="source"></select></label><label>На язык<select id="target"></select></label>
+<button id="selection">Перевести выделение</button><button id="page">Перевести видимую страницу</button>
+<div class="row"><button id="cancel">Отменить</button><button id="clear">Убрать перевод</button></div>
+<p id="status" role="status">Требуются Koto и включённый браузерный мост.</p><pre id="result" tabindex="0"></pre>
+<p class="note">Текст передаётся в Koto. Движок выбирается в приложении. История браузерного текста не сохраняется.</p>
+<script src="popup.js"></script></body></html>

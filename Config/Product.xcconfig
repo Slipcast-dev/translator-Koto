@@ -1,0 +1,31 @@
+// Единые изменяемые сведения используются Info.plist и интерфейсом через ProductInfo.
+PRODUCT_NAME = Koto
+PRODUCT_BUNDLE_IDENTIFIER = dev.slipcast.koto
+KOTO_DEVELOPER = Slipcast-Dev
+KOTO_COPYRIGHT = © 2026 Slipcast-Dev
+MARKETING_VERSION = 0.1.0-alpha
+CURRENT_PROJECT_VERSION = 11
+
+// Первый выпуск — arm64/macOS 26+. Поддержка 26 проверяется отдельно от сборки SDK 27.
+MACOSX_DEPLOYMENT_TARGET = 26.0
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+ARCHS = arm64
+SWIFT_VERSION = 6.0
+SWIFT_STRICT_CONCURRENCY = complete
+SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor
+
+INFOPLIST_FILE = Config/Info.plist
+GENERATE_INFOPLIST_FILE = NO
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
+ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
+COMBINE_HIDPI_IMAGES = YES
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
+LOCALIZATION_PREFERS_STRING_CATALOGS = YES
+
+// Только development ad hoc: release-сертификат Slipcast-Dev создаётся на этапе 9.
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+DEVELOPMENT_TEAM =
+ENABLE_HARDENED_RUNTIME = YES
+ENABLE_APP_SANDBOX = NO

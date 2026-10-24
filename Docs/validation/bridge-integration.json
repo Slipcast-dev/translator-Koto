@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "socket_response": {
+    "v": 1,
+    "id": "ae814581-64b2-4791-8aba-b98e06b7dd7b",
+    "type": "translated",
+    "payload": {
+      "text": "Кошка спит на стуле."
+    }
+  },
+  "socket_translation": "Кошка спит на стуле.",
+  "count": 22,
+  "tests": [
+    "token file is private",
+    "socket is private",
+    "translation before HELLO rejected",
+    "wrong token rejected",
+    "wrong origin rejected",
+    "fragmented HELLO authenticated",
+    "fragmented ping",
+    "real Apple translation over authenticated socket",
+    "duplicate translation ID rejected",
+    "native host authenticates before forwarding",
+    "native host does not disclose desktop token",
+    "native host responds after idle longer than stdout deadline",
+    "desktop restart rotates token",
+    "native reconnect performs fresh HELLO with rotated token",
+    "native host rejects unauthorized launch origin",
+    "native zero frame rejected",
+    "native oversized frame rejected",
+    "native truncated header rejected",
+    "native truncated JSON body rejected",
+    "runtime notInstalled has specific browser code",
+    "readiness missing models has same browser code",
+    "ordinary engine failure keeps generic browser code"
+  ]
+}

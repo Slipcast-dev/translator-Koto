@@ -1,0 +1,17 @@
+name: Bug report
+description: Report a reproducible Koto issue
+title: "[Bug]: "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Koto / macOS / architecture
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps, expected and actual behavior
+      description: Include the engine and a synthetic example. Never include keys or private text.
+    validations:
+      required: true

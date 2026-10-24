@@ -1,0 +1,222 @@
+{
+  "release": "0.1.0-alpha.11",
+  "tested_on": "Apple Silicon / macOS 27.0.1",
+  "reports": {
+    "Compatibility/apple-recovery-manual.json": {
+      "count": 21,
+      "status": "passed",
+      "tests": [
+        "whitespace-only input rejected",
+        "multiline input preserved",
+        "application text limit boundary",
+        "same base language rejected",
+        "successful result belongs to request snapshot",
+        "cancel ignores late success",
+        "new result survives old success",
+        "old failure cannot replace new success",
+        "deadline fails and ignores late result",
+        "missing models do not invoke translation",
+        "runtime missing models offers explicit preparation for resolved auto pair",
+        "runtime missing models retries only after explicit preparation completes",
+        "editing input invalidates runtime model recovery",
+        "cancel ignores late runtime missing models",
+        "late runtime missing models cannot replace new success",
+        "ordinary translation failure does not offer model preparation",
+        "preparation rechecks models before translation",
+        "obsolete preparation callback ignored",
+        "swap keeps prior output as new source",
+        "unsupported pair reports error without fake result",
+        "empty system catalogue has explicit unavailable state"
+      ]
+    },
+    "Compatibility/apple-recovery-bridge.json": {
+      "status": "passed",
+      "socket_response": {
+        "id": "0e766971-d404-49cb-965b-fa6f18d31d7a",
+        "payload": {
+          "text": "Кошка спит на стуле."
+        },
+        "v": 1,
+        "type": "translated"
+      },
+      "socket_translation": "Кошка спит на стуле.",
+      "count": 22,
+      "tests": [
+        "token file is private",
+        "socket is private",
+        "translation before HELLO rejected",
+        "wrong token rejected",
+        "wrong origin rejected",
+        "fragmented HELLO authenticated",
+        "fragmented ping",
+        "real Apple translation over authenticated socket",
+        "duplicate translation ID rejected",
+        "native host authenticates before forwarding",
+        "native host does not disclose desktop token",
+        "native host responds after idle longer than stdout deadline",
+        "desktop restart rotates token",
+        "native reconnect performs fresh HELLO with rotated token",
+        "native host rejects unauthorized launch origin",
+        "native zero frame rejected",
+        "native oversized frame rejected",
+        "native truncated header rejected",
+        "native truncated JSON body rejected",
+        "runtime notInstalled has specific browser code",
+        "readiness missing models has same browser code",
+        "ordinary engine failure keeps generic browser code"
+      ]
+    },
+    "Compatibility/apple-recovery-real-apple.json": {
+      "engine": "actual Apple Translation lowLatency",
+      "scenarios": [
+        {
+          "input": "The cat is sleeping on the chair.",
+          "output": "Кошка спит на стуле.",
+          "scenario": "explicit_en_ru",
+          "source": "en",
+          "target": "ru"
+        },
+        {
+          "input": "Good morning! This is a test of local translation.",
+          "output": "Доброе утро! Это тест локального перевода.",
+          "scenario": "automatic_en_ru",
+          "source": "en",
+          "target": "ru"
+        },
+        {
+          "input": "Доброе утро! Кот спит на стуле.",
+          "output": "Good morning! The cat is sleeping on a chair.",
+          "scenario": "explicit_ru_en",
+          "source": "ru",
+          "target": "en"
+        }
+      ],
+      "status": "passed"
+    },
+    "Models/installation-tests.json": {
+      "count": 15,
+      "status": "passed",
+      "tests": [
+        "no automatic model download",
+        "one action installs checked model",
+        "published bytes match fixture",
+        "model file is private 0600",
+        "staging cleaned after success",
+        "remove deletes only installed model",
+        "same-size corrupt hash is not activated",
+        "failed download leaves no model or staging",
+        "cancel leaves no activated model",
+        "remove never follows symlink",
+        "symlink model directory refused",
+        "vendor HTTPS CDN allowed",
+        "HTTP redirect refused",
+        "lookalike host refused",
+        "credential URL refused"
+      ]
+    },
+    "Models/distribution-policy-tests.json": {
+      "status": "passed",
+      "count": 6,
+      "tests": [
+        "metadata-only bundle allowed",
+        "weights.gguf refused",
+        "weights.bin refused",
+        "disguised.zip refused",
+        "oversized metadata refused",
+        "actual build 9 allowed"
+      ]
+    },
+    "Models/quality-regression.json": {
+      "count": 22,
+      "status": "passed",
+      "tests": [
+        "blank lossless segmentation",
+        "blank bounded single-line chunks",
+        "paragraphs lossless segmentation",
+        "paragraphs bounded single-line chunks",
+        "CJK lossless segmentation",
+        "CJK bounded single-line chunks",
+        "emoji lossless segmentation",
+        "emoji bounded single-line chunks",
+        "long word lossless segmentation",
+        "long word bounded single-line chunks",
+        "20k source lossless segmentation",
+        "20k source bounded single-line chunks",
+        "oversized grapheme preserved for explicit refusal",
+        "protected placeholders preserved",
+        "translated placeholder rejected",
+        "missing duplicate placeholder rejected",
+        "insights quote original",
+        "analysis of translated text rejected",
+        "duplicate alternatives rejected",
+        "runtime reads nested strict JSON schema",
+        "unsupported pair rejected before model loading",
+        "ambiguous auto language rejected before model loading"
+      ]
+    },
+    "Models/privacy-regression.json": {
+      "count": 10,
+      "status": "passed",
+      "tests": [
+        "memory opt-out writes no text",
+        "opt-in memory lookup",
+        "memory persists privately",
+        "glossary overrides memory",
+        "stored result preserves identity and provenance",
+        "source resolution preserves privacy context",
+        "live never reads manual memory",
+        "live never writes manual memory",
+        "disable clears persisted text",
+        "existential dispatch reports actual engine"
+      ]
+    },
+    "Models/installation-integration.json": {
+      "cancel_real_network_without_activated_model": "passed",
+      "full_real_GGUF_hash_and_atomic_install": "passed",
+      "real_HTTPS_download_progress_bytes": 280914,
+      "remove_real_model": "passed",
+      "status": "passed"
+    },
+    "Models/selection.json": {
+      "selected_model": "Qwen3-4B-Instruct-2507-Q4_K_M.gguf",
+      "catalog": "Resources/LocalModels/manifest.json",
+      "comparison_sources": [
+        "Docs/Quality/revised-local.json",
+        "Docs/Quality/instruct-candidate.json",
+        "Docs/Quality/original-holdout.json",
+        "Docs/Quality/instruct-holdout.json",
+        "Docs/Quality/insights-schema-fixed.json",
+        "Docs/Quality/instruct-insights.json"
+      ],
+      "review_type": "engineering semantic review; not independent linguistic certification",
+      "translation_cases": 24,
+      "instruct_better": [
+        "en-idiom",
+        "ru-idiom",
+        "uk-ru",
+        "quoted-instruction",
+        "holdout-ru-time",
+        "holdout-en-commerce"
+      ],
+      "original_better": [
+        "fr-ru",
+        "zh-ru"
+      ],
+      "both_have_material_defects": [
+        "en-technical",
+        "holdout-en-idiom",
+        "holdout-ru-idiom",
+        "holdout-ja"
+      ],
+      "equivalent_or_no_material_difference": 12,
+      "remaining_limitations": [
+        "idioms can gain invented details",
+        "grammar in explanations can be wrong",
+        "some Chinese-to-Russian answers contain Chinese fragments",
+        "alternatives may be rejected by validation"
+      ],
+      "model_bundled": false,
+      "model_in_repository": false
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Изменения
+
+## 0.1.0-alpha.11 — 2026-10-24
+
+Первый публичный alpha Koto от Slipcast-Dev: Swift 6/SwiftUI/AppKit, Koto Cat, Apple Translation, AX/OCR, Live и Chrome bridge; опциональная Qwen с однокнопочной установкой без весов в Git/app/DMG.
+
+Исправлены idle timeout native host и восстановление runtime notInstalled с сохранённой парой. Расширение 0.1.1 сообщает точную причину недоступности Apple-ресурсов. Обновлены документация, баннер и checksum релиза. [Границы проверок](Docs/STATUS.md).

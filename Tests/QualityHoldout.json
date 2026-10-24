@@ -1,0 +1,10 @@
+[
+ {"id":"holdout-en-idiom","source":"en","target":"ru","text":"We visit that museum once in a blue moon."},
+ {"id":"holdout-ru-idiom","source":"ru","target":"en","text":"Он водит меня за нос, но я больше не буду ему верить."},
+ {"id":"holdout-en-time","source":"en","target":"ru","text":"The meeting starts at 9 a.m., not at 8 p.m. We have already sent the invitation."},
+ {"id":"holdout-ru-time","source":"ru","target":"en","text":"Встреча состоится ровно в девять утра. Мы ещё не отправили приглашение."},
+ {"id":"holdout-en-commerce","source":"en","target":"ru","text":"Your order has been shipped. You will not be charged twice."},
+ {"id":"holdout-zh","source":"zh","target":"ru","text":"今天下雨，所以我们决定留在家里。请明天再给我打电话。"},
+ {"id":"holdout-ja","source":"ja","target":"ru","text":"電車が遅れています。到着したら連絡してください。"},
+ {"id":"holdout-placeholders","source":"en","target":"ru","text":"Hello, {customer_name}! Open https://example.com/help and send ticket KOTO-107 to support@example.com. Do not share your password."}
+]

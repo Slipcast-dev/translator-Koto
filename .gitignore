@@ -1,0 +1,32 @@
+# Build products, installers and local machine state
+build/
+DerivedData/
+dist/
+.codex/
+project-state.json
+AGENTS.md
+.DS_Store
+*.xcuserstate
+xcuserdata/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.key
+*.cer
+# Rebuild runtime binaries from pinned sources.
+Resources/LocalRuntime/llama-server
+Resources/LocalRuntime/koto-runtime-launcher
+Resources/BrowserBridge/koto-native-host
+# No model weights in Git (including Git LFS).
+*.gguf
+*.safetensors
+*.onnx
+*.pth
+*.pt
+*.partial
+*.dmg
+*.app/
