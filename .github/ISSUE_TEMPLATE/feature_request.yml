@@ -1,10 +1,10 @@
-name: Feature request
-description: Suggest a focused improvement
+name: "Предложение / Feature request"
+description: "Предложить улучшение · Suggest a focused improvement"
 title: "[Feature]: "
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem and proposed behavior
+      label: "Задача и предлагаемое поведение · Problem and proposed behavior"
     validations:
       required: true

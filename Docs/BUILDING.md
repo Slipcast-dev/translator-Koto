@@ -1,3 +1,5 @@
+**Русский** | [English](BUILDING.en.md)
+
 # Сборка и проверка
 
 Нужны Apple Silicon, Xcode с macOS SDK, поддерживающим проект, Swift 6 и Python 3. Deployment target 26.0; проверенная система macOS 27.0.1. Запуск на 26 — отдельная незавершённая проверка.

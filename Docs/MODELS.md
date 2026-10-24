@@ -1,3 +1,5 @@
+**Русский** | [English](MODELS.en.md)
+
 # Опциональная локальная модель
 
 Выбрана **Qwen3 4B Instruct 2507 · Q4_K_M**, base Qwen/Qwen3-4B-Instruct-2507, quantization unsloth/Qwen3-4B-Instruct-2507-GGUF. Apache 2.0, минимум 8 GiB RAM.

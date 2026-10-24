@@ -1,3 +1,5 @@
+**Русский** | [English](INSTALLATION.en.md)
+
 # Установка 0.1.0-alpha, build 11
 
 Apple Silicon, macOS 26+. Фактически проверено на M1 / macOS 27.0.1.

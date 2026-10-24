@@ -1,3 +1,5 @@
+**Русский** | [English](THIRD_PARTY_NOTICES.en.md)
+
 # Сторонние компоненты
 
 **llama.cpp/ggml — MIT**, ggml-org и участники: https://github.com/ggml-org/llama.cpp . Commit `7894e8b92481a8bb8ffe94f73b656ffe0dd01e10`, git submodule. LICENSE/licenses сохранены upstream и в runtime пакета.

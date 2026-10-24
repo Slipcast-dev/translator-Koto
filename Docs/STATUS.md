@@ -1,3 +1,5 @@
+**Русский** | [English](STATUS.en.md)
+
 # Статус 0.1.0-alpha.11
 
 24 октября 2026 · Slipcast-Dev · arm64/macOS 26+. Реальные испытания: M1/macOS 27.0.1.
