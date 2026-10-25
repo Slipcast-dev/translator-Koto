@@ -13,10 +13,24 @@
   "javascript_tests": 13,
   "license": "MIT",
   "copyright": "2026 Slipcast-Dev",
-  "remote_ci": "See GitHub Actions for the release commit",
-  "macos_26_runtime": "not locally verified",
+  "remote_ci": {
+    "status": "passed",
+    "commit": "08db9c7d1b41d06767ed70c182370a1330e9b521",
+    "url": "https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241",
+    "platform": "macOS 26 arm64",
+    "app_build": "passed",
+    "swiftlint": "passed",
+    "swift_harnesses": "passed",
+    "source_policy": "passed"
+  },
+  "macos_26_runtime": "deterministic harnesses passed; interactive GUI and actual Qwen not verified",
   "real_qwen_unix_transport": "not verified",
   "signing": "AD HOC PREVIEW",
   "notarized": false,
-  "weights_bundled": false
+  "weights_bundled": false,
+  "dependency_review": {
+    "status": "passed",
+    "url": "https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202476431",
+    "scope": "new dependency changes on pull requests"
+  }
 }

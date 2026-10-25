@@ -26,3 +26,5 @@ Alpha limitations remain: macOS 26 runtime, Live endurance/energy/latency, sleep
 Ad hoc preview signing, without Developer ID or notarization: macOS may block launch. Koto does not change system protections. An alpha publication is not independent linguistic certification or completion of these external checks.
 
 [Historical alpha 11 tests](validation/results.json). System languages were not removed; missing-resource failures were simulated at the engine boundary.
+
+Clean remote build, SwiftLint, and all ten Swift harnesses on macOS 26 arm64 **passed**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). The initial missing BrowserBridge failure was fixed by building the native host before Xcode. Dependency Review also passed on a Dependabot PR. This verifies builds and deterministic contracts on macOS 26, not complete interactive GUI/Live/Qwen acceptance.

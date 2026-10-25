@@ -21,3 +21,5 @@ Release verification uses macOS 27.2 / Xcode 27.1. Remote macOS 26 CI is reporte
 Ad hoc preview signing, without Developer ID or notarization. System protections are unchanged.
 
 Assets: Koto-0.1.0-alpha-13-arm64-preview.dmg, Koto-Chrome-0.1.3.zip, SHA256SUMS.txt, and the package JSON report.
+
+Remote verification after publication: [macOS 26 arm64 build, SwiftLint and ten Swift harnesses passed](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). [Dependency Review passed on a Dependabot PR](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202476431). The clean-checkout CI preparation fix is included on main in commit 08db9c7; app and extension binaries are unchanged by that CI-only follow-up.
