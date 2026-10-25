@@ -38,6 +38,9 @@ jobs:
         run: |
           command -v swiftlint >/dev/null || brew install swiftlint
           swiftlint lint --strict --config .swiftlint.yml
+      # В чистом checkout нет ignored BrowserBridge binary и самого каталога.
+      - name: Build native messaging host
+        run: bash script/build_native_host.sh
       - name: Build Swift app without signing
         run: >-
           xcodebuild -project Koto.xcodeproj -scheme Koto -configuration Debug
