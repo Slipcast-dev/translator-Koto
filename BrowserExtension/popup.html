@@ -1,10 +1,24 @@
 <!doctype html>
-<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Koto · Slipcast-Dev</title><link rel="stylesheet" href="popup.css">
-<body><header><img src="icon128.png" alt=""><div><h1>Koto</h1><small>Slipcast-Dev</small></div></header>
-<label>С языка<select id="source"></select></label><label>На язык<select id="target"></select></label>
-<button id="selection">Перевести выделение</button><button id="page">Перевести видимую страницу</button>
-<div class="row"><button id="cancel">Отменить</button><button id="clear">Убрать перевод</button></div>
-<p id="status" role="status">Требуются Koto и включённый браузерный мост.</p><pre id="result" tabindex="0"></pre>
-<p class="note">Текст передаётся в Koto. Движок выбирается в приложении. История браузерного текста не сохраняется.</p>
-<script src="popup.js"></script></body></html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Koto · Slipcast-Dev</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header><img src="icon128.png" alt=""><div><h1>Koto</h1><small>Slipcast-Dev</small></div></header>
+  <label><span data-i18n="source_label">From</span><select id="source"></select></label>
+  <label><span data-i18n="target_label">To</span><select id="target"></select></label>
+  <button id="selection" data-i18n="translate_selection">Translate selection</button>
+  <button id="page" data-i18n="translate_page">Translate visible page</button>
+  <div class="row">
+    <button id="cancel" data-i18n="cancel">Cancel</button>
+    <button id="clear" data-i18n="clear_translation">Remove translation</button>
+  </div>
+  <p id="status" role="status" data-i18n="bridge_required">Koto and an enabled browser bridge are required.</p>
+  <pre id="result" tabindex="0" dir="auto"></pre>
+  <p class="note" data-i18n="privacy_note">Text is sent to Koto. Choose the engine in the app. Browser text is not saved to history.</p>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

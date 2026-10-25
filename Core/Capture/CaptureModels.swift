@@ -1,23 +1,25 @@
 import Foundation
 import CoreGraphics
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Ошибки захвата не содержат текст, пути чужих окон или сырые системные сообщения.
 enum CaptureFailure: Error, LocalizedError, Equatable, Sendable {
     case accessibilityRequired, screenRequired, noApplication, noSelection, secureField
     case cancelled, invalidRegion, noText, unavailable, clipboardChanged, tooLong
     var errorDescription: String? {
         switch self {
-        case .accessibilityRequired: "Разрешите Koto доступ в «Конфиденциальность и безопасность → Управление устройством и доступ к данным» (на macOS 26 — «Универсальный доступ»), затем повторите команду."
-        case .screenRequired: "Разрешите Koto запись экрана в настройках конфиденциальности macOS, затем повторите команду. Может потребоваться перезапуск Koto."
-        case .noApplication: "Сначала выделите текст в другом приложении."
-        case .noSelection: "Приложение не предоставило выделенный текст. Используйте «Службы → Перевести в Koto» в исходном приложении или OCR области."
-        case .secureField: "Захват защищённых полей отключён."
-        case .cancelled: "Захват отменён."
-        case .invalidRegion: "Выберите область не меньше 8 × 8 точек в пределах одного экрана."
-        case .noText: "В выбранной области текст не найден."
-        case .unavailable: "Не удалось получить содержимое. Повторите действие в исходном приложении."
-        case .clipboardChanged: "Буфер обмена или активное приложение изменились. Повторите захват."
-        case .tooLong: "Выделение превышает лимит 20 000 символов."
+        case .accessibilityRequired: String(localized: "Allow Koto accessibility access in Privacy & Security, then try again.")
+        case .screenRequired: String(localized: "Allow Koto to record the screen in macOS privacy settings, then try again. You may need to restart Koto.")
+        case .noApplication: String(localized: "First select text in another app.")
+        case .noSelection: String(localized: "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR.")
+        case .secureField: String(localized: "Capturing protected fields is disabled.")
+        case .cancelled: String(localized: "Capture cancelled.")
+        case .invalidRegion: String(localized: "Select a region of at least 8 × 8 points within one screen.")
+        case .noText: String(localized: "No text was found in the selected region.")
+        case .unavailable: String(localized: "Unable to retrieve the content. Try again in the source app.")
+        case .clipboardChanged: String(localized: "The clipboard or active app changed. Try capturing again.")
+        case .tooLong: String(localized: "The selection exceeds the \(AppLocalization.number(TranslationRequest.characterLimit))-character limit.")
         }
     }
 }

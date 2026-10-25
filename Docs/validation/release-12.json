@@ -1,0 +1,347 @@
+{
+  "version": "0.1.0-alpha.12",
+  "app_build": 12,
+  "extension_version": "0.1.2",
+  "date": "2026-10-25",
+  "status": "passed",
+  "environment": {
+    "macOS": "27.2",
+    "Xcode": "27.1",
+    "architecture": "arm64"
+  },
+  "release_build_exit": 0,
+  "catalog_values": 546,
+  "language_region_cases": 12,
+  "catalog_tests": 9,
+  "Chrome_logic_tests": 13,
+  "native_Chrome": {
+    "version_observed": "0.1.2",
+    "extension_reloaded": true,
+    "page_translation": "passed",
+    "fixture_translation": "Кошка спит на стуле.",
+    "app_build_observed": 12,
+    "test_tab_closed": true,
+    "app_quit": true
+  },
+  "checks": {
+    "manual": {
+      "command": [
+        "./script/test_manual_translation.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 21,
+        "status": "passed",
+        "tests": [
+          "whitespace-only input rejected",
+          "multiline input preserved",
+          "application text limit boundary",
+          "same base language rejected",
+          "successful result belongs to request snapshot",
+          "cancel ignores late success",
+          "new result survives old success",
+          "old failure cannot replace new success",
+          "deadline fails and ignores late result",
+          "missing models do not invoke translation",
+          "runtime missing models offers explicit preparation for resolved auto pair",
+          "runtime missing models retries only after explicit preparation completes",
+          "editing input invalidates runtime model recovery",
+          "cancel ignores late runtime missing models",
+          "late runtime missing models cannot replace new success",
+          "ordinary translation failure does not offer model preparation",
+          "preparation rechecks models before translation",
+          "obsolete preparation callback ignored",
+          "swap keeps prior output as new source",
+          "unsupported pair reports error without fake result",
+          "empty system catalogue has explicit unavailable state"
+        ]
+      }
+    },
+    "privacy": {
+      "command": [
+        "./script/test_product_privacy.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 10,
+        "status": "passed",
+        "tests": [
+          "memory opt-out writes no text",
+          "opt-in memory lookup",
+          "memory persists privately",
+          "glossary overrides memory",
+          "stored result preserves identity and provenance",
+          "source resolution preserves privacy context",
+          "live never reads manual memory",
+          "live never writes manual memory",
+          "disable clears persisted text",
+          "existential dispatch reports actual engine"
+        ]
+      }
+    },
+    "models": {
+      "command": [
+        "./script/test_model_installation.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 15,
+        "status": "passed",
+        "tests": [
+          "no automatic model download",
+          "one action installs checked model",
+          "published bytes match fixture",
+          "model file is private 0600",
+          "staging cleaned after success",
+          "remove deletes only installed model",
+          "same-size corrupt hash is not activated",
+          "failed download leaves no model or staging",
+          "cancel leaves no activated model",
+          "remove never follows symlink",
+          "symlink model directory refused",
+          "vendor HTTPS CDN allowed",
+          "HTTP redirect refused",
+          "lookalike host refused",
+          "credential URL refused"
+        ]
+      }
+    },
+    "capture": {
+      "command": [
+        "./script/test_capture.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 15,
+        "ocr_fixture_output": "The cat is sleeping on the chair.\nGood morning from Koto.",
+        "status": "passed",
+        "tests": [
+          "primary display top-left conversion",
+          "negative origin display conversion",
+          "display above primary conversion",
+          "region clipped to one display",
+          "tiny region rejected",
+          "AX global coordinates conversion",
+          "lens stays inside secondary display",
+          "lens clamps to narrow screen",
+          "service receives selected text from dedicated pasteboard",
+          "service does not write general clipboard",
+          "service rejects empty selection",
+          "service rejects oversized selection",
+          "real Vision recognizes fixture",
+          "OCR lines read from top to bottom",
+          "blank image reports no text"
+        ]
+      }
+    },
+    "quality_contracts": {
+      "command": [
+        "./script/test_quality_behaviors.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 22,
+        "status": "passed",
+        "tests": [
+          "blank lossless segmentation",
+          "blank bounded single-line chunks",
+          "paragraphs lossless segmentation",
+          "paragraphs bounded single-line chunks",
+          "CJK lossless segmentation",
+          "CJK bounded single-line chunks",
+          "emoji lossless segmentation",
+          "emoji bounded single-line chunks",
+          "long word lossless segmentation",
+          "long word bounded single-line chunks",
+          "20k source lossless segmentation",
+          "20k source bounded single-line chunks",
+          "oversized grapheme preserved for explicit refusal",
+          "protected placeholders preserved",
+          "translated placeholder rejected",
+          "missing duplicate placeholder rejected",
+          "insights quote original",
+          "analysis of translated text rejected",
+          "duplicate alternatives rejected",
+          "runtime reads nested strict JSON schema",
+          "unsupported pair rejected before model loading",
+          "ambiguous auto language rejected before model loading"
+        ]
+      }
+    },
+    "protocol": {
+      "command": [
+        "./script/test_bridge_protocol.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 18,
+        "status": "passed",
+        "tests": [
+          "bytewise fragmentation and Unicode",
+          "complete EOF accepted",
+          "multiple frames in one read",
+          "zero length rejected",
+          "oversize rejected before body",
+          "short header EOF rejected",
+          "short body EOF rejected",
+          "valid JSON with overdeclared length rejected",
+          "invalid UTF8 rejected",
+          "invalid JSON rejected",
+          "wrong protocol version rejected",
+          "invalid request ID rejected",
+          "nonstring payload rejected",
+          "private file round trip",
+          "private file permissions 0600",
+          "symlink write rejected",
+          "symlink target not changed",
+          "token equality checked"
+        ]
+      }
+    },
+    "integration": {
+      "command": [
+        "python3",
+        "script/test_bridge_integration.py"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "passed",
+        "socket_response": {
+          "id": "7b673666-3376-49a4-81ce-47bf8b62d82b",
+          "v": 1,
+          "type": "translated",
+          "payload": {
+            "text": "Кошка спит на стуле."
+          }
+        },
+        "socket_translation": "Кошка спит на стуле.",
+        "count": 23,
+        "tests": [
+          "token file is private",
+          "socket is private",
+          "translation before HELLO rejected",
+          "wrong token rejected",
+          "wrong origin rejected",
+          "fragmented HELLO authenticated",
+          "fragmented ping",
+          "real Apple translation over authenticated socket",
+          "duplicate translation ID rejected",
+          "native host authenticates before forwarding",
+          "native host does not disclose desktop token",
+          "native host responds after idle longer than stdout deadline",
+          "desktop restart rotates token",
+          "native reconnect performs fresh HELLO with rotated token",
+          "native host rejects unauthorized launch origin",
+          "native zero frame rejected",
+          "native oversized frame rejected",
+          "native truncated header rejected",
+          "native truncated JSON body rejected",
+          "runtime notInstalled has specific browser code",
+          "readiness missing models has same browser code",
+          "ordinary engine failure keeps generic browser code",
+          "cloud privacy rejection has a language-independent code"
+        ]
+      }
+    },
+    "dynamics": {
+      "command": [
+        "./script/test_localization_dynamics.sh"
+      ],
+      "exit_code": 0,
+      "result": {
+        "count": 31,
+        "model_generation": "not invoked",
+        "status": "passed",
+        "tests": [
+          "US grouping",
+          "German grouping",
+          "Russian grouping",
+          "US byte decimal",
+          "German byte decimal",
+          "exact disk requirement",
+          "en explanation",
+          "en target de",
+          "en quote boundary",
+          "ru explanation",
+          "ru target ja",
+          "ru quote boundary",
+          "en explanation",
+          "en target ru",
+          "en quote boundary",
+          "ru explanation",
+          "ru target en",
+          "ru quote boundary",
+          "disabled alternatives",
+          "bounded language input",
+          "stable schema fields false",
+          "stable alternative bounds false",
+          "stable schema fields true",
+          "stable alternative bounds true",
+          "verbatim RTL quote",
+          "Arabic direction",
+          "Hebrew direction",
+          "English direction",
+          "auto Arabic direction",
+          "schema 1 round trip",
+          "no locale field in persisted settings"
+        ]
+      }
+    }
+  },
+  "cold_start": [
+    {
+      "language": "en",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.219,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "language": "ru",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.486,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    }
+  ],
+  "limits": [
+    "macOS 26 runtime untested",
+    "Qwen generation and semantic quality untested for localization",
+    "No independent linguistic review",
+    "Ad hoc preview; no Developer ID/notarization"
+  ],
+  "source_release_target": "v0.1.0-alpha.12",
+  "distribution": {
+    "artifacts": [
+      {
+        "file": "Koto-0.1.0-alpha-12-arm64-preview.dmg",
+        "sha256": "7bbc82ebb6fcb69c7f360ef596281f8228e4bb5381db89d9e1e87dc84ab60733",
+        "bytes": 10581901
+      },
+      {
+        "file": "Koto-Chrome-0.1.2.zip",
+        "sha256": "b84225411af02b38b081b42f8301294aebafd10041e55697c600377d99cde761",
+        "bytes": 33890
+      },
+      {
+        "file": "Koto-0.1.0-alpha-12-arm64-preview.json",
+        "sha256": "8650c2ab70a4c01ee13aefd45f72379ce0abc59e1e739fba43bf9f9c6306d3e2",
+        "bytes": 830
+      }
+    ],
+    "mounted_package": {
+      "localized_tables": 6,
+      "extension_files": 11,
+      "local_document_links": 32,
+      "model_weights": 0,
+      "codesign_deep_strict_exit": 0
+    },
+    "packaged_localization": {
+      "language_region_cases": 12,
+      "catalog_values": 546,
+      "plural_variants": 12
+    }
+  }
+}

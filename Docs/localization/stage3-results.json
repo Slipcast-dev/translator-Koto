@@ -1,0 +1,285 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "preferences": [
+        "ru"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "ru-RU"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en-GB"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en-US"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "fr-FR"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "fr-FR",
+        "ru-RU"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en",
+        "ru"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "service": "Translate in Koto"
+      }
+    }
+  ],
+  "compiled_tables": [
+    "Contents/Resources/en.lproj/Localizable.strings",
+    "Contents/Resources/en.lproj/ServicesMenu.strings",
+    "Contents/Resources/ru.lproj/Localizable.strings",
+    "Contents/Resources/ru.lproj/ServicesMenu.strings"
+  ],
+  "production_error": "TranslationFailure.emptyText",
+  "scope": "Foundation/resource checks; actual SwiftUI UI acceptance is separate",
+  "date": "2026-10-24",
+  "stage": 3,
+  "environment": {
+    "platform": "arm64",
+    "macOS": "27.2",
+    "macOS_build": "26B118",
+    "Xcode": "27.1",
+    "Xcode_build": "27A9275"
+  },
+  "checks": [
+    {
+      "command": "KOTO_CONFIGURATION=Release ./script/build_and_run.sh --build-only",
+      "exit_code": 0,
+      "result": "BUILD SUCCEEDED"
+    },
+    {
+      "command": "python3 script/test_localization.py",
+      "exit_code": 0,
+      "cases": 8
+    },
+    {
+      "command": "./script/test_manual_translation.sh",
+      "exit_code": 0,
+      "tests": 21
+    },
+    {
+      "command": "codesign --verify --deep --strict --verbose=2 build/DerivedData/Build/Products/Release/Koto.app",
+      "exit_code": 0,
+      "result": "valid on disk; satisfies Designated Requirement"
+    },
+    {
+      "check": "app model weights (.gguf/.safetensors/.onnx/.pt/.pth)",
+      "count": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 script/validate_repository.py",
+      "exit_code": 0,
+      "scope": "168 tracked files; new files checked separately"
+    },
+    {
+      "check": "new localization catalogs, Python syntax and 462 documentation links",
+      "status": "passed"
+    },
+    {
+      "check": "Python source line length",
+      "maximum": 79,
+      "status": "passed"
+    }
+  ],
+  "ui_observations": [
+    {
+      "method": "CUA accessibility",
+      "language": "en",
+      "menu": "About Koto",
+      "window_title": "About Koto",
+      "source": "en",
+      "target": "ru",
+      "engine": "Apple Translation"
+    },
+    {
+      "method": "CUA accessibility",
+      "language": "ru",
+      "menu": "О Koto",
+      "window_title": "О Koto",
+      "source": "en",
+      "target": "ru",
+      "engine": "Apple Translation"
+    }
+  ],
+  "source_sha256": {
+    "App/KotoApp.swift": "68441f0834826b11bd236748d66ee6a001b993b3ae33c7c0f027dc18569ba890",
+    "App/KotoCommands.swift": "860085c1f1106da728a0d5ce8e7ac3cdd469edcb3146f180ab2c2468fc707a78",
+    "Core/Translation/TranslationModels.swift": "9a49b34c22f10c97bf30e4cde310c8cfeb08c6bcd4f77cd4b53728a95310da5a",
+    "Config/Info.plist": "6b189b3bcb66e2c8a45a02e4041b330bc7536053d6402bb175336ffe53e8581d",
+    "Koto.xcodeproj/project.pbxproj": "faf2aabcc00dc7b7a387e4c15b12683a2e45386eddc08726a1887c04caf6bf76",
+    "Resources/Localizable.xcstrings": "831ff4aba9838048ded2c0ea95d7f0626fcf8665b932315490e28c7ec9bfba8f",
+    "Resources/ServicesMenu.xcstrings": "1642d98f097f80a700d7a6f6e5143ad83aae5b4ca40b942e940e0183742fdf2d",
+    "Tests/LocalizationProbe.swift": "c8f589e63a0243225692ca7a3d045f2c38b7dde1f0548349d766844db9b04de2",
+    "script/test_localization.py": "74c6d3aaba5a2c4e1937842ae1234ae0191915265d545af8eb7176dc00efd871"
+  },
+  "compiled_table_sha256": {
+    "Contents/Resources/en.lproj/Localizable.strings": "9dc39fca1e87215f1b795a4c1f667445a7597ae1860e564899c5667afe7a70e1",
+    "Contents/Resources/en.lproj/ServicesMenu.strings": "62ddd5cf23a6b853c814277582d679d90ef45715e5cfd450f80396f6260bf7a6",
+    "Contents/Resources/ru.lproj/Localizable.strings": "c71c677169930014fb2fa737caebd51d0d1d2473a9ae9133ea1c7c5bfa37cecb",
+    "Contents/Resources/ru.lproj/ServicesMenu.strings": "dffdb653defb90cb836f3efc33df17121db705814fd46b82836e827fa3edd27c"
+  },
+  "baseline_entries_migrated": {
+    "L10N-0003": "About Koto / Localizable: window",
+    "L10N-0010": "About Koto / Localizable: app command",
+    "L10N-0062": "Enter text to translate. / Localizable",
+    "L10N-0049": "Translate in Koto / ServicesMenu"
+  },
+  "limitations": [
+    "Only control strings migrated; full UI is stage 4",
+    "Services lookup verified; external Services action and menu cache not exercised",
+    "macOS 26 not tested",
+    "DMG not rebuilt"
+  ]
+}

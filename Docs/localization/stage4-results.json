@@ -1,0 +1,410 @@
+{
+  "status": "passed",
+  "catalog_values_checked": 538,
+  "cases": [
+    {
+      "preferences": [
+        "ru"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20 000",
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "german_name": "немецкий",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "same_language": "Выберите разные языки источника и перевода.",
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20,000",
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "german_name": "German",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "same_language": "Choose different source and target languages.",
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "ru-RU"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20 000",
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "german_name": "немецкий",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "same_language": "Выберите разные языки источника и перевода.",
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en-GB"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20,000",
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "german_name": "German",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "same_language": "Choose different source and target languages.",
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en-US"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20,000",
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "german_name": "German",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "same_language": "Choose different source and target languages.",
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "fr-FR"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20,000",
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "german_name": "German",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "same_language": "Choose different source and target languages.",
+        "service": "Translate in Koto"
+      }
+    },
+    {
+      "preferences": [
+        "fr-FR",
+        "ru-RU"
+      ],
+      "language": "ru",
+      "status": "passed",
+      "actual": {
+        "about": "О Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20 000",
+        "development": "en",
+        "empty_error": "Введите текст для перевода.",
+        "german_name": "немецкий",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "ru"
+        ],
+        "same_language": "Выберите разные языки источника и перевода.",
+        "service": "Перевести в Koto"
+      }
+    },
+    {
+      "preferences": [
+        "en",
+        "ru"
+      ],
+      "language": "en",
+      "status": "passed",
+      "actual": {
+        "about": "About Koto",
+        "available": [
+          "en",
+          "ru"
+        ],
+        "counter": "42 / 20,000",
+        "development": "en",
+        "empty_error": "Enter text to translate.",
+        "german_name": "German",
+        "missing_key": "Fallback available",
+        "preferred": [
+          "en"
+        ],
+        "same_language": "Choose different source and target languages.",
+        "service": "Translate in Koto"
+      }
+    }
+  ],
+  "compiled_tables": [
+    "Contents/Resources/en.lproj/Localizable.strings",
+    "Contents/Resources/en.lproj/ServicesMenu.strings",
+    "Contents/Resources/ru.lproj/Localizable.strings",
+    "Contents/Resources/ru.lproj/ServicesMenu.strings"
+  ],
+  "production_error": "TranslationFailure.emptyText",
+  "scope": "Foundation/resource checks; actual SwiftUI UI acceptance is separate",
+  "date": "2026-10-24",
+  "stage": 4,
+  "environment": {
+    "platform": "arm64",
+    "macOS": "27.2",
+    "Xcode": "27.1"
+  },
+  "migration": {
+    "occurrences": 303,
+    "Localizable_keys": 268
+  },
+  "static_audit": {
+    "unlocalized": [],
+    "missing": [],
+    "references": 296,
+    "translator_comments": 1
+  },
+  "regression_checks": {
+    "manual_translation": 21,
+    "product_privacy": 10,
+    "model_installation": 15,
+    "capture": 15,
+    "quality_behaviors": 22,
+    "bridge_integration": 22,
+    "total": 105
+  },
+  "capture_result": {
+    "count": 15,
+    "ocr_fixture_output": "The cat is sleeping on the chair.\nGood morning from Koto.",
+    "status": "passed",
+    "tests": [
+      "primary display top-left conversion",
+      "negative origin display conversion",
+      "display above primary conversion",
+      "region clipped to one display",
+      "tiny region rejected",
+      "AX global coordinates conversion",
+      "lens stays inside secondary display",
+      "lens clamps to narrow screen",
+      "service receives selected text from dedicated pasteboard",
+      "service does not write general clipboard",
+      "service rejects empty selection",
+      "service rejects oversized selection",
+      "real Vision recognizes fixture",
+      "OCR lines read from top to bottom",
+      "blank image reports no text"
+    ]
+  },
+  "quality_result": {
+    "count": 22,
+    "status": "passed",
+    "tests": [
+      "blank lossless segmentation",
+      "blank bounded single-line chunks",
+      "paragraphs lossless segmentation",
+      "paragraphs bounded single-line chunks",
+      "CJK lossless segmentation",
+      "CJK bounded single-line chunks",
+      "emoji lossless segmentation",
+      "emoji bounded single-line chunks",
+      "long word lossless segmentation",
+      "long word bounded single-line chunks",
+      "20k source lossless segmentation",
+      "20k source bounded single-line chunks",
+      "oversized grapheme preserved for explicit refusal",
+      "protected placeholders preserved",
+      "translated placeholder rejected",
+      "missing duplicate placeholder rejected",
+      "insights quote original",
+      "analysis of translated text rejected",
+      "duplicate alternatives rejected",
+      "runtime reads nested strict JSON schema",
+      "unsupported pair rejected before model loading",
+      "ambiguous auto language rejected before model loading"
+    ]
+  },
+  "bridge_result": {
+    "status": "passed",
+    "socket_response": {
+      "payload": {
+        "text": "Кошка спит на стуле."
+      },
+      "type": "translated",
+      "v": 1,
+      "id": "fe6e3cfb-4efb-49f8-bbdc-fa6be5217404"
+    },
+    "socket_translation": "Кошка спит на стуле.",
+    "count": 22,
+    "tests": [
+      "token file is private",
+      "socket is private",
+      "translation before HELLO rejected",
+      "wrong token rejected",
+      "wrong origin rejected",
+      "fragmented HELLO authenticated",
+      "fragmented ping",
+      "real Apple translation over authenticated socket",
+      "duplicate translation ID rejected",
+      "native host authenticates before forwarding",
+      "native host does not disclose desktop token",
+      "native host responds after idle longer than stdout deadline",
+      "desktop restart rotates token",
+      "native reconnect performs fresh HELLO with rotated token",
+      "native host rejects unauthorized launch origin",
+      "native zero frame rejected",
+      "native oversized frame rejected",
+      "native truncated header rejected",
+      "native truncated JSON body rejected",
+      "runtime notInstalled has specific browser code",
+      "readiness missing models has same browser code",
+      "ordinary engine failure keeps generic browser code"
+    ]
+  },
+  "Release_build": {
+    "status": "passed",
+    "exit_code": 0
+  },
+  "codesign_strict_deep": {
+    "status": "passed",
+    "exit_code": 0
+  },
+  "source_sha256": {
+    "App/KotoApp.swift": "e04dfa52c6b673f5cf9efe2dc20cc18e0a5caa71ce3160156d81c32ad4c820ca",
+    "App/KotoCommands.swift": "cc9870070b980a1cb4b33d5d01f0de254e0c05b4e858d2881eb2de956864de32",
+    "App/KotoMenuView.swift": "6fcad6cb3c9de37fcd989d697184ed6c1f48cc4ee36fb9ce7928f549e06ce4e4",
+    "Core/Capture/CaptureModels.swift": "ab23e5c605456b16c120c0c57b0ea84f046be61bbaba4353f5a9b899e216731a",
+    "Core/Translation/TranslationModels.swift": "e37273b5e2d5a48d11f4969349c455e4ce1ea4ab0477b7580865ff08374c7e90",
+    "Features/About/AboutView.swift": "500c6c64f9edfdbcc4feb6f25aeb0eebcb80ad1948625aa1d4227557338791f5",
+    "Features/Capture/CaptureCoordinator.swift": "8bccd22ce64099dfc5378b9c9d93ee68d25fbbf25806cbc0355ab457cdf9af11",
+    "Features/Capture/CaptureLensView.swift": "3d9d22e7a1b75b9444417d34f2a7db964f7a4c775fe409e19fba7289bf5d1539",
+    "Features/Capture/CaptureSettingsView.swift": "e83ce9e9f43410bccbb6740333493c7e0e6a0cf0346f6a2b4b4731146b0a2188",
+    "Features/Capture/RegionSelector.swift": "3468ff3485ec77e6d8d4734e8c9b5cc8240b080c4cc6eb76ad790724bc8147c9",
+    "Features/Live/LiveTranslationCoordinator.swift": "b528fcb1fc8a96bb2633df5d497434c4af896bc2a6d1bf489ba568bd4a884bc4",
+    "Features/Live/LiveTranslationView.swift": "76114fa9c5c509d24a4973ba81b38ff3f6e4194e221824596d3412d0253a1d0c",
+    "Features/ManualTranslation/LanguagePreparationView.swift": "dcbcf1c424948fe2900e7f90d7cca692e946f8eaf9d73a5b729c99356df263ad",
+    "Features/ManualTranslation/LanguageSelectionView.swift": "d00aea94a1e00bd9e454bd6caf714a8ee1892e7349257b94cfe01c3612c27fe5",
+    "Features/ManualTranslation/LocalInsightsView.swift": "03b460655032ebf1b2f6d2b7790c198770628cb446a7bb72e534c81ea351caad",
+    "Features/ManualTranslation/ManualTranslationView.swift": "da72e928f5adf6ed5744629a448a603c8bc6e202bd9c76293bf7ebddf47adaf1",
+    "Features/ManualTranslation/TranslationInputView.swift": "74fc7d03cba7741b638c4045b74eb803e7c498076775ac90c1e145fc2b894d9b",
+    "Features/ManualTranslation/TranslationOutputView.swift": "457eab2741b22976560f2a9be9a2c105d2848ee19db93b9530939a495fdc6741",
+    "Features/ManualTranslation/TranslationStatusView.swift": "6f5bcb734beae752b636f76a3c6d77bc57df8c3d31156d4ea433736263752638",
+    "Features/Settings/AppAppearance.swift": "bc3daade529ce7c7c8b98561831eb672badef1750df211924e02a90fc945a1b9",
+    "Features/Settings/AppearancePicker.swift": "9ee75d983dccc460f4bce6f6c5d1fee05763de871709fa39c2a5b489cb266663",
+    "Features/Settings/BrowserBridgeSettingsView.swift": "aa3bfbf5d21a7550a0ea9a57286645316cd02e3b5257ace8037cee7765296125",
+    "Features/Settings/LocalRuntimeSettingsView.swift": "8cfa2c3ee9a510e6fdb5385522c9607c1afff10601d7ea2c7840f15c1963374e",
+    "Features/Settings/ProductSettingsView.swift": "f275ab8aeb236c7c9a96901e83f6b8087e0e28afaa3ba3221b6c4bc24e3ed9e6",
+    "Features/Settings/SettingsMigrationView.swift": "b0d9cec89c69b13d5bc77292e72e5e995afe81a75ba4727b505f2b515ae46b66",
+    "Features/Settings/SettingsView.swift": "5906b0a7464e04c70507c41121a9a97923b64fc5ed9e75b0c2f367414eaf57c8",
+    "Features/Welcome/MainWindowView.swift": "9f3fac81a766df88e14abd597538fdd034653b809dc8afd4bfe2b332c57aa88f",
+    "Resources/Localizable.xcstrings": "217c67cb72134b01226c7f40b17e77db98aff5a17aef2eb803f0243ae40f87e1",
+    "Resources/ServicesMenu.xcstrings": "1642d98f097f80a700d7a6f6e5143ad83aae5b4ca40b942e940e0183742fdf2d",
+    "Services/Browser/BrowserBridgeServer.swift": "bee97f0dc626334bddf921df59869e37097a6ceba97174e14c8cf8b5b2a67393",
+    "Services/Cloud/CloudTranslationEngine.swift": "589e8accb89d5950187e6dbebb79f4a03a99b6b0ba57148a8fc583b6d55f3844",
+    "Services/Hotkeys/GlobalHotkeyService.swift": "17aaca84bd7c8b135c274971a580e1ca9dbecc417a5124aef47bcf3268d24297",
+    "Services/Local/LocalGenerationService.swift": "2502383ebfbc33278984a423263bc125b3f87c486f254fe9746c2237006b52db",
+    "Services/Local/LocalInsightsService.swift": "3d1588b5a1530452e901c5bf02d8c107161c5c4e8c7ab336868fe12e1a815741",
+    "Services/Local/LocalRuntimeSupervisor.swift": "d54337f4bb0f1b97bb4878079fa12acdb17a7a77441551246bdd9cd4f6e38c8a",
+    "Services/Local/LocalTranslationEngine.swift": "3b0e641ba42851c123a811dc8abbbf5780575b4a14a8a641a0b47e633bd384f2",
+    "Services/Models/ModelInstallationManager.swift": "4577dd36679a74a2d4590321d75b6739cf0c1136624532d7cf324d2465803a28",
+    "Services/Product/ProductUtilities.swift": "94996be2c247de54087d586e207f4760b540b3b74d345836d9fd9b58446bcc1a",
+    "Services/Product/TranslationStore.swift": "e3746db7fefcf69cdcb211d0426b58e63b3ae2c5c8d3d1de4f280eb8858e0846",
+    "Services/Translation/RoutingTranslationEngine.swift": "345e36d25346510cec9577203bacff8165c139022a900b5ee09a2385e943e8b1",
+    "Support/ProductInfo.swift": "1ee716593782a12a04460a474d24778c53ac73cdb81881029125c1b4a8a668cc",
+    "Tests/BrowserBridgeHarness.swift": "aba3010ce88ad2a88dc5be580e1c76a07d06402aa877b38cec9983fc45010f2a",
+    "Tests/LocalizationProbe.swift": "1fa601e6a84755f642897b8f1fc0fef76864cdf458b4987382c6a2761df3f3c4",
+    "Tests/ProductPrivacyTests.swift": "1086211f7c774d210ffea30904187b9bdff4d1cde06090dff39d2280722a46ec",
+    "script/test_localization.py": "89d8c564ce0a14b3f5bc38723632a41a31e4ad662d3b5b91a5c961e2286390f1"
+  },
+  "compiled_table_sha256": {
+    "Contents/Resources/en.lproj/Localizable.strings": "5b128e1cfe63288aeecff30f3711fe8f685151f93efcf628ec3199fcf2d60cbf",
+    "Contents/Resources/en.lproj/ServicesMenu.strings": "62ddd5cf23a6b853c814277582d679d90ef45715e5cfd450f80396f6260bf7a6",
+    "Contents/Resources/ru.lproj/Localizable.strings": "f8b337c67fe8f0fd8db8181910274c4f6edb582bdb4ae23ae8645c363a93be04",
+    "Contents/Resources/ru.lproj/ServicesMenu.strings": "dffdb653defb90cb836f3efc33df17121db705814fd46b82836e827fa3edd27c"
+  },
+  "ui_observations": {
+    "ru": [
+      "main",
+      "settings",
+      "capture permission lens"
+    ],
+    "en": [
+      "main",
+      "settings",
+      "Translation menu",
+      "Live idle",
+      "insights shell"
+    ],
+    "screenshots_reviewed": [
+      "en main",
+      "en settings visible section"
+    ],
+    "selected_pair_unchanged": "en→ru",
+    "engine": "Apple Translation",
+    "model_generation_invoked": false,
+    "processes_closed": true
+  },
+  "deferred": [
+    "Chrome stage 5",
+    "plurals/region formats/RTL and explanation generation language stage 6",
+    "full UI acceptance stage 7",
+    "DMG stage 8"
+  ]
+}

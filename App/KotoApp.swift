@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Сцены разделены по назначению: это даёт нативные меню и независимый жизненный цикл окон.
 @main
 struct KotoApp: App {
@@ -19,7 +21,7 @@ struct KotoApp: App {
         .windowResizability(.contentMinSize)
         .commands { KotoCommands(capture: capture) }
 
-        Window("Живой перевод — Koto", id: WindowID.live) {
+        Window(String(localized: "Live translation — Koto"), id: WindowID.live) {
             LiveTranslationView(coordinator: capture.live).kotoAppearance()
         }
         .defaultSize(width: 900, height: 650)
@@ -31,7 +33,8 @@ struct KotoApp: App {
                 .kotoAppearance()
         }
 
-        Window("О Koto", id: WindowID.about) {
+        // Английский ключ служит резервным текстом; перевод заголовка берётся из каталога.
+        Window("About Koto", id: WindowID.about) {
             AboutView()
                 .kotoAppearance()
         }

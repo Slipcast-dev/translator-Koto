@@ -1,12 +1,15 @@
 import Foundation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Языковые идентификаторы берутся из системного каталога, а подписи локализуются отдельно.
 struct TranslationLanguage: Hashable, Identifiable, Sendable {
     let id: String
 
     var localeLanguage: Locale.Language { Locale.Language(identifier: id) }
     var displayName: String {
-        Locale(identifier: "ru").localizedString(forIdentifier: id) ?? id
+        Locale(identifier: AppLocalization.languageIdentifier)
+            .localizedString(forIdentifier: id) ?? id
     }
 }
 
@@ -70,21 +73,27 @@ struct LanguagePreparationTicket: Identifiable, Sendable {
 enum TranslationFailure: Error, LocalizedError, Equatable, Sendable {
     case engineIssue(String)
     case emptyText, textTooLong, sameLanguage, unableToIdentify, unsupportedPair
-    case modelsNotInstalled, serviceUnavailable, failed, timedOut, cancelled
+    case modelsNotInstalled, serviceUnavailable, failed, timedOut, cancelled, cloudNotAllowed
 
     var errorDescription: String? {
         switch self {
         case .engineIssue(let message): message
-        case .emptyText: "Введите текст для перевода."
-        case .textTooLong: "Текст слишком длинный. Разделите его на части до 20 000 символов."
-        case .sameLanguage: "Выберите разные языки источника и перевода."
-        case .unableToIdentify: "Не удалось уверенно определить язык. Выберите его вручную."
-        case .unsupportedPair: "Выбранный движок не поддерживает эту языковую пару."
-        case .modelsNotInstalled: "Языковые ресурсы ещё не установлены."
-        case .serviceUnavailable: "Системный перевод сейчас недоступен. Попробуйте обновить список языков."
-        case .failed: "Не удалось выполнить перевод. Повторите попытку."
-        case .timedOut: "Перевод занял слишком много времени. Попробуйте ещё раз."
-        case .cancelled: "Перевод отменён."
+        // Машинный код запрета облака не зависит от языка текста ошибки.
+        case .cloudNotAllowed:
+            String(localized: "Cloud sending is disabled for this source. Enable it separately in privacy settings.")
+        case .emptyText:
+            // Foundation локализует ошибку и вне SwiftUI; английский ключ даёт резервный текст.
+            String(localized: "Enter text to translate.",
+                   comment: "Ошибка пустого или пробельного ввода перед переводом.")
+        case .textTooLong: String(localized: "The text is too long. Split it into sections of up to \(AppLocalization.number(TranslationRequest.characterLimit)) characters.")
+        case .sameLanguage: String(localized: "Choose different source and target languages.")
+        case .unableToIdentify: String(localized: "Unable to identify the language reliably. Select it manually.")
+        case .unsupportedPair: String(localized: "The selected engine does not support this language pair.")
+        case .modelsNotInstalled: String(localized: "Language resources are not installed yet.")
+        case .serviceUnavailable: String(localized: "System translation is currently unavailable. Try refreshing the language list.")
+        case .failed: String(localized: "Unable to translate. Try again.")
+        case .timedOut: String(localized: "Translation took too long. Try again.")
+        case .cancelled: String(localized: "Translation cancelled.")
         }
     }
 }

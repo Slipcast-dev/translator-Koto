@@ -1,6 +1,8 @@
 import AppKit
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// AppKit отвечает только за transient panel и координаты. Контент и state остаются в SwiftUI.
 @MainActor
 final class CaptureLensController: NSObject, NSWindowDelegate {
@@ -13,7 +15,7 @@ final class CaptureLensController: NSObject, NSWindowDelegate {
                         styleMask: [.titled, .closable, .resizable, .nonactivatingPanel],
                         backing: .buffered, defer: false)
         super.init()
-        panel.title = "Koto · Быстрый перевод"
+        panel.title = String(localized: "Koto · Quick translation")
         panel.identifier = NSUserInterfaceItemIdentifier("koto.capture.lens")
         panel.isReleasedWhenClosed = false
         panel.level = .floating
@@ -49,34 +51,38 @@ struct CaptureLensView: View {
             Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
             if !model.sourceText.isEmpty {
                 LanguageSelectionView(model: model)
-                ScrollView { Text(model.sourceText).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }
+                ScrollView {
+                    Text(model.sourceText).textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .environment(\.layoutDirection, AppLocalization.isRightToLeft(language: model.sourceIdentifier, text: model.sourceText) ? .rightToLeft : .leftToRight)
+                }
                     .frame(maxHeight: 90)
                 Divider()
                 TranslationOutputView(result: model.result)
                 TranslationStatusView(model: model)
                 HStack {
-                    Button(copied ? "Скопировано" : "Копировать") {
+                    Button(copied ? String(localized: "Copied") : String(localized: "Copy")) {
                         guard let text = model.result?.text else { return }
                         NSPasteboard.general.clearContents()
                         copied = NSPasteboard.general.setString(text, forType: .string)
                     }.disabled(model.result == nil)
                     if model.isBusy {
-                        Button("Отменить") { model.cancel() }
+                        Button(String(localized: "Cancel")) { model.cancel() }
                     } else {
-                        Button("Перевести") { model.submit() }.disabled(!model.canTranslate)
+                        Button(String(localized: "Translate")) { model.submit() }.disabled(!model.canTranslate)
                     }
-                    Button("В окно") { coordinator.openCapturedInMain() }
+                    Button(String(localized: "Open in window")) { coordinator.openCapturedInMain() }
                 }
             } else {
-                Text("Выделение: ⌃⌥⌘T\nОбласть экрана: ⌃⌥⌘R")
+                Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R"))
                 HStack {
-                    Button("Доступ к выделению") { coordinator.requestAccessibility() }
-                    Button("Доступ к экрану") { coordinator.requestScreen() }
+                    Button(String(localized: "Selection access")) { coordinator.requestAccessibility() }
+                    Button(String(localized: "Screen access")) { coordinator.requestScreen() }
                 }
-                Button("Проверить разрешения") { coordinator.refreshPermissions() }
-                Text("Выделение: \(coordinator.accessibilityGranted ? "доступ есть" : "доступа нет") · Экран: \(coordinator.screenGranted ? "доступ есть" : "доступа нет")")
+                Button(String(localized: "Check permissions")) { coordinator.refreshPermissions() }
+                Text(String(localized: "Selection: \(coordinator.accessibilityGranted ? String(localized: "granted") : String(localized: "not granted")) · Screen: \(coordinator.screenGranted ? String(localized: "granted") : String(localized: "not granted"))"))
                     .font(.caption)
-                Text("После выдачи доступа повторите исходную команду. Текст и изображения не сохраняются.")
+                Text(String(localized: "After granting access, repeat the original action. Text and images are not saved."))
                     .font(.caption).foregroundStyle(.secondary)
                 Spacer()
             }

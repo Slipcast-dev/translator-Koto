@@ -3,6 +3,8 @@ import Network
 import Observation
 import Darwin
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Локальный authenticated bridge. Изменение transport не включает облако и не раскрывает token браузеру.
 @MainActor @Observable
 final class BrowserBridgeServer {
@@ -13,7 +15,7 @@ final class BrowserBridgeServer {
             if enabled { start() } else { stop() }
         }
     }
-    private(set) var status = "Браузерный мост выключен"
+    private(set) var status = String(localized: "Browser bridge is off")
     @ObservationIgnored private let directoryOverride: URL?
     @ObservationIgnored private let persistence: Bool
     @ObservationIgnored private let makeEngine: () -> any TranslationEngine
@@ -71,9 +73,9 @@ final class BrowserBridgeServer {
                     switch state {
                     case .ready:
                         chmod(path, 0o600)
-                        self.status = "Браузерный мост готов"
+                        self.status = String(localized: "Browser bridge is ready")
                     case .failed:
-                        self.status = "Не удалось запустить браузерный мост"
+                        self.status = String(localized: "Unable to start the browser bridge")
                         self.stop()
                     default: break
                     }
@@ -82,8 +84,8 @@ final class BrowserBridgeServer {
             listener = service
             socketPath = path
             service.start(queue: DispatchQueue(label: "dev.slipcast.koto.bridge"))
-            status = "Запускаем браузерный мост…"
-        } catch { status = "Мост недоступен: проверьте каталог и перезапустите Koto" }
+            status = String(localized: "Starting browser bridge…")
+        } catch { status = String(localized: "Bridge unavailable: check the directory and restart Koto") }
     }
     func stop() {
         listenerID = UUID()
@@ -94,7 +96,7 @@ final class BrowserBridgeServer {
         if let socketPath { unlink(socketPath) }
         socketPath = nil
         seen.removeAll(); seenOrder.removeAll()
-        status = "Браузерный мост выключен"
+        status = String(localized: "Browser bridge is off")
     }
     private func reserve(_ id: String) -> Bool {
         let normalized = id.lowercased()
@@ -215,8 +217,12 @@ private final class BrowserBridgeClient {
                     if !Task.isCancelled {
                         // Отказ session после успешной availability — тот же сценарий
                         // подготовки языков; сырые ошибки и исходный текст в RPC не уходят.
-                        let code = (error as? TranslationFailure) == .modelsNotInstalled
-                            ? "models_missing" : "translation_failed"
+                        let code: String
+                        switch error as? TranslationFailure {
+                        case .some(.modelsNotInstalled): code = "models_missing"
+                        case .some(.cloudNotAllowed): code = "cloud_not_allowed"
+                        default: code = "translation_failed"
+                        }
                         self.fail(message.id, code)
                     }
                 }

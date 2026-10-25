@@ -59,15 +59,16 @@ async function activeTab() {
   if (!tab?.id || !/^https?:\/\//i.test(tab.url || "")) throw new Error("unsupported_page");
   return {tabId:tab.id,pageOrigin:new URL(tab.url).origin};
 }
+// Внутренний ответ popup содержит код и параметры; язык текста выбирается только в UI.
 async function act(message) {
-  if (message.action === "cancel") { cancel(); return {ok:true,message:"Отменено"}; }
+  if (message.action === "cancel") { cancel(); return {ok:true,status:"cancelled"}; }
   const {tabId,pageOrigin} = await activeTab();
   if (message.action === "clear") {
     await execute(tabId, () => {
       for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
       window.__kotoSlipcastNodes = undefined;
     });
-    return {ok:true,message:"Перевод убран"};
+    return {ok:true,status:"cleared"};
   }
   const source = message.source || "auto", target = message.target || "ru";
   if (!/^(auto|[a-z]{2,3})$/.test(source) || !/^[a-z]{2,3}$/.test(target)) throw new Error("invalid_language");
@@ -121,7 +122,9 @@ async function act(message) {
         const translated = document.createElement("span");
         translated.textContent = item.text;
         translated.lang = target;
-        Object.assign(translated.style,{display:"block",whiteSpace:"pre-wrap",padding:"4px 0",color:"#7656c9"});
+        // Текст перевода определяет направление независимо от языка сайта.
+        translated.dir = "auto";
+        Object.assign(translated.style,{display:"block",whiteSpace:"pre-wrap",padding:"4px 0",color:"#7656c9",unicodeBidi:"isolate"});
         record.output?.remove();
         record.node.parentNode.insertBefore(translated,record.node.nextSibling);
         record.output = translated;
@@ -130,7 +133,7 @@ async function act(message) {
       return applied;
     }, [batch,target]);
   }
-  return {ok:true,message:"Переведено видимых фрагментов: "+completed};
+  return {ok:true,status:"page_translated",count:completed};
 }
 chrome.runtime.onMessage.addListener((message,sender,respond) => {
   // Команды принимает только собственный popup; content scripts не получают native RPC.

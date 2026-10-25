@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// @AppStorage сохраняет выбор в собственном preferences domain приложения и сообщает другим сценам.
 struct AppearancePicker: View {
     @AppStorage(AppAppearance.preferenceKey) private var rawSelection = AppAppearance.system.rawValue
@@ -12,7 +14,7 @@ struct AppearancePicker: View {
     }
 
     var body: some View {
-        Picker("Тема", selection: selection) {
+        Picker(String(localized: "Theme"), selection: selection) {
             ForEach(AppAppearance.allCases) { appearance in
                 Text(appearance.title).tag(appearance)
             }

@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Вывод доступен для выделения, но не редактирования; копирование всегда относится к актуальному result.
 struct TranslationOutputView: View {
     let result: TranslationResult?
@@ -7,7 +9,7 @@ struct TranslationOutputView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("Перевод").font(.headline)
+                Text(String(localized: "Translation")).font(.headline)
                 Spacer()
                 if let result {
                     Text(result.source.displayName)
@@ -16,11 +18,12 @@ struct TranslationOutputView: View {
                 }
             }
             ScrollView {
-                Text(result?.text ?? "Здесь появится перевод")
+                Text(result?.text ?? String(localized: "Your translation will appear here"))
                     .font(.body)
                     .foregroundStyle(result == nil ? .tertiary : .primary)
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .environment(\.layoutDirection, AppLocalization.isRightToLeft(language: result?.target.id, text: result?.text ?? "") ? .rightToLeft : .leftToRight)
                     .padding(12)
                     .accessibilityIdentifier("translation.output")
             }

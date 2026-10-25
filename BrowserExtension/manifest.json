@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Koto — Slipcast-Dev",
-  "version": "0.1.1",
-  "description": "Перевод выделения и видимой страницы через Koto на вашем Mac.",
+  "name": "__MSG_extension_name__",
+  "version": "0.1.2",
+  "description": "__MSG_extension_description__",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3Qy3BNDoFUDmryTpcVoD64wvJdTTDX84Yb47G3JgPeKCpA36GsWcXTVxBTjg+/4mBvk8v7llPCY3zAMhgB+Gqf0tl5B9pfnv4NgPdeAWHw1HO7SMg3EXBNlT0KloYQN5pNI2xeMK9EDDbUOWdiVewjPmKfBrUafUyaxdWTQc+eKTOCFYor7SAGesBxPjAp9CsAGr1DrTWUmUqx+S52e8kIzVwKOlZirWdI6kf4Fw4dp2Q+su/PQtG2opKsO2SoOK3PpE4S0kGts3Z2ux4v14EMoQTgp/gnNlBNVj3gqUhdOHkiYBi8DnRTK6Z7jyl7klu5UTb4Qd3iWVQZKhKo7BZQIDAQAB",
   "permissions": [
     "activeTab",
@@ -16,9 +16,10 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Koto"
+    "default_title": "__MSG_action_title__"
   },
   "icons": {
     "128": "icon128.png"
-  }
+  },
+  "default_locale": "en"
 }

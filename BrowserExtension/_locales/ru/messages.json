@@ -1,0 +1,174 @@
+{
+  "ui_language": {
+    "message": "ru",
+    "description": "Код языка каталога для Intl и HTML lang; значения en/ru сохраняются."
+  },
+  "extension_name": {
+    "message": "Koto — Slipcast-Dev",
+    "description": "Название расширения; бренды не переводятся."
+  },
+  "extension_description": {
+    "message": "Перевод выделения и видимой страницы через Koto на вашем Mac.",
+    "description": "Описание расширения в Chrome."
+  },
+  "action_title": {
+    "message": "Koto",
+    "description": "Подсказка значка расширения; бренд."
+  },
+  "source_label": {
+    "message": "С языка",
+    "description": "Подпись исходного языка."
+  },
+  "target_label": {
+    "message": "На язык",
+    "description": "Подпись целевого языка."
+  },
+  "detect_language": {
+    "message": "Определить язык",
+    "description": "Значение auto в списке исходного языка."
+  },
+  "translate_selection": {
+    "message": "Перевести выделение",
+    "description": "Действие с текущим выделением."
+  },
+  "translate_page": {
+    "message": "Перевести видимую страницу",
+    "description": "Перевод только видимых фрагментов страницы."
+  },
+  "cancel": {
+    "message": "Отменить",
+    "description": "Отмена текущего действия."
+  },
+  "clear_translation": {
+    "message": "Убрать перевод",
+    "description": "Удалить добавленные фрагменты перевода."
+  },
+  "bridge_required": {
+    "message": "Требуются Koto и включённый браузерный мост.",
+    "description": "Начальное состояние popup."
+  },
+  "privacy_note": {
+    "message": "Текст передаётся в Koto. Движок выбирается в приложении. История браузерного текста не сохраняется.",
+    "description": "Уведомление о приватности; смысл сохранять."
+  },
+  "working": {
+    "message": "Выполняется…",
+    "description": "Действие запущено."
+  },
+  "done": {
+    "message": "Готово",
+    "description": "Перевод выделения завершён."
+  },
+  "result_cancelled": {
+    "message": "Отменено",
+    "description": "Действие отменено пользователем."
+  },
+  "result_cleared": {
+    "message": "Перевод убран",
+    "description": "Фрагменты перевода удалены со страницы."
+  },
+  "page_translated_one": {
+    "message": "Переведён $COUNT$ видимый фрагмент.",
+    "description": "Целое число фрагментов; plural one.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "21"
+      }
+    }
+  },
+  "page_translated_few": {
+    "message": "Переведены $COUNT$ видимых фрагмента.",
+    "description": "Целое число фрагментов; plural few.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "21"
+      }
+    }
+  },
+  "page_translated_many": {
+    "message": "Переведено $COUNT$ видимых фрагментов.",
+    "description": "Целое число фрагментов; plural many.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "21"
+      }
+    }
+  },
+  "page_translated_other": {
+    "message": "Переведено $COUNT$ видимого фрагмента.",
+    "description": "Резервная plural-форма other.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "21"
+      }
+    }
+  },
+  "error_connection_lost": {
+    "message": "Связь с Koto потеряна. Повторите действие.",
+    "description": "Код ошибки connection_lost."
+  },
+  "error_native_host_unavailable": {
+    "message": "Зарегистрируйте native host в настройках Koto.",
+    "description": "Код ошибки native_host_unavailable."
+  },
+  "error_unsupported_page": {
+    "message": "На этой странице перевод недоступен.",
+    "description": "Код ошибки unsupported_page."
+  },
+  "error_cancelled": {
+    "message": "Отменено.",
+    "description": "Код ошибки cancelled."
+  },
+  "error_timeout": {
+    "message": "Перевод занял слишком много времени. Повторите попытку.",
+    "description": "Код ошибки timeout."
+  },
+  "error_models_missing": {
+    "message": "Языковые ресурсы Apple недоступны. Выберите ту же пару языков в Koto и запустите перевод. Если предложена подготовка языков, выполните её, затем повторите действие здесь.",
+    "description": "Код models_missing. Язык Koto может отличаться от Chrome: избегать привязки к точной подписи кнопки."
+  },
+  "error_translation_failed": {
+    "message": "Движок не выполнил перевод. Проверьте Koto.",
+    "description": "Код ошибки translation_failed."
+  },
+  "error_invalid_or_busy": {
+    "message": "Нет выделения, слишком длинный текст или движок занят.",
+    "description": "Код ошибки invalid_or_busy."
+  },
+  "error_cloud_not_allowed": {
+    "message": "Разрешите облачный перевод браузера в Koto.",
+    "description": "Код ошибки cloud_not_allowed; не менять разрешения автоматически."
+  },
+  "error_excluded_page": {
+    "message": "Эта страница исключена в настройках приватности Koto.",
+    "description": "Код ошибки excluded_page."
+  },
+  "error_busy": {
+    "message": "Движок занят. Повторите попытку немного позже.",
+    "description": "Код ошибки busy."
+  },
+  "error_duplicate_request": {
+    "message": "Этот запрос уже получен. Запустите новый перевод.",
+    "description": "Код ошибки duplicate_request."
+  },
+  "error_invalid_request": {
+    "message": "Некорректный запрос перевода. Выделите текст и проверьте языковую пару.",
+    "description": "Код ошибки invalid_request."
+  },
+  "error_invalid_language": {
+    "message": "Проверьте выбранные исходный язык и язык перевода.",
+    "description": "Код ошибки invalid_language."
+  },
+  "error_invalid_action": {
+    "message": "Это действие недоступно. Откройте панель Koto заново и повторите попытку.",
+    "description": "Код ошибки invalid_action."
+  },
+  "error_bridge_error": {
+    "message": "Проверьте Koto и подключение браузерного моста.",
+    "description": "Общая ошибка, неизвестный код или отсутствующий ключ."
+  }
+}

@@ -12,4 +12,4 @@ Cloud adapters use the selected provider and a Keychain-stored key; capture/brow
 
 Manual translation memory is off by default and holds at most 500 phrases; capture/browser/Live content is not stored. The exact-phrase glossary is a separate explicit setting. Diagnostic exports must not include keys or original texts.
 
-Known alpha defect: a cloud engine's idle status may incorrectly say On device (На устройстве). Check the selected engine and submission permissions; this defect has not been declared fixed. [Status](STATUS.en.md).
+The localized build uses neutral Ready/Translating statuses for cloud engines. The selected engine and cloud submission permissions remain visible; idle labels do not claim cloud processing happens on the device. [Status](STATUS.en.md).

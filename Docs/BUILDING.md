@@ -32,3 +32,15 @@ python3 script/test_bridge_integration.py
 App/Features — UI и координация; Core — контракты, приватность и протокол; Services — движки/AX/OCR/bridge; NativeHost/NativeTools — собственные host/launcher; BrowserExtension — MV3; Resources/LocalModels — только каталог/лицензии; Tests/script — проверки/сборка. Локальные продукты и архив прежних отчётов исключены в build/.
 
 Preview использует ad hoc. Developer ID/notarization — отдельный процесс. Не отключайте системные защиты ради проверки; ключи и исходный текст не должны попадать в журналы.
+
+## Проверка локализации macOS
+
+После Release-сборки выполните `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`. Проверяются готовые ru/en ресурсы, 12 сочетаний языковых предпочтений и региона, plural, числа, RTL, язык инструкций пояснений и schema=1. Дополнительные Python-пакеты и модель не нужны. Подробности и ограничения: [динамическая локализация](LOCALIZATION-DYNAMICS.md).
+
+## Проверка локализации Chrome
+
+Выполните `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, затем `./script/test_bridge_protocol.sh`. npm-пакеты не нужны. Node.js требуется только для тестов. Границы логических и нативных проверок: [локализация Chrome](LOCALIZATION-CHROME.md).
+
+CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Локальный пакет: `python3 script/package_release.py --artifact-suffix localization-hfs`; после монтирования — `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
+
+Первый запрос без ручного прогрева: закройте Koto и выполните `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en`. Проверка требует готовые системные EN/RU ресурсы, не скачивает модель и не использует облако.

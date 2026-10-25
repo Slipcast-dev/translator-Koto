@@ -2,6 +2,8 @@ import Foundation
 import Observation
 import Darwin
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Разрешены только HTTPS-узлы поставщика весов; перевод и ключ runtime сюда не передаются.
 enum ModelDownloadPolicy {
     nonisolated static func allows(_ url: URL) -> Bool {
@@ -37,13 +39,16 @@ final class ModelDownloadDelegate: NSObject, URLSessionDownloadDelegate, Sendabl
 enum ModelInstallationFailure: Error, LocalizedError {
     case catalog, response, space, unsafePath
     case http(Int)
+    case insufficientSpace(Int64)
     var errorDescription: String? {
         switch self {
-        case .catalog: "Каталог модели повреждён. Переустановите Koto из проверенного пакета."
-        case .http(let status): "Сервер модели вернул HTTP \(status). Повторите установку позже."
-        case .response: "Сервер не вернул полный файл модели. Повторите установку."
-        case .space: "Недостаточно места: для загрузки и проверки модели освободите не менее 5,2 ГБ."
-        case .unsafePath: "Каталог модели недоступен или содержит небезопасную ссылку."
+        case .catalog: String(localized: "The model catalog is damaged. Reinstall Koto from a trusted package.")
+        case .http(let status): String(localized: "The model server returned HTTP \(status). Try installing again later.")
+        case .response: String(localized: "The server did not return the complete model file. Try installing again.")
+        case .space: String(localized: "Not enough disk space to download and verify the model.")
+        case .insufficientSpace(let bytes):
+            String(localized: "Not enough disk space: free at least \(AppLocalization.bytes(bytes, exact: true)) to download and verify the model.")
+        case .unsafePath: String(localized: "The model directory is inaccessible or contains an unsafe link.")
         }
     }
 }
@@ -58,7 +63,7 @@ final class ModelInstallationManager {
     private(set) var isBusy = false
     private(set) var isVerifying = false
     private(set) var downloadedBytes: Int64 = 0
-    private(set) var status = "Модель не установлена"
+    private(set) var status = String(localized: "Model not installed")
     @ObservationIgnored private let directoryOverride: URL?
     @ObservationIgnored private let downloadOverride: Download?
     @ObservationIgnored private var operation: Task<Void, Never>?
@@ -80,8 +85,8 @@ final class ModelInstallationManager {
         return min(1, max(0, Double(downloadedBytes) / Double(specification.bytes)))
     }
     var displayName: String { specification?.displayName ?? "Qwen3 4B Instruct 2507 · Q4_K_M" }
-    var sizeDescription: String { ByteCountFormatter.string(fromByteCount:specification?.bytes ?? 0,countStyle:.decimal) }
-    var progressDescription: String { ByteCountFormatter.string(fromByteCount:downloadedBytes,countStyle:.decimal) + " / " + sizeDescription }
+    var sizeDescription: String { AppLocalization.bytes(specification?.bytes ?? 0) }
+    var progressDescription: String { String(localized: "\(AppLocalization.bytes(downloadedBytes)) / \(sizeDescription)") }
 
     private func directory(for spec: LocalModelManifest) throws -> URL {
         guard LocalModelLocation.isSafe(spec) else { throw ModelInstallationFailure.catalog }
@@ -102,12 +107,12 @@ final class ModelInstallationManager {
         guard !isBusy else { return }
         guard let specification, LocalModelLocation.isSafe(specification),
               let file = try? fileURL(for:specification) else {
-            isInstalled = false; status = "Модель не установлена"; return
+            isInstalled = false; status = String(localized: "Model not installed"); return
         }
         var metadata = stat()
         isInstalled = lstat(file.path,&metadata) == 0 && (metadata.st_mode & S_IFMT) == S_IFREG
             && metadata.st_uid == getuid() && metadata.st_size == specification.bytes
-        status = isInstalled ? "Файл модели установлен · целостность проверяется перед запуском" : "Модель не установлена"
+        status = isInstalled ? String(localized: "Model file installed · integrity is verified before launch") : String(localized: "Model not installed")
     }
     func install() {
         guard !isBusy else { return }
@@ -118,7 +123,7 @@ final class ModelInstallationManager {
         }
         let id = UUID(); operationID = id
         isBusy = true; isVerifying = false; downloadedBytes = 0
-        status = "Загружаем модель…"
+        status = String(localized: "Downloading model…")
         operation = Task { [weak self] in
             guard let self else { return }
             var pending: URL?
@@ -160,7 +165,7 @@ final class ModelInstallationManager {
             do {
                 let directory = try self.directory(for:spec)
                 let capacity = try directory.resourceValues(forKeys:[.volumeAvailableCapacityForImportantUsageKey]).volumeAvailableCapacityForImportantUsage
-                if let capacity, capacity < spec.bytes * 2 + 134_217_728 { throw ModelInstallationFailure.space }
+                if let capacity, capacity < spec.bytes * 2 + 134_217_728 { throw ModelInstallationFailure.insufficientSpace(spec.bytes * 2 + 134_217_728) }
                 let temporary: URL
                 let response: URLResponse
                 if let downloadOverride { (temporary,response) = try await downloadOverride(session,url) }
@@ -178,7 +183,7 @@ final class ModelInstallationManager {
                 let file = staging.appendingPathComponent(spec.filename)
                 try FileManager.default.moveItem(at:temporary,to:file); networkTemporary = nil
                 try FileManager.default.setAttributes([.posixPermissions:0o600],ofItemAtPath:file.path)
-                self.isVerifying = true; self.downloadedBytes = spec.bytes; self.status = "Проверяем SHA-256 модели…"
+                self.isVerifying = true; self.downloadedBytes = spec.bytes; self.status = String(localized: "Verifying model SHA-256…")
                 try await LocalRuntimeSupervisor.verifyFile(file,expected:spec.sha256,expectedBytes:spec.bytes,gguf:true)
                 try Task.checkCancellation()
                 let destination = directory.appendingPathComponent(spec.filename)
@@ -187,18 +192,18 @@ final class ModelInstallationManager {
                     guard (old.st_mode & S_IFMT) == S_IFREG, old.st_uid == getuid() else { throw ModelInstallationFailure.unsafePath }
                 }
                 guard rename(file.path,destination.path) == 0 else { throw ModelInstallationFailure.unsafePath }
-                self.isInstalled = true; self.status = "Модель установлена и проверена. Можно переводить локально."
+                self.isInstalled = true; self.status = String(localized: "Model installed and verified. You can now translate locally.")
             } catch {
                 guard self.operationID == id else { return }
                 if Task.isCancelled || (error as? URLError)?.code == .cancelled {
-                    self.status = "Установка отменена · незавершённый файл удалён"
+                    self.status = String(localized: "Installation cancelled · incomplete file removed")
                 } else if let issue = error as? ModelInstallationFailure { self.status = issue.errorDescription ?? "" }
-                else if error is LocalRuntimeFailure { self.status = "Проверка модели не пройдена. Файл не установлен; повторите загрузку." }
-                else { self.status = "Не удалось установить модель. Проверьте интернет и повторите попытку." }
+                else if error is LocalRuntimeFailure { self.status = String(localized: "Model verification failed. The file was not installed; download it again.") }
+                else { self.status = String(localized: "Unable to install the model. Check your internet connection and try again.") }
             }
         }
     }
-    func cancel() { operation?.cancel(); status = "Отменяем установку…" }
+    func cancel() { operation?.cancel(); status = String(localized: "Cancelling installation…") }
     func remove() {
         guard !isBusy, let specification else { return }
         do {
@@ -209,6 +214,6 @@ final class ModelInstallationManager {
                 try FileManager.default.removeItem(at:file)
             }
             refresh()
-        } catch { status = "Не удалось удалить файл модели. Проверьте доступ к каталогу Koto." }
+        } catch { status = String(localized: "Unable to remove the model file. Check access to the Koto directory.") }
     }
 }

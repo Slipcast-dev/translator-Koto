@@ -1,6 +1,8 @@
 import AppKit
 import Observation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Producer последовательный: один screenshot/OCR. Новая строка отменяет старую модельную операцию.
 /// ManualTranslationModel дополнительно защищает публикацию собственным request UUID.
 @MainActor @Observable
@@ -8,7 +10,7 @@ final class LiveTranslationCoordinator {
     let model = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .live)
     private(set) var running = false
     private(set) var paused = false
-    private(set) var message = "Выберите область экрана для живого перевода"
+    private(set) var message = String(localized: "Choose a screen region for live translation")
     private(set) var captures = 0
     private(set) var translations = 0
     private(set) var latencyMilliseconds: [Double] = []
@@ -26,8 +28,8 @@ final class LiveTranslationCoordinator {
     var p95: Double? { percentile(0.95) }
     var hasRegion: Bool { region != nil }
     var regionDescription: String {
-        guard let region else { return "Область не выбрана" }
-        return "\(Int(region.width)) × \(Int(region.height)) точек"
+        guard let region else { return String(localized: "No region selected") }
+        return String(localized: "\(AppLocalization.number(Int(region.width))) × \(AppLocalization.number(Int(region.height))) points")
     }
 
     func chooseRegion() {
@@ -48,7 +50,7 @@ final class LiveTranslationCoordinator {
         guard region != nil, !running else { return }
         let id = gate.reset()
         running = true; paused = false
-        message = "Наблюдаем выбранную область · интервал не меньше 2 секунд"
+        message = String(localized: "Watching the selected region · minimum interval: 2 seconds")
         producer = Task { [weak self] in
             guard let self else { return }
             while !Task.isCancelled, self.running, self.gate.generation == id {
@@ -73,12 +75,12 @@ final class LiveTranslationCoordinator {
                     guard self.gate.generation == id else { return }
                     _ = self.gate.accept("", generation: id)
                     self.model.clear()
-                    self.message = "В области пока нет текста"
+                    self.message = String(localized: "No text in the region yet")
                 } catch is CancellationError { return }
                 catch {
                     guard self.gate.generation == id else { return }
                     self.pause()
-                    self.message = (error as? CaptureFailure)?.errorDescription ?? "Живой захват остановлен после ошибки"
+                    self.message = (error as? CaptureFailure)?.errorDescription ?? String(localized: "Live capture stopped after an error")
                     return
                 }
                 do { try await Task.sleep(for: .seconds(2)) } catch { return }
@@ -91,7 +93,7 @@ final class LiveTranslationCoordinator {
         _ = gate.reset()
         model.cancel()
         running = false; paused = hasRegion
-        message = "Живой перевод приостановлен"
+        message = String(localized: "Live translation paused")
     }
 
     func stop() {
@@ -100,7 +102,7 @@ final class LiveTranslationCoordinator {
         region = nil; screenFrame = nil; displayID = nil
         paused = false
         model.clear()
-        message = "Живой перевод остановлен"
+        message = String(localized: "Live translation stopped")
     }
 
     /// Смена пары должна повторно перевести даже неизменившийся кадр.
@@ -115,7 +117,7 @@ final class LiveTranslationCoordinator {
         pause()
         model.clear()
         Task { await model.loadLanguages() }
-        message = "Движок изменён. Нажмите «Продолжить», чтобы возобновить захват."
+        message = String(localized: "The engine changed. Click Resume to continue capturing.")
     }
 
     func didPublish() {
@@ -125,7 +127,7 @@ final class LiveTranslationCoordinator {
         let elapsed = submittedAt.duration(to: .now).components
         latencyMilliseconds.append(Double(elapsed.seconds) * 1000 + Double(elapsed.attoseconds) / 1e15)
         if latencyMilliseconds.count > 120 { latencyMilliseconds.removeFirst() }
-        message = "Готово · повторный перевод запускается только при изменении текста"
+        message = String(localized: "Ready · translation runs again only when the text changes")
     }
 
     private func percentile(_ fraction: Double) -> Double? {

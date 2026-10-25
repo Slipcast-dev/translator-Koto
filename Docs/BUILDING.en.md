@@ -32,3 +32,15 @@ Real Apple smoke and transport integration tests require prepared EN/RU resource
 App/Features: UI and coordination; Core: contracts, privacy and protocol; Services: engines/AX/OCR/bridge; NativeHost/NativeTools: host/launcher; BrowserExtension: MV3; Resources/LocalModels: catalog/licenses only; Tests/script: verification/build. Local products and archived reports are excluded under build/.
 
 The preview uses ad hoc signing. Developer ID/notarization is a separate process. Do not disable system protections for testing; keys and original text must not appear in logs.
+
+## macOS localization checks
+
+After the Release build, run `python3 script/test_localization.py` and `./script/test_localization_dynamics.sh`. They check compiled ru/en resources, 12 language/region combinations, plurals, numbers, RTL, explanation instruction language and schema=1. No additional Python packages or model are required. See the [dynamic localization report, in Russian](LOCALIZATION-DYNAMICS.md) for scope and limitations.
+
+## Chrome localization checks
+
+Run `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, then `./script/test_bridge_protocol.sh`. No npm packages are required. Node.js is needed only for tests. See the [Chrome localization report, in Russian](LOCALIZATION-CHROME.md) for the distinction between logic tests and native browser checks.
+
+CI: `python3 script/validate_localization.py` and `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Local package: `python3 script/package_release.py --artifact-suffix localization-hfs`; after mounting, run `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
+
+First request without manual warm-up: quit Koto and run `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en`. It requires installed system EN/RU resources, downloads no model and uses no cloud engine.

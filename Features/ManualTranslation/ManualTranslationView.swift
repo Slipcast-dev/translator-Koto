@@ -1,6 +1,8 @@
 import AppKit
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Окно владеет model, а подвиды получают тот же reference state: нет независимых копий ввода/результата.
 struct ManualTranslationView: View {
     @Bindable var model: ManualTranslationModel
@@ -16,15 +18,15 @@ struct ManualTranslationView: View {
                     .accessibilityHidden(true)
                 Text("Koto").font(.system(size: 25, weight: .bold, design: .rounded))
                 Spacer()
-                Text("Перевод текста").foregroundStyle(.secondary)
+                Text(String(localized: "Text translation")).foregroundStyle(.secondary)
             }
             if let issue = model.catalogFailure {
                 HStack {
                     Text(issue).foregroundStyle(.red)
-                    Button("Повторить") { Task { await model.loadLanguages() } }
+                    Button(String(localized: "Try again")) { Task { await model.loadLanguages() } }
                 }
             }
-            Picker("Движок", selection: $engines.selected) {
+            Picker(String(localized: "Engine"), selection: $engines.selected) {
                 ForEach(TranslationEngineKind.allCases) { engine in Text(engine.title).tag(engine) }
             }.pickerStyle(.segmented)
             LanguageSelectionView(model: model)
@@ -35,37 +37,37 @@ struct ManualTranslationView: View {
             .frame(minHeight: 250)
             TranslationStatusView(model: model)
             HStack {
-                Button("Объяснение и варианты · локально") { showInsights = true }
+                Button(String(localized: "Explanation and alternatives · local")) { showInsights = true }
                     .disabled(model.sourceText.isEmpty || model.sourceText.count > 500)
-                    .help("Смысл, выражения и варианты перевода: до 500 символов")
+                    .help(String(localized: "Meaning, expressions and translation alternatives: up to 500 characters"))
                 Text(SpeechController.shared.status).font(.caption).foregroundStyle(.secondary)
             }
 
             HStack(spacing: 12) {
                 if model.isBusy {
-                    Button("Отменить") { model.cancel() }
+                    Button(String(localized: "Cancel")) { model.cancel() }
                         .keyboardShortcut(.escape, modifiers: [])
                         .accessibilityIdentifier("translation.cancel")
                 } else {
-                    Button("Перевести") { model.submit() }
+                    Button(String(localized: "Translate")) { model.submit() }
                         .buttonStyle(.borderedProminent)
                         .keyboardShortcut(.return, modifiers: .command)
                         .disabled(!model.canTranslate)
                         .accessibilityIdentifier("translation.submit")
                 }
-                Button(copied ? "Скопировано" : "Копировать") { copyResult() }
+                Button(copied ? String(localized: "Copied") : String(localized: "Copy")) { copyResult() }
                     .disabled(model.result == nil)
                     .accessibilityIdentifier("translation.copy")
-                Button("Очистить") { model.clear() }
+                Button(String(localized: "Clear")) { model.clear() }
                     .disabled(model.sourceText.isEmpty && model.result == nil)
                     .accessibilityIdentifier("translation.clear")
-                Button("Озвучить") { if let result = model.result { SpeechController.shared.speak(result) } }
+                Button(String(localized: "Speak")) { if let result = model.result { SpeechController.shared.speak(result) } }
                     .disabled(model.result == nil)
-                Button("Стоп") { SpeechController.shared.stop() }
+                Button(String(localized: "Stop")) { SpeechController.shared.stop() }
                 Spacer()
                 Text(ProductInfo.versionDescription).font(.caption).foregroundStyle(.secondary)
             }
-            Text(copyFailed ? "Не удалось записать текст в буфер обмена." : (TranslationStore.shared.memoryEnabled ? "Память ручных переводов включена в настройках." : "Память переводов выключена."))
+            Text(copyFailed ? String(localized: "Unable to copy text to the clipboard.") : (TranslationStore.shared.memoryEnabled ? String(localized: "Manual translation memory is enabled in Settings.") : String(localized: "Translation memory is off.")))
                 .font(.caption)
                 .foregroundStyle(copyFailed ? Color.red : Color.secondary)
         }
@@ -90,7 +92,7 @@ struct ManualTranslationView: View {
         .toolbar {
             ToolbarItem {
                 SettingsLink { Image(systemName: "gearshape") }
-                    .help("Настройки Koto").accessibilityLabel("Настройки Koto")
+                    .help(String(localized: "Koto Settings")).accessibilityLabel(String(localized: "Koto Settings"))
             }
         }
         .accessibilityIdentifier("koto.main")

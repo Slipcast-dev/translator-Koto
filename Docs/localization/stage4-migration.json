@@ -1,0 +1,1571 @@
+{
+  "stage": 4,
+  "status": "verified_stage4_ui_scope",
+  "date": "2026-10-24",
+  "catalog_keys": 268,
+  "migrated_occurrences": 303,
+  "files": [
+    "App/KotoApp.swift",
+    "App/KotoCommands.swift",
+    "App/KotoMenuView.swift",
+    "Features/About/AboutView.swift",
+    "Features/Capture/CaptureCoordinator.swift",
+    "Features/Capture/CaptureLensView.swift",
+    "Features/Capture/CaptureSettingsView.swift",
+    "Features/Capture/RegionSelector.swift",
+    "Features/Live/LiveTranslationCoordinator.swift",
+    "Features/Live/LiveTranslationView.swift",
+    "Features/ManualTranslation/LanguagePreparationView.swift",
+    "Features/ManualTranslation/LanguageSelectionView.swift",
+    "Features/ManualTranslation/LocalInsightsView.swift",
+    "Features/ManualTranslation/ManualTranslationView.swift",
+    "Features/ManualTranslation/TranslationInputView.swift",
+    "Features/ManualTranslation/TranslationOutputView.swift",
+    "Features/ManualTranslation/TranslationStatusView.swift",
+    "Features/Settings/AppAppearance.swift",
+    "Features/Settings/AppearancePicker.swift",
+    "Features/Settings/BrowserBridgeSettingsView.swift",
+    "Features/Settings/LocalRuntimeSettingsView.swift",
+    "Features/Settings/ProductSettingsView.swift",
+    "Features/Settings/SettingsMigrationView.swift",
+    "Features/Settings/SettingsView.swift",
+    "Features/Welcome/MainWindowView.swift",
+    "Core/Capture/CaptureModels.swift",
+    "Core/Translation/TranslationModels.swift",
+    "Services/Browser/BrowserBridgeServer.swift",
+    "Services/Cloud/CloudTranslationEngine.swift",
+    "Services/Hotkeys/GlobalHotkeyService.swift",
+    "Services/Local/LocalGenerationService.swift",
+    "Services/Local/LocalInsightsService.swift",
+    "Services/Local/LocalRuntimeSupervisor.swift",
+    "Services/Local/LocalTranslationEngine.swift",
+    "Services/Models/ModelInstallationManager.swift",
+    "Services/Product/ProductUtilities.swift",
+    "Services/Product/TranslationStore.swift",
+    "Services/Translation/RoutingTranslationEngine.swift",
+    "Support/ProductInfo.swift",
+    "Tests/BrowserBridgeHarness.swift",
+    "Tests/ProductPrivacyTests.swift"
+  ],
+  "entries": [
+    {
+      "file": "App/KotoApp.swift",
+      "source": "Живой перевод — Koto",
+      "key": "Live translation — Koto"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Перевод",
+      "key": "Translation"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Перевести выделение  ⌃⌥⌘T",
+      "key": "Translate selection  ⌃⌥⌘T"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Перевести область…  ⌃⌥⌘R",
+      "key": "Translate screen region…  ⌃⌥⌘R"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Живой перевод…  ⌃⌥⌘L",
+      "key": "Live translation…  ⌃⌥⌘L"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Отменить захват",
+      "key": "Cancel capture"
+    },
+    {
+      "file": "App/KotoCommands.swift",
+      "source": "Открыть Koto",
+      "key": "Open Koto"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Перевести выделение  ⌃⌥⌘T",
+      "key": "Translate selection  ⌃⌥⌘T"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Перевести область…  ⌃⌥⌘R",
+      "key": "Translate screen region…  ⌃⌥⌘R"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Живой перевод…  ⌃⌥⌘L",
+      "key": "Live translation…  ⌃⌥⌘L"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Открыть Koto",
+      "key": "Open Koto"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Настройки…",
+      "key": "Settings…"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "О Koto",
+      "key": "About Koto"
+    },
+    {
+      "file": "App/KotoMenuView.swift",
+      "source": "Выйти из Koto",
+      "key": "Quit Koto"
+    },
+    {
+      "file": "Features/About/AboutView.swift",
+      "source": "Разработчик: \\(ProductInfo.developer)",
+      "key": "Developer: %@"
+    },
+    {
+      "file": "Features/About/AboutView.swift",
+      "source": "Закрыть",
+      "key": "Close"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Выделение: ⌃⌥⌘T · Область: ⌃⌥⌘R",
+      "key": "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Приложение исключено в настройках приватности",
+      "key": "This app is excluded in privacy settings"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Читаем выделенный текст…",
+      "key": "Reading selected text…"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Источник исключён в настройках приватности",
+      "key": "This source is excluded in privacy settings"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Получено выделение через Службы macOS…",
+      "key": "Received selected text through macOS Services…"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Выделите область с текстом. Esc — отмена.",
+      "key": "Select a region containing text. Press Esc to cancel."
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Распознаём текст на Mac…",
+      "key": "Recognizing text on this Mac…"
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Захват отменён.",
+      "key": "Capture cancelled."
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Захват не завершился за 60 секунд. Повторите действие.",
+      "key": "Capture did not finish within 60 seconds. Try again."
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Захвачено \\(captured.text.count) символов. Язык назначения — из главного окна.",
+      "key": "Captured %lld characters. The target language comes from the main window."
+    },
+    {
+      "file": "Features/Capture/CaptureCoordinator.swift",
+      "source": "Не удалось выполнить захват.",
+      "key": "Unable to capture text."
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Koto · Быстрый перевод",
+      "key": "Koto · Quick translation"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Скопировано",
+      "key": "Copied"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Копировать",
+      "key": "Copy"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Отменить",
+      "key": "Cancel"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Перевести",
+      "key": "Translate"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "В окно",
+      "key": "Open in window"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Выделение: ⌃⌥⌘T\\nОбласть экрана: ⌃⌥⌘R",
+      "key": "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Доступ к выделению",
+      "key": "Selection access"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Доступ к экрану",
+      "key": "Screen access"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Проверить разрешения",
+      "key": "Check permissions"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "доступ есть",
+      "key": "granted"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "доступа нет",
+      "key": "not granted"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "доступ есть",
+      "key": "granted"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "доступа нет",
+      "key": "not granted"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "Выделение: \\(coordinator.accessibilityGranted ? \"доступ есть\" : \"доступа нет\") · Экран: \\(coordinator.screenGranted ? \"доступ есть\" : \"доступа нет\")",
+      "key": "Selection: %@ · Screen: %@"
+    },
+    {
+      "file": "Features/Capture/CaptureLensView.swift",
+      "source": "После выдачи доступа повторите исходную команду. Текст и изображения не сохраняются.",
+      "key": "After granting access, repeat the original action. Text and images are not saved."
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Перевод из других приложений",
+      "key": "Translate from other apps"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Глобальные горячие клавиши",
+      "key": "Global keyboard shortcuts"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "⌃⌥⌘T — выделенный текст\\n⌃⌥⌘R — область экрана (OCR)\\n⌃⌥⌘L — живой перевод",
+      "key": "⌃⌥⌘T — selected text\n⌃⌥⌘R — screen region (OCR)\n⌃⌥⌘L — live translation"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Резервный путь: в исходном приложении выберите «Службы → Перевести в Koto». Системная служба передаёт только выбранный текст и не меняет общий буфер обмена.",
+      "key": "Alternative: choose Services → Translate in Koto in the source app. The system service passes only selected text and does not change the clipboard."
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Доступ к выделению",
+      "key": "Selection access"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Доступ к экрану",
+      "key": "Screen access"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Проверить",
+      "key": "Check"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "доступ есть",
+      "key": "granted"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "нет доступа",
+      "key": "not granted"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "доступ есть",
+      "key": "granted"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "нет доступа",
+      "key": "not granted"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Выделение: \\(coordinator.accessibilityGranted ? \"доступ есть\" : \"нет доступа\") · Экран: \\(coordinator.screenGranted ? \"доступ есть\" : \"нет доступа\")",
+      "key": "Selection: %@ · Screen: %@"
+    },
+    {
+      "file": "Features/Capture/CaptureSettingsView.swift",
+      "source": "Для ручного перевода эти разрешения не нужны. После изменения доступа может потребоваться перезапуск Koto.",
+      "key": "These permissions are not required for manual translation. You may need to restart Koto after changing access."
+    },
+    {
+      "file": "Features/Capture/RegionSelector.swift",
+      "source": "Выделите область с текстом · Esc — отмена",
+      "key": "Select a region containing text · Esc to cancel"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Выберите область экрана для живого перевода",
+      "key": "Choose a screen region for live translation"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Область не выбрана",
+      "key": "No region selected"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "\\(Int(region.width)) × \\(Int(region.height)) точек",
+      "key": "%lld × %lld points"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Наблюдаем выбранную область · интервал не меньше 2 секунд",
+      "key": "Watching the selected region · minimum interval: 2 seconds"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "В области пока нет текста",
+      "key": "No text in the region yet"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Живой захват остановлен после ошибки",
+      "key": "Live capture stopped after an error"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Живой перевод приостановлен",
+      "key": "Live translation paused"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Живой перевод остановлен",
+      "key": "Live translation stopped"
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Движок изменён. Нажмите «Продолжить», чтобы возобновить захват.",
+      "key": "The engine changed. Click Resume to continue capturing."
+    },
+    {
+      "file": "Features/Live/LiveTranslationCoordinator.swift",
+      "source": "Готово · повторный перевод запускается только при изменении текста",
+      "key": "Ready · translation runs again only when the text changes"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Живой перевод",
+      "key": "Live translation"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Выбрать область…",
+      "key": "Choose region…"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Пауза",
+      "key": "Pause"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Продолжить",
+      "key": "Resume"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Остановить",
+      "key": "Stop"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Движок",
+      "key": "Engine"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Здесь появится распознанный текст",
+      "key": "Recognized text will appear here"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Кадров: \\(coordinator.captures) · Переводов: \\(coordinator.translations)",
+      "key": "Frames: %lld · Translations: %lld"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "p50 \\(Int(p50)) мс · p95 \\(Int(p95)) мс",
+      "key": "p50 %lld ms · p95 %lld ms"
+    },
+    {
+      "file": "Features/Live/LiveTranslationView.swift",
+      "source": "Распознаётся только выбранная область. Окна Koto исключены из снимка. Кадры и текст не сохраняются; история метрик ограничена 120 значениями.",
+      "key": "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved; metric history is limited to 120 values."
+    },
+    {
+      "file": "Features/ManualTranslation/LanguagePreparationView.swift",
+      "source": "Подготовка языков",
+      "key": "Language preparation"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguagePreparationView.swift",
+      "source": "Apple предложит загрузить языковые ресурсы. Для загрузки нужен интернет; после установки перевод выполняется на Mac.",
+      "key": "Apple will offer to download language resources. An internet connection is needed for the download; translation runs on your Mac after installation."
+    },
+    {
+      "file": "Features/ManualTranslation/LanguagePreparationView.swift",
+      "source": "Отмена",
+      "key": "Cancel"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "С языка",
+      "key": "From"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "Определить язык",
+      "key": "Detect language"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "Поменять языки местами",
+      "key": "Swap languages"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "Поменять языки местами",
+      "key": "Swap languages"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "На язык",
+      "key": "To"
+    },
+    {
+      "file": "Features/ManualTranslation/LanguageSelectionView.swift",
+      "source": "Загрузка…",
+      "key": "Loading…"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Смысл и выражения · Qwen",
+      "key": "Meaning and expressions · Qwen"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Объяснения и варианты могут содержать ошибки. Текст обрабатывается на этом Mac.",
+      "key": "Explanations and alternatives may contain errors. Text is processed on this Mac."
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Объяснить",
+      "key": "Explain"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Варианты перевода",
+      "key": "Translation alternatives"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Отмена",
+      "key": "Cancel"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Закрыть",
+      "key": "Close"
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Для пояснения выберите фразу до 500 символов.",
+      "key": "Choose a phrase of up to 500 characters for an explanation."
+    },
+    {
+      "file": "Features/ManualTranslation/LocalInsightsView.swift",
+      "source": "Локальное пояснение не завершено. Проверьте ресурсы Qwen и повторите запрос.",
+      "key": "The local explanation did not finish. Check the Qwen resources and try again."
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Перевод текста",
+      "key": "Text translation"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Повторить",
+      "key": "Try again"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Движок",
+      "key": "Engine"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Объяснение и варианты · локально",
+      "key": "Explanation and alternatives · local"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Смысл, выражения и варианты перевода: до 500 символов",
+      "key": "Meaning, expressions and translation alternatives: up to 500 characters"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Отменить",
+      "key": "Cancel"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Перевести",
+      "key": "Translate"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Скопировано",
+      "key": "Copied"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Копировать",
+      "key": "Copy"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Очистить",
+      "key": "Clear"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Озвучить",
+      "key": "Speak"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Стоп",
+      "key": "Stop"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Не удалось записать текст в буфер обмена.",
+      "key": "Unable to copy text to the clipboard."
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Память ручных переводов включена в настройках.",
+      "key": "Manual translation memory is enabled in Settings."
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Память переводов выключена.",
+      "key": "Translation memory is off."
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Настройки Koto",
+      "key": "Koto Settings"
+    },
+    {
+      "file": "Features/ManualTranslation/ManualTranslationView.swift",
+      "source": "Настройки Koto",
+      "key": "Koto Settings"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationInputView.swift",
+      "source": "Исходный текст",
+      "key": "Source text"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationInputView.swift",
+      "source": "\\(model.sourceText.count) / 20 000",
+      "key": "%lld / 20,000"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationInputView.swift",
+      "source": "Введите текст для перевода",
+      "key": "Enter text to translate"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationInputView.swift",
+      "source": "Исходный текст",
+      "key": "Source text"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationOutputView.swift",
+      "source": "Перевод",
+      "key": "Translation"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationOutputView.swift",
+      "source": "Здесь появится перевод",
+      "key": "Your translation will appear here"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Ошибка перевода.",
+      "key": "Translation error."
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "\\(model.engineName) · На устройстве",
+      "key": "%@ · Ready"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Проверяем языковые ресурсы…",
+      "key": "Checking language resources…"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Переводим на Mac…",
+      "key": "Translating…"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Для этой пары нужно подготовить языки.",
+      "key": "Prepare languages for this pair."
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Ожидаем системную подготовку языков…",
+      "key": "Waiting for system language preparation…"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Готово · \\(model.engineName)",
+      "key": "Done · %@"
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Перевод отменён.",
+      "key": "Translation cancelled."
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Не удалось выполнить перевод.",
+      "key": "Unable to translate."
+    },
+    {
+      "file": "Features/ManualTranslation/TranslationStatusView.swift",
+      "source": "Подготовить языки",
+      "key": "Prepare languages"
+    },
+    {
+      "file": "Features/Settings/AppAppearance.swift",
+      "source": "Системная",
+      "key": "System"
+    },
+    {
+      "file": "Features/Settings/AppAppearance.swift",
+      "source": "Светлая",
+      "key": "Light"
+    },
+    {
+      "file": "Features/Settings/AppAppearance.swift",
+      "source": "Тёмная",
+      "key": "Dark"
+    },
+    {
+      "file": "Features/Settings/AppearancePicker.swift",
+      "source": "Тема",
+      "key": "Theme"
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Браузер Chromium",
+      "key": "Chromium browser"
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Разрешить браузерный мост",
+      "key": "Enable browser bridge"
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Зарегистрировать native host для Chrome",
+      "key": "Register native host for Chrome"
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Native host зарегистрирован для текущей копии Koto.",
+      "key": "Native host registered for this copy of Koto."
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Не удалось зарегистрировать host. Проверьте установку Koto и права каталога.",
+      "key": "Unable to register the host. Check the Koto installation and directory permissions."
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "После регистрации загрузите папку BrowserExtension как распакованное расширение через chrome://extensions. Используйте только расширение Koto с ID \\(BridgeOrigin.allowed).",
+      "key": "After registration, load the BrowserExtension folder as an unpacked extension at chrome://extensions. Use only the Koto extension with ID %@."
+    },
+    {
+      "file": "Features/Settings/BrowserBridgeSettingsView.swift",
+      "source": "Мост принимает только собственное расширение, работает через локальный Unix socket и требует аутентификацию для каждого подключения.",
+      "key": "The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection."
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Локальный перевод",
+      "key": "Local translation"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Для локального перевода установите эту модель: \\(models.sizeDescription), Apache 2.0. Нужен Mac с 8 ГБ памяти. Модель не входит в приложение и установщик.",
+      "key": "Install this model for local translation: %@, Apache 2.0. A Mac with 8 GiB of memory is required. The model is not included in the app or installer."
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Проверяем файл…",
+      "key": "Verifying file…"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Отменить установку",
+      "key": "Cancel installation"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Переустановить модель",
+      "key": "Reinstall model"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Установить модель",
+      "key": "Install model"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Удалить модель",
+      "key": "Remove model"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Запустить",
+      "key": "Start"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Локальные ресурсы недоступны.",
+      "key": "Local resources are unavailable."
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Остановить",
+      "key": "Stop"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "Лицензия",
+      "key": "License"
+    },
+    {
+      "file": "Features/Settings/LocalRuntimeSettingsView.swift",
+      "source": "После установки веса хранятся только в пользовательском каталоге Koto. При удалении модели ручной Apple Translation остаётся доступным. Скрытого переключения на облако нет.",
+      "key": "After installation, model weights are stored only in your Koto user directory. Apple Translation remains available after removing the model. There is no automatic switch to the cloud."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Облачный перевод",
+      "key": "Cloud translation"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Ручной текст отправляется выбранному Google/Yandex Cloud по кнопке «Перевести». Тариф и квоту определяет ваш аккаунт провайдера.",
+      "key": "Manual text is sent to the selected Google/Yandex Cloud provider when you click Translate. Your provider account determines pricing and quotas."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Провайдер ключа",
+      "key": "Key provider"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Yandex · API-ключ сервисного аккаунта",
+      "key": "Yandex · service account API key"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Новый API-ключ",
+      "key": "New API key"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Сохранить в Keychain",
+      "key": "Save to Keychain"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Ключ сохранён в Keychain",
+      "key": "Key saved to Keychain"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Не удалось сохранить ключ в Keychain",
+      "key": "Unable to save the key to Keychain"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Удалить ключ",
+      "key": "Remove key"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Ключ удалён",
+      "key": "Key removed"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Не удалось удалить ключ",
+      "key": "Unable to remove the key"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Приватность захвата",
+      "key": "Capture privacy"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Разрешить выделение и OCR в облаке",
+      "key": "Allow selection and OCR in the cloud"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Разрешить текст браузера в облаке",
+      "key": "Allow browser text in the cloud"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Разрешить живой перевод в облаке",
+      "key": "Allow live translation in the cloud"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "По умолчанию все три источника переводятся только локально. Исключённые приложения блокируются для AX и исключаются из снимков.",
+      "key": "All three sources are translated locally by default. Excluded apps are blocked for Accessibility capture and excluded from screenshots."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Bundle ID исключений, по одному в строке",
+      "key": "Excluded bundle IDs, one per line"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Исключённые домены браузера",
+      "key": "Excluded browser domains"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Домен исключает и его поддомены. Мост получает только origin страницы, без пути и query.",
+      "key": "A domain exclusion also covers its subdomains. The bridge receives only the page origin, without the path or query."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Словарь точных фраз",
+      "key": "Exact phrases"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Исходная фраза",
+      "key": "Source phrase"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Ваш перевод",
+      "key": "Your translation"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Источник: en",
+      "key": "Source: en"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Перевод: ru",
+      "key": "Target: ru"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Добавить фразу",
+      "key": "Add phrase"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Удалить",
+      "key": "Remove"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Применяется при точном совпадении всей фразы и явно выбранной пары языков.",
+      "key": "Applies only to an exact match of the entire phrase and an explicitly selected language pair."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Память и система",
+      "key": "Memory and system"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Сохранять ручные переводы на этом Mac",
+      "key": "Save manual translations on this Mac"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "До 500 фраз. Захват, браузер и Live не сохраняются. При выключении память очищается.",
+      "key": "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Очистить память (\\(store.memory.count))",
+      "key": "Clear memory (%lld)"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Запускать при входе",
+      "key": "Launch at login"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Автозапуск обновлён",
+      "key": "Login setting updated"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Завершите разрешение в настройках macOS",
+      "key": "Complete authorization in macOS Settings"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Не удалось изменить автозапуск. Проверьте настройки macOS.",
+      "key": "Unable to change launch at login. Check macOS Settings."
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Экспортировать диагностику…",
+      "key": "Export diagnostics…"
+    },
+    {
+      "file": "Features/Settings/ProductSettingsView.swift",
+      "source": "Не удалось экспортировать диагностику",
+      "key": "Unable to export diagnostics"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Перенос настроек",
+      "key": "Transfer settings"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Переносятся только тема и языки из JSON Koto. Ключи, TCC, история и файлы Lingo не импортируются.",
+      "key": "Only the theme and languages from Koto JSON are transferred. Keys, TCC permissions, history and Lingo files are not imported."
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Экспорт…",
+      "key": "Export…"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Прочитать JSON…",
+      "key": "Read JSON…"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Тема: \\(preview.appearance); языки: \\(preview.source) → \\(preview.target)",
+      "key": "Theme: %@; languages: %@ → %@"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Применить показанные настройки",
+      "key": "Apply previewed settings"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Пара отсутствует в каталоге текущего движка",
+      "key": "This pair is not in the current engine’s catalog"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Настройки применены",
+      "key": "Settings applied"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Отмена импорта",
+      "key": "Cancel import"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Проверьте предварительный просмотр",
+      "key": "Review the preview"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Формат отклонён: нужен JSON Koto schema 1 без дополнительных полей",
+      "key": "Format rejected: Koto schema 1 JSON is required, with no extra fields"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Настройки экспортированы",
+      "key": "Settings exported"
+    },
+    {
+      "file": "Features/Settings/SettingsMigrationView.swift",
+      "source": "Не удалось сохранить настройки",
+      "key": "Unable to save settings"
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Оформление",
+      "key": "Appearance"
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Системная тема следует настройкам macOS.",
+      "key": "The system theme follows macOS settings."
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Приложение",
+      "key": "Application"
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Название",
+      "key": "Name"
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Разработчик",
+      "key": "Developer"
+    },
+    {
+      "file": "Features/Settings/SettingsView.swift",
+      "source": "Версия",
+      "key": "Version"
+    },
+    {
+      "file": "Features/Welcome/MainWindowView.swift",
+      "source": "Перевести выделение",
+      "key": "Translate selection"
+    },
+    {
+      "file": "Features/Welcome/MainWindowView.swift",
+      "source": "Выделите текст в другом приложении и нажмите ⌃⌥⌘T",
+      "key": "Select text in another app and press ⌃⌥⌘T"
+    },
+    {
+      "file": "Features/Welcome/MainWindowView.swift",
+      "source": "Область экрана…",
+      "key": "Screen region…"
+    },
+    {
+      "file": "Features/Welcome/MainWindowView.swift",
+      "source": "Выбрать область с текстом · ⌃⌥⌘R",
+      "key": "Choose a region containing text · ⌃⌥⌘R"
+    },
+    {
+      "file": "Features/Welcome/MainWindowView.swift",
+      "source": "Отменить захват",
+      "key": "Cancel capture"
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Разрешите Koto доступ в «Конфиденциальность и безопасность → Управление устройством и доступ к данным» (на macOS 26 — «Универсальный доступ»), затем повторите команду.",
+      "key": "Allow Koto accessibility access in Privacy & Security, then try again."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Разрешите Koto запись экрана в настройках конфиденциальности macOS, затем повторите команду. Может потребоваться перезапуск Koto.",
+      "key": "Allow Koto to record the screen in macOS privacy settings, then try again. You may need to restart Koto."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Сначала выделите текст в другом приложении.",
+      "key": "First select text in another app."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Приложение не предоставило выделенный текст. Используйте «Службы → Перевести в Koto» в исходном приложении или OCR области.",
+      "key": "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Захват защищённых полей отключён.",
+      "key": "Capturing protected fields is disabled."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Захват отменён.",
+      "key": "Capture cancelled."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Выберите область не меньше 8 × 8 точек в пределах одного экрана.",
+      "key": "Select a region of at least 8 × 8 points within one screen."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "В выбранной области текст не найден.",
+      "key": "No text was found in the selected region."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Не удалось получить содержимое. Повторите действие в исходном приложении.",
+      "key": "Unable to retrieve the content. Try again in the source app."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Буфер обмена или активное приложение изменились. Повторите захват.",
+      "key": "The clipboard or active app changed. Try capturing again."
+    },
+    {
+      "file": "Core/Capture/CaptureModels.swift",
+      "source": "Выделение превышает лимит 20 000 символов.",
+      "key": "The selection exceeds the 20,000-character limit."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Текст слишком длинный. Разделите его на части до 20 000 символов.",
+      "key": "The text is too long. Split it into sections of up to 20,000 characters."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Выберите разные языки источника и перевода.",
+      "key": "Choose different source and target languages."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Не удалось уверенно определить язык. Выберите его вручную.",
+      "key": "Unable to identify the language reliably. Select it manually."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Выбранный движок не поддерживает эту языковую пару.",
+      "key": "The selected engine does not support this language pair."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Языковые ресурсы ещё не установлены.",
+      "key": "Language resources are not installed yet."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Системный перевод сейчас недоступен. Попробуйте обновить список языков.",
+      "key": "System translation is currently unavailable. Try refreshing the language list."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Не удалось выполнить перевод. Повторите попытку.",
+      "key": "Unable to translate. Try again."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Перевод занял слишком много времени. Попробуйте ещё раз.",
+      "key": "Translation took too long. Try again."
+    },
+    {
+      "file": "Core/Translation/TranslationModels.swift",
+      "source": "Перевод отменён.",
+      "key": "Translation cancelled."
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Браузерный мост выключен",
+      "key": "Browser bridge is off"
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Браузерный мост готов",
+      "key": "Browser bridge is ready"
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Не удалось запустить браузерный мост",
+      "key": "Unable to start the browser bridge"
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Запускаем браузерный мост…",
+      "key": "Starting browser bridge…"
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Мост недоступен: проверьте каталог и перезапустите Koto",
+      "key": "Bridge unavailable: check the directory and restart Koto"
+    },
+    {
+      "file": "Services/Browser/BrowserBridgeServer.swift",
+      "source": "Браузерный мост выключен",
+      "key": "Browser bridge is off"
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Сохраните API-ключ выбранного провайдера в настройках.",
+      "key": "Save the selected provider’s API key in Settings."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Проверьте формат API-ключа.",
+      "key": "Check the API key format."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Yandex принимает до 10 000 символов за запрос.",
+      "key": "Yandex accepts up to 10,000 characters per request."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "API-ключ отклонён.",
+      "key": "API key rejected."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Проверьте права ключа и подключение API.",
+      "key": "Check the key permissions and API access."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Квота провайдера исчерпана. Повторите позже.",
+      "key": "Provider quota exhausted. Try again later."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Облачный сервис недоступен (HTTP \\(status)).",
+      "key": "Cloud service unavailable (HTTP %lld)."
+    },
+    {
+      "file": "Services/Cloud/CloudTranslationEngine.swift",
+      "source": "Не удалось связаться с облачным провайдером.",
+      "key": "Unable to connect to the cloud provider."
+    },
+    {
+      "file": "Services/Hotkeys/GlobalHotkeyService.swift",
+      "source": "Не удалось подключить горячие клавиши.",
+      "key": "Unable to register keyboard shortcuts."
+    },
+    {
+      "file": "Services/Hotkeys/GlobalHotkeyService.swift",
+      "source": "Сочетания ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L заняты. Освободите их в другом приложении и повторите включение.",
+      "key": "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again."
+    },
+    {
+      "file": "Services/Local/LocalGenerationService.swift",
+      "source": "Локальная модель не вернула полный ответ. Попробуйте меньший фрагмент.",
+      "key": "The local model did not return a complete response. Try a smaller section."
+    },
+    {
+      "file": "Services/Local/LocalInsightsService.swift",
+      "source": "Пояснение не удалось связать с оригиналом. Ответ отклонён; выберите более короткую фразу.",
+      "key": "The explanation could not be linked to the original text. The response was rejected; choose a shorter phrase."
+    },
+    {
+      "file": "Services/Local/LocalInsightsService.swift",
+      "source": "Для точного пояснения выберите короткую фразу — до 500 символов.",
+      "key": "Choose a short phrase of up to 500 characters for an accurate explanation."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальные ресурсы отсутствуют. Откройте настройки Koto → Локальный перевод → «Установить модель».",
+      "key": "Local resources are missing. Open Koto Settings → Local translation → Install model."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Проверка локальных ресурсов не пройдена. Файл не будет запущен.",
+      "key": "Local resource verification failed. The file will not be launched."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Для этой локальной модели требуется Mac с 8 ГБ памяти или больше.",
+      "key": "This local model requires a Mac with at least 8 GiB of memory."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Не удалось запустить локальный движок.",
+      "key": "Unable to start the local engine."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок не подготовился за 120 секунд.",
+      "key": "The local engine did not become ready within 120 seconds."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок остановлен.",
+      "key": "The local engine stopped."
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок остановлен",
+      "key": "Local engine stopped"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Проверяем целостность локальных ресурсов…",
+      "key": "Verifying local resources…"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок завершён",
+      "key": "Local engine exited"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Загружаем локальную модель…",
+      "key": "Loading local model…"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": " · на этом Mac",
+      "key": " · on this Mac"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок недоступен",
+      "key": "Local engine unavailable"
+    },
+    {
+      "file": "Services/Local/LocalRuntimeSupervisor.swift",
+      "source": "Локальный движок остановлен",
+      "key": "Local engine stopped"
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Qwen · локально",
+      "key": "Qwen · local"
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Локальный движок недоступен.",
+      "key": "Local engine unavailable."
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Один символ содержит слишком много комбинируемых знаков. Разделите или упростите текст.",
+      "key": "A character contains too many combining marks. Split or simplify the text."
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Модель изменила URL или шаблонную переменную. Результат отклонён; попробуйте Apple Translation.",
+      "key": "The model changed a URL or placeholder. The result was rejected; try Apple Translation."
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Модель изменила защищённые элементы текста. Результат отклонён.",
+      "key": "The model changed protected text elements. The result was rejected."
+    },
+    {
+      "file": "Services/Local/LocalTranslationEngine.swift",
+      "source": "Локальный перевод не завершён. Повторите запрос.",
+      "key": "Local translation did not finish. Try again."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Каталог модели повреждён. Переустановите Koto из проверенного пакета.",
+      "key": "The model catalog is damaged. Reinstall Koto from a trusted package."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Сервер модели вернул HTTP \\(status). Повторите установку позже.",
+      "key": "The model server returned HTTP %lld. Try installing again later."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Сервер не вернул полный файл модели. Повторите установку.",
+      "key": "The server did not return the complete model file. Try installing again."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Недостаточно места: для загрузки и проверки модели освободите не менее 5,2 ГБ.",
+      "key": "Not enough disk space: free at least 5.2 GB to download and verify the model."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Каталог модели недоступен или содержит небезопасную ссылку.",
+      "key": "The model directory is inaccessible or contains an unsafe link."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Модель не установлена",
+      "key": "Model not installed"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Модель не установлена",
+      "key": "Model not installed"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Файл модели установлен · целостность проверяется перед запуском",
+      "key": "Model file installed · integrity is verified before launch"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Модель не установлена",
+      "key": "Model not installed"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Загружаем модель…",
+      "key": "Downloading model…"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Проверяем SHA-256 модели…",
+      "key": "Verifying model SHA-256…"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Модель установлена и проверена. Можно переводить локально.",
+      "key": "Model installed and verified. You can now translate locally."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Установка отменена · незавершённый файл удалён",
+      "key": "Installation cancelled · incomplete file removed"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Проверка модели не пройдена. Файл не установлен; повторите загрузку.",
+      "key": "Model verification failed. The file was not installed; download it again."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Не удалось установить модель. Проверьте интернет и повторите попытку.",
+      "key": "Unable to install the model. Check your internet connection and try again."
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Отменяем установку…",
+      "key": "Cancelling installation…"
+    },
+    {
+      "file": "Services/Models/ModelInstallationManager.swift",
+      "source": "Не удалось удалить файл модели. Проверьте доступ к каталогу Koto.",
+      "key": "Unable to remove the model file. Check access to the Koto directory."
+    },
+    {
+      "file": "Services/Product/ProductUtilities.swift",
+      "source": "Установите голос этого языка в macOS",
+      "key": "Install a voice for this language in macOS"
+    },
+    {
+      "file": "Services/Product/ProductUtilities.swift",
+      "source": "Озвучивание запущено",
+      "key": "Speech started"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Не удалось прочитать локальное хранилище. Файл не перезаписан.",
+      "key": "Unable to read local storage. The file was not overwritten."
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Словарь фраз",
+      "key": "Exact phrases"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Память переводов",
+      "key": "Translation memory"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Проверьте фразу и разные языки (до 2000/4000 символов).",
+      "key": "Check the phrase and choose different languages (up to 2,000/4,000 characters)."
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Достигнут предел 200 фраз.",
+      "key": "The limit of 200 phrases has been reached."
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Фраза сохранена",
+      "key": "Phrase saved"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Не удалось сохранить словарь",
+      "key": "Unable to save exact phrases"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Не удалось удалить фразу",
+      "key": "Unable to remove the phrase"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Не удалось сохранить память переводов",
+      "key": "Unable to save translation memory"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Память очищена",
+      "key": "Memory cleared"
+    },
+    {
+      "file": "Services/Product/TranslationStore.swift",
+      "source": "Не удалось очистить файл памяти",
+      "key": "Unable to clear the memory file"
+    },
+    {
+      "file": "Services/Translation/RoutingTranslationEngine.swift",
+      "source": "Qwen · локально",
+      "key": "Qwen · local"
+    },
+    {
+      "file": "Services/Translation/RoutingTranslationEngine.swift",
+      "source": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+      "key": "Cloud sending is disabled for this source. Enable it separately in privacy settings."
+    },
+    {
+      "file": "Services/Translation/RoutingTranslationEngine.swift",
+      "source": "Облачная отправка этого источника выключена.",
+      "key": "Cloud sending for this source is off."
+    },
+    {
+      "file": "Support/ProductInfo.swift",
+      "source": "Версия \\(version) (\\(build))",
+      "key": "Version %@ (%@)"
+    }
+  ],
+  "deferred": [
+    "Chrome stage 5",
+    "Plural/region formatting and model explanation language stage 6"
+  ]
+}

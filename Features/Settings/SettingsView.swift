@@ -1,13 +1,15 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Настройки содержат только реализованное поведение: тема и сведения о текущем приложении.
 struct SettingsView: View {
     let capture: CaptureCoordinator
     var body: some View {
         Form {
-            Section("Оформление") {
+            Section(String(localized: "Appearance")) {
                 AppearancePicker()
-                Text("Системная тема следует настройкам macOS.")
+                Text(String(localized: "The system theme follows macOS settings."))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -16,10 +18,10 @@ struct SettingsView: View {
             BrowserBridgeSettingsView()
             ProductSettingsView()
             SettingsMigrationView(model: capture.manualModel)
-            Section("Приложение") {
-                LabeledContent("Название", value: ProductInfo.name)
-                LabeledContent("Разработчик", value: ProductInfo.developer)
-                LabeledContent("Версия", value: "\(ProductInfo.version) (\(ProductInfo.build))")
+            Section(String(localized: "Application")) {
+                LabeledContent(String(localized: "Name"), value: ProductInfo.name)
+                LabeledContent(String(localized: "Developer"), value: ProductInfo.developer)
+                LabeledContent(String(localized: "Version"), value: "\(ProductInfo.version) (\(ProductInfo.build))")
             }
         }
         .formStyle(.grouped)

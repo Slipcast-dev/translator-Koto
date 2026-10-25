@@ -1,46 +1,49 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 struct LiveTranslationView: View {
     @Bindable var coordinator: LiveTranslationCoordinator
     @Bindable private var engines = EnginePreferences.shared
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("Живой перевод").font(.title2.bold())
+                Text(String(localized: "Live translation")).font(.title2.bold())
                 Spacer()
                 Text(coordinator.regionDescription).foregroundStyle(.secondary)
             }
             HStack {
-                Button("Выбрать область…") { coordinator.chooseRegion() }.buttonStyle(.borderedProminent)
+                Button(String(localized: "Choose region…")) { coordinator.chooseRegion() }.buttonStyle(.borderedProminent)
                 if coordinator.running {
-                    Button("Пауза") { coordinator.pause() }
+                    Button(String(localized: "Pause")) { coordinator.pause() }
                 } else {
-                    Button("Продолжить") { coordinator.resume() }.disabled(!coordinator.hasRegion)
+                    Button(String(localized: "Resume")) { coordinator.resume() }.disabled(!coordinator.hasRegion)
                 }
-                Button("Остановить") { coordinator.stop() }.disabled(!coordinator.hasRegion)
+                Button(String(localized: "Stop")) { coordinator.stop() }.disabled(!coordinator.hasRegion)
                 Spacer()
             }
-            Picker("Движок", selection: $engines.selected) {
+            Picker(String(localized: "Engine"), selection: $engines.selected) {
                 ForEach(TranslationEngineKind.allCases) { Text($0.title).tag($0) }
             }.pickerStyle(.segmented)
             LanguageSelectionView(model: coordinator.model)
             Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
             HStack(alignment: .top, spacing: 18) {
                 ScrollView {
-                    Text(coordinator.model.sourceText.isEmpty ? "Здесь появится распознанный текст" : coordinator.model.sourceText)
+                    Text(coordinator.model.sourceText.isEmpty ? String(localized: "Recognized text will appear here") : coordinator.model.sourceText)
                         .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                        .environment(\.layoutDirection, AppLocalization.isRightToLeft(language: coordinator.model.sourceIdentifier, text: coordinator.model.sourceText) ? .rightToLeft : .leftToRight)
                 }
                 TranslationOutputView(result: coordinator.model.result)
             }.frame(minHeight: 220)
             TranslationStatusView(model: coordinator.model)
             HStack {
-                Text("Кадров: \(coordinator.captures) · Переводов: \(coordinator.translations)")
+                Text(String(localized: "Frames: \(AppLocalization.number(coordinator.captures)) · Translations: \(AppLocalization.number(coordinator.translations))"))
                 if let p50 = coordinator.p50, let p95 = coordinator.p95 {
-                    Text("p50 \(Int(p50)) мс · p95 \(Int(p95)) мс")
+                    Text(String(localized: "p50 \(AppLocalization.number(Int(p50))) ms · p95 \(AppLocalization.number(Int(p95))) ms"))
                 }
                 Spacer()
             }.font(.caption).foregroundStyle(.secondary)
-            Text("Распознаётся только выбранная область. Окна Koto исключены из снимка. Кадры и текст не сохраняются; история метрик ограничена 120 значениями.")
+            Text(String(localized: "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved; metric history is limited to 120 values."))
                 .font(.caption).foregroundStyle(.secondary)
         }
         .padding(24).frame(minWidth: 760, minHeight: 530)

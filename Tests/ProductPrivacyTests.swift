@@ -18,7 +18,7 @@ enum ProductTestError: Error { case assertion(String) }
         try expect(store.memory.isEmpty && !FileManager.default.fileExists(atPath:directory.appendingPathComponent("memory.json").path),"memory opt-out writes no text")
         store.memoryEnabled = true
         store.remember(request,result:result)
-        try expect(store.lookup(request)?.1 == "Память переводов","opt-in memory lookup")
+        try expect(store.lookup(request)?.1 == String(localized: "Translation memory"),"opt-in memory lookup")
         let restored = TranslationStore(directory:directory,defaults:defaults)
         try expect(restored.memory.count == 1,"memory persists privately")
         store.add(input:"cat",output:"кошка",source:"en",target:"ru")

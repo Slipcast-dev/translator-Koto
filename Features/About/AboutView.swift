@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Отдельное окно About содержит продуктовые сведения из подписываемого bundle.
 struct AboutView: View {
     @Environment(\.dismissWindow) private var dismissWindow
@@ -17,13 +19,13 @@ struct AboutView: View {
             Text(ProductInfo.versionDescription)
                 .font(.callout)
                 .foregroundStyle(.secondary)
-            Text("Разработчик: \(ProductInfo.developer)")
+            Text(String(localized: "Developer: \(ProductInfo.developer)"))
                 .font(.headline)
                 .textSelection(.enabled)
             Text(ProductInfo.copyright)
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Button("Закрыть") {
+            Button(String(localized: "Close")) {
                 dismissWindow(id: WindowID.about)
             }
             .keyboardShortcut(.cancelAction)

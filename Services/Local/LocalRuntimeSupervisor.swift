@@ -4,16 +4,18 @@ import CryptoKit
 import Security
 import Darwin
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 enum LocalRuntimeFailure: Error, LocalizedError {
     case missing, corrupt, memory, start, timeout, stopped
     var errorDescription: String? {
         switch self {
-        case .missing: "Локальные ресурсы отсутствуют. Откройте настройки Koto → Локальный перевод → «Установить модель»."
-        case .corrupt: "Проверка локальных ресурсов не пройдена. Файл не будет запущен."
-        case .memory: "Для этой локальной модели требуется Mac с 8 ГБ памяти или больше."
-        case .start: "Не удалось запустить локальный движок."
-        case .timeout: "Локальный движок не подготовился за 120 секунд."
-        case .stopped: "Локальный движок остановлен."
+        case .missing: String(localized: "Local resources are missing. Open Koto Settings → Local translation → Install model.")
+        case .corrupt: String(localized: "Local resource verification failed. The file will not be launched.")
+        case .memory: String(localized: "This local model requires a Mac with at least 8 GiB of memory.")
+        case .start: String(localized: "Unable to start the local engine.")
+        case .timeout: String(localized: "The local engine did not become ready within 120 seconds.")
+        case .stopped: String(localized: "The local engine stopped.")
         }
     }
 }
@@ -75,7 +77,7 @@ final class LocalNoRedirectDelegate: NSObject, URLSessionTaskDelegate, Sendable 
 @MainActor @Observable
 final class LocalRuntimeSupervisor {
     static let shared = LocalRuntimeSupervisor()
-    private(set) var status = "Локальный движок остановлен"
+    private(set) var status = String(localized: "Local engine stopped")
     private(set) var isRunning = false
     @ObservationIgnored private var process: Process?
     @ObservationIgnored private var endpoint: LocalEndpoint?
@@ -110,7 +112,7 @@ final class LocalRuntimeSupervisor {
 
     private func launch(id: UUID) async throws -> LocalEndpoint {
         do {
-            status = "Проверяем целостность локальных ресурсов…"
+            status = String(localized: "Verifying local resources…")
             guard ProcessInfo.processInfo.physicalMemory >= 8 * 1_024 * 1_024 * 1_024 else {
                 throw LocalRuntimeFailure.memory
             }
@@ -169,14 +171,14 @@ final class LocalRuntimeSupervisor {
                     guard let self, self.generation == id else { return }
                     self.isRunning = false
                     self.endpoint = nil
-                    self.status = "Локальный движок завершён"
+                    self.status = String(localized: "Local engine exited")
                     self.cleanupKey()
                 }
             }
             process = child
             try child.run()
             let ready = try LocalEndpoint(port: port, token: token)
-            status = "Загружаем локальную модель…"
+            status = String(localized: "Loading local model…")
             let until = ContinuousClock.now.advanced(by: .seconds(120))
             while ContinuousClock.now < until {
                 try Task.checkCancellation()
@@ -188,14 +190,14 @@ final class LocalRuntimeSupervisor {
                    (response as? HTTPURLResponse)?.statusCode == 200 {
                     endpoint = ready
                     isRunning = true
-                    status = (spec.displayName ?? "Qwen3 4B Instruct 2507") + " · на этом Mac"
+                    status = String(localized: "\(spec.displayName ?? "Qwen3 4B Instruct 2507") · on this Mac")
                     return ready
                 }
                 try await Task.sleep(for: .milliseconds(250))
             }
             throw LocalRuntimeFailure.timeout
         } catch {
-            if generation == id { stop(); status = (error as? LocalRuntimeFailure)?.errorDescription ?? "Локальный движок недоступен" }
+            if generation == id { stop(); status = (error as? LocalRuntimeFailure)?.errorDescription ?? String(localized: "Local engine unavailable") }
             throw error
         }
     }
@@ -208,7 +210,7 @@ final class LocalRuntimeSupervisor {
         process = nil
         endpoint = nil
         isRunning = false
-        status = "Локальный движок остановлен"
+        status = String(localized: "Local engine stopped")
         cleanupKey()
     }
 

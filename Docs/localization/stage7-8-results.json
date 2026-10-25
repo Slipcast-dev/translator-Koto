@@ -1,0 +1,737 @@
+{
+  "date": "2026-10-25",
+  "stage7": "passed_available_environment_with_stated_limits",
+  "stage8": "passed_hfs_package",
+  "native": {
+    "Koto_en_Chrome_ru": [
+      "page",
+      "selection",
+      "clear"
+    ],
+    "Koto_ru_Chrome_en": [
+      "page",
+      "selection",
+      "clear",
+      "cancel"
+    ],
+    "actual_translation": "The cat is sleeping on the chair. → Кошка спит на стуле.",
+    "English_Chrome_language_selection": "macOS application language, removed after test",
+    "original_pair_restored": "en→ru",
+    "test_input_cleared": true,
+    "native_host_registered_for_build": true,
+    "Chrome_language_override_restored": true
+  },
+  "finding": {
+    "severity": "medium",
+    "confidence": "observed_wait; cause_unconfirmed",
+    "behavior": "First browser page request after Koto relaunch stayed Working; cancel, successful manual translation and retry succeeded.",
+    "baseline_reproduction": "3/3 first requests passed",
+    "fixed": false,
+    "static_review": "AppleTranslationEngine unchanged; bridge diff changes localized statuses and typed cloud error mapping, without changing the request startup path. Runtime baseline still required.",
+    "resolution": "not_reproduced_as_defect; no production fix",
+    "current_reproduction": "6/6 first requests passed; native Chrome ru/en first page requests passed without manual translation"
+  },
+  "checks": {
+    "catalog_keys": 269,
+    "catalog_values": 546,
+    "plural_variants": 12,
+    "language_region_cases": 12,
+    "catalog_regression_tests": 9,
+    "browser_logic_tests": 13,
+    "dynamics_checks": 31,
+    "previous_stage6_regression_checks": 124,
+    "first_request_native_host": 9
+  },
+  "package": {
+    "file": "Koto-0.1.0-alpha-11-arm64-preview-localization-hfs.dmg",
+    "sha256": "94d3f29196a8637344c42383510a914c1a0b8153eecfda494ff4bb2d7d3ae2b5",
+    "bytes": 10577836,
+    "signing": "AD HOC PREVIEW",
+    "notarized": false,
+    "model_bundled": false,
+    "optional_model_catalog": {
+      "id": "qwen3-4b-instruct-2507-q4_k_m",
+      "repository": "unsloth/Qwen3-4B-Instruct-2507-GGUF",
+      "revision": "a06e946bb6b655725eafa393f4a9745d460374c9",
+      "filename": "Qwen3-4B-Instruct-2507-Q4_K_M.gguf",
+      "sha256": "3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+      "bytes": 2497281120,
+      "license": "Apache-2.0",
+      "url": "https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/a06e946bb6b655725eafa393f4a9745d460374c9/Qwen3-4B-Instruct-2507-Q4_K_M.gguf",
+      "displayName": "Qwen3 4B Instruct 2507 · Q4_K_M"
+    }
+  },
+  "mounted_HFS_package": {
+    "status": "passed",
+    "localized_tables": 6,
+    "extension_files": 11,
+    "local_document_links": 28,
+    "model_weights": 0,
+    "codesign_deep_strict_exit": 0
+  },
+  "APFS_attempt": {
+    "checksum": "passed",
+    "mounted_read": "hung",
+    "detach": "DiskArbitration timeout",
+    "not_selected_for_delivery": true,
+    "cleanup_exit_code": 0,
+    "cleanup_note": "Final forced detach succeeded (exit 0); both task disk images are detached."
+  },
+  "limits": [
+    "No Qwen generation",
+    "macOS 26 runtime untested",
+    "No independent linguistic review",
+    "No valid signing identity; ad hoc preview, not notarized",
+    "No commit, push or publication"
+  ],
+  "source_sha256": {
+    "script/validate_localization.py": "ae74955cb3dd9c424b7c764e7f7cdb1d5bc06039549d7621e22326c1daf47586",
+    "script/validate_repository.py": "6b1911cd96546f76b14bdbac1c1c913e3f9f4c83264b4695d8322fc53493cb93",
+    "script/verify_localized_package.py": "0221c3eb6cbdc473e98444e3e2feea0f84ee0451fc5db4dc79c715cb2aad626f",
+    "script/package_release.py": "069744c80e2ceb0287535c7c16112ca3dd21cb5ab30ba5360b5e67a00333db6d",
+    "Tests/LocalizationCatalogTests.py": "94a89c4701bc3b2976e7b012cbbe38db5caf2637431218c4e50e830702ff3b3d",
+    ".github/workflows/validate.yml": "4550d34ce2dc14b5f54cfacec2ba8c9d230363dbee4e5c2c193e0dbf2b3a9fdc",
+    "script/test_browser_cold_start.py": "2e2cda9a5c4dabc4a0e30ab3e044944c15c13f59ef5d905392f755bf2db24ea7",
+    "Resources/Distribution/LOCALIZATION.md": "6fcab951156486f312b1bfb8e45733f220b47a9e2c86d360a25740727214b855",
+    "Resources/Distribution/README.ru.txt": "ff2cdcd37a9246eaa906d310c078ccaba5ba4a85b989da172b89f4f53b7763de",
+    "Resources/Distribution/README.en.txt": "4c7da08089710f1dfe1895e9c5f3ec8e28c6666559a12057f942460a72a5fef2"
+  },
+  "final_package_localization": {
+    "status": "passed",
+    "catalog_values_checked": 546,
+    "plural_variants_checked": 12,
+    "cases": [
+      {
+        "preferences": [
+          "ru"
+        ],
+        "language": "ru",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "О Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 ГБ",
+          "captured": [
+            "Захвачено 0 символов. Язык назначения — из главного окна.",
+            "Захвачен 1 символ. Язык назначения — из главного окна.",
+            "Захвачено 2 символа. Язык назначения — из главного окна.",
+            "Захвачено 5 символов. Язык назначения — из главного окна.",
+            "Захвачен 21 символ. Язык назначения — из главного окна.",
+            "Захвачено 22 символа. Язык назначения — из главного окна."
+          ],
+          "clear_memory": [
+            "Очистить память (0 фраз)",
+            "Очистить память (1 фраза)",
+            "Очистить память (2 фразы)",
+            "Очистить память (5 фраз)",
+            "Очистить память (21 фраза)",
+            "Очистить память (22 фразы)"
+          ],
+          "cloud_denied": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Введите текст для перевода.",
+          "formatting_locale": "ru_US",
+          "german_name": "немецкий",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "ru"
+          ],
+          "same_language": "Выберите разные языки источника и перевода.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Перевести в Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en"
+        ],
+        "language": "en",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_US",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "ru-RU"
+        ],
+        "language": "ru",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "О Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 ГБ",
+          "captured": [
+            "Захвачено 0 символов. Язык назначения — из главного окна.",
+            "Захвачен 1 символ. Язык назначения — из главного окна.",
+            "Захвачено 2 символа. Язык назначения — из главного окна.",
+            "Захвачено 5 символов. Язык назначения — из главного окна.",
+            "Захвачен 21 символ. Язык назначения — из главного окна.",
+            "Захвачено 22 символа. Язык назначения — из главного окна."
+          ],
+          "clear_memory": [
+            "Очистить память (0 фраз)",
+            "Очистить память (1 фраза)",
+            "Очистить память (2 фразы)",
+            "Очистить память (5 фраз)",
+            "Очистить память (21 фраза)",
+            "Очистить память (22 фразы)"
+          ],
+          "cloud_denied": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Введите текст для перевода.",
+          "formatting_locale": "ru_US",
+          "german_name": "немецкий",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "ru"
+          ],
+          "same_language": "Выберите разные языки источника и перевода.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Перевести в Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en-GB"
+        ],
+        "language": "en",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_US",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en-US"
+        ],
+        "language": "en",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_US",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "fr-FR"
+        ],
+        "language": "en",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_US",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "fr-FR",
+          "ru-RU"
+        ],
+        "language": "ru",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "О Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 ГБ",
+          "captured": [
+            "Захвачено 0 символов. Язык назначения — из главного окна.",
+            "Захвачен 1 символ. Язык назначения — из главного окна.",
+            "Захвачено 2 символа. Язык назначения — из главного окна.",
+            "Захвачено 5 символов. Язык назначения — из главного окна.",
+            "Захвачен 21 символ. Язык назначения — из главного окна.",
+            "Захвачено 22 символа. Язык назначения — из главного окна."
+          ],
+          "clear_memory": [
+            "Очистить память (0 фраз)",
+            "Очистить память (1 фраза)",
+            "Очистить память (2 фразы)",
+            "Очистить память (5 фраз)",
+            "Очистить память (21 фраза)",
+            "Очистить память (22 фразы)"
+          ],
+          "cloud_denied": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Введите текст для перевода.",
+          "formatting_locale": "ru_US",
+          "german_name": "немецкий",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "ru"
+          ],
+          "same_language": "Выберите разные языки источника и перевода.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Перевести в Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en",
+          "ru"
+        ],
+        "language": "en",
+        "region": "en_US",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2.5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20,000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_US",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1,234,567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en"
+        ],
+        "language": "en",
+        "region": "de_DE",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2,5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20.000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_DE",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1.234.567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "ru"
+        ],
+        "language": "ru",
+        "region": "ru_RU",
+        "status": "passed",
+        "actual": {
+          "about": "О Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2,5 ГБ",
+          "captured": [
+            "Захвачено 0 символов. Язык назначения — из главного окна.",
+            "Захвачен 1 символ. Язык назначения — из главного окна.",
+            "Захвачено 2 символа. Язык назначения — из главного окна.",
+            "Захвачено 5 символов. Язык назначения — из главного окна.",
+            "Захвачен 21 символ. Язык назначения — из главного окна.",
+            "Захвачено 22 символа. Язык назначения — из главного окна."
+          ],
+          "clear_memory": [
+            "Очистить память (0 фраз)",
+            "Очистить память (1 фраза)",
+            "Очистить память (2 фразы)",
+            "Очистить память (5 фраз)",
+            "Очистить память (21 фраза)",
+            "Очистить память (22 фразы)"
+          ],
+          "cloud_denied": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+          "counter": "42 / 20 000",
+          "development": "en",
+          "empty_error": "Введите текст для перевода.",
+          "formatting_locale": "ru_RU",
+          "german_name": "немецкий",
+          "missing_key": "Fallback available",
+          "number": "1 234 567",
+          "preferred": [
+            "ru"
+          ],
+          "same_language": "Выберите разные языки источника и перевода.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Перевести в Koto"
+        }
+      },
+      {
+        "preferences": [
+          "en"
+        ],
+        "language": "en",
+        "region": "ru_RU",
+        "status": "passed",
+        "actual": {
+          "about": "About Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2,5 GB",
+          "captured": [
+            "Captured 0 characters. The target language comes from the main window.",
+            "Captured 1 character. The target language comes from the main window.",
+            "Captured 2 characters. The target language comes from the main window.",
+            "Captured 5 characters. The target language comes from the main window.",
+            "Captured 21 characters. The target language comes from the main window.",
+            "Captured 22 characters. The target language comes from the main window."
+          ],
+          "clear_memory": [
+            "Clear memory (0 phrases)",
+            "Clear memory (1 phrase)",
+            "Clear memory (2 phrases)",
+            "Clear memory (5 phrases)",
+            "Clear memory (21 phrases)",
+            "Clear memory (22 phrases)"
+          ],
+          "cloud_denied": "Cloud sending is disabled for this source. Enable it separately in privacy settings.",
+          "counter": "42 / 20 000",
+          "development": "en",
+          "empty_error": "Enter text to translate.",
+          "formatting_locale": "en_RU",
+          "german_name": "German",
+          "missing_key": "Fallback available",
+          "number": "1 234 567",
+          "preferred": [
+            "en"
+          ],
+          "same_language": "Choose different source and target languages.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Translate in Koto"
+        }
+      },
+      {
+        "preferences": [
+          "ru"
+        ],
+        "language": "ru",
+        "region": "de_DE",
+        "status": "passed",
+        "actual": {
+          "about": "О Koto",
+          "available": [
+            "en",
+            "ru"
+          ],
+          "bytes": "2,5 ГБ",
+          "captured": [
+            "Захвачено 0 символов. Язык назначения — из главного окна.",
+            "Захвачен 1 символ. Язык назначения — из главного окна.",
+            "Захвачено 2 символа. Язык назначения — из главного окна.",
+            "Захвачено 5 символов. Язык назначения — из главного окна.",
+            "Захвачен 21 символ. Язык назначения — из главного окна.",
+            "Захвачено 22 символа. Язык назначения — из главного окна."
+          ],
+          "clear_memory": [
+            "Очистить память (0 фраз)",
+            "Очистить память (1 фраза)",
+            "Очистить память (2 фразы)",
+            "Очистить память (5 фраз)",
+            "Очистить память (21 фраза)",
+            "Очистить память (22 фразы)"
+          ],
+          "cloud_denied": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.",
+          "counter": "42 / 20.000",
+          "development": "en",
+          "empty_error": "Введите текст для перевода.",
+          "formatting_locale": "ru_DE",
+          "german_name": "немецкий",
+          "missing_key": "Fallback available",
+          "number": "1.234.567",
+          "preferred": [
+            "ru"
+          ],
+          "same_language": "Выберите разные языки источника и перевода.",
+          "saved_settings": {
+            "appearance": "dark",
+            "schema": 1,
+            "source": "ar",
+            "target": "en"
+          },
+          "service": "Перевести в Koto"
+        }
+      }
+    ],
+    "compiled_tables": [
+      "Contents/Resources/en.lproj/Localizable.strings",
+      "Contents/Resources/en.lproj/Localizable.stringsdict",
+      "Contents/Resources/ru.lproj/Localizable.strings",
+      "Contents/Resources/ru.lproj/Localizable.stringsdict",
+      "Contents/Resources/en.lproj/ServicesMenu.strings",
+      "Contents/Resources/ru.lproj/ServicesMenu.strings"
+    ],
+    "scope": "Compiled resources, production rules and region/UI independence"
+  },
+  "final_validation": {
+    "repository_source_files": 202,
+    "broken_local_links": 0,
+    "Python_syntax": "passed",
+    "new_Python_line_lengths": "passed",
+    "Swift_and_browser_stage6_sources_unchanged": true,
+    "model_downloads": 0
+  }
+}

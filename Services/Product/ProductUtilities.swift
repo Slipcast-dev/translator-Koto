@@ -3,6 +3,8 @@ import AVFoundation
 import Observation
 import ServiceManagement
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Озвучивание запускается только явной кнопкой, использует установленный голос macOS.
 @MainActor @Observable
 final class SpeechController {
@@ -11,11 +13,11 @@ final class SpeechController {
     private(set) var status = ""
     func speak(_ result: TranslationResult) {
         stop()
-        guard let voice = AVSpeechSynthesisVoice(language: result.target.id) else { status = "Установите голос этого языка в macOS"; return }
+        guard let voice = AVSpeechSynthesisVoice(language: result.target.id) else { status = String(localized: "Install a voice for this language in macOS"); return }
         let utterance = AVSpeechUtterance(string: result.text)
         utterance.voice = voice
         synthesizer.speak(utterance)
-        status = "Озвучивание запущено"
+        status = String(localized: "Speech started")
     }
     func stop() { synthesizer.stopSpeaking(at: .immediate); status = "" }
 }

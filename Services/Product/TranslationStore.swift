@@ -1,6 +1,8 @@
 import Foundation
 import Observation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 struct PhraseRecord: Codable, Identifiable {
     var id = UUID()
     let input: String
@@ -31,7 +33,7 @@ final class TranslationStore {
         do {
             glossary = try load("glossary.json", maximum: 200)
             if memoryEnabled { memory = try load("memory.json", maximum: 500) }
-        } catch { status = "Не удалось прочитать локальное хранилище. Файл не перезаписан." }
+        } catch { status = String(localized: "Unable to read local storage. The file was not overwritten.") }
     }
     private func file(_ name: String) throws -> URL {
         if let directoryOverride { try PrivateStorage.ensureDirectory(directoryOverride); return directoryOverride.appendingPathComponent(name) }
@@ -61,23 +63,23 @@ final class TranslationStore {
         // Автоопределение не подбирает пользовательскую пару наугад.
         guard let source = request.source?.id else { return nil }
         let match: (PhraseRecord) -> Bool = { $0.input == request.text && $0.source == source && $0.target == request.target.id }
-        if let found = glossary.last(where: match) { return (found, "Словарь фраз") }
-        if memoryEnabled, request.context == .manual, let found = memory.last(where: match) { return (found, "Память переводов") }
+        if let found = glossary.last(where: match) { return (found, String(localized: "Exact phrases")) }
+        if memoryEnabled, request.context == .manual, let found = memory.last(where: match) { return (found, String(localized: "Translation memory")) }
         return nil
     }
     func add(input: String, output: String, source: String, target: String) {
         let record = PhraseRecord(input: input, output: output, source: source, target: target)
-        guard valid(record), source != target else { status = "Проверьте фразу и разные языки (до 2000/4000 символов)."; return }
+        guard valid(record), source != target else { status = String(localized: "Check the phrase and choose different languages (up to \(AppLocalization.number(2_000))/\(AppLocalization.number(4_000)) characters)."); return }
         var next = glossary.filter { !($0.input == input && $0.source == source && $0.target == target) }
-        guard next.count < 200 else { status = "Достигнут предел 200 фраз."; return }
+        guard next.count < 200 else { status = String(localized: "The limit of 200 phrases has been reached."); return }
         next.append(record)
-        do { try persist(next, name: "glossary.json"); glossary = next; status = "Фраза сохранена" }
-        catch { status = "Не удалось сохранить словарь" }
+        do { try persist(next, name: "glossary.json"); glossary = next; status = String(localized: "Phrase saved") }
+        catch { status = String(localized: "Unable to save exact phrases") }
     }
     func remove(_ id: UUID) {
         let next = glossary.filter { $0.id != id }
         do { try persist(next, name: "glossary.json"); glossary = next }
-        catch { status = "Не удалось удалить фразу" }
+        catch { status = String(localized: "Unable to remove the phrase") }
     }
     func remember(_ request: TranslationRequest, result: TranslationResult) {
         guard memoryEnabled, request.context == .manual else { return }
@@ -87,11 +89,11 @@ final class TranslationStore {
         next.append(record)
         next = Array(next.suffix(500))
         do { try persist(next, name: "memory.json"); memory = next }
-        catch { status = "Не удалось сохранить память переводов" }
+        catch { status = String(localized: "Unable to save translation memory") }
     }
     func clearMemory() {
-        do { try persist([], name: "memory.json"); memory.removeAll(); status = "Память очищена" }
-        catch { status = "Не удалось очистить файл памяти" }
+        do { try persist([], name: "memory.json"); memory.removeAll(); status = String(localized: "Memory cleared") }
+        catch { status = String(localized: "Unable to clear the memory file") }
     }
 }
 

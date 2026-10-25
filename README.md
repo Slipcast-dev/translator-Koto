@@ -1,15 +1,17 @@
 **Русский** | [English](README.en.md)
 
+Локальная ru/en локализация от 25 октября: [приёмка и ограничения](Docs/LOCALIZATION-ACCEPTANCE.md). Текущий выпуск: **0.1.0-alpha.12**, Chrome **0.1.2**.
+
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 11" src="https://img.shields.io/badge/release-0.1.0--alpha.11-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 12" src="https://img.shields.io/badge/release-0.1.0--alpha.12-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.11/Koto-0.1.0-alpha-11-arm64-preview.dmg)** · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.12/Koto-0.1.0-alpha-12-arm64-preview.dmg)** · [Chrome 0.1.2 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.12/Koto-Chrome-0.1.2.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
-> Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Практические проверки выполнялись на M1 / macOS 27.0.1; macOS 26 ещё не проверена.
+> Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
 ## Возможности
 
@@ -48,7 +50,7 @@ python3 script/package_release.py
 
 ## Проверки и ограничения
 
-Для build 11 прошли 21 state-machine тест, 18 protocol checks, 22 AF_UNIX/native-host интеграции, 3 реальных Apple-перевода, Release-сборка, строгая подпись и проверка DMG без весов. Физические выделение/OCR и реальные Chrome popup сценарии имеют отдельные границы по версиям: [матрица статуса](Docs/STATUS.md), [результаты](Docs/validation/results.json).
+Для build 12 проверяются 546 локализованных значений в 12 сочетаниях языка/региона, 13 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.12.md).
 
 Непостоянная внутренняя причина первоначального отказа Apple framework не установлена. Исправлена обработка отказа в Koto. Live endurance, sleep/wake, macOS 26 и часть внешних интеграций ещё требуют приёмки.
 

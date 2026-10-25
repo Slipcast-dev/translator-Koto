@@ -1,0 +1,24 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Translate in Koto": {
+      "comment": "Команда macOS Services для выделенного текста. Ключ обязан совпадать с NSServices/NSMenuItem/default в Info.plist.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate in Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести в Koto"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

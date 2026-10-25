@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-25",
+  "stage": 5,
+  "status": "passed_implementation_with_stated_test_scope",
+  "environment": {
+    "node": "26.11.1",
+    "Chrome_installed": "155.0.8059.86"
+  },
+  "catalogs": {
+    "en": 37,
+    "ru": 37,
+    "default_locale": "en"
+  },
+  "logic_tests": {
+    "command": "node --experimental-vm-modules --test --test-reporter=tap Tests/BrowserLocalizationTests.mjs",
+    "exit_code": 0,
+    "passed": 11,
+    "failed": 0,
+    "scope": "Production JS in Node VM; Chrome API and DOM boundaries are simulated",
+    "locales": [
+      "en",
+      "ru",
+      "en-GB",
+      "ru-RU",
+      "de-DE"
+    ],
+    "plural_counts": [
+      0,
+      1,
+      2,
+      5,
+      21,
+      22
+    ],
+    "error_codes": 16
+  },
+  "bridge_protocol": {
+    "command": "./script/test_bridge_protocol.sh",
+    "exit_code": 0,
+    "checks": 18,
+    "harness_compiled": true
+  },
+  "syntax_checks": {
+    "files": [
+      "popup.js",
+      "i18n.js",
+      "background.js"
+    ],
+    "exit_code": 0
+  },
+  "native_Chrome": {
+    "method": "CUA accessibility and screenshot",
+    "locale": "ru",
+    "extension_source": "BrowserExtension",
+    "reloaded": true,
+    "observed": [
+      "popup labels",
+      "language names",
+      "stored en→ru pair",
+      "unsupported page error",
+      "cancel result",
+      "readable popup layout"
+    ],
+    "English_native_browser_verified": false,
+    "real_translation_after_stage5_verified": false,
+    "task_tab_closed": true
+  },
+  "compatibility": {
+    "id": "bodbmpckhpjhkkhhadamlbkddaikilok",
+    "identity_and_permissions_unchanged": true,
+    "native_protocol_unchanged": true,
+    "storage_keys": [
+      "source",
+      "target"
+    ],
+    "initial_pair": {
+      "source": "auto",
+      "target": "ru"
+    }
+  },
+  "source_sha256": {
+    "BrowserExtension/_locales/en/messages.json": "af3ec086ec83a30f0f01e4ee5efa64947671dddc2364335f665562247a57092c",
+    "BrowserExtension/_locales/ru/messages.json": "b76b8dcd5e6765fa26f4f1d223534bdab7d05ba781e10072944e207faebf5961",
+    "BrowserExtension/i18n.js": "f188ca4a8496c93efffe7c981d33fd13a52e80514e24999d7d65fdadee7c935e",
+    "BrowserExtension/popup.html": "eaa15d68aed73730feb834ed384d1841dfb32f948b1ad664b58e42545e4802ac",
+    "BrowserExtension/popup.js": "30002ecfd21801c3ce8a360add708a80b26a1781fdab91689096a8efb5069764",
+    "BrowserExtension/background.js": "6a39aca8ef63a4bf68b2dcd8406868b2be755262eedd43f6ee311adc9c08f8b9",
+    "BrowserExtension/manifest.json": "1c833ee3c978b8a62ae27dd0d2c0d45286ebf16d057318badadfda3c1160dfc2",
+    "Tests/BrowserLocalizationTests.mjs": "a2cfceeadd99479c3a72071c9227eab0ae504b0dc705d25d333e9eb87c85a38c"
+  },
+  "limitations": [
+    "Native English Chrome and full real translation flow are stage 7 acceptance checks",
+    "Global regional formatting, RTL and generated explanations remain stage 6",
+    "DMG not rebuilt; no commit, push or publication"
+  ]
+}

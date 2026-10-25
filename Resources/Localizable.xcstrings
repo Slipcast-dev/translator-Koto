@@ -1,0 +1,4902 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ / %@": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / %@"
+          }
+        }
+      }
+    },
+    "%@ · Ready": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · Ready"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · Готов к переводу"
+          }
+        }
+      }
+    },
+    "%@ · on this Mac": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · on this Mac"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · на этом Mac"
+          }
+        }
+      }
+    },
+    "%@ × %@ points": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ × %@ points"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ × %@ точек"
+          }
+        }
+      }
+    },
+    "A character contains too many combining marks. Split or simplify the text.": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A character contains too many combining marks. Split or simplify the text."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Один символ содержит слишком много комбинируемых знаков. Разделите или упростите текст."
+          }
+        }
+      }
+    },
+    "A domain exclusion also covers its subdomains. The bridge receives only the page origin, without the path or query.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A domain exclusion also covers its subdomains. The bridge receives only the page origin, without the path or query."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Домен исключает и его поддомены. Мост получает только origin страницы, без пути и query."
+          }
+        }
+      }
+    },
+    "API key rejected.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API key rejected."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API-ключ отклонён."
+          }
+        }
+      }
+    },
+    "About Koto": {
+      "comment": "Заголовок окна сведений и команда меню, открывающая то же окно. Бренд Koto не переводится.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "О Koto"
+          }
+        }
+      }
+    },
+    "Add phrase": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add phrase"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить фразу"
+          }
+        }
+      }
+    },
+    "After granting access, repeat the original action. Text and images are not saved.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After granting access, repeat the original action. Text and images are not saved."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После выдачи доступа повторите исходную команду. Текст и изображения не сохраняются."
+          }
+        }
+      }
+    },
+    "After installation, model weights are stored only in your Koto user directory. Apple Translation remains available after removing the model. There is no automatic switch to the cloud.": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After installation, model weights are stored only in your Koto user directory. Apple Translation remains available after removing the model. There is no automatic switch to the cloud."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После установки веса хранятся только в пользовательском каталоге Koto. При удалении модели ручной Apple Translation остаётся доступным. Скрытого переключения на облако нет."
+          }
+        }
+      }
+    },
+    "After registration, load the BrowserExtension folder as an unpacked extension at chrome://extensions. Use only the Koto extension with ID %@.": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After registration, load the BrowserExtension folder as an unpacked extension at chrome://extensions. Use only the Koto extension with ID %@."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После регистрации загрузите папку BrowserExtension как распакованное расширение через chrome://extensions. Используйте только расширение Koto с ID %@."
+          }
+        }
+      }
+    },
+    "All three sources are translated locally by default. Excluded apps are blocked for Accessibility capture and excluded from screenshots.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All three sources are translated locally by default. Excluded apps are blocked for Accessibility capture and excluded from screenshots."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По умолчанию все три источника переводятся только локально. Исключённые приложения блокируются для AX и исключаются из снимков."
+          }
+        }
+      }
+    },
+    "Allow Koto accessibility access in Privacy & Security, then try again.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Koto accessibility access in Privacy & Security, then try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите Koto доступ в «Конфиденциальность и безопасность → Управление устройством и доступ к данным» (на macOS 26 — «Универсальный доступ»), затем повторите команду."
+          }
+        }
+      }
+    },
+    "Allow Koto to record the screen in macOS privacy settings, then try again. You may need to restart Koto.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Koto to record the screen in macOS privacy settings, then try again. You may need to restart Koto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите Koto запись экрана в настройках конфиденциальности macOS, затем повторите команду. Может потребоваться перезапуск Koto."
+          }
+        }
+      }
+    },
+    "Allow browser text in the cloud": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow browser text in the cloud"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить текст браузера в облаке"
+          }
+        }
+      }
+    },
+    "Allow live translation in the cloud": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow live translation in the cloud"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить живой перевод в облаке"
+          }
+        }
+      }
+    },
+    "Allow selection and OCR in the cloud": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow selection and OCR in the cloud"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить выделение и OCR в облаке"
+          }
+        }
+      }
+    },
+    "Alternative: choose Services → Translate in Koto in the source app. The system service passes only selected text and does not change the clipboard.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternative: choose Services → Translate in Koto in the source app. The system service passes only selected text and does not change the clipboard."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Резервный путь: в исходном приложении выберите «Службы → Перевести в Koto». Системная служба передаёт только выбранный текст и не меняет общий буфер обмена."
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оформление"
+          }
+        }
+      }
+    },
+    "Apple will offer to download language resources. An internet connection is needed for the download; translation runs on your Mac after installation.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguagePreparationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple will offer to download language resources. An internet connection is needed for the download; translation runs on your Mac after installation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple предложит загрузить языковые ресурсы. Для загрузки нужен интернет; после установки перевод выполняется на Mac."
+          }
+        }
+      }
+    },
+    "Application": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение"
+          }
+        }
+      }
+    },
+    "Applies only to an exact match of the entire phrase and an explicitly selected language pair.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies only to an exact match of the entire phrase and an explicitly selected language pair."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применяется при точном совпадении всей фразы и явно выбранной пары языков."
+          }
+        }
+      }
+    },
+    "Apply previewed settings": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply previewed settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применить показанные настройки"
+          }
+        }
+      }
+    },
+    "Bridge unavailable: check the directory and restart Koto": {
+      "comment": "Пользовательская строка: Services/Browser/BrowserBridgeServer.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bridge unavailable: check the directory and restart Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мост недоступен: проверьте каталог и перезапустите Koto"
+          }
+        }
+      }
+    },
+    "Browser bridge is off": {
+      "comment": "Пользовательская строка: Services/Browser/BrowserBridgeServer.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser bridge is off"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузерный мост выключен"
+          }
+        }
+      }
+    },
+    "Browser bridge is ready": {
+      "comment": "Пользовательская строка: Services/Browser/BrowserBridgeServer.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browser bridge is ready"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузерный мост готов"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить"
+          }
+        }
+      }
+    },
+    "Cancel capture": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel capture"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить захват"
+          }
+        }
+      }
+    },
+    "Cancel import": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel import"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отмена импорта"
+          }
+        }
+      }
+    },
+    "Cancel installation": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel installation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить установку"
+          }
+        }
+      }
+    },
+    "Cancelling installation…": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelling installation…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменяем установку…"
+          }
+        }
+      }
+    },
+    "Capture cancelled.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift, Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture cancelled."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Захват отменён."
+          }
+        }
+      }
+    },
+    "Capture did not finish within 60 seconds. Try again.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture did not finish within 60 seconds. Try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Захват не завершился за 60 секунд. Повторите действие."
+          }
+        }
+      }
+    },
+    "Capture privacy": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture privacy"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приватность захвата"
+          }
+        }
+      }
+    },
+    "Captured %lld characters. The target language comes from the main window.": {
+      "comment": "Целое количество; формы множественного числа выбирает системный каталог.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Captured %lld character. The target language comes from the main window."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Captured %lld characters. The target language comes from the main window."
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Захвачен %lld символ. Язык назначения — из главного окна."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Захвачено %lld символа. Язык назначения — из главного окна."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Захвачено %lld символов. Язык назначения — из главного окна."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Захвачено %lld символа. Язык назначения — из главного окна."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Capturing protected fields is disabled.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturing protected fields is disabled."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Захват защищённых полей отключён."
+          }
+        }
+      }
+    },
+    "Check": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить"
+          }
+        }
+      }
+    },
+    "Check permissions": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check permissions"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить разрешения"
+          }
+        }
+      }
+    },
+    "Check the API key format.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the API key format."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте формат API-ключа."
+          }
+        }
+      }
+    },
+    "Check the key permissions and API access.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the key permissions and API access."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте права ключа и подключение API."
+          }
+        }
+      }
+    },
+    "Check the phrase and choose different languages (up to %@/%@ characters).": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the phrase and choose different languages (up to %@/%@ characters)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте фразу и разные языки (до %@/%@ символов)."
+          }
+        }
+      }
+    },
+    "Checking language resources…": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking language resources…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяем языковые ресурсы…"
+          }
+        }
+      }
+    },
+    "Choose a phrase of up to 500 characters for an explanation.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a phrase of up to 500 characters for an explanation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для пояснения выберите фразу до 500 символов."
+          }
+        }
+      }
+    },
+    "Choose a region containing text · ⌃⌥⌘R": {
+      "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a region containing text · ⌃⌥⌘R"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать область с текстом · ⌃⌥⌘R"
+          }
+        }
+      }
+    },
+    "Choose a screen region for live translation": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a screen region for live translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите область экрана для живого перевода"
+          }
+        }
+      }
+    },
+    "Choose a short phrase of up to 500 characters for an accurate explanation.": {
+      "comment": "Пользовательская строка: Services/Local/LocalInsightsService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a short phrase of up to 500 characters for an accurate explanation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для точного пояснения выберите короткую фразу — до 500 символов."
+          }
+        }
+      }
+    },
+    "Choose different source and target languages.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose different source and target languages."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите разные языки источника и перевода."
+          }
+        }
+      }
+    },
+    "Choose region…": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose region…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать область…"
+          }
+        }
+      }
+    },
+    "Chromium browser": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chromium browser"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузер Chromium"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить"
+          }
+        }
+      }
+    },
+    "Clear memory (%lld)": {
+      "comment": "Целое количество; формы множественного числа выбирает системный каталог.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Clear memory (%lld phrase)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Clear memory (%lld phrases)"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Очистить память (%lld фраза)"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Очистить память (%lld фразы)"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Очистить память (%lld фраз)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Очистить память (%lld фразы)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Close": {
+      "comment": "Пользовательская строка: Features/About/AboutView.swift, Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть"
+          }
+        }
+      }
+    },
+    "Cloud sending is disabled for this source. Enable it separately in privacy settings.": {
+      "comment": "Пользовательская строка: Services/Translation/RoutingTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud sending is disabled for this source. Enable it separately in privacy settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности."
+          }
+        }
+      }
+    },
+    "Cloud service unavailable (HTTP %lld).": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud service unavailable (HTTP %lld)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облачный сервис недоступен (HTTP %lld)."
+          }
+        }
+      }
+    },
+    "Cloud translation": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облачный перевод"
+          }
+        }
+      }
+    },
+    "Complete authorization in macOS Settings": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete authorization in macOS Settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершите разрешение в настройках macOS"
+          }
+        }
+      }
+    },
+    "Copied": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировано"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копировать"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "comment": "Пользовательская строка: Features/Settings/AppAppearance.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тёмная"
+          }
+        }
+      }
+    },
+    "Detect language": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguageSelectionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detect language"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Определить язык"
+          }
+        }
+      }
+    },
+    "Developer": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developer"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разработчик"
+          }
+        }
+      }
+    },
+    "Developer: %@": {
+      "comment": "Пользовательская строка: Features/About/AboutView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developer: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разработчик: %@"
+          }
+        }
+      }
+    },
+    "Done · %@": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово · %@"
+          }
+        }
+      }
+    },
+    "Downloading model…": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading model…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаем модель…"
+          }
+        }
+      }
+    },
+    "Enable browser bridge": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable browser bridge"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить браузерный мост"
+          }
+        }
+      }
+    },
+    "Engine": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift, Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Движок"
+          }
+        }
+      }
+    },
+    "Enter text to translate": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationInputView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter text to translate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите текст для перевода"
+          }
+        }
+      }
+    },
+    "Enter text to translate.": {
+      "comment": "Ошибка пустого или пробельного ввода перед запросом перевода.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter text to translate."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите текст для перевода."
+          }
+        }
+      }
+    },
+    "Exact phrases": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exact phrases"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Точные фразы"
+          }
+        }
+      }
+    },
+    "Excluded browser domains": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluded browser domains"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исключённые домены браузера"
+          }
+        }
+      }
+    },
+    "Excluded bundle IDs, one per line": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluded bundle IDs, one per line"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bundle ID исключений, по одному в строке"
+          }
+        }
+      }
+    },
+    "Explain": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explain"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объяснить"
+          }
+        }
+      }
+    },
+    "Explanation and alternatives · local": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explanation and alternatives · local"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объяснение и варианты · локально"
+          }
+        }
+      }
+    },
+    "Explanations and alternatives may contain errors. Text is processed on this Mac.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explanations and alternatives may contain errors. Text is processed on this Mac."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объяснения и варианты могут содержать ошибки. Текст обрабатывается на этом Mac."
+          }
+        }
+      }
+    },
+    "Export diagnostics…": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export diagnostics…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспортировать диагностику…"
+          }
+        }
+      }
+    },
+    "Export…": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт…"
+          }
+        }
+      }
+    },
+    "First select text in another app.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First select text in another app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сначала выделите текст в другом приложении."
+          }
+        }
+      }
+    },
+    "Format rejected: Koto schema 1 JSON is required, with no extra fields": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format rejected: Koto schema 1 JSON is required, with no extra fields"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Формат отклонён: нужен JSON Koto schema 1 без дополнительных полей"
+          }
+        }
+      }
+    },
+    "Frames: %@ · Translations: %@": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frames: %@ · Translations: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кадров: %@ · Переводов: %@"
+          }
+        }
+      }
+    },
+    "From": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguageSelectionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "С языка"
+          }
+        }
+      }
+    },
+    "Global keyboard shortcuts": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global keyboard shortcuts"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Глобальные горячие клавиши"
+          }
+        }
+      }
+    },
+    "Install a voice for this language in macOS": {
+      "comment": "Пользовательская строка: Services/Product/ProductUtilities.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install a voice for this language in macOS"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установите голос этого языка в macOS"
+          }
+        }
+      }
+    },
+    "Install model": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install model"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установить модель"
+          }
+        }
+      }
+    },
+    "Install this model for local translation: %@, Apache 2.0. A Mac with 8 GiB of memory is required. The model is not included in the app or installer.": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install this model for local translation: %@, Apache 2.0. A Mac with 8 GiB of memory is required. The model is not included in the app or installer."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для локального перевода установите эту модель: %@, Apache 2.0. Нужен Mac с 8 ГиБ памяти. Модель не входит в приложение и установщик."
+          }
+        }
+      }
+    },
+    "Installation cancelled · incomplete file removed": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation cancelled · incomplete file removed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка отменена · незавершённый файл удалён"
+          }
+        }
+      }
+    },
+    "Key provider": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key provider"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Провайдер ключа"
+          }
+        }
+      }
+    },
+    "Key removed": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key removed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ключ удалён"
+          }
+        }
+      }
+    },
+    "Key saved to Keychain": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key saved to Keychain"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ключ сохранён в Keychain"
+          }
+        }
+      }
+    },
+    "Koto Settings": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto Settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки Koto"
+          }
+        }
+      }
+    },
+    "Koto · Quick translation": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto · Quick translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto · Быстрый перевод"
+          }
+        }
+      }
+    },
+    "Language preparation": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguagePreparationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language preparation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовка языков"
+          }
+        }
+      }
+    },
+    "Language resources are not installed yet.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language resources are not installed yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Языковые ресурсы ещё не установлены."
+          }
+        }
+      }
+    },
+    "Launch at login": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch at login"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запускать при входе"
+          }
+        }
+      }
+    },
+    "License": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лицензия"
+          }
+        }
+      }
+    },
+    "Light": {
+      "comment": "Пользовательская строка: Features/Settings/AppAppearance.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Светлая"
+          }
+        }
+      }
+    },
+    "Live capture stopped after an error": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live capture stopped after an error"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой захват остановлен после ошибки"
+          }
+        }
+      }
+    },
+    "Live translation": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод"
+          }
+        }
+      }
+    },
+    "Live translation paused": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation paused"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод приостановлен"
+          }
+        }
+      }
+    },
+    "Live translation stopped": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation stopped"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод остановлен"
+          }
+        }
+      }
+    },
+    "Live translation — Koto": {
+      "comment": "Пользовательская строка: App/KotoApp.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation — Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод — Koto"
+          }
+        }
+      }
+    },
+    "Live translation…  ⌃⌥⌘L": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation…  ⌃⌥⌘L"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод…  ⌃⌥⌘L"
+          }
+        }
+      }
+    },
+    "Loading local model…": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading local model…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаем локальную модель…"
+          }
+        }
+      }
+    },
+    "Loading…": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguageSelectionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузка…"
+          }
+        }
+      }
+    },
+    "Local engine exited": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local engine exited"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок завершён"
+          }
+        }
+      }
+    },
+    "Local engine stopped": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local engine stopped"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок остановлен"
+          }
+        }
+      }
+    },
+    "Local engine unavailable": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local engine unavailable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок недоступен"
+          }
+        }
+      }
+    },
+    "Local engine unavailable.": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local engine unavailable."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок недоступен."
+          }
+        }
+      }
+    },
+    "Local resource verification failed. The file will not be launched.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local resource verification failed. The file will not be launched."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка локальных ресурсов не пройдена. Файл не будет запущен."
+          }
+        }
+      }
+    },
+    "Local resources are missing. Open Koto Settings → Local translation → Install model.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local resources are missing. Open Koto Settings → Local translation → Install model."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальные ресурсы отсутствуют. Откройте настройки Koto → Локальный перевод → «Установить модель»."
+          }
+        }
+      }
+    },
+    "Local resources are unavailable.": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local resources are unavailable."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальные ресурсы недоступны."
+          }
+        }
+      }
+    },
+    "Local translation": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный перевод"
+          }
+        }
+      }
+    },
+    "Local translation did not finish. Try again.": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local translation did not finish. Try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный перевод не завершён. Повторите запрос."
+          }
+        }
+      }
+    },
+    "Login setting updated": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Login setting updated"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автозапуск обновлён"
+          }
+        }
+      }
+    },
+    "Manual text is sent to the selected Google/Yandex Cloud provider when you click Translate. Your provider account determines pricing and quotas.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual text is sent to the selected Google/Yandex Cloud provider when you click Translate. Your provider account determines pricing and quotas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ручной текст отправляется выбранному Google/Yandex Cloud по кнопке «Перевести». Тариф и квоту определяет ваш аккаунт провайдера."
+          }
+        }
+      }
+    },
+    "Manual translation memory is enabled in Settings.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual translation memory is enabled in Settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память ручных переводов включена в настройках."
+          }
+        }
+      }
+    },
+    "Meaning and expressions · Qwen": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meaning and expressions · Qwen"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смысл и выражения · Qwen"
+          }
+        }
+      }
+    },
+    "Meaning, expressions and translation alternatives: up to 500 characters": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meaning, expressions and translation alternatives: up to 500 characters"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смысл, выражения и варианты перевода: до 500 символов"
+          }
+        }
+      }
+    },
+    "Memory and system": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memory and system"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память и система"
+          }
+        }
+      }
+    },
+    "Memory cleared": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memory cleared"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память очищена"
+          }
+        }
+      }
+    },
+    "Model file installed · integrity is verified before launch": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model file installed · integrity is verified before launch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл модели установлен · целостность проверяется перед запуском"
+          }
+        }
+      }
+    },
+    "Model installed and verified. You can now translate locally.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model installed and verified. You can now translate locally."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель установлена и проверена. Можно переводить локально."
+          }
+        }
+      }
+    },
+    "Model not installed": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model not installed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель не установлена"
+          }
+        }
+      }
+    },
+    "Model verification failed. The file was not installed; download it again.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model verification failed. The file was not installed; download it again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка модели не пройдена. Файл не установлен; повторите загрузку."
+          }
+        }
+      }
+    },
+    "Name": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Название"
+          }
+        }
+      }
+    },
+    "Native host registered for this copy of Koto.": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native host registered for this copy of Koto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native host зарегистрирован для текущей копии Koto."
+          }
+        }
+      }
+    },
+    "New API key": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New API key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новый API-ключ"
+          }
+        }
+      }
+    },
+    "No region selected": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No region selected"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Область не выбрана"
+          }
+        }
+      }
+    },
+    "No text in the region yet": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No text in the region yet"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В области пока нет текста"
+          }
+        }
+      }
+    },
+    "No text was found in the selected region.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No text was found in the selected region."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В выбранной области текст не найден."
+          }
+        }
+      }
+    },
+    "Not enough disk space to download and verify the model.": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not enough disk space to download and verify the model."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Недостаточно места для загрузки и проверки модели."
+          }
+        }
+      }
+    },
+    "Not enough disk space: free at least %@ to download and verify the model.": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not enough disk space: free at least %@ to download and verify the model."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Недостаточно места: для загрузки и проверки модели освободите не менее %@."
+          }
+        }
+      }
+    },
+    "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved; metric history is limited to 120 values.": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved; metric history is limited to 120 values."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Распознаётся только выбранная область. Окна Koto исключены из снимка. Кадры и текст не сохраняются; история метрик ограничена 120 значениями."
+          }
+        }
+      }
+    },
+    "Only the theme and languages from Koto JSON are transferred. Keys, TCC permissions, history and Lingo files are not imported.": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the theme and languages from Koto JSON are transferred. Keys, TCC permissions, history and Lingo files are not imported."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переносятся только тема и языки из JSON Koto. Ключи, TCC, история и файлы Lingo не импортируются."
+          }
+        }
+      }
+    },
+    "Open Koto": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть Koto"
+          }
+        }
+      }
+    },
+    "Open in window": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open in window"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В окно"
+          }
+        }
+      }
+    },
+    "Pause": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пауза"
+          }
+        }
+      }
+    },
+    "Phrase saved": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phrase saved"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фраза сохранена"
+          }
+        }
+      }
+    },
+    "Prepare languages": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare languages"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовить языки"
+          }
+        }
+      }
+    },
+    "Prepare languages for this pair.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare languages for this pair."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этой пары нужно подготовить языки."
+          }
+        }
+      }
+    },
+    "Provider quota exhausted. Try again later.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provider quota exhausted. Try again later."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Квота провайдера исчерпана. Повторите позже."
+          }
+        }
+      }
+    },
+    "Quit Koto": {
+      "comment": "Пользовательская строка: App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выйти из Koto"
+          }
+        }
+      }
+    },
+    "Qwen · local": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift, Services/Translation/RoutingTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qwen · local"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qwen · локально"
+          }
+        }
+      }
+    },
+    "Read JSON…": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read JSON…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочитать JSON…"
+          }
+        }
+      }
+    },
+    "Reading selected text…": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading selected text…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Читаем выделенный текст…"
+          }
+        }
+      }
+    },
+    "Ready · translation runs again only when the text changes": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready · translation runs again only when the text changes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово · повторный перевод запускается только при изменении текста"
+          }
+        }
+      }
+    },
+    "Received selected text through macOS Services…": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Received selected text through macOS Services…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Получено выделение через Службы macOS…"
+          }
+        }
+      }
+    },
+    "Recognized text will appear here": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognized text will appear here"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Здесь появится распознанный текст"
+          }
+        }
+      }
+    },
+    "Recognizing text on this Mac…": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognizing text on this Mac…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Распознаём текст на Mac…"
+          }
+        }
+      }
+    },
+    "Register native host for Chrome": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Register native host for Chrome"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарегистрировать native host для Chrome"
+          }
+        }
+      }
+    },
+    "Reinstall model": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reinstall model"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переустановить модель"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить"
+          }
+        }
+      }
+    },
+    "Remove key": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить ключ"
+          }
+        }
+      }
+    },
+    "Remove model": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove model"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить модель"
+          }
+        }
+      }
+    },
+    "Resume": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить"
+          }
+        }
+      }
+    },
+    "Review the preview": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review the preview"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте предварительный просмотр"
+          }
+        }
+      }
+    },
+    "Save manual translations on this Mac": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save manual translations on this Mac"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранять ручные переводы на этом Mac"
+          }
+        }
+      }
+    },
+    "Save the selected provider’s API key in Settings.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save the selected provider’s API key in Settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохраните API-ключ выбранного провайдера в настройках."
+          }
+        }
+      }
+    },
+    "Save to Keychain": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save to Keychain"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить в Keychain"
+          }
+        }
+      }
+    },
+    "Screen access": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen access"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступ к экрану"
+          }
+        }
+      }
+    },
+    "Screen region…": {
+      "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen region…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Область экрана…"
+          }
+        }
+      }
+    },
+    "Select a region containing text · Esc to cancel": {
+      "comment": "Пользовательская строка: Features/Capture/RegionSelector.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a region containing text · Esc to cancel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделите область с текстом · Esc — отмена"
+          }
+        }
+      }
+    },
+    "Select a region containing text. Press Esc to cancel.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a region containing text. Press Esc to cancel."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделите область с текстом. Esc — отмена."
+          }
+        }
+      }
+    },
+    "Select a region of at least 8 × 8 points within one screen.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a region of at least 8 × 8 points within one screen."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите область не меньше 8 × 8 точек в пределах одного экрана."
+          }
+        }
+      }
+    },
+    "Select text in another app and press ⌃⌥⌘T": {
+      "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select text in another app and press ⌃⌥⌘T"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделите текст в другом приложении и нажмите ⌃⌥⌘T"
+          }
+        }
+      }
+    },
+    "Selection access": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection access"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступ к выделению"
+          }
+        }
+      }
+    },
+    "Selection: %@ · Screen: %@": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection: %@ · Screen: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделение: %@ · Экран: %@"
+          }
+        }
+      }
+    },
+    "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделение: ⌃⌥⌘T\nОбласть экрана: ⌃⌥⌘R"
+          }
+        }
+      }
+    },
+    "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделение: ⌃⌥⌘T · Область: ⌃⌥⌘R"
+          }
+        }
+      }
+    },
+    "Settings applied": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings applied"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки применены"
+          }
+        }
+      }
+    },
+    "Settings exported": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings exported"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки экспортированы"
+          }
+        }
+      }
+    },
+    "Settings…": {
+      "comment": "Пользовательская строка: App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки…"
+          }
+        }
+      }
+    },
+    "Source phrase": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source phrase"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходная фраза"
+          }
+        }
+      }
+    },
+    "Source text": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationInputView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source text"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходный текст"
+          }
+        }
+      }
+    },
+    "Source: en": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source: en"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник: en"
+          }
+        }
+      }
+    },
+    "Speak": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speak"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Озвучить"
+          }
+        }
+      }
+    },
+    "Speech started": {
+      "comment": "Пользовательская строка: Services/Product/ProductUtilities.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech started"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Озвучивание запущено"
+          }
+        }
+      }
+    },
+    "Start": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запустить"
+          }
+        }
+      }
+    },
+    "Starting browser bridge…": {
+      "comment": "Пользовательская строка: Services/Browser/BrowserBridgeServer.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting browser bridge…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запускаем браузерный мост…"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationView.swift, Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить"
+          }
+        }
+      }
+    },
+    "Swap languages": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguageSelectionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap languages"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поменять языки местами"
+          }
+        }
+      }
+    },
+    "System": {
+      "comment": "Пользовательская строка: Features/Settings/AppAppearance.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системная"
+          }
+        }
+      }
+    },
+    "System translation is currently unavailable. Try refreshing the language list.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System translation is currently unavailable. Try refreshing the language list."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системный перевод сейчас недоступен. Попробуйте обновить список языков."
+          }
+        }
+      }
+    },
+    "Target: ru": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Target: ru"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод: ru"
+          }
+        }
+      }
+    },
+    "Text translation": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод текста"
+          }
+        }
+      }
+    },
+    "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение не предоставило выделенный текст. Используйте «Службы → Перевести в Koto» в исходном приложении или OCR области."
+          }
+        }
+      }
+    },
+    "The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection.": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мост принимает только собственное расширение, работает через локальный Unix socket и требует аутентификацию для каждого подключения."
+          }
+        }
+      }
+    },
+    "The clipboard or active app changed. Try capturing again.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The clipboard or active app changed. Try capturing again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Буфер обмена или активное приложение изменились. Повторите захват."
+          }
+        }
+      }
+    },
+    "The engine changed. Click Resume to continue capturing.": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The engine changed. Click Resume to continue capturing."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Движок изменён. Нажмите «Продолжить», чтобы возобновить захват."
+          }
+        }
+      }
+    },
+    "The explanation could not be linked to the original text. The response was rejected; choose a shorter phrase.": {
+      "comment": "Пользовательская строка: Services/Local/LocalInsightsService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The explanation could not be linked to the original text. The response was rejected; choose a shorter phrase."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пояснение не удалось связать с оригиналом. Ответ отклонён; выберите более короткую фразу."
+          }
+        }
+      }
+    },
+    "The limit of 200 phrases has been reached.": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The limit of 200 phrases has been reached."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Достигнут предел 200 фраз."
+          }
+        }
+      }
+    },
+    "The local engine did not become ready within 120 seconds.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The local engine did not become ready within 120 seconds."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок не подготовился за 120 секунд."
+          }
+        }
+      }
+    },
+    "The local engine stopped.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The local engine stopped."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальный движок остановлен."
+          }
+        }
+      }
+    },
+    "The local explanation did not finish. Check the Qwen resources and try again.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The local explanation did not finish. Check the Qwen resources and try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальное пояснение не завершено. Проверьте ресурсы Qwen и повторите запрос."
+          }
+        }
+      }
+    },
+    "The local model did not return a complete response. Try a smaller section.": {
+      "comment": "Пользовательская строка: Services/Local/LocalGenerationService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The local model did not return a complete response. Try a smaller section."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локальная модель не вернула полный ответ. Попробуйте меньший фрагмент."
+          }
+        }
+      }
+    },
+    "The model catalog is damaged. Reinstall Koto from a trusted package.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model catalog is damaged. Reinstall Koto from a trusted package."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Каталог модели повреждён. Переустановите Koto из проверенного пакета."
+          }
+        }
+      }
+    },
+    "The model changed a URL or placeholder. The result was rejected; try Apple Translation.": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model changed a URL or placeholder. The result was rejected; try Apple Translation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель изменила URL или шаблонную переменную. Результат отклонён; попробуйте Apple Translation."
+          }
+        }
+      }
+    },
+    "The model changed protected text elements. The result was rejected.": {
+      "comment": "Пользовательская строка: Services/Local/LocalTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model changed protected text elements. The result was rejected."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель изменила защищённые элементы текста. Результат отклонён."
+          }
+        }
+      }
+    },
+    "The model directory is inaccessible or contains an unsafe link.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model directory is inaccessible or contains an unsafe link."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Каталог модели недоступен или содержит небезопасную ссылку."
+          }
+        }
+      }
+    },
+    "The model server returned HTTP %lld. Try installing again later.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model server returned HTTP %lld. Try installing again later."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервер модели вернул HTTP %lld. Повторите установку позже."
+          }
+        }
+      }
+    },
+    "The selected engine does not support this language pair.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected engine does not support this language pair."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбранный движок не поддерживает эту языковую пару."
+          }
+        }
+      }
+    },
+    "The selection exceeds the %@-character limit.": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selection exceeds the %@-character limit."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделение превышает лимит %@ символов."
+          }
+        }
+      }
+    },
+    "The server did not return the complete model file. Try installing again.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server did not return the complete model file. Try installing again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервер не вернул полный файл модели. Повторите установку."
+          }
+        }
+      }
+    },
+    "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again.": {
+      "comment": "Пользовательская строка: Services/Hotkeys/GlobalHotkeyService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L заняты. Освободите их в другом приложении и повторите включение."
+          }
+        }
+      }
+    },
+    "The system theme follows macOS settings.": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The system theme follows macOS settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системная тема следует настройкам macOS."
+          }
+        }
+      }
+    },
+    "The text is too long. Split it into sections of up to %@ characters.": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The text is too long. Split it into sections of up to %@ characters."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текст слишком длинный. Разделите его на части до %@ символов."
+          }
+        }
+      }
+    },
+    "Theme": {
+      "comment": "Пользовательская строка: Features/Settings/AppearancePicker.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема"
+          }
+        }
+      }
+    },
+    "Theme: %@; languages: %@ → %@": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme: %@; languages: %@ → %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тема: %@; языки: %@ → %@"
+          }
+        }
+      }
+    },
+    "These permissions are not required for manual translation. You may need to restart Koto after changing access.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These permissions are not required for manual translation. You may need to restart Koto after changing access."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для ручного перевода эти разрешения не нужны. После изменения доступа может потребоваться перезапуск Koto."
+          }
+        }
+      }
+    },
+    "This app is excluded in privacy settings": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app is excluded in privacy settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение исключено в настройках приватности"
+          }
+        }
+      }
+    },
+    "This local model requires a Mac with at least 8 GiB of memory.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This local model requires a Mac with at least 8 GiB of memory."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этой локальной модели требуется Mac с 8 ГиБ памяти или больше."
+          }
+        }
+      }
+    },
+    "This pair is not in the current engine’s catalog": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This pair is not in the current engine’s catalog"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пара отсутствует в каталоге текущего движка"
+          }
+        }
+      }
+    },
+    "This source is excluded in privacy settings": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This source is excluded in privacy settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник исключён в настройках приватности"
+          }
+        }
+      }
+    },
+    "To": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LanguageSelectionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На язык"
+          }
+        }
+      }
+    },
+    "Transfer settings": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfer settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перенос настроек"
+          }
+        }
+      }
+    },
+    "Translate": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести"
+          }
+        }
+      }
+    },
+    "Translate from other apps": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate from other apps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод из других приложений"
+          }
+        }
+      }
+    },
+    "Translate screen region…  ⌃⌥⌘R": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate screen region…  ⌃⌥⌘R"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести область…  ⌃⌥⌘R"
+          }
+        }
+      }
+    },
+    "Translate selection": {
+      "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate selection"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести выделение"
+          }
+        }
+      }
+    },
+    "Translate selection  ⌃⌥⌘T": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate selection  ⌃⌥⌘T"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести выделение  ⌃⌥⌘T"
+          }
+        }
+      }
+    },
+    "Translating…": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translating…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переводим…"
+          }
+        }
+      }
+    },
+    "Translation": {
+      "comment": "Пользовательская строка: App/KotoCommands.swift, Features/ManualTranslation/TranslationOutputView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод"
+          }
+        }
+      }
+    },
+    "Translation alternatives": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/LocalInsightsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation alternatives"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Варианты перевода"
+          }
+        }
+      }
+    },
+    "Translation cancelled.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift, Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation cancelled."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод отменён."
+          }
+        }
+      }
+    },
+    "Translation error.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation error."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ошибка перевода."
+          }
+        }
+      }
+    },
+    "Translation memory": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation memory"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память переводов"
+          }
+        }
+      }
+    },
+    "Translation memory is off.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation memory is off."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память переводов выключена."
+          }
+        }
+      }
+    },
+    "Translation took too long. Try again.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation took too long. Try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод занял слишком много времени. Попробуйте ещё раз."
+          }
+        }
+      }
+    },
+    "Try again": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Unable to capture text.": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to capture text."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось выполнить захват."
+          }
+        }
+      }
+    },
+    "Unable to change launch at login. Check macOS Settings.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to change launch at login. Check macOS Settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось изменить автозапуск. Проверьте настройки macOS."
+          }
+        }
+      }
+    },
+    "Unable to clear the memory file": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to clear the memory file"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось очистить файл памяти"
+          }
+        }
+      }
+    },
+    "Unable to connect to the cloud provider.": {
+      "comment": "Пользовательская строка: Services/Cloud/CloudTranslationEngine.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to connect to the cloud provider."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось связаться с облачным провайдером."
+          }
+        }
+      }
+    },
+    "Unable to copy text to the clipboard.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/ManualTranslationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to copy text to the clipboard."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось записать текст в буфер обмена."
+          }
+        }
+      }
+    },
+    "Unable to export diagnostics": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to export diagnostics"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось экспортировать диагностику"
+          }
+        }
+      }
+    },
+    "Unable to identify the language reliably. Select it manually.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to identify the language reliably. Select it manually."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось уверенно определить язык. Выберите его вручную."
+          }
+        }
+      }
+    },
+    "Unable to install the model. Check your internet connection and try again.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to install the model. Check your internet connection and try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось установить модель. Проверьте интернет и повторите попытку."
+          }
+        }
+      }
+    },
+    "Unable to read local storage. The file was not overwritten.": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to read local storage. The file was not overwritten."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось прочитать локальное хранилище. Файл не перезаписан."
+          }
+        }
+      }
+    },
+    "Unable to register keyboard shortcuts.": {
+      "comment": "Пользовательская строка: Services/Hotkeys/GlobalHotkeyService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to register keyboard shortcuts."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось подключить горячие клавиши."
+          }
+        }
+      }
+    },
+    "Unable to register the host. Check the Koto installation and directory permissions.": {
+      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to register the host. Check the Koto installation and directory permissions."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось зарегистрировать host. Проверьте установку Koto и права каталога."
+          }
+        }
+      }
+    },
+    "Unable to remove the key": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to remove the key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить ключ"
+          }
+        }
+      }
+    },
+    "Unable to remove the model file. Check access to the Koto directory.": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to remove the model file. Check access to the Koto directory."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить файл модели. Проверьте доступ к каталогу Koto."
+          }
+        }
+      }
+    },
+    "Unable to remove the phrase": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to remove the phrase"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить фразу"
+          }
+        }
+      }
+    },
+    "Unable to retrieve the content. Try again in the source app.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to retrieve the content. Try again in the source app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось получить содержимое. Повторите действие в исходном приложении."
+          }
+        }
+      }
+    },
+    "Unable to save exact phrases": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save exact phrases"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить словарь"
+          }
+        }
+      }
+    },
+    "Unable to save settings": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить настройки"
+          }
+        }
+      }
+    },
+    "Unable to save the key to Keychain": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save the key to Keychain"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить ключ в Keychain"
+          }
+        }
+      }
+    },
+    "Unable to save translation memory": {
+      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to save translation memory"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить память переводов"
+          }
+        }
+      }
+    },
+    "Unable to start the browser bridge": {
+      "comment": "Пользовательская строка: Services/Browser/BrowserBridgeServer.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to start the browser bridge"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось запустить браузерный мост"
+          }
+        }
+      }
+    },
+    "Unable to start the local engine.": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to start the local engine."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось запустить локальный движок."
+          }
+        }
+      }
+    },
+    "Unable to translate.": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to translate."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось выполнить перевод."
+          }
+        }
+      }
+    },
+    "Unable to translate. Try again.": {
+      "comment": "Пользовательская строка: Core/Translation/TranslationModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to translate. Try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось выполнить перевод. Повторите попытку."
+          }
+        }
+      }
+    },
+    "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it.": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "До 500 фраз. Захват, браузер и Live не сохраняются. При выключении память очищается."
+          }
+        }
+      }
+    },
+    "Verifying file…": {
+      "comment": "Пользовательская строка: Features/Settings/LocalRuntimeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifying file…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяем файл…"
+          }
+        }
+      }
+    },
+    "Verifying local resources…": {
+      "comment": "Пользовательская строка: Services/Local/LocalRuntimeSupervisor.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifying local resources…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяем целостность локальных ресурсов…"
+          }
+        }
+      }
+    },
+    "Verifying model SHA-256…": {
+      "comment": "Пользовательская строка: Services/Models/ModelInstallationManager.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifying model SHA-256…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяем SHA-256 модели…"
+          }
+        }
+      }
+    },
+    "Version": {
+      "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия"
+          }
+        }
+      }
+    },
+    "Version %@ (%@)": {
+      "comment": "Пользовательская строка: Support/ProductInfo.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия %@ (%@)"
+          }
+        }
+      }
+    },
+    "Waiting for system language preparation…": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationStatusView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for system language preparation…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ожидаем системную подготовку языков…"
+          }
+        }
+      }
+    },
+    "Watching the selected region · minimum interval: 2 seconds": {
+      "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Watching the selected region · minimum interval: 2 seconds"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наблюдаем выбранную область · интервал не меньше 2 секунд"
+          }
+        }
+      }
+    },
+    "Yandex accepts up to %@ characters per request.": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandex accepts up to %@ characters per request."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandex принимает до %@ символов за запрос."
+          }
+        }
+      }
+    },
+    "Yandex · service account API key": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandex · service account API key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandex · API-ключ сервисного аккаунта"
+          }
+        }
+      }
+    },
+    "Your translation": {
+      "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш перевод"
+          }
+        }
+      }
+    },
+    "Your translation will appear here": {
+      "comment": "Пользовательская строка: Features/ManualTranslation/TranslationOutputView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your translation will appear here"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Здесь появится перевод"
+          }
+        }
+      }
+    },
+    "granted": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift, Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "granted"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "доступ есть"
+          }
+        }
+      }
+    },
+    "not granted": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "not granted"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет доступа"
+          }
+        }
+      }
+    },
+    "p50 %@ ms · p95 %@ ms": {
+      "comment": "Динамическое сообщение. Параметры передаются уже отформатированными по региону.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "p50 %@ ms · p95 %@ ms"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "p50 %@ мс · p95 %@ мс"
+          }
+        }
+      }
+    },
+    "⌃⌥⌘T — selected text\n⌃⌥⌘R — screen region (OCR)\n⌃⌥⌘L — live translation": {
+      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘T — selected text\n⌃⌥⌘R — screen region (OCR)\n⌃⌥⌘L — live translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥⌘T — выделенный текст\n⌃⌥⌘R — область экрана (OCR)\n⌃⌥⌘L — живой перевод"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

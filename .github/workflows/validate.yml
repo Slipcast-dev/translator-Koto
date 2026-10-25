@@ -18,5 +18,8 @@ jobs:
         with:
           node-version: '22'
       - run: python3 script/validate_repository.py
-      - run: node --check BrowserExtension/background.js && node --check BrowserExtension/popup.js
+      - run: python3 script/validate_localization.py
+      - run: python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py
+      - run: node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs
+      - run: node --check BrowserExtension/background.js && node --check BrowserExtension/popup.js && node --check BrowserExtension/i18n.js
       - run: python3 -m py_compile script/*.py

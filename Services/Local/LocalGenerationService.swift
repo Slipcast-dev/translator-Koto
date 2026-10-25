@@ -1,5 +1,7 @@
 import Foundation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Общая граница локального JSON inference для перевода и пояснений. Никаких внешних endpoint.
 @MainActor
 struct LocalGenerationService {
@@ -22,7 +24,7 @@ struct LocalGenerationService {
               let message = first["message"] as? [String:Any], let content = message["content"] as? String,
               let answer = content.data(using:.utf8), !answer.isEmpty else {
             // Length и HTTP context overflow не выдаются за полноценный перевод.
-            throw TranslationFailure.engineIssue("Локальная модель не вернула полный ответ. Попробуйте меньший фрагмент.")
+            throw TranslationFailure.engineIssue(String(localized: "The local model did not return a complete response. Try a smaller section."))
         }
         return answer
     }

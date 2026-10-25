@@ -2,7 +2,12 @@
 
 # Changelog
 
-## Documentation update
+## 0.1.0-alpha.12 — 2026-10-25
+
+Koto ru/en and Chrome 0.1.2 localization: regional numbers, plurals, RTL, explanation language and stable error codes. Bilingual model-free HFS+ installer, separate extension ZIP and catalog checks in CI. [Release notes and limitations](Docs/RELEASE-0.1.0-alpha.12.md).
+
+
+## Documentation update after alpha.11
 
 Russian and English README, core documentation, contribution/security guidance and release notes; bilingual issue forms and language-switch links. No application binary changes.
 

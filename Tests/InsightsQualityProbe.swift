@@ -20,7 +20,7 @@ import Foundation
         ] {
             var record: [String:Any] = ["input":text,"alternatives_requested":alternatives]
             do {
-                let result = try await LocalInsightsService(runtime:runtime).explain(text:text,target:"ru",alternatives:alternatives)
+                let result = try await LocalInsightsService(runtime:runtime).explain(text:text,target:"ru",alternatives:alternatives,explanationLanguage:"ru")
                 record["status"] = "accepted";record["result"] = result.rendered
             } catch { record["status"] = "rejected";record["error"] = String(reflecting:error) }
             records.append(record)

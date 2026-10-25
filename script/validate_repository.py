@@ -11,11 +11,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
-    """Проверяет только индекс Git; не читает пользовательские каталоги или submodule."""
+    """Проверяет индекс и новые исходники; ignored build/dist и submodule не читает."""
     tracked = subprocess.check_output(
-        ['git', 'ls-files', '-z'], cwd=ROOT
+        ['git', 'ls-files', '--cached', '--others', '--exclude-standard', '-z'], cwd=ROOT
     ).decode().split('\0')
-    files = [ROOT / name for name in tracked if name and (ROOT / name).is_file()]
+    files = [ROOT / name for name in sorted(set(tracked)) if name and (ROOT / name).is_file()]
     forbidden = {'.gguf', '.safetensors', '.onnx', '.pth', '.pt', '.dmg', '.p12', '.pfx', '.key'}
     # Это форматы реальных ключей, а не слова api-key/secret из безопасных тестовых примеров.
     secrets = re.compile(
@@ -30,7 +30,7 @@ def main() -> None:
             raise RuntimeError(f'File exceeds GitHub object policy: {relative}')
         if relative.parts[0] in {'build', 'dist'}:
             raise RuntimeError(f'Generated product tracked: {relative}')
-        if path.suffix in {'.md', '.swift', '.py', '.js', '.json', '.yml', '.sh'}:
+        if path.suffix in {'.md', '.swift', '.py', '.js', '.json', '.yml', '.sh', '.mjs', '.xcstrings'}:
             text = path.read_text()
             if secrets.search(text):
                 raise RuntimeError(f'Potential secret: {relative}')

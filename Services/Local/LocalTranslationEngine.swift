@@ -1,13 +1,15 @@
 import Foundation
 import NaturalLanguage
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Фиксированный локальный endpoint supervisor; внешние URLs и скрытый fallback отсутствуют.
 @MainActor
 final class LocalTranslationEngine: TranslationEngine {
     let runtime: LocalRuntimeSupervisor
     private var operation: Task<TranslationResult, Error>?
     private var operationID: UUID?
-    var displayName: String { "Qwen · локально" }
+    var displayName: String { String(localized: "Qwen · local") }
 
     init(runtime: LocalRuntimeSupervisor = .shared) { self.runtime = runtime }
 
@@ -35,7 +37,7 @@ final class LocalTranslationEngine: TranslationEngine {
         }
         let resolved = try request.resolvingSource(source)
         do { _ = try await runtime.start() }
-        catch { throw TranslationFailure.engineIssue((error as? LocalRuntimeFailure)?.errorDescription ?? "Локальный движок недоступен.") }
+        catch { throw TranslationFailure.engineIssue((error as? LocalRuntimeFailure)?.errorDescription ?? String(localized: "Local engine unavailable.")) }
         return .installed(resolved)
     }
 
@@ -58,19 +60,19 @@ final class LocalTranslationEngine: TranslationEngine {
                 case .literal(let separator): output += separator
                 case .text(let input):
                     guard input.utf8.count <= 1700 else {
-                        throw TranslationFailure.engineIssue("Один символ содержит слишком много комбинируемых знаков. Разделите или упростите текст.")
+                        throw TranslationFailure.engineIssue(String(localized: "A character contains too many combining marks. Split or simplify the text."))
                     }
                     let data = try await generator.generate(instruction:instruction,input:input,schema:schema)
                     let translated = try JSONDecoder().decode(Answer.self,from:data).translation.trimmingCharacters(in:.whitespacesAndNewlines)
                     guard !translated.isEmpty,
                           TranslationChunker.preservesProtectedFragments(source:input,output:translated) else {
-                        throw TranslationFailure.engineIssue("Модель изменила URL или шаблонную переменную. Результат отклонён; попробуйте Apple Translation.")
+                        throw TranslationFailure.engineIssue(String(localized: "The model changed a URL or placeholder. The result was rejected; try Apple Translation."))
                     }
                     output += translated
                 }
             }
             guard TranslationChunker.preservesProtectedFragments(source:request.text,output:output) else {
-                throw TranslationFailure.engineIssue("Модель изменила защищённые элементы текста. Результат отклонён.")
+                throw TranslationFailure.engineIssue(String(localized: "The model changed protected text elements. The result was rejected."))
             }
             return TranslationResult(requestID:request.id,text:output,source:source,target:request.target)
         }
@@ -81,7 +83,7 @@ final class LocalTranslationEngine: TranslationEngine {
         catch is CancellationError { throw TranslationFailure.cancelled }
         catch let error as URLError where error.code == .cancelled { throw TranslationFailure.cancelled }
         catch let failure as TranslationFailure { throw failure }
-        catch { throw TranslationFailure.engineIssue("Локальный перевод не завершён. Повторите запрос.") }
+        catch { throw TranslationFailure.engineIssue(String(localized: "Local translation did not finish. Try again.")) }
     }
 
     func cancel() { operationID = nil; operation?.cancel(); operation = nil }

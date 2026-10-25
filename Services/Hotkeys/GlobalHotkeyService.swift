@@ -1,5 +1,7 @@
 import Carbon
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Carbon регистрирует только три команды; не слушает поток вводимых пользователем клавиш.
 @MainActor
 final class GlobalHotkeyService {
@@ -24,7 +26,7 @@ final class GlobalHotkeyService {
             }
             return noErr
         }, 1, &spec, context, &handler)
-        guard status == noErr else { unregister(); return "Не удалось подключить горячие клавиши." }
+        guard status == noErr else { unregister(); return String(localized: "Unable to register keyboard shortcuts.") }
         // Exclusive нужен для настоящего отказа при конфликте между разными процессами.
         for (id, key) in [(UInt32(1), UInt32(kVK_ANSI_T)), (UInt32(2), UInt32(kVK_ANSI_R)), (UInt32(3), UInt32(kVK_ANSI_L))] {
             var reference: EventHotKeyRef?
@@ -33,7 +35,7 @@ final class GlobalHotkeyService {
                 OptionBits(kEventHotKeyExclusive), &reference)
             guard code == noErr, let reference else {
                 unregister()
-                return "Сочетания ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L заняты. Освободите их в другом приложении и повторите включение."
+                return String(localized: "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again.")
             }
             registrations.append(reference)
         }

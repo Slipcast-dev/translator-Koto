@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "baseline_revision": "cc0dc484e624fa30786aa6451fc2d06a109ca101",
+  "scope": "Fresh application processes; real native host and Apple Translation; OS service caches not reset",
+  "cases": [
+    {
+      "case": "cold-baseline-1",
+      "language": "en",
+      "timeout_seconds": 12,
+      "ping_seconds": 2.617,
+      "response_type": "translated",
+      "elapsed_seconds": 2.761,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-baseline-2",
+      "language": "ru",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.486,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-baseline-3",
+      "language": "en",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.483,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-en-1",
+      "language": "en",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.34,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-en-2",
+      "language": "en",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.114,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-en-3",
+      "language": "en",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.496,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-ru-1",
+      "language": "ru",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.547,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-ru-2",
+      "language": "ru",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.477,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    },
+    {
+      "case": "cold-current-ru-3",
+      "language": "ru",
+      "timeout_seconds": 12,
+      "response_type": "translated",
+      "elapsed_seconds": 0.48,
+      "status": "passed",
+      "fixture_translation": "Кошка спит на стуле."
+    }
+  ],
+  "native_Chrome": [
+    {
+      "Chrome": "ru",
+      "Koto": "en",
+      "first_snapshot_ms": 445,
+      "success_observed_by_ms": 19053
+    },
+    {
+      "Chrome": "en",
+      "Koto": "ru",
+      "first_snapshot_ms": 472,
+      "success_observed_by_ms": 14152
+    }
+  ],
+  "finding_resolution": "Not reproduced as a defect; original observation was cancelled without a measured deadline. No production fix claimed."
+}

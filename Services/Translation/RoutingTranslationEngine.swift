@@ -1,11 +1,13 @@
 import Foundation
 import Observation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 enum TranslationEngineKind: String, CaseIterable, Identifiable {
     case apple, local, google, yandex
     var id: String { rawValue }
     var title: String {
-        switch self { case .apple: "Apple Translation"; case .local: "Qwen · локально"
+        switch self { case .apple: "Apple Translation"; case .local: String(localized: "Qwen · local")
         case .google: "Google Cloud"; case .yandex: "Yandex Cloud" }
     }
     var isCloud: Bool { self == .google || self == .yandex }
@@ -43,7 +45,7 @@ final class RoutingTranslationEngine: TranslationEngine {
             return .installed(request)
         }
         guard !EnginePreferences.shared.selected.isCloud || TranslationPrivacy.cloudAllowed(request.context) else {
-            throw TranslationFailure.engineIssue("Отправка этого источника в облако запрещена. Разрешите её отдельно в настройках приватности.")
+            throw TranslationFailure.cloudNotAllowed
         }
         let engine = selected
         let readiness = try await engine.readiness(for: request)
@@ -54,7 +56,7 @@ final class RoutingTranslationEngine: TranslationEngine {
     func translate(_ request: TranslationRequest) async throws -> TranslationResult {
         guard let engine = snapshots.removeValue(forKey: request.id) else { throw TranslationFailure.cancelled }
         if engine is CloudTranslationEngine, !TranslationPrivacy.cloudAllowed(request.context) {
-            throw TranslationFailure.engineIssue("Облачная отправка этого источника выключена.")
+            throw TranslationFailure.cloudNotAllowed
         }
         let translated = try await engine.translate(request)
         try Task.checkCancellation()

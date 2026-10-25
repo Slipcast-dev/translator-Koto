@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 struct ProductSettingsView: View {
     @AppStorage("privacy.cloud.capture") private var cloudCapture = false
     @AppStorage("privacy.cloud.browser") private var cloudBrowser = false
@@ -16,57 +18,57 @@ struct ProductSettingsView: View {
     @State private var target = "ru"
     @State private var login = ProductUtilities.loginEnabled
     var body: some View {
-        Section("Облачный перевод") {
-            Text("Ручной текст отправляется выбранному Google/Yandex Cloud по кнопке «Перевести». Тариф и квоту определяет ваш аккаунт провайдера.").font(.caption)
-            Picker("Провайдер ключа", selection: $provider) {
+        Section(String(localized: "Cloud translation")) {
+            Text(String(localized: "Manual text is sent to the selected Google/Yandex Cloud provider when you click Translate. Your provider account determines pricing and quotas.")).font(.caption)
+            Picker(String(localized: "Key provider"), selection: $provider) {
                 Text("Google Cloud Basic v2").tag(CloudTranslationEngine.Provider.google)
-                Text("Yandex · API-ключ сервисного аккаунта").tag(CloudTranslationEngine.Provider.yandex)
+                Text(String(localized: "Yandex · service account API key")).tag(CloudTranslationEngine.Provider.yandex)
             }
-            SecureField("Новый API-ключ", text: $key)
+            SecureField(String(localized: "New API key"), text: $key)
             HStack {
-                Button("Сохранить в Keychain") {
-                    do { try ProviderKeychain.save(key, provider: provider.rawValue); key = ""; message = "Ключ сохранён в Keychain" }
-                    catch { message = "Не удалось сохранить ключ в Keychain" }
+                Button(String(localized: "Save to Keychain")) {
+                    do { try ProviderKeychain.save(key, provider: provider.rawValue); key = ""; message = String(localized: "Key saved to Keychain") }
+                    catch { message = String(localized: "Unable to save the key to Keychain") }
                 }.disabled(key.isEmpty)
-                Button("Удалить ключ") {
-                    do { try ProviderKeychain.remove(provider.rawValue); key = ""; message = "Ключ удалён" }
-                    catch { message = "Не удалось удалить ключ" }
+                Button(String(localized: "Remove key")) {
+                    do { try ProviderKeychain.remove(provider.rawValue); key = ""; message = String(localized: "Key removed") }
+                    catch { message = String(localized: "Unable to remove the key") }
                 }
             }
         }
-        Section("Приватность захвата") {
-            Toggle("Разрешить выделение и OCR в облаке", isOn: $cloudCapture)
-            Toggle("Разрешить текст браузера в облаке", isOn: $cloudBrowser)
-            Toggle("Разрешить живой перевод в облаке", isOn: $cloudLive)
-            Text("По умолчанию все три источника переводятся только локально. Исключённые приложения блокируются для AX и исключаются из снимков.").font(.caption)
-            TextField("Bundle ID исключений, по одному в строке", text: $excluded, axis: .vertical).lineLimit(3...6)
-            TextField("Исключённые домены браузера", text: $excludedHosts, axis: .vertical).lineLimit(2...4)
-            Text("Домен исключает и его поддомены. Мост получает только origin страницы, без пути и query.").font(.caption)
+        Section(String(localized: "Capture privacy")) {
+            Toggle(String(localized: "Allow selection and OCR in the cloud"), isOn: $cloudCapture)
+            Toggle(String(localized: "Allow browser text in the cloud"), isOn: $cloudBrowser)
+            Toggle(String(localized: "Allow live translation in the cloud"), isOn: $cloudLive)
+            Text(String(localized: "All three sources are translated locally by default. Excluded apps are blocked for Accessibility capture and excluded from screenshots.")).font(.caption)
+            TextField(String(localized: "Excluded bundle IDs, one per line"), text: $excluded, axis: .vertical).lineLimit(3...6)
+            TextField(String(localized: "Excluded browser domains"), text: $excludedHosts, axis: .vertical).lineLimit(2...4)
+            Text(String(localized: "A domain exclusion also covers its subdomains. The bridge receives only the page origin, without the path or query.")).font(.caption)
         }
-        Section("Словарь точных фраз") {
-            TextField("Исходная фраза", text: $input)
-            TextField("Ваш перевод", text: $output)
-            HStack { TextField("Источник: en", text: $source); TextField("Перевод: ru", text: $target) }
-            Button("Добавить фразу") { store.add(input: input, output: output, source: source, target: target) }
+        Section(String(localized: "Exact phrases")) {
+            TextField(String(localized: "Source phrase"), text: $input)
+            TextField(String(localized: "Your translation"), text: $output)
+            HStack { TextField(String(localized: "Source: en"), text: $source); TextField(String(localized: "Target: ru"), text: $target) }
+            Button(String(localized: "Add phrase")) { store.add(input: input, output: output, source: source, target: target) }
             ForEach(store.glossary) { record in
                 HStack {
                     Text("\(record.source) → \(record.target): \(record.input) → \(record.output)").lineLimit(2)
-                    Spacer(); Button("Удалить") { store.remove(record.id) }
+                    Spacer(); Button(String(localized: "Remove")) { store.remove(record.id) }
                 }
             }
-            Text("Применяется при точном совпадении всей фразы и явно выбранной пары языков.").font(.caption)
+            Text(String(localized: "Applies only to an exact match of the entire phrase and an explicitly selected language pair.")).font(.caption)
         }
-        Section("Память и система") {
-            Toggle("Сохранять ручные переводы на этом Mac", isOn: $store.memoryEnabled)
-            Text("До 500 фраз. Захват, браузер и Live не сохраняются. При выключении память очищается.").font(.caption)
-            Button("Очистить память (\(store.memory.count))") { store.clearMemory() }
-            Toggle("Запускать при входе", isOn: Binding(get: { login }, set: { value in
+        Section(String(localized: "Memory and system")) {
+            Toggle(String(localized: "Save manual translations on this Mac"), isOn: $store.memoryEnabled)
+            Text(String(localized: "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it.")).font(.caption)
+            Button(AppLocalization.clearMemoryLabel(store.memory.count)) { store.clearMemory() }
+            Toggle(String(localized: "Launch at login"), isOn: Binding(get: { login }, set: { value in
                 do { try ProductUtilities.setLogin(value); login = ProductUtilities.loginEnabled
-                    message = login == value ? "Автозапуск обновлён" : "Завершите разрешение в настройках macOS" }
-                catch { message = "Не удалось изменить автозапуск. Проверьте настройки macOS." }
+                    message = login == value ? String(localized: "Login setting updated") : String(localized: "Complete authorization in macOS Settings") }
+                catch { message = String(localized: "Unable to change launch at login. Check macOS Settings.") }
             }))
-            Button("Экспортировать диагностику…") {
-                do { try ProductUtilities.exportDiagnostics() } catch { message = "Не удалось экспортировать диагностику" }
+            Button(String(localized: "Export diagnostics…")) {
+                do { try ProductUtilities.exportDiagnostics() } catch { message = String(localized: "Unable to export diagnostics") }
             }
             if !store.status.isEmpty { Text(store.status).font(.caption) }
             if !message.isEmpty { Text(message).font(.caption).textSelection(.enabled) }

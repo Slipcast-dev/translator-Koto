@@ -2,6 +2,8 @@ import Foundation
 import NaturalLanguage
 import Security
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Секрет принадлежит одному провайдеру; UI никогда не загружает существующий ключ в поле.
 enum ProviderKeychain {
     static func query(_ provider: String) -> [String: Any] {
@@ -15,14 +17,14 @@ enum ProviderKeychain {
         var result: CFTypeRef?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
               let data = result as? Data, let key = String(data: data, encoding: .utf8), !key.isEmpty else {
-            throw TranslationFailure.engineIssue("Сохраните API-ключ выбранного провайдера в настройках.")
+            throw TranslationFailure.engineIssue(String(localized: "Save the selected provider’s API key in Settings."))
         }
         return key
     }
     static func save(_ key: String, provider: String) throws {
         let clean = key.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, clean.utf8.count <= 4096, !clean.contains("\n"), !clean.contains("\r") else {
-            throw TranslationFailure.engineIssue("Проверьте формат API-ключа.")
+            throw TranslationFailure.engineIssue(String(localized: "Check the API key format."))
         }
         let data = Data(clean.utf8)
         let status = SecItemUpdate(query(provider) as CFDictionary, [kSecValueData as String: data] as CFDictionary)
@@ -74,7 +76,7 @@ final class CloudTranslationEngine: TranslationEngine {
     func translate(_ request: TranslationRequest) async throws -> TranslationResult {
         let key = try ProviderKeychain.read(provider.rawValue)
         if provider == .yandex, request.text.count > 10_000 {
-            throw TranslationFailure.engineIssue("Yandex принимает до 10 000 символов за запрос.")
+            throw TranslationFailure.engineIssue(String(localized: "Yandex accepts up to \(AppLocalization.number(10_000)) characters per request."))
         }
         let task = Task { () throws -> TranslationResult in
             let endpoint = provider == .google ? "https://translation.googleapis.com/language/translate/v2"
@@ -100,9 +102,9 @@ final class CloudTranslationEngine: TranslationEngine {
             let status = (response as? HTTPURLResponse)?.statusCode ?? 0
             guard status == 200 else {
                 // Ответ сервиса может содержать пользовательский текст: не показываем сырое тело.
-                let message = [401: "API-ключ отклонён.", 403: "Проверьте права ключа и подключение API.",
-                               429: "Квота провайдера исчерпана. Повторите позже."][status]
-                    ?? "Облачный сервис недоступен (HTTP \(status))."
+                let message = [401: String(localized: "API key rejected."), 403: String(localized: "Check the key permissions and API access."),
+                               429: String(localized: "Provider quota exhausted. Try again later.")][status]
+                    ?? String(localized: "Cloud service unavailable (HTTP \(status)).")
                 throw TranslationFailure.engineIssue(message)
             }
             guard data.count <= 1_048_576,
@@ -126,7 +128,7 @@ final class CloudTranslationEngine: TranslationEngine {
         catch is CancellationError { throw TranslationFailure.cancelled }
         catch let e as URLError where e.code == .cancelled { throw TranslationFailure.cancelled }
         catch let failure as TranslationFailure { throw failure }
-        catch { throw TranslationFailure.engineIssue("Не удалось связаться с облачным провайдером.") }
+        catch { throw TranslationFailure.engineIssue(String(localized: "Unable to connect to the cloud provider.")) }
     }
     func cancel() { operation?.cancel(); operation = nil; operationID = nil }
 }

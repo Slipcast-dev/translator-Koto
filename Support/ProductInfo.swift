@@ -1,5 +1,7 @@
 import Foundation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Имя автора и версия берутся из bundle, который собирается из Config/Product.xcconfig.
 /// Так About и метаданные не получают независимые копии изменяемых сведений.
 enum ProductInfo {
@@ -12,5 +14,5 @@ enum ProductInfo {
     static var version: String { value("CFBundleShortVersionString") }
     static var build: String { value("CFBundleVersion") }
     static var copyright: String { value("NSHumanReadableCopyright") }
-    static var versionDescription: String { "Версия \(version) (\(build))" }
+    static var versionDescription: String { String(localized: "Version \(version) (\(build))") }
 }

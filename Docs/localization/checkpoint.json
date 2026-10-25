@@ -1,0 +1,33 @@
+{
+  "task": "ru/en localization Koto and Chrome",
+  "authorization": "2026-10-25: continue all stages autonomously; stop at usedPercent>=85 any active window",
+  "status": "complete_with_stated_environment_limits",
+  "completed_stages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "current_report": "../LOCALIZATION-ACCEPTANCE.md",
+  "next_action": null,
+  "package": "Koto-0.1.0-alpha-12-arm64-preview.dmg",
+  "package_sha256": "7bbc82ebb6fcb69c7f360ef596281f8228e4bb5381db89d9e1e87dc84ab60733",
+  "external_verification_limits": [
+    "Qwen generation and semantic quality",
+    "macOS 26 runtime",
+    "Independent linguistic review",
+    "Developer ID and notarization"
+  ],
+  "prior_usage_stop": {
+    "primary_used_percent": 85,
+    "secondary_used_percent": 13
+  },
+  "current_release": "v0.1.0-alpha.12",
+  "extension_version": "0.1.2",
+  "release_results": "../validation/release-12.json",
+  "cleanup_results": "../validation/cleanup-20261025.json"
+}

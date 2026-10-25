@@ -1,5 +1,7 @@
 import AppKit
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Панели принадлежат одной операции. Выбор ограничен одним дисплеем, Esc закрывает все панели.
 @MainActor
 final class RegionSelector {
@@ -98,7 +100,7 @@ private final class RegionSelectionView: NSView {
             border.lineWidth = 2
             border.stroke()
         }
-        let hint = "Выделите область с текстом · Esc — отмена"
+        let hint = String(localized: "Select a region containing text · Esc to cancel")
         let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 17, weight: .semibold), .foregroundColor: NSColor.white
         ]

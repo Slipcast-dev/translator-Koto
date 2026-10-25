@@ -1,6 +1,8 @@
 import AppKit
 import Observation
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Один координатор владеет захватом и transient lens. Главное окно сохраняет собственный ввод.
 @MainActor @Observable
 final class CaptureCoordinator {
@@ -8,7 +10,7 @@ final class CaptureCoordinator {
     var openLive: (() -> Void)?
     let manualModel = ManualTranslationModel(engine: RoutingTranslationEngine())
     let lensModel = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .capture)
-    private(set) var message = "Выделение: ⌃⌥⌘T · Область: ⌃⌥⌘R"
+    private(set) var message = String(localized: "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R")
     private(set) var captureBusy = false
     private(set) var hotkeyIssue: String?
     private(set) var accessibilityGranted = false
@@ -115,8 +117,8 @@ final class CaptureCoordinator {
         let front = NSWorkspace.shared.frontmostApplication
         let target = front?.processIdentifier == ProcessInfo.processInfo.processIdentifier ? previousApplication : front
         guard let target else { showFailure(.noApplication); return }
-        guard !TranslationPrivacy.excluded(target.bundleIdentifier) else { message = "Приложение исключено в настройках приватности"; return }
-        let id = beginOperation(message: "Читаем выделенный текст…")
+        guard !TranslationPrivacy.excluded(target.bundleIdentifier) else { message = String(localized: "This app is excluded in privacy settings"); return }
+        let id = beginOperation(message: String(localized: "Reading selected text…"))
         task = Task { [weak self] in
             guard let self else { return }
             do {
@@ -133,8 +135,8 @@ final class CaptureCoordinator {
 
     func receiveServiceText(_ text: String) {
         cancel()
-        guard !TranslationPrivacy.excluded(previousApplication?.bundleIdentifier) else { message = "Источник исключён в настройках приватности"; return }
-        let id = beginOperation(message: "Получено выделение через Службы macOS…")
+        guard !TranslationPrivacy.excluded(previousApplication?.bundleIdentifier) else { message = String(localized: "This source is excluded in privacy settings"); return }
+        let id = beginOperation(message: String(localized: "Received selected text through macOS Services…"))
         task = Task { [weak self] in
             guard let self else { return }
             await translate(CapturedText(text: text, anchor: CGRect(origin: NSEvent.mouseLocation, size: .zero)), id: id)
@@ -146,14 +148,14 @@ final class CaptureCoordinator {
         refreshPermissions()
         guard screenGranted else { showFailure(.screenRequired); return }
         lens?.hide()
-        let id = beginOperation(message: "Выделите область с текстом. Esc — отмена.")
+        let id = beginOperation(message: String(localized: "Select a region containing text. Press Esc to cancel."))
         // Таймер начнётся после выбора: пользователь не должен спешить с выделением.
         deadline?.cancel()
         deadline = nil
         selector.begin { [weak self] rect, screen in
             guard let self, operationID == id else { return }
             guard let rect, let screen else { cancel(); return }
-            message = "Распознаём текст на Mac…"
+            message = String(localized: "Recognizing text on this Mac…")
             startDeadline(id: id)
             task = Task { [weak self] in
                 guard let self else { return }
@@ -179,7 +181,7 @@ final class CaptureCoordinator {
         selector.cancel()
         lensModel.cancel()
         captureBusy = false
-        message = "Захват отменён."
+        message = String(localized: "Capture cancelled.")
     }
 
     private func beginOperation(message: String) -> UUID {
@@ -198,7 +200,7 @@ final class CaptureCoordinator {
             do { try await Task.sleep(for: .seconds(60)) } catch { return }
             guard let self, operationID == id else { return }
             cancel()
-            message = "Захват не завершился за 60 секунд. Повторите действие."
+            message = String(localized: "Capture did not finish within 60 seconds. Try again.")
             showLens(anchor: CGRect(origin: NSEvent.mouseLocation, size: .zero))
         }
     }
@@ -213,7 +215,7 @@ final class CaptureCoordinator {
         deadline?.cancel(); deadline = nil
         operationID = nil
         captureBusy = false
-        message = "Захвачено \(captured.text.count) символов. Язык назначения — из главного окна."
+        message = AppLocalization.capturedCharacters(captured.text.count)
         showLens(anchor: captured.anchor)
         lensModel.submit()
     }
@@ -221,7 +223,7 @@ final class CaptureCoordinator {
     private func showFailure(_ issue: CaptureFailure) {
         cancel()
         lensModel.clear()
-        message = issue.errorDescription ?? "Не удалось выполнить захват."
+        message = issue.errorDescription ?? String(localized: "Unable to capture text.")
         showLens(anchor: CGRect(origin: NSEvent.mouseLocation, size: .zero))
     }
 

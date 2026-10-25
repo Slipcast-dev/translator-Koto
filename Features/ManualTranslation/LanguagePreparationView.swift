@@ -1,4 +1,6 @@
 import SwiftUI
+
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
 // Совместимость ограничена legacy framework; session остаётся внутри системной translationTask.
 @preconcurrency import Translation
 
@@ -23,17 +25,17 @@ struct LanguagePreparationView: View {
             Image(systemName: "arrow.down.circle")
                 .font(.system(size: 34))
                 .foregroundStyle(.secondary)
-            Text("Подготовка языков")
+            Text(String(localized: "Language preparation"))
                 .font(.title2.bold())
             Text("\(ticket.request.source?.displayName ?? "") → \(ticket.request.target.displayName)")
                 .font(.headline)
-            Text("Apple предложит загрузить языковые ресурсы. Для загрузки нужен интернет; после установки перевод выполняется на Mac.")
+            Text(String(localized: "Apple will offer to download language resources. An internet connection is needed for the download; translation runs on your Mac after installation."))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             ProgressView()
                 .controlSize(.small)
-            Button("Отмена") { completion(ticket.id, .cancelled) }
+            Button(String(localized: "Cancel")) { completion(ticket.id, .cancelled) }
                 .keyboardShortcut(.cancelAction)
         }
         .padding(28)

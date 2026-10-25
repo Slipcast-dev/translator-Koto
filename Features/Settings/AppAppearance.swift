@@ -1,6 +1,8 @@
 import AppKit
 import SwiftUI
 
+// Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
+
 /// Raw values — постоянный формат настройки; русские подписи можно менять независимо от хранения.
 enum AppAppearance: String, CaseIterable, Identifiable {
     case system
@@ -13,9 +15,9 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .system: "Системная"
-        case .light: "Светлая"
-        case .dark: "Тёмная"
+        case .system: String(localized: "System")
+        case .light: String(localized: "Light")
+        case .dark: String(localized: "Dark")
         }
     }
 

@@ -186,6 +186,8 @@ async def main() -> None:
                 ("runtime-missing", "models_missing", "runtime notInstalled has specific browser code"),
                 ("readiness-missing", "models_missing", "readiness missing models has same browser code"),
                 ("runtime-failed", "translation_failed", "ordinary engine failure keeps generic browser code"),
+                ("cloud-denied", "cloud_not_allowed",
+                 "cloud privacy rejection has a language-independent code"),
             ]:
                 server = await start_server(directory, mode)
                 reader, writer = await connect()
