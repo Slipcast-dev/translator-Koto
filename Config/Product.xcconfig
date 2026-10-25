@@ -4,7 +4,7 @@ PRODUCT_BUNDLE_IDENTIFIER = dev.slipcast.koto
 KOTO_DEVELOPER = Slipcast-Dev
 KOTO_COPYRIGHT = © 2026 Slipcast-Dev
 MARKETING_VERSION = 0.1.0-alpha
-CURRENT_PROJECT_VERSION = 12
+CURRENT_PROJECT_VERSION = 13
 
 // Первый выпуск — arm64/macOS 26+. Поддержка 26 проверяется отдельно от сборки SDK 27.
 MACOSX_DEPLOYMENT_TARGET = 26.0

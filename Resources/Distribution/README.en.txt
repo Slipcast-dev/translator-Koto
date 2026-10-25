@@ -28,4 +28,4 @@ Do not register the host from the mounted DMG.
 
 Shortcuts: Control+Option+Command+T — selection, +R — OCR, +L — Live.
 macOS permissions must be granted by the Mac owner. Original licenses are preserved.
-Verification scope: Docs/LOCALIZATION.md. This package was prepared locally and is unpublished.
+Verification scope: Docs/LOCALIZATION.md. See Docs/STATUS.en.md for version and verification results.

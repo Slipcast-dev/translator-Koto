@@ -26,6 +26,7 @@ final class ManualTranslationModel {
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var deadline: Task<Void, Never>?
     @ObservationIgnored private var activeRequestID: UUID?
+    @ObservationIgnored private var languageGeneration = UUID()
     @ObservationIgnored private var downloadableRequest: TranslationRequest?
 
     init(engine: any TranslationEngine, timeout: Duration? = nil, context: TranslationContext = .manual) {
@@ -49,12 +50,17 @@ final class ManualTranslationModel {
     var canSwap: Bool { !isBusy && (sourceIdentifier != "auto" || result != nil) }
 
     func loadLanguages() async {
-        guard !isLoadingLanguages else { return }
+        // Повторный вызов означает новый снимок выбранного движка. Старый ответ
+        // может физически завершиться позже, но уже не имеет права менять UI.
+        let generation = UUID()
+        languageGeneration = generation
+        languages = []
         isLoadingLanguages = true
         catalogFailure = nil
-        defer { isLoadingLanguages = false }
+        defer { if languageGeneration == generation { isLoadingLanguages = false } }
         do {
             let loaded = try await engine.supportedLanguages()
+            guard languageGeneration == generation else { return }
             try Task.checkCancellation()
             guard !loaded.isEmpty else { throw TranslationFailure.serviceUnavailable }
             languages = loaded
@@ -67,6 +73,7 @@ final class ManualTranslationModel {
         } catch is CancellationError {
             return
         } catch {
+            guard languageGeneration == generation else { return }
             catalogFailure = TranslationFailure.serviceUnavailable.errorDescription
         }
     }

@@ -8,4 +8,4 @@
 
 **Qwen3-4B-Instruct-2507 / quantization unsloth — Apache 2.0**. Веса не распространяются в Git/DMG. Manifest, MODEL-LICENSE.txt, MODEL-NOTICE.txt — в Resources/LocalModels. Источники: https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507 и https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF .
 
-**Apple frameworks** — системные SDK; их языковые ресурсы не включены в Koto. Иконка/баннер — AI-assisted artwork выбранной автором концепции. Собственный код, host и launcher — Slipcast-Dev. Эта страница фиксирует сторонние notices, не назначая лицензию собственному коду.
+**Apple frameworks** — системные SDK; их языковые ресурсы не включены в Koto. Иконка/баннер — AI-assisted artwork выбранной автором концепции. Собственный код, host и launcher — Slipcast-Dev. Собственный код распространяется по [MIT](LICENSE); эта страница сохраняет отдельные условия сторонних компонентов.

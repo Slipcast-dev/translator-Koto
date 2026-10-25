@@ -7,11 +7,15 @@ enum TranslationPrivacy {
     static func cloudAllowed(_ context: TranslationContext) -> Bool {
         context == .manual || UserDefaults.standard.bool(forKey: "privacy.cloud." + context.rawValue)
     }
-    static func browserOriginAllowed(_ value: String) -> Bool {
+    static func browserOriginAllowed(_ value: String, defaults: UserDefaults = .standard) -> Bool {
         guard let url = URL(string: value), ["https", "http"].contains(url.scheme?.lowercased() ?? ""),
-              let host = url.host?.lowercased(), !host.isEmpty, url.user == nil, url.password == nil,
+              let rawHost = url.host?.lowercased(), !rawHost.isEmpty, url.user == nil, url.password == nil,
               url.query == nil, url.fragment == nil, url.path.isEmpty || url.path == "/" else { return false }
-        let blocked = UserDefaults.standard.string(forKey: "privacy.excludedHosts") ?? ""
+        // DNS допускает абсолютный hostname с конечной точкой; исключения должны
+        // одинаково блокировать обычное имя, абсолютное имя и его поддомены.
+        let host = rawHost.trimmingCharacters(in: CharacterSet(charactersIn: "."))
+        guard !host.isEmpty else { return false }
+        let blocked = defaults.string(forKey: "privacy.excludedHosts") ?? ""
         return !blocked.split(whereSeparator: { $0.isWhitespace || $0 == "," }).contains {
             let suffix = $0.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: "."))
             return !suffix.isEmpty && (host == suffix || host.hasSuffix("." + suffix))

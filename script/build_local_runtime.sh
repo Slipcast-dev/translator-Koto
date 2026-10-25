@@ -21,7 +21,7 @@ if [[ -d "$SOURCE_DIR/.git" ]]; then
 fi
 python3 "$ROOT_DIR/script/verify_runtime_source.py"
 # Статическая линковка и embedded Metal исключают зависимость от Homebrew на Mac пользователя.
-# UI/HTTPS отключены: runtime получает только локальный файл и loopback-запросы Koto.
+# UI/HTTPS отключены: runtime получает локальный файл и запросы Koto по приватному AF_UNIX.
 "$CMAKE" -S "$SOURCE_DIR" -B "$ROOT_DIR/build/llama" -G Ninja \
     -DCMAKE_MAKE_PROGRAM="$NINJA" -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_OSX_DEPLOYMENT_TARGET=26.0 -DCMAKE_OSX_ARCHITECTURES=arm64 \

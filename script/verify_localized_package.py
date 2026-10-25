@@ -28,6 +28,8 @@ def verify(directory: Path) -> dict[str, int | str]:
         ".gguf", ".safetensors", ".onnx", ".pt", ".pth", ".partial"
     } for path in directory.rglob("*") if path.is_file()):
         raise ValueError("Model weights found in package")
+    if digest(resources / "LICENSE") != digest(ROOT / "LICENSE"):
+        raise ValueError("Application license is missing or stale")
     browser_files = 0
     for source in (ROOT / "BrowserExtension").rglob("*"):
         if source.is_file():
@@ -60,7 +62,7 @@ def verify(directory: Path) -> dict[str, int | str]:
             document = directory / "Docs" / (stem + suffix)
             if not document.is_file():
                 raise ValueError(f"Missing user documentation: {stem}")
-    for name in ("THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
+    for name in ("LICENSE", "CODE_OF_CONDUCT.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
         if digest(directory / name) != digest(ROOT / name):
             raise ValueError("Third-party notices changed during packaging")
     return {"status": "passed", "localized_tables": len(tables),

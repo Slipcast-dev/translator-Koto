@@ -1,15 +1,15 @@
 [Русский](README.md) | **English**
 
-Local ru/en localization dated 25 October: [acceptance and limitations, in Russian](Docs/LOCALIZATION-ACCEPTANCE.md). Current release: **0.1.0-alpha.12**, Chrome **0.1.2**.
+Local ru/en localization dated 25 October: [acceptance and limitations, in Russian](Docs/LOCALIZATION-ACCEPTANCE.md). Current release: **0.1.0-alpha.13**, Chrome **0.1.3**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 12" src="https://img.shields.io/badge/release-0.1.0--alpha.12-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 13" src="https://img.shields.io/badge/release-0.1.0--alpha.13-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 A native macOS translator for text, selections and screen regions, with local engines and a Chrome extension. **Translate. Stay in flow.**
 
-**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.12/Koto-0.1.0-alpha-12-arm64-preview.dmg)** · [Chrome 0.1.2 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.12/Koto-Chrome-0.1.2.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
+**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.13/Koto-0.1.0-alpha-13-arm64-preview.dmg)** · [Chrome 0.1.3 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.13/Koto-Chrome-0.1.3.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
 
 > Alpha preview for Apple Silicon. Ad hoc signing, without Apple Developer ID or notarization: macOS may block launch. Release checks were performed on M1 / macOS 27.2; macOS 26 remains untested.
 
@@ -50,10 +50,10 @@ Requires Xcode with a suitable macOS SDK, Swift 6, Apple Silicon and Python 3. T
 
 ## Verification and limitations
 
-Build 12 checks 546 localized values in 12 language/region cases, 13 Chrome logic tests and 9 catalog tests, alongside the core regression suites. Native ru/en Chrome and first-request checks are documented in the [acceptance report](Docs/LOCALIZATION-ACCEPTANCE.md). [Release notes](Docs/RELEASE-0.1.0-alpha.12.md).
+Build 13 retains 546 localized values in 12 language/region cases, 13 Chrome logic tests and 9 catalog tests, alongside the core regression suites. Native ru/en Chrome and first-request checks are documented in the [acceptance report](Docs/LOCALIZATION-ACCEPTANCE.md). [Release notes](Docs/RELEASE-0.1.0-alpha.13.md).
 
 The root cause of the intermittent initial Apple framework failure is unknown. Koto's recovery handling has been fixed. Live endurance, sleep/wake, macOS 26 and some external integrations still require acceptance testing.
 
 [Report a bug](https://github.com/Slipcast-dev/translator-Koto/issues/new/choose) · [Contributing](CONTRIBUTING.en.md) · [Security](SECURITY.en.md) · [Changelog](CHANGELOG.en.md)
 
-© 2026 **Slipcast-Dev**. No separate license terms or LICENSE file have been provided for first-party code. Third-party components retain their licenses: [THIRD_PARTY_NOTICES.en.md](THIRD_PARTY_NOTICES.en.md). The icon and banner are AI-assisted artwork based on the author's selected concept.
+© 2026 **Slipcast-Dev**. First-party code is available under [MIT](LICENSE); distributions must preserve the copyright and license notice. [Community code of conduct](CODE_OF_CONDUCT.md). Third-party components retain their [licenses](THIRD_PARTY_NOTICES.en.md).

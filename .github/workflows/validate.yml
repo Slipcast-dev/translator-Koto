@@ -23,3 +23,35 @@ jobs:
       - run: node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs
       - run: node --check BrowserExtension/background.js && node --check BrowserExtension/popup.js && node --check BrowserExtension/i18n.js
       - run: python3 -m py_compile script/*.py
+  swift:
+    # arm64/macOS 26 совпадает с минимальной платформой приложения и harness.
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: SwiftLint correctness rules
+        run: |
+          command -v swiftlint >/dev/null || brew install swiftlint
+          swiftlint lint --strict --config .swiftlint.yml
+      - name: Build Swift app without signing
+        run: >-
+          xcodebuild -project Koto.xcodeproj -scheme Koto -configuration Debug
+          -destination 'platform=macOS,arch=arm64' -derivedDataPath build/ci-derived
+          CODE_SIGNING_ALLOWED=NO build
+      - name: Run deterministic Swift harnesses
+        run: bash script/test_swift_ci.sh
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@v5
+        with:
+          fail-on-severity: moderate

@@ -50,6 +50,8 @@ def write_documentation(stage: Path, identity: str) -> None:
     """Сохранять ru/en и локальные ссылки без копирования всего репозитория."""
     directory = stage / "Docs"
     directory.mkdir()
+    # Отчёт об исправлениях использует только текст и доступные документы.
+    shutil.copy2(ROOT / "Docs/REVIEW-FIXES-2026-10-25.md", directory / "REVIEW-FIXES-2026-10-25.md")
     reports = (
         "LOCALIZATION-DYNAMICS.md", "LOCALIZATION-CHROME.md",
         "LOCALIZATION-ACCEPTANCE.md",
@@ -68,7 +70,7 @@ def write_documentation(stage: Path, identity: str) -> None:
     shutil.copy2(
         ROOT / "Docs/validation/results.json", validation / "results.json"
     )
-    for name in ("THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
+    for name in ("LICENSE", "CODE_OF_CONDUCT.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
         shutil.copy2(ROOT / name, stage / name)
     # Текущие release notes и machine-readable проверки нужны и вне репозитория.
     for path in (ROOT / "Docs").glob("RELEASE-*.md"):
@@ -150,6 +152,8 @@ def main() -> None:
     # ditto сохраняет атрибуты bundle, не изменяя исходную сборку.
     run(["/usr/bin/ditto", str(source), str(app)])
     resources = app / "Contents/Resources"
+    # Авторство остаётся с приложением после переноса из DMG в Applications.
+    shutil.copy2(ROOT / "LICENSE", resources / "LICENSE")
     runtime = resources / "LocalRuntime"
     binaries = [
         runtime / "llama-server", runtime / "koto-runtime-launcher",

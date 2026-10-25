@@ -11,6 +11,12 @@ enum ProductTestError: Error { case assertion(String) }
         func expect(_ value: Bool, _ name: String) throws {
             guard value else { throw ProductTestError.assertion(name) }; passed.append(name)
         }
+        // Изолированная suite проверяет production entry point, не меняя настройки пользователя.
+        defaults.set("example.com", forKey: "privacy.excludedHosts")
+        for origin in ["https://example.com/", "https://example.com./", "https://Sub.Example.COM./"] {
+            try expect(!TranslationPrivacy.browserOriginAllowed(origin, defaults: defaults), "excluded absolute hostname: " + origin)
+        }
+        try expect(TranslationPrivacy.browserOriginAllowed("https://notexample.com./", defaults: defaults), "unrelated domain allowed")
         let store = TranslationStore(directory: directory, defaults: defaults)
         let request = try TranslationRequest(text: "cat",source: TranslationLanguage(id:"en"),target: TranslationLanguage(id:"ru"))
         let result = TranslationResult(requestID:request.id,text:"кот",source:TranslationLanguage(id:"en"),target:request.target)

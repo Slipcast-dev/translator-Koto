@@ -2,6 +2,10 @@
 
 # Changelog
 
+## 0.1.0-alpha.13 — 2026-10-25
+
+Fixes four runtime/privacy/concurrency issues; adds Swift CI, SwiftLint, Dependabot, Dependency Review, licensing and community guidelines. Updates the installer and Chrome 0.1.3. See [release notes](Docs/RELEASE-0.1.0-alpha.13.md).
+
 ## 0.1.0-alpha.12 — 2026-10-25
 
 Koto ru/en and Chrome 0.1.2 localization: regional numbers, plurals, RTL, explanation language and stable error codes. Bilingual model-free HFS+ installer, separate extension ZIP and catalog checks in CI. [Release notes and limitations](Docs/RELEASE-0.1.0-alpha.12.md).

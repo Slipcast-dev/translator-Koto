@@ -10,14 +10,11 @@ struct LocalGenerationService {
         try Task.checkCancellation()
         let endpoint = try await runtime.start()
         try Task.checkCancellation()
-        var http = URLRequest(url:endpoint.baseURL.appendingPathComponent("v1/chat/completions"))
-        http.httpMethod = "POST"; http.timeoutInterval = 120
-        http.setValue("application/json",forHTTPHeaderField:"Content-Type")
-        http.setValue("Bearer " + endpoint.token,forHTTPHeaderField:"Authorization")
-        http.httpBody = try JSONSerialization.data(withJSONObject:Self.payload(instruction:instruction,input:input,schema:schema,maximumTokens:maximumTokens))
-        let (data,response) = try await runtime.session.data(for:http)
+        let body = try JSONSerialization.data(withJSONObject: Self.payload(instruction: instruction, input: input,
+                                                                           schema: schema, maximumTokens: maximumTokens))
+        let (data, status) = try await LocalRuntimeTransport.request(endpoint, path: "/v1/chat/completions", body: body)
         try Task.checkCancellation()
-        guard (response as? HTTPURLResponse)?.statusCode == 200, data.count <= 1_048_576,
+        guard status == 200, data.count <= 1_048_576,
               let object = try JSONSerialization.jsonObject(with:data) as? [String:Any],
               let first = (object["choices"] as? [[String:Any]])?.first,
               first["finish_reason"] as? String == "stop",

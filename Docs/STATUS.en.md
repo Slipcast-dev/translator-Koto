@@ -1,8 +1,12 @@
 [Русский](STATUS.md) | **English**
 
-# Status: 0.1.0-alpha.12 · Chrome 0.1.2
+# Status: 0.1.0-alpha.13 · Chrome 0.1.3
 
 25 October 2026 · Slipcast-Dev · arm64/macOS 26+. Release checks: macOS 27.2, Xcode 27.1.
+
+Current alpha.13: MIT copyright Slipcast-Dev, community guidelines, AF_UNIX runtime identity, DNS exclusion normalization, OCR resume and catalogue generation fixes. Release build, ten Swift harnesses, 76 Swift files linted, 9 Python and 13 JavaScript tests passed locally. Remote macOS 26 CI is tracked on GitHub Actions; actual Qwen generation over the new transport remains unverified. [Alpha.13 release notes](RELEASE-0.1.0-alpha.13.md).
+
+The following localization results are retained from alpha.12:
 
 | Area | Verification and boundaries |
 | --- | --- |

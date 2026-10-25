@@ -18,6 +18,32 @@ struct CaptureTests {
             guard condition else { throw CaptureTestError.assertion(name) }
             passed.append(name)
         }
+        // Имитируем Vision, который не завершается от отмены producer. Новый producer
+        // обязан дождаться освобождения ресурса; отменённый waiter не захватывает его.
+        let service = ScreenOCRService()
+        var finishOCR: CheckedContinuation<String, Never>?
+        let oldProducer = Task {
+            try await service.withExclusiveCapture {
+                await withCheckedContinuation { finishOCR = $0 }
+            }
+        }
+        while finishOCR == nil { await Task.yield() }
+        oldProducer.cancel()
+        var resumedCaptureStarted = false
+        let resumed = Task {
+            try await service.withExclusiveCapture { resumedCaptureStarted = true; return "new frame" }
+        }
+        let cancelledWaiter = Task { try await service.withExclusiveCapture { return "unreachable" } }
+        cancelledWaiter.cancel()
+        do { _ = try await cancelledWaiter.value; throw CaptureTestError.assertion("cancelled waiter ran") }
+        catch is CancellationError { passed.append("cancelled OCR waiter exits") }
+        try await Task.sleep(for: .milliseconds(50))
+        try check(!resumedCaptureStarted, "Resume waits for unfinished OCR")
+        finishOCR?.resume(returning: "obsolete frame")
+        do { _ = try await oldProducer.value; throw CaptureTestError.assertion("cancelled producer published") }
+        catch is CancellationError { passed.append("cancelled OCR result discarded") }
+        let newText = try await resumed.value
+        try check(newText == "new frame" && resumedCaptureStarted, "Pause Resume continues after OCR")
         let primary = CGRect(x: 0, y: 0, width: 1440, height: 900)
         let selected = CGRect(x: 100, y: 600, width: 400, height: 100)
         try check(try CaptureGeometry.sourceRect(selection: selected, screen: primary)

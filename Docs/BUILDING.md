@@ -44,3 +44,7 @@ Preview использует ad hoc. Developer ID/notarization — отдель�
 CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Локальный пакет: `python3 script/package_release.py --artifact-suffix localization-hfs`; после монтирования — `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
 
 Первый запрос без ручного прогрева: закройте Koto и выполните `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en`. Проверка требует готовые системные EN/RU ресурсы, не скачивает модель и не использует облако.
+
+## CI / static analysis
+
+`bash script/test_swift_ci.sh` runs ten deterministic Swift harnesses. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install SwiftLint with Homebrew (`brew install swiftlint`). GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.

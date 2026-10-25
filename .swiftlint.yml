@@ -1,0 +1,20 @@
+# Начинаем с правил корректности: CI не требует массового переформатирования проекта.
+only_rules:
+  - force_cast
+  - force_try
+  - duplicate_imports
+  - unneeded_break_in_switch
+included:
+  - App
+  - Core
+  - Features
+  - Services
+  - Support
+  - NativeHost
+  - Tests
+excluded:
+  - ThirdParty
+  - build
+  - dist
+force_cast: error
+force_try: error

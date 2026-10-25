@@ -7,13 +7,19 @@ enum ManualTestError: Error { case assertion(String) }
 @MainActor
 final class ControlledEngine: TranslationEngine {
     var languages = [TranslationLanguage(id: "en"), TranslationLanguage(id: "ru"), TranslationLanguage(id: "de")]
+    // Каталоги завершаются вручную: воспроизводим перестановку ответов без sleep.
+    var delayCatalog = false
+    var catalogs: [CheckedContinuation<[TranslationLanguage], Error>] = []
     var requiresDownload = false
     var readinessFailure: TranslationFailure?
     var requests: [UUID: TranslationRequest] = [:]
     var pending: [UUID: CheckedContinuation<TranslationResult, Error>] = [:]
     var completedCalls = 0
 
-    func supportedLanguages() async throws -> [TranslationLanguage] { languages }
+    func supportedLanguages() async throws -> [TranslationLanguage] {
+        if delayCatalog { return try await withCheckedThrowingContinuation { catalogs.append($0) } }
+        return languages
+    }
 
     func readiness(for request: TranslationRequest) async throws -> TranslationReadiness {
         if let readinessFailure { throw readinessFailure }
@@ -89,6 +95,30 @@ struct ManualTranslationTests {
             passed.append(name)
         }
         do {
+            try await test("new engine catalogue survives late old success and failure") {
+                let engine = ControlledEngine()
+                engine.delayCatalog = true
+                let model = ManualTranslationModel(engine: engine, context: .capture)
+                let old = Task { await model.loadLanguages() }
+                try await waitUntil { engine.catalogs.count == 1 }
+                let latest = Task { await model.loadLanguages() }
+                try await waitUntil { engine.catalogs.count == 2 }
+                engine.catalogs[1].resume(returning: [TranslationLanguage(id: "de")])
+                await latest.value
+                engine.catalogs[0].resume(returning: [TranslationLanguage(id: "ru")])
+                await old.value
+                try expect(model.languages.map(\.id) == ["de"] && model.targetIdentifier == "de", "Old catalogue overwrote selected engine")
+                let failing = Task { await model.loadLanguages() }
+                try await waitUntil { engine.catalogs.count == 3 }
+                let current = Task { await model.loadLanguages() }
+                try await waitUntil { engine.catalogs.count == 4 }
+                engine.catalogs[2].resume(throwing: TranslationFailure.failed)
+                await failing.value
+                try expect(model.isLoadingLanguages && model.catalogFailure == nil && !model.canTranslate, "Stale failure ended newer loading")
+                engine.catalogs[3].resume(returning: [TranslationLanguage(id: "en")])
+                await current.value
+                try expect(!model.isLoadingLanguages && model.languages.map(\.id) == ["en"], "Latest catalogue missing")
+            }
             try await test("whitespace-only input rejected") {
                 do {
                     _ = try TranslationRequest(text: " \n\t ", source: nil, target: TranslationLanguage(id: "ru"))

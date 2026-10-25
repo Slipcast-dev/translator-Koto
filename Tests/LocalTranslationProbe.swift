@@ -27,7 +27,7 @@ struct LocalTranslationProbe {
             let runtime = LocalRuntimeSupervisor(resourceRoot:root,modelFile:modelFile)
             defer { runtime.stop() }
             let endpoint = try await runtime.start()
-            report["port"] = endpoint.port
+            report["transport"] = "authenticated AF_UNIX"
             report["runtime_ready"] = true
             if CommandLine.arguments.contains("--crash") {
                 // Результат не содержит API-key. Родительский тест проверит, что launcher убрал child.
@@ -37,14 +37,9 @@ struct LocalTranslationProbe {
                 try await Task.sleep(for: .seconds(2))
                 kill(getpid(), SIGKILL)
             }
-            var unauthorized = URLRequest(url: endpoint.baseURL.appendingPathComponent("v1/chat/completions"))
-            unauthorized.httpMethod = "POST"
-            unauthorized.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            unauthorized.httpBody = Data("{\"model\":\"local\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}".utf8)
-            let (_, response) = try await runtime.session.data(for: unauthorized)
-            guard (response as? HTTPURLResponse)?.statusCode == 401 else {
-                throw LocalProbeFailure.assertion("unauthenticated request accepted")
-            }
+            let (_, status) = try await LocalRuntimeTransport.request(endpoint, path: "/v1/chat/completions",
+                body: Data("{\"model\":\"local\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}".utf8), authorized: false)
+            guard status == 401 else { throw LocalProbeFailure.assertion("unauthenticated request accepted") }
             report["unauthenticated_translation_rejected"] = true
             let engine = LocalTranslationEngine(runtime: runtime)
             var translations: [[String: String]] = []
@@ -81,12 +76,10 @@ struct LocalTranslationProbe {
             } catch TranslationFailure.cancelled { report["cancel"] = "passed" }
             runtime.stop()
             try await Task.sleep(for: .seconds(2))
-            var check = URLRequest(url: endpoint.baseURL.appendingPathComponent("health"))
-            check.timeoutInterval = 1
-            if (try? await runtime.session.data(for: check)) != nil {
+            if (try? await LocalRuntimeTransport.request(endpoint, path: "/health", authorized: false, timeout: 1)) != nil {
                 throw LocalProbeFailure.assertion("runtime still listening after stop")
             }
-            report["stop_closes_port"] = true
+            report["stop_closes_socket"] = true
             report["status"] = "passed"
         } catch {
             report["status"] = "failed"

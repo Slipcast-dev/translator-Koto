@@ -7,11 +7,26 @@ import Vision
 final class ScreenOCRService {
     private var captureInFlight = false
     func recognize(selection: CGRect, screen: NSScreen, excludeOwnWindows: Bool = false) async throws -> String {
-        // Отмена Swift Task не обязана мгновенно останавливать синхронный Vision.
-        // Не допускаем накопления распознаваний, даже если пользователь быстро повторяет команду.
-        guard !captureInFlight else { throw CaptureFailure.unavailable }
+        try await withExclusiveCapture {
+            try await capture(selection: selection, screen: screen, excludeOwnWindows: excludeOwnWindows)
+        }
+    }
+
+    /// Отменённый producer может всё ещё ждать Vision. Resume ждёт освобождения
+    /// ресурса, не создавая второй OCR и не превращая временную занятость в ошибку.
+    func withExclusiveCapture(_ operation: () async throws -> String) async throws -> String {
+        while captureInFlight {
+            try await Task.sleep(for: .milliseconds(25))
+        }
+        try Task.checkCancellation()
         captureInFlight = true
         defer { captureInFlight = false }
+        let text = try await operation()
+        try Task.checkCancellation()
+        return text
+    }
+
+    private func capture(selection: CGRect, screen: NSScreen, excludeOwnWindows: Bool) async throws -> String {
         guard CGPreflightScreenCaptureAccess() else { throw CaptureFailure.screenRequired }
         guard let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
             throw CaptureFailure.unavailable

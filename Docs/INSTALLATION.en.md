@@ -1,11 +1,11 @@
 [Русский](INSTALLATION.md) | **English**
 
-# Installing Koto 0.1.0-alpha.12
+# Installing Koto 0.1.0-alpha.13
 
 Apple Silicon, macOS 26+. Release checks were performed on macOS 27.2; macOS 26 runtime remains untested.
 
-1. Download the DMG and SHA256SUMS.txt from [alpha 12](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.12).
-2. Compare `shasum -a 256 Koto-0.1.0-alpha-12-arm64-preview.dmg` with SHA256SUMS.txt.
+1. Download the DMG and SHA256SUMS.txt from [alpha 13](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.13).
+2. Compare `shasum -a 256 Koto-0.1.0-alpha-13-arm64-preview.dmg` with SHA256SUMS.txt.
 3. Open the DMG and drag Koto.app into Applications.
 4. Grant selection/OCR permissions through Koto Settings if needed.
 
@@ -13,9 +13,9 @@ The preview is signed ad hoc, without Developer ID or notarization; macOS may re
 
 For Apple Translation, select the languages and click Translate. If Prepare languages appears, complete that explicit step. For optional Qwen, use the model installation button: [models](MODELS.en.md).
 
-## Chrome 0.1.2
+## Chrome 0.1.3
 
-Use BrowserExtension from the DMG, or extract Koto-Chrome-0.1.2.zip from the release. Register the native host using the current Koto app's Settings button and enable the bridge. In `chrome://extensions`, enable Developer mode and Load unpacked from the BrowserExtension folder in the DMG/project. Extension ID: `bodbmpckhpjhkkhhadamlbkddaikilok`. Reload the extension after updating its source folder. On an HTTP(S) tab, click Koto and choose an action; internal Chrome pages are excluded.
+Use BrowserExtension from the DMG, or extract Koto-Chrome-0.1.3.zip from the release. Register the native host using the current Koto app's Settings button and enable the bridge. In `chrome://extensions`, enable Developer mode and Load unpacked from the BrowserExtension folder in the DMG/project. Extension ID: `bodbmpckhpjhkkhhadamlbkddaikilok`. Reload the extension after updating its source folder. On an HTTP(S) tab, click Koto and choose an action; internal Chrome pages are excluded.
 
 If Apple language resources are unavailable, choose the same pair in Koto and click Translate. Complete preparation if offered, then retry the browser action.
 
