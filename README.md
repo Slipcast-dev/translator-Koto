@@ -63,3 +63,5 @@ python3 script/package_release.py
 `bash script/test_swift_ci.sh` запускает десять детерминированных Swift harness без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
 
 Локальный runtime использует приватный Unix-сокет; перед любым запросом проверяются UID и parent PID подключённого процесса на том же соединении. Токен и текст не отправляются неподтверждённому серверу. См. [проверку замечаний](Docs/REVIEW-FIXES-2026-10-25.md).
+
+Alpha.14 artifacts are built from source and attested: [verified provenance](Docs/validation/release-14.json). Verify downloads with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.14 --source-digest 33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295`.

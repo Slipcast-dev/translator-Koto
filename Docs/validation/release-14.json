@@ -1,0 +1,59 @@
+{
+  "release": "0.1.0-alpha.14",
+  "build": 14,
+  "chrome": "0.1.4",
+  "date": "2026-10-27",
+  "source_commit": "33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295",
+  "source_ref": "refs/tags/v0.1.0-alpha.14",
+  "source_build_and_attestation": "passed",
+  "workflow_run": "https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991",
+  "signer_workflow": "Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml",
+  "all_four_files_verified": true,
+  "verification_constraints": [
+    "repository",
+    "signer workflow",
+    "source ref",
+    "source digest"
+  ],
+  "files": [
+    {
+      "name": "Koto-0.1.0-14-arm64-preview-ci.dmg",
+      "sha256": "a4eff31fb58b565858e8a90b1222cee72f2a225941369e730a999f8c3b3090bd",
+      "bytes": 10604656,
+      "attestation_verified": true
+    },
+    {
+      "name": "Koto-0.1.0-14-arm64-preview-ci.json",
+      "sha256": "15dcecccf3f4d709481a5aeb720c472be15b3752d87b750680ef16799e9a68d8",
+      "bytes": 827,
+      "attestation_verified": true
+    },
+    {
+      "name": "Koto-Chrome-0.1.4.zip",
+      "sha256": "bbd8f5516fdc05ab95584eb27f05f33aafcd4ae53215b116ca4f75d7dea6986c",
+      "bytes": 34890,
+      "attestation_verified": true
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "sha256": "c3d8f59bf1a63021b7a852d257ed2946757bccf2c88d41272945a894e88232e9",
+      "bytes": 291,
+      "attestation_verified": true
+    }
+  ],
+  "mounted_package": {
+    "status": "passed",
+    "localized_tables": 6,
+    "extension_files": 12,
+    "local_document_links": 42,
+    "model_weights": 0
+  },
+  "codesign_deep_strict": "passed",
+  "signing": "ad hoc preview",
+  "notarized": false,
+  "notes": [
+    "alpha.13 historical files were not retroactively attested",
+    "Full GUI/Live/Qwen acceptance remains separate",
+    "Native CodeQL continues independently; it is not a provenance guarantee"
+  ]
+}
