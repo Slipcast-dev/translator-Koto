@@ -11,6 +11,15 @@ enum ProductTestError: Error { case assertion(String) }
         func expect(_ value: Bool, _ name: String) throws {
             guard value else { throw ProductTestError.assertion(name) }; passed.append(name)
         }
+        try expect(!TranslationPrivacy.browserOriginAllowed("https://mail.google.com/", defaults: defaults), "default mail exclusion")
+        try expect(!TranslationPrivacy.browserOriginAllowed("https://online.sberbank.ru/", defaults: defaults), "default finance exclusion")
+        defaults.set("", forKey: "privacy.excludedHosts")
+        try expect(TranslationPrivacy.browserOriginAllowed("https://mail.google.com/", defaults: defaults), "explicit empty user list respected")
+        // Длинный UTF-8 путь не передаётся в sockaddr_un; оба конца выбирают один fallback.
+        let longDirectory = directory.appendingPathComponent(String(repeating: "я", count: 100))
+        let shortSocket = try PrivateStorage.bridgeSocketPath(in: longDirectory)
+        defer { try? FileManager.default.removeItem(at: URL(fileURLWithPath: shortSocket).deletingLastPathComponent()) }
+        try expect(shortSocket.utf8.count < 104 && shortSocket == (try PrivateStorage.bridgeSocketPath(in: longDirectory)), "long bridge directory gets stable short socket")
         // Изолированная suite проверяет production entry point, не меняя настройки пользователя.
         defaults.set("example.com", forKey: "privacy.excludedHosts")
         for origin in ["https://example.com/", "https://example.com./", "https://Sub.Example.COM./"] {

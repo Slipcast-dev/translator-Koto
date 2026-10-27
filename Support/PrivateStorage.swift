@@ -1,5 +1,6 @@
 import Foundation
 import Security
+import CryptoKit
 import Darwin
 
 /// Только собственные файлы: O_NOFOLLOW, owner UID, 0700 directory, 0600 regular files.
@@ -13,6 +14,29 @@ enum PrivateStorage {
         try ensureDirectory(bridge)
         return bridge
     }
+    /// sun_path ограничен байтами UTF-8, а не числом символов имени пользователя.
+    /// Token остаётся в Application Support; только слишком длинный socket переносится
+    /// в стабильный короткий каталог с проверкой владельца, одинаковый для app и host.
+    static func bridgeSocketPath(in directory: URL) throws -> String {
+        let ordinary = directory.appendingPathComponent("bridge.sock").path
+        if ordinary.utf8.count < MemoryLayout.size(ofValue: sockaddr_un().sun_path) { return ordinary }
+        let digest = SHA256.hash(data: Data(directory.standardizedFileURL.path.utf8))
+            .map { String(format: "%02x", $0) }.joined().prefix(24)
+        let short = URL(fileURLWithPath: "/tmp/koto-bridge-\(getuid())-\(digest)", isDirectory: true)
+        try ensureDirectory(short)
+        return short.appendingPathComponent("bridge.sock").path
+    }
+
+    /// Проверяем credentials подключённого socket перед отправкой HELLO с токеном.
+    /// Это граница UID, а не защита от произвольного вредоносного процесса того же UID.
+    static func verifyPeer(_ fd: Int32) throws {
+        var uid: uid_t = 0
+        var gid: gid_t = 0
+        guard getpeereid(fd, &uid, &gid) == 0, uid == getuid() else {
+            throw CocoaError(.fileReadNoPermission)
+        }
+    }
+
     static func ensureDirectory(_ url: URL) throws {
         var metadata = stat()
         if lstat(url.path, &metadata) == 0 {

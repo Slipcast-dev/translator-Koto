@@ -40,7 +40,7 @@ final class BrowserBridgeServer {
         do {
             let directory = try directoryOverride ?? PrivateStorage.bridgeDirectory()
             try PrivateStorage.ensureDirectory(directory)
-            let path = directory.appendingPathComponent("bridge.sock").path
+            let path = try PrivateStorage.bridgeSocketPath(in: directory)
             // Не удаляем чужие regular files или symlinks на ожидаемом месте socket.
             var existing = stat()
             if lstat(path, &existing) == 0 {

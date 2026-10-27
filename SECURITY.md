@@ -4,7 +4,7 @@
 
 Текущая alpha-ветка — единственная поддерживаемая; SLA preview не обещается. Важны обработка текста, Keychain, integrity runtime/модели и native messaging.
 
-Не публикуйте секреты или приватные exploit-данные в обычном issue. Используйте приватную форму Report a vulnerability, если она доступна в Security. Иначе свяжитесь с владельцем через публичные контакты [Slipcast-dev](https://github.com/Slipcast-dev), сначала без подробностей эксплуатации, и согласуйте приватный канал.
+Не публикуйте секреты или приватные exploit-данные в обычном issue. GitHub Private Vulnerability Reporting включён: используйте [Report a vulnerability](https://github.com/Slipcast-dev/translator-Koto/security/advisories/new). Отчёт передаётся сопровождающему приватно. Email/PGP не заявлены; отдельные контакты не выдумываются.
 
 Сообщения принимаются на русском и английском языках.
 

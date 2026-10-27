@@ -211,7 +211,10 @@ final class LocalRuntimeSupervisor {
             guard let runtimeHash = runtimeSpec["runtimeSHA256"], let launcherHash = runtimeSpec["launcherSHA256"] else {
                 throw LocalRuntimeFailure.corrupt
             }
-            try await Self.verifyFile(model, expected: spec.sha256, expectedBytes: spec.bytes, gguf: true)
+            // llama-server читает именно проверенный inode, а не повторно открывает
+            // пользовательский путь, который мог измениться после SHA-256.
+            let modelSnapshot = try await Self.modelSnapshot(model, expected: spec.sha256, expectedBytes: spec.bytes)
+            defer { try? modelSnapshot.close() }
             try await Self.verifyFile(runtime, expected: runtimeHash)
             try await Self.verifyFile(launcher, expected: launcherHash)
             try Task.checkCancellation()
@@ -238,7 +241,7 @@ final class LocalRuntimeSupervisor {
             guard written == key.count else { throw LocalRuntimeFailure.start }
             let child = Process()
             child.executableURL = launcher
-            child.arguments = [runtime.path, "--model", model.path,
+            child.arguments = [runtime.path, "--model", "/dev/fd/0",
                 "--host", directory.appendingPathComponent("runtime.sock").path,
                 "--api-key-file", keyFile.path, "--ctx-size", "4096",
                 "--parallel", "1", "--threads", "4", "--n-gpu-layers", "99",
@@ -248,7 +251,10 @@ final class LocalRuntimeSupervisor {
                                  "TMPDIR": FileManager.default.temporaryDirectory.path]
             child.standardOutput = FileHandle.nullDevice
             child.standardError = FileHandle.nullDevice
-            child.standardInput = FileHandle.nullDevice
+            // Process передаёт handle как stdin; launcher наследует fd 0 через exec.
+            // Снимок анонимный: исходный путь и даже содержимое исходного inode
+            // больше не влияют на байты, которые откроет llama-server через /dev/fd/0.
+            child.standardInput = modelSnapshot
             child.terminationHandler = { [weak self] _ in
                 Task { @MainActor in
                     guard let self, self.generation == id else { return }
@@ -306,15 +312,79 @@ final class LocalRuntimeSupervisor {
         privateDirectory = nil
     }
 
+    /// Копируем и хешируем одни и те же байты в сразу unlinked tempfile.
+    /// Цена защиты от path/in-place TOCTOU — дополнительное временное место размером
+    /// с модель. Именованная копия не хранится; отмена/ошибка закрывает оба дескриптора.
+    nonisolated static func modelSnapshot(_ source: URL, expected: String, expectedBytes: Int64) async throws -> FileHandle {
+        let worker = Task.detached(priority: .utility) {
+            let input = open(source.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK)
+            guard input >= 0 else { throw LocalRuntimeFailure.missing }
+            defer { close(input) }
+            var metadata = stat()
+            guard fstat(input, &metadata) == 0, metadata.st_uid == getuid(),
+                  (metadata.st_mode & S_IFMT) == S_IFREG, metadata.st_size == expectedBytes else {
+                throw LocalRuntimeFailure.corrupt
+            }
+            var pattern = Array("/tmp/koto-model-XXXXXX".utf8CString)
+            let output = mkstemp(&pattern)
+            guard output >= 0 else { throw LocalRuntimeFailure.start }
+            var transferred = false
+            defer { if !transferred { close(output) } }
+            // Удаляем имя до записи содержимого: файл доступен только через открытый fd.
+            guard pattern.withUnsafeBufferPointer({ unlink($0.baseAddress!) }) == 0 else {
+                throw LocalRuntimeFailure.start
+            }
+            var digest = SHA256()
+            var buffer = [UInt8](repeating: 0, count: 1_048_576)
+            var total: Int64 = 0
+            while true {
+                try Task.checkCancellation()
+                let count = buffer.withUnsafeMutableBytes { Darwin.read(input, $0.baseAddress, $0.count) }
+                if count < 0 && errno == EINTR { continue }
+                guard count >= 0 else { throw LocalRuntimeFailure.corrupt }
+                if count == 0 { break }
+                if total == 0, !buffer.prefix(count).starts(with: Array("GGUF".utf8)) {
+                    throw LocalRuntimeFailure.corrupt
+                }
+                total += Int64(count)
+                guard total <= expectedBytes else { throw LocalRuntimeFailure.corrupt }
+                let bytes = Data(buffer.prefix(count))
+                digest.update(data: bytes)
+                var offset = 0
+                while offset < count {
+                    try Task.checkCancellation()
+                    let written = bytes.withUnsafeBytes {
+                        Darwin.write(output, $0.baseAddress!.advanced(by: offset), count - offset)
+                    }
+                    if written < 0 && errno == EINTR { continue }
+                    guard written > 0 else { throw LocalRuntimeFailure.start }
+                    offset += written
+                }
+            }
+            let actual = digest.finalize().map { String(format: "%02x", $0) }.joined()
+            guard total == expectedBytes, actual == expected.lowercased(), lseek(output, 0, SEEK_SET) == 0 else {
+                throw LocalRuntimeFailure.corrupt
+            }
+            transferred = true
+            return FileHandle(fileDescriptor: output, closeOnDealloc: true)
+        }
+        return try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
+    }
+
     nonisolated static func verifyFile(_ url: URL, expected: String, expectedBytes: Int64? = nil, gguf: Bool = false) async throws {
         let worker = Task.detached(priority: .utility) {
+            let fd = open(url.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK)
+            guard fd >= 0 else { throw LocalRuntimeFailure.missing }
+            let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
+            defer { try? file.close() }
             var info = stat()
-            guard lstat(url.path, &info) == 0, (info.st_mode & S_IFMT) == S_IFREG else {
-                throw LocalRuntimeFailure.missing
+            // Приложение в /Applications может быть установлено root; проверка hash
+            // защищает его содержимое, не требуя пользовательского владения bundle.
+            guard fstat(fd, &info) == 0, (info.st_uid == getuid() || info.st_uid == 0),
+                  (info.st_mode & S_IFMT) == S_IFREG else {
+                throw LocalRuntimeFailure.corrupt
             }
             if let expectedBytes, info.st_size != expectedBytes { throw LocalRuntimeFailure.corrupt }
-            let file = try FileHandle(forReadingFrom: url)
-            defer { try? file.close() }
             if gguf {
                 guard try file.read(upToCount: 4) == Data("GGUF".utf8) else { throw LocalRuntimeFailure.corrupt }
                 try file.seek(toOffset: 0)

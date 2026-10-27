@@ -3,7 +3,9 @@ PRODUCT_NAME = Koto
 PRODUCT_BUNDLE_IDENTIFIER = dev.slipcast.koto
 KOTO_DEVELOPER = Slipcast-Dev
 KOTO_COPYRIGHT = © 2026 Slipcast-Dev
-MARKETING_VERSION = 0.1.0-alpha
+// CFBundleShortVersionString — числовой; alpha хранится отдельно для интерфейса.
+MARKETING_VERSION = 0.1.0
+KOTO_RELEASE_CHANNEL = alpha
 CURRENT_PROJECT_VERSION = 13
 
 // Первый выпуск — arm64/macOS 26+. Поддержка 26 проверяется отдельно от сборки SDK 27.
@@ -11,6 +13,7 @@ MACOSX_DEPLOYMENT_TARGET = 26.0
 SDKROOT = macosx
 SUPPORTED_PLATFORMS = macosx
 ARCHS = arm64
+// Режим языка Swift 6, компилятор — Swift 6.2+ (Xcode 26+).
 SWIFT_VERSION = 6.0
 SWIFT_STRICT_CONCURRENCY = complete
 SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor
@@ -23,7 +26,7 @@ COMBINE_HIDPI_IMAGES = YES
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
 LOCALIZATION_PREFERS_STRING_CATALOGS = YES
 
-// Только development ad hoc: release-сертификат Slipcast-Dev создаётся на этапе 9.
+// Preview ad hoc. Developer ID/notarization требуют отдельной Apple identity.
 CODE_SIGN_STYLE = Manual
 CODE_SIGN_IDENTITY = -
 DEVELOPMENT_TEAM =

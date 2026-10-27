@@ -10,7 +10,7 @@
 | Privacy / конечная точка DNS | Host нормализуется перед сопоставлением домена и поддоменов. | ProductPrivacyTests: example.com, example.com., Sub.Example.COM. блокируются; notexample.com. разрешён. |
 | OCR / Pause → Resume | Новый захват ожидает освобождения единственного OCR, поддерживая отмену. Результат отменённого producer отбрасывается. | CaptureTests: незавершённый OCR переживает cancel; Resume ждёт и затем получает новый кадр; отменённый waiter завершается. |
 | Языки / смена движка | Каждая загрузка получает UUID поколения и сразу очищает старый каталог. Только последний запрос публикует список, ошибку и состояние загрузки. | ManualTranslationTests: старые success/error после нового запроса не меняют актуальный каталог или loading. |
-| CI | macOS 26 arm64: сборка app без подписи и десять Swift harness через общий script/test_swift_ci.sh. | Эквивалентные build и harness выполнены локально. Удалённый GitHub Actions в этой сессии не запускался. |
+| CI | macOS 26 arm64: сборка app без подписи и десять Swift harness через общий script/test_swift_ci.sh. | Build, SwiftLint и десять harness прошли в [GitHub Actions на macOS 26](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). |
 
 ## Запуск
 
@@ -29,8 +29,6 @@ node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs
 
 ## Результат и границы
 
-Проверено локально на macOS 27.2 / Xcode 27.1: Debug build — пройдено; все десять Swift harness — пройдено. Веса не скачивались, разрешения экрана не требовались; Vision распознавал синтетическое изображение. Полная генерация Qwen через новый транспорт, crash/quit с реальными весами, интерактивный Live и выполнение на macOS 26 — не проверено. Transport fixture использует настоящий production launcher, AF_UNIX и kernel credentials; заменяется только llama-server на одноразовый HTTP fixture.
+Проверено локально на macOS 27.2 / Xcode 27.1: Debug build — пройдено; все десять Swift harness — пройдено. Веса не скачивались, разрешения экрана не требовались; Vision распознавал синтетическое изображение. Полная генерация Qwen через новый транспорт, crash/quit с реальными весами, интерактивный Live и полная GUI-приёмка на macOS 26 — не проверено. Автоматические macOS 26 build/harness пройдены. Transport fixture использует настоящий production launcher, AF_UNIX и kernel credentials; заменяется только llama-server на одноразовый HTTP fixture.
 
 Существующие release-результаты относятся к опубликованной alpha.12. CI workflow включён в alpha.13; фактический удалённый результат отслеживается в GitHub Actions. Приёмочная матрица использует статусы «пройдено / не пройдено / не проверено» и не переносит прохождение unit-контрактов на неиспытанные реальные сценарии.
-
-После публикации alpha.13: [удалённый CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241) прошёл на macOS 26 arm64 — сборка, SwiftLint и все десять harness. Сбой чистого checkout устранён явной сборкой native host перед Xcode. Упоминания отсутствующего удалённого результата выше относятся к первоначальному локальному этапу проверки.

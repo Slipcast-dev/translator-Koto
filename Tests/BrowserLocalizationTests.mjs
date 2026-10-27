@@ -60,7 +60,7 @@ async function fixture(locale, preferences = { source: "en", target: "ja" }, num
   const requests = [];
   const state = {
     browserResults: [], unsupported: false, nativeError: null,
-    lastAction: null, workerListener: null, applyDOM: false,
+    lastAction: null, workerListener: null, applyDOM: false, targets: [],
     nativeText: "<b>translated fixture</b>", inserted: [],
   };
   const nativeListeners = {};
@@ -86,12 +86,16 @@ async function fixture(locale, preferences = { source: "en", target: "ja" }, num
     tabs: { async query() {
       return [{ id: 7, url: state.unsupported ? "chrome://settings" : "https://fixture.test/" }];
     } },
-    scripting: { async executeScript({ func, args = [] }) {
+    scripting: { async executeScript({ target, func, args = [] }) {
+      state.targets.push(target);
       if (state.applyDOM && args.length === 2) {
         return [{ result: func(...args) }];
       }
       assert.ok(state.browserResults.length, "Unexpected browser injection");
-      return [{ result: state.browserResults.shift() }];
+      let result = state.browserResults.shift();
+      if (typeof result === "string") result = {text:result,pageOrigin:"https://fixture.test"};
+      if (Array.isArray(result)) result = {segments:result,pageOrigin:"https://fixture.test"};
+      return [{ result, documentId:"fixture-document" }];
     } },
     runtime: {
       id: identity.id,
@@ -305,4 +309,26 @@ test("page insertion isolates RTL without changing translated text", async () =>
   assert.equal(element.dir, "auto");
   assert.equal(element.style.unicodeBidi, "isolate");
   assert.equal(f.elements.status.textContent, "Translated 1 visible fragment.");
+});
+
+// tabs.query всё ещё сообщает старый URL; текст уже из нового документа.
+// RPC обязан использовать origin снимка, а не исходный URL вкладки.
+test("selection navigation uses origin captured with text", async () => {
+  const f = await fixture("en");
+  f.state.browserResults = [{text:"private mail fixture",pageOrigin:"https://mail.google.com"}];
+  await f.elements.selection.trigger("click");
+  assert.equal(f.requests[0].payload.pageOrigin,"https://mail.google.com");
+});
+test("page snapshot origin and destination document stay bound", async () => {
+  const f = await fixture("en");
+  f.state.browserResults = [{segments:[{id:0,text:"private fixture"}],pageOrigin:"https://mail.google.com"},1];
+  await f.elements.page.trigger("click");
+  assert.equal(f.requests[0].payload.pageOrigin,"https://mail.google.com");
+  assert.deepEqual(Array.from(f.state.targets.at(-1).documentIds),["fixture-document"]);
+});
+test("unsupported snapshot origin sends no text", async () => {
+  const f = await fixture("en");
+  f.state.browserResults = [{text:"private fixture",pageOrigin:"null"}];
+  await f.elements.selection.trigger("click");
+  assert.equal(f.requests.length,0);
 });

@@ -50,6 +50,7 @@ def write_documentation(stage: Path, identity: str) -> None:
     """Сохранять ru/en и локальные ссылки без копирования всего репозитория."""
     directory = stage / "Docs"
     directory.mkdir()
+    shutil.copy2(ROOT / "Docs/AUDIT-2026-10-27.md", directory / "AUDIT-2026-10-27.md")
     # Отчёт об исправлениях использует только текст и доступные документы.
     shutil.copy2(ROOT / "Docs/REVIEW-FIXES-2026-10-25.md", directory / "REVIEW-FIXES-2026-10-25.md")
     reports = (
@@ -67,6 +68,7 @@ def write_documentation(stage: Path, identity: str) -> None:
             (directory / name).write_text(text)
     validation = directory / "validation"
     validation.mkdir()
+    shutil.copy2(ROOT / "Docs/validation/audit-2026-10-27.json", validation / "audit-2026-10-27.json")
     shutil.copy2(
         ROOT / "Docs/validation/results.json", validation / "results.json"
     )
@@ -172,7 +174,8 @@ def main() -> None:
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     run([
         "/usr/bin/codesign", "--force", "--sign", args.identity,
-        "--options", "runtime", "--timestamp=none", str(app),
+        "--options", "runtime", "--timestamp=none",
+        "--entitlements", str(ROOT / "Config/Release.entitlements"), str(app),
     ])
     run([
         "/usr/bin/codesign", "--verify", "--deep", "--strict",
