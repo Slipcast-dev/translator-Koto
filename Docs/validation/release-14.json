@@ -53,7 +53,14 @@
   "notarized": false,
   "notes": [
     "alpha.13 historical files were not retroactively attested",
-    "Full GUI/Live/Qwen acceptance remains separate",
-    "Native CodeQL continues independently; it is not a provenance guarantee"
-  ]
+    "Full GUI/Live/Qwen acceptance remains separate"
+  ],
+  "ci_verification": {
+    "url": "https://github.com/Slipcast-dev/translator-Koto/pull/5/checks",
+    "source_policy": "passed",
+    "swift": "passed",
+    "dependency_review": "passed",
+    "codeql_native": "passed",
+    "codeql_scripts": "passed"
+  }
 }

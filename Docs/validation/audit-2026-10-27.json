@@ -23,12 +23,17 @@
     "packaged_get_task_allow": false
   },
   "github_private_vulnerability_reporting": "enabled and verified",
-  "remote_ci": "pending pull request",
+  "remote_ci": {
+    "status": "passed",
+    "url": "https://github.com/Slipcast-dev/translator-Koto/pull/5/checks",
+    "required_checks": "passed",
+    "codeql_native": "passed",
+    "codeql_scripts": "passed"
+  },
   "remaining": [
     "Apple Developer ID/notarization requires unavailable identity/credentials",
     "App Sandbox requires separate compatibility architecture",
     "strict Keychain accessibility classes need Data Protection backend and signing identity",
-    "provenance workflow needs merge and first supported default-branch dispatch",
     "actual Qwen generation through snapshot FD and extended Live not exercised"
   ]
 }
