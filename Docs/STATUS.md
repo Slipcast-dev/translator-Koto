@@ -1,6 +1,6 @@
 **Русский** | [English](STATUS.en.md)
 
-# Статус 0.1.0-alpha.13 · Chrome 0.1.3
+# Koto 0.1.0-alpha.14 · Chrome 0.1.4
 
 25 октября 2026 · Slipcast-Dev · arm64/macOS 26+. Проверки выпуска: macOS 27.2, Xcode 27.1.
 
@@ -35,4 +35,6 @@
 
 ## Проверка внешнего аудита · 27 октября
 
-[Разбор всех 11 пунктов](AUDIT-2026-10-27.md): исправлены browser navigation/origin, длинный bridge socket path, proxy и передача проверенного снимка модели; закреплены Actions/SwiftLint, добавлены CodeQL и provenance workflow. Private Vulnerability Reporting включён. Developer ID/notarization, полный App Sandbox и Data Protection Keychain требуют отдельного внешнего этапа. Эти изменения находятся в ветке аудита, а не в опубликованном alpha.13.
+[Разбор всех 11 пунктов](AUDIT-2026-10-27.md): исправлены browser navigation/origin, длинный bridge socket path, proxy и передача проверенного снимка модели; закреплены Actions/SwiftLint, добавлены CodeQL и provenance workflow. Private Vulnerability Reporting включён. Developer ID/notarization, полный App Sandbox и Data Protection Keychain требуют отдельного внешнего этапа. Исправления подготовлены для alpha.14; опубликованный alpha.13 остаётся историческим.
+
+Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.

@@ -9,7 +9,7 @@ permissions:
 jobs:
   native:
     runs-on: macos-26
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -21,7 +21,7 @@ jobs:
       - run: bash script/build_native_host.sh
       - run: >-
           xcodebuild -project Koto.xcodeproj -scheme Koto -configuration Release
-          -destination 'platform=macOS,arch=arm64' -derivedDataPath build/codeql
+          -destination 'generic/platform=macOS' -derivedDataPath build/codeql
           CODE_SIGNING_ALLOWED=NO clean build
       - run: xcrun clang++ -std=c++20 -Wall -Wextra -Wpedantic NativeTools/RuntimeLauncher.cpp -o build/codeql-launcher
       - uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4

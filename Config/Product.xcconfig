@@ -6,7 +6,7 @@ KOTO_COPYRIGHT = © 2026 Slipcast-Dev
 // CFBundleShortVersionString — числовой; alpha хранится отдельно для интерфейса.
 MARKETING_VERSION = 0.1.0
 KOTO_RELEASE_CHANNEL = alpha
-CURRENT_PROJECT_VERSION = 13
+CURRENT_PROJECT_VERSION = 14
 
 // Первый выпуск — arm64/macOS 26+. Поддержка 26 проверяется отдельно от сборки SDK 27.
 MACOSX_DEPLOYMENT_TARGET = 26.0

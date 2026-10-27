@@ -45,7 +45,7 @@ echo "Сборка Koto ($CONFIGURATION)…"
     -project "$ROOT_DIR/Koto.xcodeproj" \
     -scheme Koto \
     -configuration "$CONFIGURATION" \
-    -destination 'platform=macOS,arch=arm64' \
+    -destination 'generic/platform=macOS' \
     -derivedDataPath "$BUILD_ROOT/DerivedData" \
     build 2>&1 | /usr/bin/tee "$BUILD_ROOT/logs/build-$CONFIGURATION.log"
 

@@ -2,6 +2,10 @@
 
 # Изменения
 
+## 0.1.0-alpha.14 — 2026-10-27
+
+Audit fixes and source-built GitHub artifact attestations; Chrome 0.1.4. [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).
+
 ## 0.1.0-alpha.13 — 2026-10-25
 
 Исправлены четыре гонки/обхода приватности; добавлены Swift CI, SwiftLint, Dependabot, Dependency Review, лицензия и правила сообщества. Chrome 0.1.3 и установщик обновлены. См. [выпуск](Docs/RELEASE-0.1.0-alpha.13.md).
