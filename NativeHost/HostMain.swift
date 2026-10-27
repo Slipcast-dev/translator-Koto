@@ -20,7 +20,7 @@ struct KotoNativeHost {
         if let test = ProcessInfo.processInfo.environment["KOTO_BRIDGE_DIRECTORY"] {
             directory = URL(fileURLWithPath: test, isDirectory: true)
         } else { directory = try PrivateStorage.bridgeDirectory() }
-        let socketPath = directory.appendingPathComponent("bridge.sock").path
+        let socketPath = try PrivateStorage.bridgeSocketPath(in: directory)
         let tokenPath = directory.appendingPathComponent("bridge.token")
         for fd in [STDIN_FILENO, STDOUT_FILENO] { _ = fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK) }
         var browserDecoder = BridgeFrameDecoder(), desktopDecoder = BridgeFrameDecoder()
@@ -127,6 +127,7 @@ struct KotoNativeHost {
                 guard getsockopt(socketFD, SOL_SOCKET, SO_ERROR, &code, &length) == 0, code == 0 else {
                     close(socketFD); socketFD = -1; try failPending(); continue
                 }
+                try PrivateStorage.verifyPeer(socketFD)
                 try flush(socketFD, &toDesktop)
             }
             if socketFD >= 0 && descriptors[2].revents & Int16(POLLIN | POLLHUP | POLLERR) != 0 {

@@ -1,5 +1,6 @@
 import Foundation
 import Darwin
+import CryptoKit
 
 /// Настоящие Unix-сокеты и kernel peer PID; подменяется только HTTP-сервер без модели.
 @main struct RuntimeTransportTests {
@@ -15,6 +16,35 @@ import Darwin
         let runtime = directory.appendingPathComponent("llama-server")
         try FileManager.default.createSymbolicLink(atPath: runtime.path, withDestinationPath: CommandLine.arguments[3])
         var passed: [String] = []
+        let source = directory.appendingPathComponent("fixture.gguf")
+        let original = Data("GGUFverified-public-fixture".utf8)
+        try original.write(to: source)
+        let hash = SHA256.hash(data: original).map { String(format: "%02x", $0) }.joined()
+        let snapshot = try await LocalRuntimeSupervisor.modelSnapshot(source, expected: hash, expectedBytes: Int64(original.count))
+        defer { try? snapshot.close() }
+        // Проверяем и изменение того же inode, и атомарную замену исходного пути.
+        try Data(repeating: 65, count: original.count).write(to: source)
+        try Data(repeating: 66, count: original.count).write(to: source, options: .atomic)
+        guard try snapshot.readToEnd() == original else { throw LocalRuntimeFailure.corrupt }
+        var metadata = stat()
+        guard fstat(snapshot.fileDescriptor, &metadata) == 0, metadata.st_nlink == 0 else { throw LocalRuntimeFailure.corrupt }
+        try snapshot.seek(toOffset: 0)
+        // Реальный launcher передаёт fd 0 через exec, как при запуске llama-server.
+        let probe = Process()
+        probe.executableURL = URL(fileURLWithPath: CommandLine.arguments[2])
+        probe.arguments = [runtime.path, "-c", "import pathlib,sys; sys.stdout.buffer.write(pathlib.Path('/dev/fd/0').read_bytes())"]
+        probe.standardInput = snapshot
+        let probeOutput = Pipe()
+        probe.standardOutput = probeOutput
+        try probe.run()
+        let inherited = probeOutput.fileHandleForReading.readDataToEndOfFile()
+        probe.waitUntilExit()
+        guard probe.terminationStatus == 0, inherited == original else { throw LocalRuntimeFailure.corrupt }
+        passed.append("verified unlinked model survives original replacement and launcher exec")
+        do {
+            _ = try await LocalRuntimeSupervisor.modelSnapshot(source, expected: hash, expectedBytes: Int64(original.count))
+            throw LocalRuntimeFailure.start
+        } catch LocalRuntimeFailure.corrupt { passed.append("same-size corrupt model rejected") }
         // Один путь повторно занимает чужой сервер: проверка только на старте была бы недостаточна.
         for (mode, body, authorized) in [("trusted", Optional<Data>.none, false),
                                         ("trusted", Data("private translation fixture".utf8), true),

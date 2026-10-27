@@ -43,6 +43,14 @@ def main() -> None:
                     destination = (path.parent / target.split('#')[0]).resolve()
                     if not destination.exists():
                         raise RuntimeError(f'Broken local link in {relative}: {target}')
+    # Workflow — исполняемая supply-chain граница: mutable tags больше не допускаются.
+    for workflow in (ROOT / '.github/workflows').glob('*.yml'):
+        for action in re.findall(r'^\s*-?\s*uses:\s*([^\s#]+)', workflow.read_text(), re.MULTILINE):
+            if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_./-]+@[0-9a-f]{40}', action):
+                raise RuntimeError(f'Action must use a full commit SHA: {workflow.name}: {action}')
+    product = (ROOT / 'Config/Product.xcconfig').read_text()
+    if not re.search(r'^MARKETING_VERSION = [0-9]+\.[0-9]+\.[0-9]+$', product, re.MULTILINE):
+        raise RuntimeError('CFBundleShortVersionString must use a numeric marketing version')
     catalog = json.loads((ROOT / 'Resources/LocalModels/manifest.json').read_text())
     lock = json.loads((ROOT / 'ThirdParty/model-lock.json').read_text())
     if catalog != lock:

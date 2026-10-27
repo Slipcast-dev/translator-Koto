@@ -7,7 +7,7 @@ struct ProductSettingsView: View {
     @AppStorage("privacy.cloud.browser") private var cloudBrowser = false
     @AppStorage("privacy.cloud.live") private var cloudLive = false
     @AppStorage("privacy.excludedApps") private var excluded = "com.apple.mail\ncom.apple.MobileSMS\nru.keepcoder.Telegram\nnet.whatsapp.WhatsApp\ncom.viber.osx"
-    @AppStorage("privacy.excludedHosts") private var excludedHosts = ""
+    @AppStorage("privacy.excludedHosts") private var excludedHosts = TranslationPrivacy.defaultExcludedHosts
     @Bindable private var store = TranslationStore.shared
     @State private var provider = CloudTranslationEngine.Provider.google
     @State private var key = ""

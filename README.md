@@ -1,15 +1,15 @@
 **Русский** | [English](README.en.md)
 
-Локальная ru/en локализация от 25 октября: [приёмка и ограничения](Docs/LOCALIZATION-ACCEPTANCE.md). Текущий выпуск: **0.1.0-alpha.13**, Chrome **0.1.3**.
+Локальная ru/en локализация от 25 октября: [приёмка и ограничения](Docs/LOCALIZATION-ACCEPTANCE.md). Текущий выпуск: **0.1.0-alpha.14**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 13" src="https://img.shields.io/badge/release-0.1.0--alpha.13-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 14" src="https://img.shields.io/badge/release-0.1.0--alpha.14-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.13/Koto-0.1.0-alpha-13-arm64-preview.dmg)** · [Chrome 0.1.3 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.13/Koto-Chrome-0.1.3.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.14/Koto-0.1.0-14-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.14/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
 > Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
@@ -50,7 +50,7 @@ python3 script/package_release.py
 
 ## Проверки и ограничения
 
-Для build 12 проверяются 546 локализованных значений в 12 сочетаниях языка/региона, 13 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.13.md).
+Для build 12 проверяются 546 локализованных значений в 12 сочетаниях языка/региона, 13 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.14.md).
 
 Непостоянная внутренняя причина первоначального отказа Apple framework не установлена. Исправлена обработка отказа в Koto. Live endurance, sleep/wake, macOS 26 и часть внешних интеграций ещё требуют приёмки.
 

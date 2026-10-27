@@ -9,7 +9,12 @@ CATALOG="$ROOT_DIR/Resources/Assets.xcassets"
 while read -r size scale pixels; do
     filename="icon_${size}x${size}"
     [[ "$scale" == "1" ]] || filename="$filename@${scale}x"
-    /usr/bin/sips -z "$pixels" "$pixels" "$MASTER" --out "$CATALOG/AppIcon.appiconset/$filename.png" >/dev/null
+    if [[ "$pixels" == "1024" ]]; then
+        # Master уже 1024px: один источник истины вместо побайтной копии в Git.
+        ln -sfn ../../../Design/AppIcon-master.png "$CATALOG/AppIcon.appiconset/$filename.png"
+    else
+        /usr/bin/sips -z "$pixels" "$pixels" "$MASTER" --out "$CATALOG/AppIcon.appiconset/$filename.png" >/dev/null
+    fi
 done <<'SIZES'
 16 1 16
 16 2 32

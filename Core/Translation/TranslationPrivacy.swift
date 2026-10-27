@@ -4,6 +4,10 @@ import Foundation
 enum TranslationContext: String, Sendable { case manual, capture, browser, live }
 
 enum TranslationPrivacy {
+    /// Начальные исключения не заменяют явный пользовательский список и не претендуют
+    /// на полноту: банковские и корпоративные домены пользователь добавляет в Settings.
+    static let defaultExcludedHosts = "mail.google.com\noutlook.live.com\noutlook.office.com\nmail.yahoo.com\nmail.yandex.ru\nmail.ru\nproton.me\nprotonmail.com\npaypal.com\nonline.sberbank.ru"
+
     static func cloudAllowed(_ context: TranslationContext) -> Bool {
         context == .manual || UserDefaults.standard.bool(forKey: "privacy.cloud." + context.rawValue)
     }
@@ -15,7 +19,7 @@ enum TranslationPrivacy {
         // одинаково блокировать обычное имя, абсолютное имя и его поддомены.
         let host = rawHost.trimmingCharacters(in: CharacterSet(charactersIn: "."))
         guard !host.isEmpty else { return false }
-        let blocked = defaults.string(forKey: "privacy.excludedHosts") ?? ""
+        let blocked = defaults.string(forKey: "privacy.excludedHosts") ?? defaultExcludedHosts
         return !blocked.split(whereSeparator: { $0.isWhitespace || $0 == "," }).contains {
             let suffix = $0.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: "."))
             return !suffix.isEmpty && (host == suffix || host.hasSuffix("." + suffix))

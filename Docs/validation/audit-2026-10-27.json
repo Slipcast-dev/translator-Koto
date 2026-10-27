@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-27",
+  "baseline": "058bbcac292aff909ddde246c0f226e21bf6369d",
+  "branch": "fix/audit-alpha13-20261027",
+  "findings": 11,
+  "local": {
+    "release_build": "passed",
+    "swift_and_bridge_suites": 12,
+    "swift_and_bridge_result": "passed",
+    "browser_tests": 16,
+    "python_catalog_tests": 9,
+    "swiftlint_version": "0.65.1",
+    "swiftlint_files": 77,
+    "swiftlint_violations": 0,
+    "mounted_package": {
+      "status": "passed",
+      "localized_tables": 6,
+      "extension_files": 12,
+      "local_document_links": 39,
+      "model_weights": 0
+    },
+    "bundle_numeric_version": "passed",
+    "packaged_get_task_allow": false
+  },
+  "github_private_vulnerability_reporting": "enabled and verified",
+  "remote_ci": "pending pull request",
+  "remaining": [
+    "Apple Developer ID/notarization requires unavailable identity/credentials",
+    "App Sandbox requires separate compatibility architecture",
+    "strict Keychain accessibility classes need Data Protection backend and signing identity",
+    "provenance workflow needs merge and first supported default-branch dispatch",
+    "actual Qwen generation through snapshot FD and extended Live not exercised"
+  ]
+}

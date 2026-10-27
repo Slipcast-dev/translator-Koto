@@ -1,6 +1,6 @@
 **Русский** | [English](STATUS.en.md)
 
-# Статус 0.1.0-alpha.13 · Chrome 0.1.3
+# Koto 0.1.0-alpha.14 · Chrome 0.1.4
 
 25 октября 2026 · Slipcast-Dev · arm64/macOS 26+. Проверки выпуска: macOS 27.2, Xcode 27.1.
 
@@ -32,3 +32,9 @@
 25 октября проверены и исправлены пять замечаний: доверие endpoint runtime, конечная точка исключённого DNS-домена, OCR Pause/Resume, устаревший каталог движка и отсутствие Swift в CI. [Изменения, команды и границы проверки](REVIEW-FIXES-2026-10-25.md). Локальная Debug-сборка и десять Swift harness пройдены на macOS 27.2 / Xcode 27.1. Изменения включены в подготовленный пакет alpha.13; удалённый CI/macOS 26 и реальная генерация Qwen через новый Unix-транспорт не проверены.
 
 Удалённая чистая сборка, SwiftLint и десять Swift harness на macOS 26 arm64 — **пройдено**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). Первоначальный сбой отсутствующего BrowserBridge исправлен сборкой native host перед Xcode. Dependency Review на Dependabot PR — **пройдено**. Это подтверждает сборку и автоматические контракты на macOS 26, но не полную интерактивную приёмку GUI/Live/Qwen.
+
+## Проверка внешнего аудита · 27 октября
+
+[Разбор всех 11 пунктов](AUDIT-2026-10-27.md): исправлены browser navigation/origin, длинный bridge socket path, proxy и передача проверенного снимка модели; закреплены Actions/SwiftLint, добавлены CodeQL и provenance workflow. Private Vulnerability Reporting включён. Developer ID/notarization, полный App Sandbox и Data Protection Keychain требуют отдельного внешнего этапа. Исправления подготовлены для alpha.14; опубликованный alpha.13 остаётся историческим.
+
+Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.

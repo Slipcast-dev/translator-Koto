@@ -50,19 +50,30 @@ function cancel() {
   pending.clear();
 }
 
-async function execute(tabId, func, args=[]) {
-  const results = await chrome.scripting.executeScript({target:{tabId},func,args});
+async function execute(tabId, func, args=[], documentId) {
+  const target = documentId ? {tabId,documentIds:[documentId]} : {tabId};
+  const results = await chrome.scripting.executeScript({target,func,args});
   return results[0]?.result;
 }
 async function activeTab() {
   const [tab] = await chrome.tabs.query({active:true,currentWindow:true});
   if (!tab?.id || !/^https?:\/\//i.test(tab.url || "")) throw new Error("unsupported_page");
-  return {tabId:tab.id,pageOrigin:new URL(tab.url).origin};
+  return {tabId:tab.id};
+}
+// Origin и текст читаются синхронно в одном document. URL из tabs.query
+// мог устареть до injection; documentId также закрепляет последующее добавление перевода.
+async function snapshot(tabId, func) {
+  const [injection] = await chrome.scripting.executeScript({target:{tabId},func});
+  const value = injection?.result;
+  if (!injection?.documentId || !value || !/^https?:\/\//i.test(value.pageOrigin || "")) {
+    throw new Error("unsupported_page");
+  }
+  return {...value,documentId:injection.documentId};
 }
 // Внутренний ответ popup содержит код и параметры; язык текста выбирается только в UI.
 async function act(message) {
   if (message.action === "cancel") { cancel(); return {ok:true,status:"cancelled"}; }
-  const {tabId,pageOrigin} = await activeTab();
+  const {tabId} = await activeTab();
   if (message.action === "clear") {
     await execute(tabId, () => {
       for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
@@ -75,13 +86,16 @@ async function act(message) {
   cancel();
   const current = generation;
   if (message.action === "selection") {
-    const text = await execute(tabId, () => window.getSelection()?.toString() || "");
+    const {text,pageOrigin} = await snapshot(tabId, () => ({
+      text:window.getSelection()?.toString() || "",pageOrigin:location.origin
+    }));
+    if (generation !== current) throw new Error("cancelled");
     const result = await translate(text, source, target, pageOrigin);
     if (generation !== current) throw new Error("cancelled");
     return {ok:true,text:result};
   }
   if (message.action !== "page") throw new Error("invalid_action");
-  const segments = await execute(tabId, () => {
+  const {segments,pageOrigin,documentId} = await snapshot(tabId, () => {
     // Только видимые текстовые узлы main frame. Поля ввода и editable content исключены.
     for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
     const records = new Map();
@@ -104,7 +118,7 @@ async function act(message) {
       characters += text.length;
     }
     window.__kotoSlipcastNodes = records;
-    return output;
+    return {segments:output,pageOrigin:location.origin};
   });
   let completed = 0;
   for (let index=0; index<segments.length; index+=2) {
@@ -131,7 +145,7 @@ async function act(message) {
         applied++;
       }
       return applied;
-    }, [batch,target]);
+    }, [batch,target], documentId);
   }
   return {ok:true,status:"page_translated",count:completed};
 }

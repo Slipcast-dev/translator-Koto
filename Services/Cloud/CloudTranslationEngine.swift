@@ -27,7 +27,12 @@ enum ProviderKeychain {
             throw TranslationFailure.engineIssue(String(localized: "Check the API key format."))
         }
         let data = Data(clean.utf8)
-        let status = SecItemUpdate(query(provider) as CFDictionary, [kSecValueData as String: data] as CFDictionary)
+        // Обновление передаёт те же атрибуты, что создание. В legacy macOS Keychain
+        // accessibility class может игнорироваться; строгие device-only гарантии
+        // потребуют Data Protection Keychain и подходящей подписанной identity.
+        let attributes: [String: Any] = [kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly]
+        let status = SecItemUpdate(query(provider) as CFDictionary, attributes as CFDictionary)
         if status == errSecItemNotFound {
             var item = query(provider)
             item[kSecValueData as String] = data
@@ -58,11 +63,16 @@ final class CloudTranslationEngine: TranslationEngine {
     var displayName: String { provider == .google ? "Google Cloud" : "Yandex Cloud" }
     init(_ provider: Provider) {
         self.provider = provider
+        session = URLSession(configuration: Self.sessionConfiguration(), delegate: CloudRedirectGuard(), delegateQueue: nil)
+    }
+    /// Системный proxy/PAC наследуется; cookies/cache и redirects не переносят секреты.
+    static func sessionConfiguration() -> URLSessionConfiguration {
         let config = URLSessionConfiguration.ephemeral
         config.urlCache = nil; config.httpCookieStorage = nil; config.httpShouldSetCookies = false
-        config.connectionProxyDictionary = [:]
+        // nil сохраняет системный proxy/PAC; TLS и запрет redirects остаются обязательными.
+        // Отключение proxy допустимо для локального транспорта, но ломает облако в корпсети.
         config.timeoutIntervalForRequest = 45; config.timeoutIntervalForResource = 50
-        session = URLSession(configuration: config, delegate: CloudRedirectGuard(), delegateQueue: nil)
+        return config
     }
     func supportedLanguages() async throws -> [TranslationLanguage] {
         // Консервативный общий набор. Остальные пары не рекламируются без проверки каталога API.

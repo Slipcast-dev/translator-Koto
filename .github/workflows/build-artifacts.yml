@@ -1,0 +1,40 @@
+name: Attested preview artifacts
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: macos-26
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          submodules: true
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - run: bash script/build_local_runtime.sh
+      - run: bash script/build_native_host.sh
+      - name: Build Release
+        env:
+          KOTO_CONFIGURATION: Release
+        run: bash script/build_and_run.sh --build-only
+      - run: python3 script/package_release.py --artifact-suffix ci
+      - name: Package extension and checksums
+        run: python3 script/package_browser.py
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: 'dist/*'
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: koto-attested-preview
+          path: dist/*
+          if-no-files-found: error

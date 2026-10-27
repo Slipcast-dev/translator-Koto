@@ -1,6 +1,6 @@
 [Русский](STATUS.md) | **English**
 
-# Status: 0.1.0-alpha.13 · Chrome 0.1.3
+# Koto 0.1.0-alpha.14 · Chrome 0.1.4
 
 25 October 2026 · Slipcast-Dev · arm64/macOS 26+. Release checks: macOS 27.2, Xcode 27.1.
 
@@ -28,3 +28,9 @@ Ad hoc preview signing, without Developer ID or notarization: macOS may block la
 [Historical alpha 11 tests](validation/results.json). System languages were not removed; missing-resource failures were simulated at the engine boundary.
 
 Clean remote build, SwiftLint, and all ten Swift harnesses on macOS 26 arm64 **passed**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). The initial missing BrowserBridge failure was fixed by building the native host before Xcode. Dependency Review also passed on a Dependabot PR. This verifies builds and deterministic contracts on macOS 26, not complete interactive GUI/Live/Qwen acceptance.
+
+## External audit · 27 October
+
+[Review of all 11 items, in Russian](AUDIT-2026-10-27.md). Fixes browser origin/navigation, long bridge socket paths, proxy handling and verified model descriptor loading; pins Actions/SwiftLint and adds CodeQL/provenance workflows. Private Vulnerability Reporting is enabled. Developer ID/notarization, full App Sandbox and Data Protection Keychain require separate follow-up. These changes are included in alpha.14; alpha.13 assets remain historical.
+
+Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.

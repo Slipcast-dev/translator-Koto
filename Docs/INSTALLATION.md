@@ -1,11 +1,11 @@
 **Русский** | [English](INSTALLATION.en.md)
 
-# Установка Koto 0.1.0-alpha.13
+# Установка Koto 0.1.0-alpha.14
 
 Apple Silicon, macOS 26+. Проверки выпуска выполнены на macOS 27.2; macOS 26 не запускалась.
 
-1. Скачайте DMG и SHA256SUMS.txt из [alpha 13](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.13).
-2. Сверьте `shasum -a 256 Koto-0.1.0-alpha-13-arm64-preview.dmg` с SHA256SUMS.txt.
+1. Скачайте DMG и SHA256SUMS.txt из [alpha 14](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.14).
+2. Сверьте `shasum -a 256 Koto-0.1.0-14-arm64-preview-ci.dmg` с SHA256SUMS.txt.
 3. Откройте DMG и перенесите Koto.app в Applications.
 4. При необходимости выдайте доступы для выделения/OCR через настройки Koto.
 
@@ -13,9 +13,9 @@ Preview имеет ad hoc подпись без Developer ID/notarization, macOS
 
 Для Apple выберите языки и нажмите «Перевести». Если появится «Подготовить языки», выполните явную подготовку. Для необязательной Qwen используйте кнопку установки модели: [MODELS.md](MODELS.md).
 
-## Chrome 0.1.3
+## Chrome 0.1.4
 
-Используйте BrowserExtension из DMG либо распакуйте Koto-Chrome-0.1.3.zip из релиза. Зарегистрируйте native host кнопкой настроек текущего Koto и включите мост. В `chrome://extensions` включите developer mode и Load unpacked папки BrowserExtension из DMG/проекта. ID: `bodbmpckhpjhkkhhadamlbkddaikilok`. После обновления source-папки перезагрузите расширение. На HTTP(S)-вкладке нажмите Koto и выберите действие; служебные страницы Chrome исключены.
+Используйте BrowserExtension из DMG либо распакуйте Koto-Chrome-0.1.4.zip из релиза. Зарегистрируйте native host кнопкой настроек текущего Koto и включите мост. В `chrome://extensions` включите developer mode и Load unpacked папки BrowserExtension из DMG/проекта. ID: `bodbmpckhpjhkkhhadamlbkddaikilok`. После обновления source-папки перезагрузите расширение. На HTTP(S)-вкладке нажмите Koto и выберите действие; служебные страницы Chrome исключены.
 
 При ошибке Apple-ресурсов выберите ту же пару в Koto и нажмите «Перевести». Если предложена подготовка — выполните её, затем повторите действие в браузере.
 

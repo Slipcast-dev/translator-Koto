@@ -11,7 +11,11 @@ enum ProductInfo {
 
     static var name: String { value("CFBundleName") }
     static var developer: String { value("KotoDeveloper") }
-    static var version: String { value("CFBundleShortVersionString") }
+    static var version: String {
+        let base = value("CFBundleShortVersionString")
+        let channel = Bundle.main.object(forInfoDictionaryKey: "KotoReleaseChannel") as? String ?? ""
+        return channel.isEmpty ? base : base + "-" + channel
+    }
     static var build: String { value("CFBundleVersion") }
     static var copyright: String { value("NSHumanReadableCopyright") }
     static var versionDescription: String { String(localized: "Version \(version) (\(build))") }
