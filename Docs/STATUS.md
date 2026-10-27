@@ -38,3 +38,5 @@
 [Разбор всех 11 пунктов](AUDIT-2026-10-27.md): исправлены browser navigation/origin, длинный bridge socket path, proxy и передача проверенного снимка модели; закреплены Actions/SwiftLint, добавлены CodeQL и provenance workflow. Private Vulnerability Reporting включён. Developer ID/notarization, полный App Sandbox и Data Protection Keychain требуют отдельного внешнего этапа. Исправления подготовлены для alpha.14; опубликованный alpha.13 остаётся историческим.
 
 Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.
+
+Alpha.14: source build and all four artifact attestations **verified**, constrained to tag v0.1.0-alpha.14 and source commit 33cdfea. [Workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [verification report](validation/release-14.json). Mounted DMG and codesign passed. Published alpha.13 remains historical; Apple notarization remains unavailable.

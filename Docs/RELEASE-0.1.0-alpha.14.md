@@ -15,3 +15,5 @@ Includes alpha.13 audit fixes for document origin/text capture, documentId-bound
 This release is built from source and attested by GitHub Actions. Verify each downloaded file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. Earlier alpha.13 assets remain historical and are not retrospectively claimed as source-built/attested.
 
 Ad hoc preview without Developer ID or notarization; provenance does not change Gatekeeper trust. App Sandbox, strict Data Protection Keychain semantics, actual Qwen generation through the new snapshot and extended interactive Live remain separate follow-up. No model weights are included.
+
+Verified source build and all four attestations: https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991. Constrained verification also passed with `--source-ref refs/tags/v0.1.0-alpha.14 --source-digest 33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295`. Mounted DMG, deep/strict codesign and SHA256SUMS passed.

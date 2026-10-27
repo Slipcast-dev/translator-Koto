@@ -50,10 +50,12 @@ Requires Xcode with a suitable macOS SDK, Swift 6, Apple Silicon and Python 3. T
 
 ## Verification and limitations
 
-Build 14 retains 546 localized values in 12 language/region cases, 13 Chrome logic tests and 9 catalog tests, alongside the core regression suites. Native ru/en Chrome and first-request checks are documented in the [acceptance report](Docs/LOCALIZATION-ACCEPTANCE.md). [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).
+Build 14 retains 546 localized values in 12 language/region cases, 16 Chrome logic tests and 9 catalog tests, alongside the core regression suites. Native ru/en Chrome and first-request checks are documented in the [acceptance report](Docs/LOCALIZATION-ACCEPTANCE.md). [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).
 
 The root cause of the intermittent initial Apple framework failure is unknown. Koto's recovery handling has been fixed. Live endurance, sleep/wake, macOS 26 and some external integrations still require acceptance testing.
 
 [Report a bug](https://github.com/Slipcast-dev/translator-Koto/issues/new/choose) · [Contributing](CONTRIBUTING.en.md) · [Security](SECURITY.en.md) · [Changelog](CHANGELOG.en.md)
 
 © 2026 **Slipcast-Dev**. First-party code is available under [MIT](LICENSE); distributions must preserve the copyright and license notice. [Community code of conduct](CODE_OF_CONDUCT.md). Third-party components retain their [licenses](THIRD_PARTY_NOTICES.en.md).
+
+Alpha.14 artifacts are built from source and attested: [verified provenance](Docs/validation/release-14.json). Verify downloads with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.14 --source-digest 33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295`.
