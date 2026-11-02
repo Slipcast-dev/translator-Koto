@@ -8,6 +8,10 @@ Slipcast-Dev · arm64/macOS 26+. Release checks ran on macOS 27.2 / Xcode 27.
 
 Preview (alpha) build: ad hoc signing, without Developer ID or notarization — macOS may block launch. Release files are built from source by a GitHub workflow and carry attestations ([release notes](RELEASE-0.1.0-alpha.16.md)). The Qwen model is not shipped; it is installed with a button in Settings.
 
+## License and releases
+
+Koto is under a [proprietary license](../LICENSE): modifying or distributing it without the author's written consent is not allowed, while using the official releases on your own devices is (copies up to and including alpha.15 stay under MIT). Releases are automatic: changing `CURRENT_PROJECT_VERSION` on `main` triggers the build, attestation and release publication, and the website picks up the latest release on its own ([process](BUILDING.en.md#release)).
+
 ## Automated checks
 
 `bash script/test_swift_ci.sh` (13 runs: Swift suites, the update test on real DMGs, the Safari bridge client, the long socket path check), bridge integration (`script/test_bridge_integration.py`), SwiftLint `--strict`, repository and localization validation (`script/validate_repository.py`, `script/validate_localization.py`), Chrome tests. GitHub CI runs the macOS 26 build, SwiftLint, the Swift suites, CodeQL and Dependency Review.

@@ -7,7 +7,7 @@ Current release: **0.1.0-alpha.16**, Chrome **0.1.4**.
 
 # Koto · Slipcast-Dev
 
-A native macOS translator for text, selections and screen regions, with local engines and a Chrome extension. **Translate. Stay in flow.**
+A native macOS translator for text, selections and screen regions, with local engines and Chrome and Safari extensions. **Translate. Stay in flow.**
 
 **[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-0.1.0-16-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-Chrome-0.1.4.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
 
@@ -30,7 +30,7 @@ A native macOS translator for text, selections and screen regions, with local en
 
 **Git, the app and the DMG contain no model weights.** For Qwen, click **Install model** in Settings. The selected model is **Qwen3 4B Instruct 2507 · Q4_K_M**: about **2.50 GB**, Apache 2.0, minimum 8 GiB RAM. Downloads are checked against the expected size and SHA-256; progress, cancellation and removal are available. Weights are stored only in the user's Application Support directory, outside the project. [Model selection and quality →](Docs/MODELS.en.md)
 
-Apple Translation uses system language resources. If they are unavailable, Koto offers explicit preparation. Build 11 also handles a session reporting missing resources after a successful availability check, preserving the resolved language pair.
+Apple Translation uses system language resources. If they are unavailable, Koto offers explicit preparation. If the system framework fails after a successful availability check, Koto keeps the resolved language pair and offers the same explicit preparation.
 
 ## Privacy
 
@@ -58,4 +58,4 @@ The root cause of the intermittent initial Apple framework failure is unknown. K
 
 © 2026 **Slipcast-Dev**. All rights reserved: Koto's own code is under a [proprietary license](LICENSE) — modifying or distributing it without the author's written consent is not allowed; using the official releases on your own devices is. [Community code of conduct](CODE_OF_CONDUCT.md). Third-party components retain their [licenses](THIRD_PARTY_NOTICES.en.md).
 
-Release files are built from source and attested. Verify a downloaded file: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`.
+Release files are built from source and attested. Verify a downloaded file: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`. Releases are created automatically: changing `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` on `main` triggers the build, attestation and release publication ([process](Docs/BUILDING.en.md#release)).

@@ -1,8 +1,10 @@
 [Русский](BUILDING.md) | **English**
 
-# Build and verification
+# Building, checking and releasing
 
-Requires Apple Silicon, Xcode with a macOS SDK supported by the project, Swift 6 and Python 3. Deployment target: 26.0; tested runtime: macOS 27.0.1. Running on macOS 26 remains a separate pending check.
+You need Apple Silicon, Xcode with a macOS SDK supported by the project, Swift 6 and Python 3. Deployment target 26.0; Swift 6.2+ compiler (Xcode 26+), Swift 6 language mode.
+
+## Building
 
 ```sh
 git clone --recurse-submodules https://github.com/Slipcast-dev/translator-Koto.git
@@ -13,46 +15,45 @@ KOTO_CONFIGURATION=Release ./script/build_and_run.sh --build-only
 python3 script/package_release.py
 ```
 
-llama.cpp is pinned by the submodule and ThirdParty/llama-lock.json to `7894e8b92481a8bb8ffe94f73b656ffe0dd01e10`; verify_runtime_source.py verifies the source tree's SHA-256 hashes. GitHub source archives omit submodules: if the tree is absent, build_local_runtime.sh fetches the pinned upstream revision. cmake/ninja are installed into build/tooling; the runtime is built statically with Metal. Weights are not downloaded. Runtime binaries are excluded from Git and recreated by the commands above. The DMG already contains the runtime and does not require Xcode/Python.
+- **Runtime.** llama.cpp is pinned by the submodule and `ThirdParty/llama-lock.json` to `7894e8b92481a8bb8ffe94f73b656ffe0dd01e10`; `verify_runtime_source.py` checks the tree SHA-256. GitHub source archives omit the submodule: if the tree is missing, `build_local_runtime.sh` fetches the pinned upstream. cmake and ninja are installed into `build/tooling`; the runtime is built statically with Metal. No weights are downloaded. Binary runtime resources are excluded from Git and restored by the commands above. The DMG already contains the runtime and needs neither Xcode nor Python.
+- **Targets.** The `Koto` app and the `Koto Safari` extension (folder `SafariExtension/`, embedded into `Koto.app/Contents/PlugIns`; the popup and localization are shared with `BrowserExtension/`).
+- **Version.** `CFBundleShortVersionString` is numeric (`MARKETING_VERSION`), the alpha channel lives in `KotoReleaseChannel`, and the build number is `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig`. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode.
+- **Signing.** The preview is ad hoc signed; Developer ID and notarization are a separate process. Do not disable system protections for testing.
+- **Model.** The runtime starts from an anonymous verified snapshot through an inherited stdin; on APFS the snapshot is an instant copy-on-write clone needing no extra space, otherwise a full copy is made (temporary space equal to the model size). The runtime is unloaded after 10 minutes without requests.
+
+## Layout
+
+`App`, `Features` — UI and coordination; `Core` — contracts, privacy and protocol; `Services` — engines, Accessibility, OCR, bridge, updates; `NativeHost`, `NativeTools` — first-party host and launcher; `BrowserExtension` — Chrome MV3; `SafariExtension` — the Safari extension; `Resources/LocalModels` — catalog and licenses only; `Tests`, `script` — checks and build.
+
+## Checks
 
 ```sh
 python3 script/validate_repository.py
-./script/test_manual_translation.sh
-./script/test_capture.sh
-./script/test_product_privacy.sh
-./script/test_model_installation.sh
-./script/test_quality_behaviors.sh
-./script/test_bridge_protocol.sh
+python3 script/validate_localization.py
+bash script/test_swift_ci.sh
 python3 script/test_bridge_integration.py
-./script/test_update.sh
-./script/test_safari_bridge.sh
-./script/test_apple_translation.sh
+build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml
 ```
 
-Real Apple smoke and transport integration tests require prepared EN/RU resources. Missing resources are an environment condition, not a passing test. Qwen tests require a user-installed model and do not automatically download one.
+- `test_swift_ci.sh` runs 13 deterministic runs: 9 shell suites (manual translation, capture, privacy, model installation, quality, bridge protocol, runtime transport, localization dynamics, cloud policy), the direct Live and settings-migration harnesses, the update test on real DMGs and the Safari bridge client test, plus a Python check of the long socket path. No model or screen permissions are needed.
+- Install SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (the archive SHA-256 is verified).
+- The real Apple smoke test (`./script/test_apple_translation.sh`) and the bridge integration need prepared system EN/RU resources. Missing resources are an environment state, not a passing test. Qwen tests need a user-installed model.
+- Localization: after the Release build run `python3 script/test_localization.py` and `./script/test_localization_dynamics.sh`; Chrome: `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`; catalogs: `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. See [LOCALIZATION.md](LOCALIZATION.md).
+- Package: after `package_release.py`, mount the DMG and run `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
+- First request without warm-up: `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en` (needs system EN/RU resources; no model download, no cloud).
+- For interface snapshots the app accepts `--koto-open-settings`, which opens the Settings window.
 
-App/Features: UI and coordination; Core: contracts, privacy and protocol; Services: engines/AX/OCR/bridge; NativeHost/NativeTools: host/launcher; BrowserExtension: MV3; Resources/LocalModels: catalog/licenses only; Tests/script: verification/build. Local products and archived reports are excluded under build/.
+GitHub CI on macOS 26 builds the app unsigned and runs SwiftLint and `test_swift_ci.sh`; CodeQL and Dependency Review run separately. Dependabot checks GitHub Actions and the llama.cpp submodule weekly; a submodule update needs a runtime check.
 
-The preview uses ad hoc signing. Developer ID/notarization is a separate process. Do not disable system protections for testing; keys and original text must not appear in logs.
+## Release
 
-## macOS localization checks
+Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` and add `Docs/RELEASE-<version>.md` (for example `RELEASE-0.1.0-alpha.17.md`, bilingual notes, absolute links or links to neighbouring docs only). After the merge into `main` the workflow `.github/workflows/build-artifacts.yml`:
 
-After the Release build, run `python3 script/test_localization.py` and `./script/test_localization_dynamics.sh`. They check compiled ru/en resources, 12 language/region combinations, plurals, numbers, RTL, explanation instruction language and schema=1. No additional Python packages or model are required.
+1. builds the app from source on macOS 26;
+2. packages the DMG, the Chrome extension ZIP and `SHA256SUMS.txt`;
+3. attests the files with GitHub/Sigstore;
+4. creates the tag `v<version>-alpha.<build>` and a prerelease with the notes.
 
-## Chrome localization checks
+If a release of that version already exists the build is skipped; the same workflow can also be run manually or by a `v*` tag. The workflow does not delete earlier releases. The [koto-website](https://github.com/Slipcast-dev/koto-website) site picks up the latest release on its own and updates the download links. Verify a file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. An attestation binds the files to a source revision and workflow; it does not replace an Apple Developer ID or notarization.
 
-Run `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, then `./script/test_bridge_protocol.sh`. No npm packages are required. Node.js is needed only for tests.
-
-CI: `python3 script/validate_localization.py` and `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Local package: `python3 script/package_release.py --artifact-suffix localization-hfs`; after mounting, run `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
-
-First request without manual warm-up: quit Koto and run `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en`. It requires installed system EN/RU resources, downloads no model and uses no cloud engine.
-
-## CI / static analysis
-
-`bash script/test_swift_ci.sh` runs 13 deterministic runs (9 shell suites, direct Live and settings-migration harnesses, update test on real DMGs, Safari bridge client test) and a Python check of the long bridge socket path. The Safari extension is the second Xcode target `Koto Safari` (folder `SafariExtension/`), embedded into Koto.app/Contents/PlugIns; it shares popup and localization files with `BrowserExtension/`. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install the pinned SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (archive SHA-256 is verified); run `build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml`. GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.
-
-## Проверяемое происхождение артефактов / Artifact provenance
-
-`.github/workflows/build-artifacts.yml` builds preview artifacts from source on macOS 26 for a tag or manual workflow run and generates GitHub/Sigstore attestations. Download the workflow artifact, then verify each file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. These attestations bind bytes to a GitHub workflow/source revision; they do not provide Apple Developer ID or notarization.
-
-`CFBundleShortVersionString` is numeric (0.1.0); `KotoReleaseChannel` stores alpha for the UI. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode. Runtime model loading now uses an unlinked verified snapshot via inherited stdin; on APFS the snapshot is an instant copy-on-write clone and needs no extra space; if cloning is unavailable (another volume, non-APFS) a full copy is made and temporary space equal to the model size is required. No named model copy is retained. The runtime is unloaded after 10 minutes without requests.
+Changes reach `main` through pull requests with auto-merge enabled after the required checks.
