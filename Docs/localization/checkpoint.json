@@ -29,5 +29,6 @@
   "current_release": "v0.1.0-alpha.12",
   "extension_version": "0.1.2",
   "release_results": "../validation/release-12.json",
-  "cleanup_results": "../validation/cleanup-20261025.json"
+  "cleanup_results": "../validation/cleanup-20261025.json",
+  "scope_note": "Historical checkpoint of the completed alpha.12 / Chrome 0.1.2 localization. Current release state: Docs/STATUS.md and Docs/validation/release-14.json."
 }

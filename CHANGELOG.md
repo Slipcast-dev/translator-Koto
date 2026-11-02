@@ -4,7 +4,7 @@
 
 ## 0.1.0-alpha.14 — 2026-10-27
 
-Audit fixes and source-built GitHub artifact attestations; Chrome 0.1.4. [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).
+Исправления внешнего аудита и подтверждённые GitHub attestation артефактов, собранных из исходников; Chrome 0.1.4. [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).
 
 ## 0.1.0-alpha.13 — 2026-10-25
 

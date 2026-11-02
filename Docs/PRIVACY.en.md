@@ -16,7 +16,7 @@ The localized build uses neutral Ready/Translating statuses for cloud engines. T
 
 ## Границы доверия / Trust boundaries
 
-The public `manifest.key` fixes the ID of the unpacked extension; it is not a secret or proof of publisher identity. Another locally installed extension with the same key can use the same ID. The bridge also requires a 32-byte token stored in a 0700 user-owned directory with 0600 files. Native host checks the connected socket UID before sending HELLO. Arbitrary malicious code running under the same UID can read user-owned files: this token does not establish isolation from that threat. Do not install untrusted unpacked extensions.
+The public `manifest.key` fixes the ID of the unpacked extension; it is not a secret or proof of publisher identity. Another locally installed extension with the same key can use the same ID. The bridge also requires a 32-byte token stored in a 0700 user-owned directory with 0600 files. Native host checks the connected socket UID before sending HELLO. The app, which accepts connections through Network.framework, does not check the client UID and relies on the token, the extension origin, the 0700 directory and socket owner verification. Arbitrary malicious code running under the same UID can read user-owned files: this token does not establish isolation from that threat. Do not install untrusted unpacked extensions.
 
 Default browser exclusions apply only when `privacy.excludedHosts` has not been set; an explicit user list, including an empty list, is respected. The initial list covers selected mail/payment/banking hosts and is not a complete list of sensitive sites. Customize it in Settings. Browser text and origin are captured in the same document; page insertions are bound to its documentId.
 

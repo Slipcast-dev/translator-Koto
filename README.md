@@ -50,7 +50,7 @@ python3 script/package_release.py
 
 ## Проверки и ограничения
 
-Для build 12 проверяются 546 локализованных значений в 12 сочетаниях языка/региона, 13 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.14.md).
+Для build 14 сохраняются 546 локализованных значений в 12 сочетаниях языка/региона, 16 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.14.md).
 
 Непостоянная внутренняя причина первоначального отказа Apple framework не установлена. Исправлена обработка отказа в Koto. Live endurance, sleep/wake, macOS 26 и часть внешних интеграций ещё требуют приёмки.
 
@@ -60,8 +60,8 @@ python3 script/package_release.py
 
 ### Автоматические Swift-проверки
 
-`bash script/test_swift_ci.sh` запускает десять детерминированных Swift harness без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
+`bash script/test_swift_ci.sh` запускает 11 детерминированных Swift-прогонов (9 shell-наборов, а также прямые harness Live и миграции настроек) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
 
-Локальный runtime использует приватный Unix-сокет; перед любым запросом проверяются UID и parent PID подключённого процесса на том же соединении. Токен и текст не отправляются неподтверждённому серверу. См. [проверку замечаний](Docs/REVIEW-FIXES-2026-10-25.md).
+Локальный runtime использует приватный Unix-сокет; перед любым запросом приложение проверяет UID и parent PID подключённого процесса на том же соединении. Мост Chrome: native host проверяет UID приложения на сокете, а само приложение принимает клиента по токену и origin расширения в каталоге 0700. Токен и текст не отправляются неподтверждённому серверу. См. [проверку замечаний](Docs/REVIEW-FIXES-2026-10-25.md).
 
 Alpha.14 artifacts are built from source and attested: [verified provenance](Docs/validation/release-14.json). Verify downloads with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.14 --source-digest 33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295`.

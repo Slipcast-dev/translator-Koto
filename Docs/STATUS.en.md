@@ -2,11 +2,35 @@
 
 # Koto 0.1.0-alpha.14 · Chrome 0.1.4
 
-25 October 2026 · Slipcast-Dev · arm64/macOS 26+. Release checks: macOS 27.2, Xcode 27.1.
+27 October 2026 · Slipcast-Dev · arm64/macOS 26+. Release checks: macOS 27.2, Xcode 27.1.
 
-Current alpha.13: MIT copyright Slipcast-Dev, community guidelines, AF_UNIX runtime identity, DNS exclusion normalization, OCR resume and catalogue generation fixes. Release build, ten Swift harnesses, 76 Swift files linted, 9 Python and 13 JavaScript tests passed locally. Remote macOS 26 CI is tracked on GitHub Actions; actual Qwen generation over the new transport remains unverified. [Alpha.13 release notes](RELEASE-0.1.0-alpha.13.md).
+## Current state
 
-The following localization results are retained from alpha.12:
+Alpha.14 is published: [release notes](RELEASE-0.1.0-alpha.14.md). External audit fixes are included; the artifact workflow builds the delivered bytes from source and attests them.
+
+Source build and all four artifact attestations are **verified**, constrained to tag v0.1.0-alpha.14 and source commit 33cdfea: [workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [verification report](validation/release-14.json). Mounted DMG and codesign passed. Published alpha.12 and alpha.13 remain historical.
+
+## Limitations
+
+- Ad hoc preview signing, without Developer ID or notarization: macOS may block launch. Koto does not change system protections.
+- Not verified: macOS 26 runtime, Live endurance/energy/latency, sleep/wake, a broader application matrix, real Google/Yandex accounts, final speech/login acceptance, Qwen semantic quality.
+- Qwen was not installed for localization checks: instructions were checked, not generation. Actual Qwen generation over the Unix transport is also unverified.
+- Notarization, full App Sandbox and Data Protection Keychain require separate follow-up.
+- An alpha publication is not independent linguistic certification or completion of these checks.
+
+## External audit · 27 October
+
+[Review of all 11 items, in Russian](AUDIT-2026-10-27.md). Fixes browser origin/navigation, long bridge socket paths, proxy handling and verified model descriptor loading; pins Actions/SwiftLint and adds CodeQL/provenance workflows. Private Vulnerability Reporting is enabled.
+
+## Alpha.13 · 25 October
+
+MIT copyright Slipcast-Dev, community guidelines, AF_UNIX runtime identity, DNS exclusion normalization, OCR resume and catalogue generation fixes. Release build, ten Swift harnesses, 76 Swift files linted, 9 Python and 13 JavaScript tests passed locally. [Release notes](RELEASE-0.1.0-alpha.13.md).
+
+Five findings against alpha.12 (runtime endpoint trust, excluded DNS domain endpoint, OCR Pause/Resume, stale engine catalogue, missing Swift in CI) were verified and fixed: [changes, commands and verification limits](REVIEW-FIXES-2026-10-25.md).
+
+Clean remote build, SwiftLint, and all ten Swift harnesses on macOS 26 arm64 **passed**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). The initial missing BrowserBridge failure was fixed by building the native host before Xcode. Dependency Review also passed on a Dependabot PR. This verifies builds and deterministic contracts on macOS 26, not complete interactive GUI/Live/Qwen acceptance.
+
+## Alpha.12 · localization, 25 October
 
 | Area | Verification and boundaries |
 | --- | --- |
@@ -19,20 +43,6 @@ The following localization results are retained from alpha.12:
 
 [Release notes](RELEASE-0.1.0-alpha.12.md), [detailed acceptance, in Russian](LOCALIZATION-ACCEPTANCE.md), [release results](validation/release-12.json).
 
-Build 11 localization checks are retained as history. The initially observed Working state did not reproduce as a hang: repeated first requests completed; no engine fix is claimed for that observation. Apple system services and caches were not restarted for these measurements.
+## Alpha.11 · history
 
-Alpha limitations remain: macOS 26 runtime, Live endurance/energy/latency, sleep/wake, a broader application matrix, real Google/Yandex accounts, final speech/login acceptance, and Qwen semantic quality. Qwen was not installed for localization; instructions were checked, not generation.
-
-Ad hoc preview signing, without Developer ID or notarization: macOS may block launch. Koto does not change system protections. An alpha publication is not independent linguistic certification or completion of these external checks.
-
-[Historical alpha 11 tests](validation/results.json). System languages were not removed; missing-resource failures were simulated at the engine boundary.
-
-Clean remote build, SwiftLint, and all ten Swift harnesses on macOS 26 arm64 **passed**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). The initial missing BrowserBridge failure was fixed by building the native host before Xcode. Dependency Review also passed on a Dependabot PR. This verifies builds and deterministic contracts on macOS 26, not complete interactive GUI/Live/Qwen acceptance.
-
-## External audit · 27 October
-
-[Review of all 11 items, in Russian](AUDIT-2026-10-27.md). Fixes browser origin/navigation, long bridge socket paths, proxy handling and verified model descriptor loading; pins Actions/SwiftLint and adds CodeQL/provenance workflows. Private Vulnerability Reporting is enabled. Developer ID/notarization, full App Sandbox and Data Protection Keychain require separate follow-up. These changes are included in alpha.14; alpha.13 assets remain historical.
-
-Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.
-
-Alpha.14: source build and all four artifact attestations **verified**, constrained to tag v0.1.0-alpha.14 and source commit 33cdfea. [Workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [verification report](validation/release-14.json). Mounted DMG and codesign passed. Published alpha.13 remains historical; Apple notarization remains unavailable.
+[Alpha 11 tests](validation/results.json). System languages were not removed; missing-resource failures were simulated at the engine boundary. The initially observed Working state did not reproduce as a hang: repeated first requests completed; no engine fix is claimed for that observation. Apple system services and caches were not restarted for these measurements.
