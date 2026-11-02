@@ -22,6 +22,7 @@ final class LiveTranslationCoordinator {
     @ObservationIgnored private var screenFrame: CGRect?
     @ObservationIgnored private var displayID: UInt32?
     @ObservationIgnored private var submittedAt: ContinuousClock.Instant?
+    @ObservationIgnored private var fingerprint: FrameFingerprint?
     @ObservationIgnored private var countedID: UUID?
 
     var p50: Double? { percentile(0.50) }
@@ -49,6 +50,8 @@ final class LiveTranslationCoordinator {
     func resume() {
         guard region != nil, !running else { return }
         let id = gate.reset()
+        // Первый кадр после запуска или смены пары всегда проходит OCR.
+        fingerprint = nil
         running = true; paused = false
         message = String(localized: "Watching the selected region · minimum interval: 2 seconds")
         producer = Task { [weak self] in
@@ -61,8 +64,15 @@ final class LiveTranslationCoordinator {
                           }), screen.frame == originalScreen, screen.frame.contains(region) else {
                         throw CaptureFailure.invalidRegion
                     }
-                    let text = try await self.ocr.recognize(selection: region, screen: screen, excludeOwnWindows: true)
+                    let frame = try await self.ocr.recognizeIfChanged(selection: region, screen: screen, excludeOwnWindows: true,
+                                                                      previous: self.fingerprint)
                     guard !Task.isCancelled, self.gate.generation == id else { return }
+                    self.fingerprint = frame.fingerprint
+                    // Кадр не изменился: OCR пропущен, состояние и перевод остаются прежними.
+                    guard let text = frame.text else {
+                        try await Task.sleep(for: .seconds(2))
+                        continue
+                    }
                     self.captures += 1
                     if self.gate.accept(text, generation: id) {
                         self.model.sourceText = text
