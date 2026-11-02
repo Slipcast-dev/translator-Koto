@@ -25,6 +25,14 @@ struct AboutView: View {
             Text(ProductInfo.copyright)
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            Text(String(localized: "Modification and distribution require the author’s written consent."))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            // Ссылка открывает актуальный текст лицензии в репозитории, а не копию из bundle.
+            if let license = URL(string: "https://github.com/Slipcast-dev/translator-Koto/blob/main/LICENSE") {
+                Link(String(localized: "License"), destination: license).font(.caption)
+            }
             Button(String(localized: "Close")) {
                 dismissWindow(id: WindowID.about)
             }

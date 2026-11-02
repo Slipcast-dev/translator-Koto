@@ -12,6 +12,6 @@
 
 ## License and community
 
-First-party contributions are submitted under the repository's [MIT license](LICENSE), unless another arrangement is explicitly agreed before submission. Preserve Copyright (c) 2026 Slipcast-Dev and third-party notices. Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+Koto is under a [proprietary license](LICENSE): modifying and distributing it requires the author's written consent. A contribution you submit is licensed to the author as described in section 5 of the license (use, modify, distribute and relicense it as part of Koto); submit only what you have the right to. Preserve Copyright (c) 2026 Slipcast-Dev and third-party notices. Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Before submitting, run `bash script/test_swift_ci.sh` and `swiftlint lint --strict --config .swiftlint.yml`. Dependabot submodule updates must also update the reviewed commit and SHA-256 source locks; do not merge an unverified runtime revision.

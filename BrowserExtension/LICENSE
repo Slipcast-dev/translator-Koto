@@ -1,21 +1,116 @@
-MIT License
+KOTO PROPRIETARY LICENSE / ПРОПРИЕТАРНАЯ ЛИЦЕНЗИЯ KOTO
 
-Copyright (c) 2026 Slipcast-Dev
+Copyright (c) 2026 Slipcast-Dev. All rights reserved.
+© 2026 Slipcast-Dev. Все права защищены.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+================================================================================
+ENGLISH (controlling text / приоритетный текст)
+================================================================================
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Scope. "Koto" means the application, its source code, browser extensions,
+   scripts, documentation, icons and website materials created by Slipcast-Dev
+   (the "Author") and published in this repository and its releases. Third-party
+   components are not covered (see section 6).
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Permitted without further consent. You may: (a) read the source code and
+   documentation published in this repository; (b) download official releases
+   and use them on devices you own or control; (c) report issues and propose
+   changes through the repository's normal channels.
+
+3. Not permitted without the Author's prior written consent. You may not:
+   (a) modify, adapt, translate, decompile or create derivative works of Koto;
+   (b) copy, publish, distribute, sublicense, sell, rent, lend or otherwise make
+   Koto or any part of it available to others, in original or modified form,
+   including repackaged binaries, mirrors and forks published outside the
+   platform where this repository is hosted; (c) remove or alter copyright,
+   license or attribution notices.
+
+4. Requesting permission. Ask the Author through the GitHub profile
+   https://github.com/Slipcast-dev . Permission is effective only if it is
+   given in writing by the Author.
+
+5. Contributions. If you submit a contribution (code, text, artwork), you grant
+   the Author a perpetual, irrevocable, worldwide, royalty-free, transferable
+   license to use, modify, distribute and relicense it as part of Koto, and you
+   confirm that you have the right to do so. Contributions give you no rights in
+   Koto beyond this license.
+
+6. Third-party components. llama.cpp/ggml, other runtime components and the
+   optional language model keep their own licenses; see THIRD_PARTY_NOTICES.md.
+   This license does not change them, and they remain available under their own
+   terms.
+
+7. Earlier versions. Copies of Koto that were published under the MIT License
+   (versions up to and including 0.1.0-alpha.15) remain available to those who
+   received them under that license, for those copies only. This license
+   applies to all later versions and to later changes in this repository.
+
+8. Hosting platforms. Nothing in this license limits rights that the Terms of
+   Service of the hosting platform grant to users of public repositories on that
+   platform (for example viewing and forking within the platform).
+
+9. No warranty. KOTO IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NON-INFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY LAW THE AUTHOR IS NOT
+   LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE USE OF
+   KOTO.
+
+10. Termination. Rights under section 2 end automatically if you breach this
+    license.
+
+================================================================================
+РУССКИЙ (перевод; при расхождениях действует английский текст)
+================================================================================
+
+1. Предмет. «Koto» — приложение, его исходный код, расширения браузеров,
+   скрипты, документация, иконки и материалы сайта, созданные Slipcast-Dev
+   («Автор») и опубликованные в этом репозитории и его релизах. Сторонние
+   компоненты не охватываются (см. пункт 6).
+
+2. Разрешено без дополнительного согласия. Вы можете: (а) читать исходный код
+   и документацию из этого репозитория; (б) скачивать официальные релизы и
+   использовать их на устройствах, которыми вы владеете или управляете;
+   (в) сообщать об ошибках и предлагать изменения обычными каналами репозитория.
+
+3. Запрещено без предварительного письменного согласия Автора. Нельзя:
+   (а) изменять, адаптировать, переводить, декомпилировать Koto или создавать
+   производные произведения; (б) копировать, публиковать, распространять,
+   сублицензировать, продавать, сдавать в аренду или иным образом передавать
+   Koto либо любую его часть другим лицам, в исходном или изменённом виде,
+   включая перепакованные сборки, зеркала и форки, опубликованные вне
+   платформы, на которой размещён этот репозиторий; (в) удалять или менять
+   уведомления об авторских правах, лицензии и авторстве.
+
+4. Запрос разрешения. Обратитесь к Автору через профиль GitHub
+   https://github.com/Slipcast-dev . Разрешение действительно только в
+   письменной форме от Автора.
+
+5. Вклад. Если вы отправляете вклад (код, текст, графику), вы даёте Автору
+   бессрочную, безотзывную, всемирную, безвозмездную, передаваемую лицензию
+   использовать, изменять, распространять и перелицензировать его в составе
+   Koto и подтверждаете, что имеете на это право. Вклад не даёт прав на Koto
+   сверх настоящей лицензии.
+
+6. Сторонние компоненты. llama.cpp/ggml, прочие компоненты runtime и
+   необязательная языковая модель сохраняют собственные лицензии, см.
+   THIRD_PARTY_NOTICES.md. Настоящая лицензия их не меняет, и они остаются
+   доступны на собственных условиях.
+
+7. Прежние версии. Копии Koto, опубликованные под лицензией MIT (версии до
+   0.1.0-alpha.15 включительно), остаются доступными тем, кто их получил, на
+   условиях этой лицензии, только для этих копий. Настоящая лицензия
+   действует для всех более поздних версий и более поздних изменений
+   репозитория.
+
+8. Платформа размещения. Настоящая лицензия не ограничивает права, которые
+   условия использования платформы размещения дают пользователям публичных
+   репозиториев на этой платформе (например, просмотр и форк внутри платформы).
+
+9. Без гарантий. KOTO ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ ГАРАНТИЙ ЛЮБОГО РОДА,
+   ЯВНЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ ТОВАРНОЕ КАЧЕСТВО, ПРИГОДНОСТЬ ДЛЯ
+   ОПРЕДЕЛЁННОЙ ЦЕЛИ И НЕНАРУШЕНИЕ ПРАВ. В МАКСИМАЛЬНО ДОПУСТИМОЙ ЗАКОНОМ
+   СТЕПЕНИ АВТОР НЕ НЕСЁТ ОТВЕТСТВЕННОСТИ ПО ИСКАМ, УБЫТКАМ И ИНЫМ
+   ТРЕБОВАНИЯМ, ВОЗНИКШИМ ПРИ ИСПОЛЬЗОВАНИИ KOTO.
+
+10. Прекращение. Права по пункту 2 прекращаются автоматически при нарушении
+    настоящей лицензии.
