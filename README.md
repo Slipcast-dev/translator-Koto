@@ -1,15 +1,15 @@
 **Русский** | [English](README.en.md)
 
-Локальная ru/en локализация от 25 октября: [приёмка и ограничения](Docs/LOCALIZATION-ACCEPTANCE.md). Текущий выпуск: **0.1.0-alpha.14**, Chrome **0.1.4**.
+Текущий выпуск: **0.1.0-alpha.15**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 14" src="https://img.shields.io/badge/release-0.1.0--alpha.14-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 15" src="https://img.shields.io/badge/release-0.1.0--alpha.15-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.14/Koto-0.1.0-14-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.14/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-0.1.0-15-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
 > Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
@@ -21,7 +21,8 @@
 | Выделение | Accessibility, `⌃⌥⌘T` |
 | OCR области | Vision на Mac, `⌃⌥⌘R` |
 | Live | Живой перевод, `⌃⌥⌘L`; длительные испытания впереди |
-| Chrome | Перевод выделения и видимых фрагментов через собственное расширение |
+| Chrome и Safari | Перевод выделения и видимых фрагментов через собственные расширения (Safari: сборка проверена, работа в Safari не проверена) |
+| Обновление | Проверка и автоматическая установка из GitHub Releases по кнопке в настройках |
 | Инструменты | Точные фразы, добровольная память, озвучивание и локальные пояснения |
 | Облако | Google/Yandex адаптеры с ключом в Keychain; реальные аккаунты не аттестованы |
 
@@ -50,7 +51,6 @@ python3 script/package_release.py
 
 ## Проверки и ограничения
 
-Для build 12 проверяются 546 локализованных значений в 12 сочетаниях языка/региона, 13 тестов Chrome и 9 тестов каталогов, а также основные регрессионные наборы. Нативные ru/en Chrome и первые запросы описаны в [приёмке](Docs/LOCALIZATION-ACCEPTANCE.md). [Описание выпуска](Docs/RELEASE-0.1.0-alpha.14.md).
 
 Непостоянная внутренняя причина первоначального отказа Apple framework не установлена. Исправлена обработка отказа в Koto. Live endurance, sleep/wake, macOS 26 и часть внешних интеграций ещё требуют приёмки.
 
@@ -60,8 +60,8 @@ python3 script/package_release.py
 
 ### Автоматические Swift-проверки
 
-`bash script/test_swift_ci.sh` запускает десять детерминированных Swift harness без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
+`bash script/test_swift_ci.sh` запускает 11 детерминированных Swift-прогонов (9 shell-наборов, а также прямые harness Live и миграции настроек) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
 
-Локальный runtime использует приватный Unix-сокет; перед любым запросом проверяются UID и parent PID подключённого процесса на том же соединении. Токен и текст не отправляются неподтверждённому серверу. См. [проверку замечаний](Docs/REVIEW-FIXES-2026-10-25.md).
+Локальный runtime использует приватный Unix-сокет; перед любым запросом приложение проверяет UID и parent PID подключённого процесса на том же соединении. Мост Chrome: native host проверяет UID приложения на сокете, а само приложение принимает клиента по токену и origin расширения в каталоге 0700. Токен и текст не отправляются неподтверждённому серверу.
 
-Alpha.14 artifacts are built from source and attested: [verified provenance](Docs/validation/release-14.json). Verify downloads with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.14 --source-digest 33cdfea50bfe5bf6eb7fe13d04cfdfd2ae693295`.
+Файлы выпуска собираются из исходников и подтверждены attestation. Проверка скачанного файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.15`.

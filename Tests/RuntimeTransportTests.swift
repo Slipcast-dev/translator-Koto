@@ -86,6 +86,27 @@ import CryptoKit
             }
             passed.append("\(mode) \(body == nil ? "health" : "translation"): peer checked before bytes")
         }
+        // Каталоги /tmp/koto-<UUID> после краха: мёртвый launcher удаляется, живой и чужое имя остаются.
+        func makeDirectory(pid: Int32?) throws -> URL {
+            let url = URL(fileURLWithPath: "/tmp/koto-" + UUID().uuidString, isDirectory: true)
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+            try Data("key\n".utf8).write(to: url.appendingPathComponent("api-key"))
+            if let pid { try Data("\(pid)\n".utf8).write(to: url.appendingPathComponent("launcher.pid")) }
+            return url
+        }
+        let dead = Process(); dead.executableURL = URL(fileURLWithPath: "/usr/bin/true"); try dead.run(); dead.waitUntilExit()
+        let staleDirectory = try makeDirectory(pid: dead.processIdentifier)
+        let liveDirectory = try makeDirectory(pid: getpid())
+        let freshNoPid = try makeDirectory(pid: nil)
+        let foreign = URL(fileURLWithPath: "/tmp/koto-not-a-uuid-" + UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: foreign, withIntermediateDirectories: false)
+        defer { for url in [staleDirectory, liveDirectory, freshNoPid, foreign] { try? FileManager.default.removeItem(at: url) } }
+        LocalRuntimeSupervisor.removeStaleDirectories(except: nil)
+        func exists(_ url: URL) -> Bool { FileManager.default.fileExists(atPath: url.path) }
+        guard !exists(staleDirectory), exists(liveDirectory), exists(freshNoPid), exists(foreign) else {
+            throw NSError(domain: "RuntimeTransportTests", code: 3, userInfo: [NSLocalizedDescriptionKey: "stale directory cleanup"])
+        }
+        passed.append("stale runtime directory removed; live, fresh and foreign directories kept")
         print(String(decoding: try JSONSerialization.data(withJSONObject: ["status": "passed", "tests": passed]), as: UTF8.self))
     }
 }

@@ -37,6 +37,8 @@ struct KotoNativeHost {
         var launched = false
         var partialSince: Double?
         let maximumQueue = 4_194_304
+        // Буфер чтения общий для обоих каналов: чтения не пересекаются в одной итерации цикла.
+        var readBuffer = [UInt8](repeating: 0, count: 65_536)
 
         func response(_ id: String, code: String) throws -> Data {
             try BridgeFrameDecoder.encode(BridgeEnvelope(id: id, type: .error, payload: ["code":code]))
@@ -101,15 +103,19 @@ struct KotoNativeHost {
                 pollfd(fd: STDOUT_FILENO, events: toBrowser.isEmpty ? 0 : Int16(POLLOUT), revents: 0),
                 pollfd(fd: socketFD, events: Int16(POLLIN) | (toDesktop.isEmpty ? 0 : Int16(POLLOUT)), revents: 0)
             ]
-            let result = poll(&descriptors, nfds_t(descriptors.count), 50)
+            // Короткий период нужен только при активной работе (очереди, повторное подключение,
+            // handshake, неполный кадр). В простое достаточно 1 с: дедлайны измеряются секундами,
+            // а новые данные всё равно будят poll.
+            let busy = !toBrowser.isEmpty || !toDesktop.isEmpty || !waiting.isEmpty || !pending.isEmpty
+                || partialSince != nil || (socketFD >= 0 && !authenticated)
+            let result = poll(&descriptors, nfds_t(descriptors.count), busy ? 50 : 1000)
             if result < 0 { if errno == EINTR { continue }; throw BridgeProtocolFailure.truncated }
             if descriptors[0].revents & Int16(POLLIN | POLLHUP) != 0 {
-                var bytes = [UInt8](repeating: 0, count: 65_536)
-                let count = bytes.withUnsafeMutableBytes { Darwin.read(STDIN_FILENO, $0.baseAddress, $0.count) }
+                let count = readBuffer.withUnsafeMutableBytes { Darwin.read(STDIN_FILENO, $0.baseAddress, $0.count) }
                 if count == 0 { try browserDecoder.finish(); return }
                 if count > 0 {
                     lastActivity = now
-                    for frame in try browserDecoder.append(Data(bytes.prefix(count))) {
+                    for frame in try browserDecoder.append(Data(readBuffer.prefix(count))) {
                         guard [.translate, .ping, .cancel].contains(frame.type) else { throw BridgeProtocolFailure.identity }
                         guard !pending.contains(frame.id), pending.count < 16 else { throw BridgeProtocolFailure.length }
                         pending.insert(frame.id)
@@ -131,8 +137,7 @@ struct KotoNativeHost {
                 try flush(socketFD, &toDesktop)
             }
             if socketFD >= 0 && descriptors[2].revents & Int16(POLLIN | POLLHUP | POLLERR) != 0 {
-                var bytes = [UInt8](repeating: 0, count: 65_536)
-                let count = bytes.withUnsafeMutableBytes { Darwin.read(socketFD, $0.baseAddress, $0.count) }
+                let count = readBuffer.withUnsafeMutableBytes { Darwin.read(socketFD, $0.baseAddress, $0.count) }
                 if count == 0 {
                     try desktopDecoder.finish()
                     close(socketFD); socketFD = -1
@@ -140,7 +145,7 @@ struct KotoNativeHost {
                     try failPending()
                 } else if count > 0 {
                     lastActivity = now
-                    for frame in try desktopDecoder.append(Data(bytes.prefix(count))) {
+                    for frame in try desktopDecoder.append(Data(readBuffer.prefix(count))) {
                         if !authenticated {
                             guard frame.type == .helloAck, frame.id == handshakeID,
                                   frame.payload["authenticated"] == "true" else { throw BridgeProtocolFailure.identity }

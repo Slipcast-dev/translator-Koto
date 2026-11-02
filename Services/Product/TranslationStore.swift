@@ -15,6 +15,7 @@ struct PhraseRecord: Codable, Identifiable {
 @MainActor @Observable
 final class TranslationStore {
     static let shared = TranslationStore()
+    private nonisolated static let writer = DispatchQueue(label: "dev.slipcast.koto.memory-writer", qos: .utility)
     private let directoryOverride: URL?
     private let defaults: UserDefaults
     private(set) var glossary: [PhraseRecord] = []
@@ -88,10 +89,23 @@ final class TranslationStore {
         var next = memory.filter { !($0.input == record.input && $0.source == record.source && $0.target == record.target) }
         next.append(record)
         next = Array(next.suffix(500))
-        do { try persist(next, name: "memory.json"); memory = next }
-        catch { status = String(localized: "Unable to save translation memory") }
+        memory = next
+        // Файл памяти может занимать мегабайты: запись на фоновой очереди не блокирует интерфейс.
+        // Очередь последовательная, поэтому порядок записей сохраняется (последняя версия побеждает).
+        let data = try? JSONEncoder().encode(next)
+        let url = try? file("memory.json")
+        guard let data, let url else { status = String(localized: "Unable to save translation memory"); return }
+        // @Sendable обязателен: иначе замыкание наследует MainActor и падает на проверке очереди.
+        Self.writer.async { @Sendable [weak self] in
+            do { try PrivateStorage.write(data, to: url) }
+            catch { Task { @MainActor in self?.status = String(localized: "Unable to save translation memory") } }
+        }
     }
+    /// Дожидается отложенных записей памяти (выход приложения, очистка, проверки).
+    func flush() { Self.writer.sync {} }
+
     func clearMemory() {
+        flush()
         do { try persist([], name: "memory.json"); memory.removeAll(); status = String(localized: "Memory cleared") }
         catch { status = String(localized: "Unable to clear the memory file") }
     }

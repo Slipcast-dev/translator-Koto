@@ -24,6 +24,7 @@ final class BrowserBridgeServer {
     @ObservationIgnored private var clients: [UUID: BrowserBridgeClient] = [:]
     @ObservationIgnored private var token = ""
     @ObservationIgnored private var socketPath: String?
+    @ObservationIgnored private var tokenPath: String?
     @ObservationIgnored private var seen = Set<String>()
     @ObservationIgnored private var seenOrder: [String] = []
 
@@ -50,7 +51,9 @@ final class BrowserBridgeServer {
                 unlink(path)
             }
             token = try PrivateStorage.token()
-            try PrivateStorage.write(Data(token.utf8), to: directory.appendingPathComponent("bridge.token"))
+            let tokenFile = directory.appendingPathComponent("bridge.token")
+            try PrivateStorage.write(Data(token.utf8), to: tokenFile)
+            tokenPath = tokenFile.path
             let parameters = NWParameters.tcp
             parameters.requiredLocalEndpoint = .unix(path: path)
             let service = try NWListener(using: parameters)
@@ -95,6 +98,9 @@ final class BrowserBridgeServer {
         for client in current { client.close() }
         if let socketPath { unlink(socketPath) }
         socketPath = nil
+        // Токен действителен только пока мост запущен; на диске он после остановки не нужен.
+        if let tokenPath { unlink(tokenPath) }
+        tokenPath = nil
         seen.removeAll(); seenOrder.removeAll()
         status = String(localized: "Browser bridge is off")
     }
@@ -171,7 +177,7 @@ private final class BrowserBridgeClient {
         guard !closed else { return }
         if !authenticated {
             guard message.type == .hello,
-                  message.payload["origin"] == BridgeOrigin.allowed,
+                  BridgeOrigin.accepts(message.payload["origin"]),
                   let provided = message.payload["token"], PrivateStorage.matches(provided, token) else {
                 close(); return
             }

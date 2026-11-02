@@ -17,6 +17,7 @@ struct ProductSettingsView: View {
     @State private var source = "en"
     @State private var target = "ru"
     @State private var login = ProductUtilities.loginEnabled
+    @State private var showingFAQ = false
     var body: some View {
         Section(String(localized: "Cloud translation")) {
             Text(String(localized: "Manual text is sent to the selected Google/Yandex Cloud provider when you click Translate. Your provider account determines pricing and quotas.")).font(.caption)
@@ -27,14 +28,19 @@ struct ProductSettingsView: View {
             SecureField(String(localized: "New API key"), text: $key)
             HStack {
                 Button(String(localized: "Save to Keychain")) {
-                    do { try ProviderKeychain.save(key, provider: provider.rawValue); key = ""; message = String(localized: "Key saved to Keychain") }
+                    do { try ProviderKeychain.save(key, provider: provider.rawValue); key = ""; message = String(localized: "Key saved to Keychain")
+                        EngineStatus.shared.keychainChanged() }
                     catch { message = String(localized: "Unable to save the key to Keychain") }
                 }.disabled(key.isEmpty)
                 Button(String(localized: "Remove key")) {
-                    do { try ProviderKeychain.remove(provider.rawValue); key = ""; message = String(localized: "Key removed") }
+                    do { try ProviderKeychain.remove(provider.rawValue); key = ""; message = String(localized: "Key removed")
+                        EngineStatus.shared.keychainChanged() }
                     catch { message = String(localized: "Unable to remove the key") }
                 }
+                Spacer()
+                Button(String(localized: "FAQ: how to get a key")) { showingFAQ = true }
             }
+            .sheet(isPresented: $showingFAQ) { APIKeyFAQView(provider: provider) }
         }
         Section(String(localized: "Capture privacy")) {
             Toggle(String(localized: "Allow selection and OCR in the cloud"), isOn: $cloudCapture)

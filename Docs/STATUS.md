@@ -1,42 +1,23 @@
 **Русский** | [English](STATUS.en.md)
 
-# Koto 0.1.0-alpha.14 · Chrome 0.1.4
+# Koto 0.1.0-alpha.15 · Chrome 0.1.4
 
-25 октября 2026 · Slipcast-Dev · arm64/macOS 26+. Проверки выпуска: macOS 27.2, Xcode 27.1.
+Slipcast-Dev · arm64/macOS 26+. Проверки выпуска выполнялись на macOS 27.2 / Xcode 27.
 
-В alpha.13 добавлены MIT с авторством Slipcast-Dev, правила сообщества, проверка процесса runtime через AF_UNIX, нормализация DNS-исключений, исправления OCR Resume и поколений каталога языков. Локально пройдены Release-сборка, десять Swift harness, SwiftLint для 76 файлов, 9 Python- и 13 JavaScript-тестов. Удалённый CI macOS 26 отслеживается в GitHub Actions; реальная генерация Qwen через новый транспорт не проверена. [Описание alpha.13](RELEASE-0.1.0-alpha.13.md).
+## Состояние
 
-Ниже сохранены исторические результаты локализации alpha.12:
+Предварительная сборка (alpha): подпись ad hoc, без Developer ID и notarization — macOS может блокировать запуск. Файлы выпуска собираются workflow GitHub из исходников и подтверждаются attestation ([release notes](RELEASE-0.1.0-alpha.15.md)). Модель Qwen в поставку не входит и ставится кнопкой в настройках.
 
-| Область | Проверки и границы |
-| --- | --- |
-| Интерфейс Koto | ru/en, резервный en, 546 значений и 12 сочетаний языка/региона |
-| Chrome 0.1.2 | 37 сообщений на язык, 13 логических тестов, нативные page/selection/clear/cancel и ошибки ru/en |
-| Первые запросы | 6 свежих процессов локализованной версии и 3 исходного HEAD; без ручного прогрева |
-| Динамические данные | 31 проверка чисел, размеров, plural, RTL, языка инструкций и schema=1 |
-| Регрессии | 21 ручной перевод, 10 приватность, 15 installer, 15 захват, 22 качество контрактов, 18 протокол и 23 интеграции |
-| Поставка | Release 12, HFS+ DMG, отдельный ZIP Chrome, strict/deep codesign и checksum; без весов |
+## Автоматические проверки
 
-[Описание выпуска](RELEASE-0.1.0-alpha.12.md), [подробная приёмка](LOCALIZATION-ACCEPTANCE.md), [результаты выпуска](validation/release-12.json).
+`bash script/test_swift_ci.sh` (13 прогонов: Swift-наборы, обновление на настоящих DMG, клиент моста Safari, проверка длинного пути сокета), интеграция моста (`script/test_bridge_integration.py`), SwiftLint `--strict`, проверки репозитория и локализации (`script/validate_repository.py`, `script/validate_localization.py`), тесты Chrome. CI GitHub выполняет сборку на macOS 26, SwiftLint, Swift-наборы, CodeQL и Dependency Review.
 
-Проверки локализации предыдущего build 11 сохраняются как история. Первый отмеченный Working не подтвердился как зависание: повторные первые запросы завершились, исправление движка по этому наблюдению не заявляется. Системные службы Apple и кэши при измерениях не перезапускались.
+## Не проверено
 
-Сохраняются ограничения alpha: macOS 26 runtime, Live endurance/энергия/задержки, сон/пробуждение, широкая матрица приложений, реальные Google/Yandex аккаунты, итоговая приёмка озвучивания/автозапуска, смысловое качество Qwen. Qwen не устанавливалась для локализации; проверены инструкции, а не генерация.
-
-Пакет имеет подпись ad hoc preview, без Developer ID/notarization. macOS может блокировать запуск. Koto не изменяет системные защиты. Публикация alpha не означает независимую языковую сертификацию или завершение указанных внешних проверок.
-
-[Исторические испытания alpha 11](validation/results.json). Системные языки не удалялись, ошибка отсутствующих ресурсов имитировалась на границе движка.
-
-## Исправления после опубликованной alpha.12
-
-25 октября проверены и исправлены пять замечаний: доверие endpoint runtime, конечная точка исключённого DNS-домена, OCR Pause/Resume, устаревший каталог движка и отсутствие Swift в CI. [Изменения, команды и границы проверки](REVIEW-FIXES-2026-10-25.md). Локальная Debug-сборка и десять Swift harness пройдены на macOS 27.2 / Xcode 27.1. Изменения включены в подготовленный пакет alpha.13; удалённый CI/macOS 26 и реальная генерация Qwen через новый Unix-транспорт не проверены.
-
-Удалённая чистая сборка, SwiftLint и десять Swift harness на macOS 26 arm64 — **пройдено**: [CI](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40202546241). Первоначальный сбой отсутствующего BrowserBridge исправлен сборкой native host перед Xcode. Dependency Review на Dependabot PR — **пройдено**. Это подтверждает сборку и автоматические контракты на macOS 26, но не полную интерактивную приёмку GUI/Live/Qwen.
-
-## Проверка внешнего аудита · 27 октября
-
-[Разбор всех 11 пунктов](AUDIT-2026-10-27.md): исправлены browser navigation/origin, длинный bridge socket path, proxy и передача проверенного снимка модели; закреплены Actions/SwiftLint, добавлены CodeQL и provenance workflow. Private Vulnerability Reporting включён. Developer ID/notarization, полный App Sandbox и Data Protection Keychain требуют отдельного внешнего этапа. Исправления подготовлены для alpha.14; опубликованный alpha.13 остаётся историческим.
-
-Alpha.14: [release notes](RELEASE-0.1.0-alpha.14.md). Audit fixes are included; the artifact workflow builds and attests the delivered bytes. Previous alpha.12/13 test records below remain historical. Apple notarization and full interactive acceptance remain separate.
-
-Alpha.14: source build and all four artifact attestations **verified**, constrained to tag v0.1.0-alpha.14 and source commit 33cdfea. [Workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [verification report](validation/release-14.json). Mounted DMG and codesign passed. Published alpha.13 remains historical; Apple notarization remains unavailable.
+- Полная интерактивная приёмка на macOS 26, Live (длительность, энергия, задержки), сон/пробуждение, широкая матрица приложений.
+- Работа расширения Safari внутри Safari (сборка, встраивание, подпись и клиент моста проверены; включение расширения и перевод в Safari — нет). Предварительная сборка требует «Разрешить неподписанные расширения» в Safari.
+- Реальные аккаунты Google и Yandex, озвучивание, автозапуск.
+- Реальная генерация и смысловое качество Qwen через текущий транспорт.
+- Сквозное обновление через живой GitHub: появится при выходе выпуска новее установленного.
+- Непостоянная внутренняя причина отказа Apple Translation при первом вызове не установлена; обработка отказа в Koto есть.
+- Developer ID/notarization, полный App Sandbox и строгие гарантии Data Protection Keychain требуют отдельного внешнего этапа.

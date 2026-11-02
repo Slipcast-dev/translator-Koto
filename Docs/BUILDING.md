@@ -24,6 +24,8 @@ python3 script/validate_repository.py
 ./script/test_quality_behaviors.sh
 ./script/test_bridge_protocol.sh
 python3 script/test_bridge_integration.py
+./script/test_update.sh
+./script/test_safari_bridge.sh
 ./script/test_apple_translation.sh
 ```
 
@@ -35,11 +37,11 @@ Preview использует ad hoc. Developer ID/notarization — отдель�
 
 ## Проверка локализации macOS
 
-После Release-сборки выполните `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`. Проверяются готовые ru/en ресурсы, 12 сочетаний языковых предпочтений и региона, plural, числа, RTL, язык инструкций пояснений и schema=1. Дополнительные Python-пакеты и модель не нужны. Подробности и ограничения: [динамическая локализация](LOCALIZATION-DYNAMICS.md).
+После Release-сборки выполните `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`. Проверяются готовые ru/en ресурсы, 12 сочетаний языковых предпочтений и региона, plural, числа, RTL, язык инструкций пояснений и schema=1. Дополнительные Python-пакеты и модель не нужны.
 
 ## Проверка локализации Chrome
 
-Выполните `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, затем `./script/test_bridge_protocol.sh`. npm-пакеты не нужны. Node.js требуется только для тестов. Границы логических и нативных проверок: [локализация Chrome](LOCALIZATION-CHROME.md).
+Выполните `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, затем `./script/test_bridge_protocol.sh`. npm-пакеты не нужны. Node.js требуется только для тестов.
 
 CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Локальный пакет: `python3 script/package_release.py --artifact-suffix localization-hfs`; после монтирования — `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
 
@@ -47,10 +49,10 @@ CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -
 
 ## CI / static analysis
 
-`bash script/test_swift_ci.sh` runs ten deterministic Swift harnesses. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install the pinned SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (archive SHA-256 is verified); run `build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml`. GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.
+`bash script/test_swift_ci.sh` runs 13 deterministic runs (9 shell suites, direct Live and settings-migration harnesses, update test on real DMGs, Safari bridge client test) and a Python check of the long bridge socket path. The Safari extension is the second Xcode target `Koto Safari` (folder `SafariExtension/`), embedded into Koto.app/Contents/PlugIns; it shares popup and localization files with `BrowserExtension/`. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install the pinned SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (archive SHA-256 is verified); run `build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml`. GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.
 
 ## Проверяемое происхождение артефактов / Artifact provenance
 
-`.github/workflows/build-artifacts.yml` builds preview artifacts from source on macOS 26 for a tag or manual workflow run and generates GitHub/Sigstore attestations. Download the workflow artifact, then verify each file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. These attestations bind bytes to a GitHub workflow/source revision; they do not provide Apple Developer ID or notarization. Existing locally built alpha.13 assets have not been retroactively attested. The workflow is merged and its first alpha.14 tag build completed successfully. See Docs/validation/release-14.json for the verified source revision and artifact hashes.
+`.github/workflows/build-artifacts.yml` builds preview artifacts from source on macOS 26 for a tag or manual workflow run and generates GitHub/Sigstore attestations. Download the workflow artifact, then verify each file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. These attestations bind bytes to a GitHub workflow/source revision; they do not provide Apple Developer ID or notarization.
 
-`CFBundleShortVersionString` is numeric (0.1.0); `KotoReleaseChannel` stores alpha for the UI. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode. Runtime model loading now uses an unlinked verified snapshot via inherited stdin; reserve temporary disk space equal to the model size in addition to installed weights. No named model copy is retained.
+`CFBundleShortVersionString` is numeric (0.1.0); `KotoReleaseChannel` stores alpha for the UI. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode. Runtime model loading now uses an unlinked verified snapshot via inherited stdin; on APFS the snapshot is an instant copy-on-write clone and needs no extra space; if cloning is unavailable (another volume, non-APFS) a full copy is made and temporary space equal to the model size is required. No named model copy is retained. The runtime is unloaded after 10 minutes without requests.

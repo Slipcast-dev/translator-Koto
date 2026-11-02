@@ -171,24 +171,42 @@ final class LocalRuntimeSupervisor {
     @ObservationIgnored private var endpoint: LocalEndpoint?
     @ObservationIgnored private var starting: Task<LocalEndpoint, Error>?
     @ObservationIgnored private var generation = UUID()
+    @ObservationIgnored private var idleStop: Task<Void, Never>?
+    /// Модель занимает несколько GB памяти; без запросов runtime выгружается и стартует заново по требованию.
+    @ObservationIgnored private let idleTimeout: Duration
     @ObservationIgnored private var privateDirectory: URL?
     @ObservationIgnored private let resourceRoot: URL
     @ObservationIgnored private let modelFileOverride: URL?
 
-    init(resourceRoot: URL? = nil, modelFile: URL? = nil) {
+    init(resourceRoot: URL? = nil, modelFile: URL? = nil, idleTimeout: Duration = .seconds(600)) {
         self.modelFileOverride = modelFile
+        self.idleTimeout = idleTimeout
         self.resourceRoot = resourceRoot ?? Bundle.main.resourceURL ?? URL(fileURLWithPath: "/nonexistent")
     }
 
     func start() async throws -> LocalEndpoint {
         if let starting { return try await starting.value }
-        if let endpoint, process?.isRunning == true { return endpoint }
+        if let endpoint, process?.isRunning == true { scheduleIdleStop(); return endpoint }
         let id = UUID()
         generation = id
         let task = Task { try await launch(id: id) }
         starting = task
         defer { if generation == id { starting = nil } }
-        return try await task.value
+        let ready = try await task.value
+        if generation == id { scheduleIdleStop() }
+        return ready
+    }
+
+    /// Каждый запрос к runtime проходит через start(), поэтому он же продлевает время жизни процесса.
+    private func scheduleIdleStop() {
+        idleStop?.cancel()
+        let current = generation
+        let timeout = idleTimeout
+        idleStop = Task { [weak self] in
+            do { try await Task.sleep(for: timeout) } catch { return }
+            guard let self, self.generation == current, self.isRunning else { return }
+            self.stop()
+        }
     }
 
     private func launch(id: UUID) async throws -> LocalEndpoint {
@@ -230,6 +248,7 @@ final class LocalRuntimeSupervisor {
                 .appendingPathComponent("koto-" + UUID().uuidString, isDirectory: true)
             guard mkdir(directory.path, 0o700) == 0 else { throw LocalRuntimeFailure.start }
             privateDirectory = directory
+            Self.removeStaleDirectories(except: directory)
             let keyFile = directory.appendingPathComponent("api-key")
             let fd = open(keyFile.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0o600)
             guard fd >= 0 else { throw LocalRuntimeFailure.start }
@@ -266,6 +285,8 @@ final class LocalRuntimeSupervisor {
             }
             process = child
             try child.run()
+            // PID launcher нужен очистке: каталог после краха приложения распознаётся по мёртвому процессу.
+            try? Data("\(child.processIdentifier)\n".utf8).write(to: directory.appendingPathComponent("launcher.pid"))
             let ready = LocalEndpoint(socketPath: directory.appendingPathComponent("runtime.sock").path,
                                       launcherPID: child.processIdentifier, token: token)
             status = String(localized: "Loading local model…")
@@ -293,6 +314,7 @@ final class LocalRuntimeSupervisor {
 
     func stop() {
         generation = UUID()
+        idleStop?.cancel(); idleStop = nil
         starting?.cancel(); starting = nil
         if let process, process.isRunning { process.terminate() }
         // Launcher завершает llama-server и reap даже при crash GUI; не блокируем MainActor ожиданием.
@@ -305,11 +327,34 @@ final class LocalRuntimeSupervisor {
 
     private func cleanupKey() {
         guard let directory = privateDirectory else { return }
-        // Удаляем только созданный этой операцией файл и пустой UUID-каталог.
-        unlink(directory.appendingPathComponent("api-key").path)
-        unlink(directory.appendingPathComponent("runtime.sock").path)
-        rmdir(directory.path)
+        Self.removeDirectory(directory)
         privateDirectory = nil
+    }
+
+    /// Только файлы, которые создаёт launch(); произвольное содержимое каталога не удаляется.
+    nonisolated private static func removeDirectory(_ directory: URL) {
+        for name in ["api-key", "runtime.sock", "launcher.pid"] { unlink(directory.appendingPathComponent(name).path) }
+        rmdir(directory.path)
+    }
+
+    /// После краха или принудительного выхода каталог /tmp/koto-<UUID> с ключом остаётся.
+    /// Удаляются только свои (uid) каталоги именно такого имени, чей launcher больше не жив:
+    /// запущенный другим экземпляром Koto runtime не затрагивается.
+    nonisolated static func removeStaleDirectories(except current: URL?) {
+        let root = URL(fileURLWithPath: "/tmp", isDirectory: true)
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: root.path) else { return }
+        for name in names where name.hasPrefix("koto-") && name.dropFirst(5).count == 36 && UUID(uuidString: String(name.dropFirst(5))) != nil {
+            let directory = root.appendingPathComponent(name, isDirectory: true)
+            if directory.standardizedFileURL == current?.standardizedFileURL { continue }
+            var metadata = stat()
+            guard lstat(directory.path, &metadata) == 0, (metadata.st_mode & S_IFMT) == S_IFDIR, metadata.st_uid == getuid() else { continue }
+            let pidText = (try? String(contentsOf: directory.appendingPathComponent("launcher.pid"), encoding: .utf8))
+                .flatMap { Int32($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+            // Без pid-файла каталог принадлежит запуску, не дошедшему до child: безопасно удалить только если он старше минуты.
+            if let pidText { if pidText > 1 && kill(pidText, 0) == 0 { continue } }
+            else if Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(metadata.st_mtimespec.tv_sec))) < 60 { continue }
+            removeDirectory(directory)
+        }
     }
 
     /// Копируем и хешируем одни и те же байты в сразу unlinked tempfile.
@@ -325,6 +370,36 @@ final class LocalRuntimeSupervisor {
                   (metadata.st_mode & S_IFMT) == S_IFREG, metadata.st_size == expectedBytes else {
                 throw LocalRuntimeFailure.corrupt
             }
+            // APFS clone делает снимок за O(1) без записи 2,5 GB на SSD и без двойного места.
+            // Клон копирует-при-записи: правка исходного inode после этого его не меняет,
+            // поэтому гарантия против in-place TOCTOU сохраняется. Хэш считается по клону.
+            if let clone = cloneSnapshot(of: input) {
+                var verified = false
+                defer { if !verified { close(clone) } }
+                var digest = SHA256()
+                var total: Int64 = 0
+                var buffer = [UInt8](repeating: 0, count: 1_048_576)
+                while true {
+                    try Task.checkCancellation()
+                    let count = buffer.withUnsafeMutableBytes { Darwin.read(clone, $0.baseAddress, $0.count) }
+                    if count < 0 && errno == EINTR { continue }
+                    guard count >= 0 else { throw LocalRuntimeFailure.corrupt }
+                    if count == 0 { break }
+                    if total == 0, !buffer.prefix(count).starts(with: Array("GGUF".utf8)) {
+                        throw LocalRuntimeFailure.corrupt
+                    }
+                    total += Int64(count)
+                    guard total <= expectedBytes else { throw LocalRuntimeFailure.corrupt }
+                    digest.update(data: buffer.prefix(count))
+                }
+                let actual = digest.finalize().map { String(format: "%02x", $0) }.joined()
+                guard total == expectedBytes, actual == expected.lowercased(), lseek(clone, 0, SEEK_SET) == 0 else {
+                    throw LocalRuntimeFailure.corrupt
+                }
+                verified = true
+                return FileHandle(fileDescriptor: clone, closeOnDealloc: true)
+            }
+            // Клон недоступен (другой том, не APFS): прежний путь с полной копией.
             var pattern = Array("/tmp/koto-model-XXXXXX".utf8CString)
             let output = mkstemp(&pattern)
             guard output >= 0 else { throw LocalRuntimeFailure.start }
@@ -369,6 +444,19 @@ final class LocalRuntimeSupervisor {
             return FileHandle(fileDescriptor: output, closeOnDealloc: true)
         }
         return try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
+    }
+
+    /// Клонирует открытый inode в приватный каталог и сразу убирает имя: остаётся только fd.
+    /// nil означает, что клонирование не поддержано, и вызывающий использует обычную копию.
+    nonisolated private static func cloneSnapshot(of input: Int32) -> Int32? {
+        var template = Array("/tmp/koto-model-XXXXXX".utf8CString)
+        guard let directory = template.withUnsafeMutableBufferPointer({ mkdtemp($0.baseAddress!) }) else { return nil }
+        let directoryPath = String(cString: directory)
+        let target = directoryPath + "/model"
+        defer { unlink(target); rmdir(directoryPath) }
+        guard fclonefileat(input, AT_FDCWD, target, 0) == 0 else { return nil }
+        let fd = open(target, O_RDONLY | O_NOFOLLOW)
+        return fd >= 0 ? fd : nil
     }
 
     nonisolated static func verifyFile(_ url: URL, expected: String, expectedBytes: Int64? = nil, gguf: Bool = false) async throws {

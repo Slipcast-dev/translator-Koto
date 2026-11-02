@@ -7,6 +7,7 @@ struct SettingsView: View {
     let capture: CaptureCoordinator
     var body: some View {
         Form {
+            UpdateSettingsView()
             Section(String(localized: "Appearance")) {
                 AppearancePicker()
                 Text(String(localized: "The system theme follows macOS settings."))
@@ -16,6 +17,7 @@ struct SettingsView: View {
             CaptureSettingsView(coordinator: capture)
             LocalRuntimeSettingsView()
             BrowserBridgeSettingsView()
+            SafariSettingsView()
             ProductSettingsView()
             SettingsMigrationView(model: capture.manualModel)
             Section(String(localized: "Application")) {

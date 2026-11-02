@@ -17,4 +17,4 @@ Installed location: `~/Library/Application Support/dev.slipcast.koto/Models/qwen
 
 Across 16 main and 8 held-out examples, engineering review favored Instruct in 6 cases and the previous candidate in 2; both had material defects in 4, and 12 were similar. This is not independent linguistic certification or an accuracy percentage.
 
-A 10,949-character / 40-paragraph document was processed in full, including its last sentence; approximately 224 seconds on M1 is an individual observation, not a controlled benchmark. Errors in idioms, explanations and language fragments remain. JSON/citation/URL checks do not guarantee semantic correctness. [Results](validation/results.json).
+A 10,949-character / 40-paragraph document was processed in full, including its last sentence; approximately 224 seconds on M1 is an individual observation, not a controlled benchmark. Errors in idioms, explanations and language fragments remain. JSON/citation/URL checks do not guarantee semantic correctness.

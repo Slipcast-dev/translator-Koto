@@ -21,6 +21,13 @@ enum ProviderKeychain {
         }
         return key
     }
+    /// Проверка наличия записи без чтения секрета: не вызывает запрос доступа к Keychain.
+    static func exists(_ provider: String) -> Bool {
+        var query = query(provider)
+        query[kSecReturnData as String] = false
+        query[kSecMatchLimit as String] = kSecMatchLimitOne
+        return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
+    }
     static func save(_ key: String, provider: String) throws {
         let clean = key.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, clean.utf8.count <= 4096, !clean.contains("\n"), !clean.contains("\r") else {
@@ -57,14 +64,16 @@ private final class CloudRedirectGuard: NSObject, URLSessionTaskDelegate, Sendab
 final class CloudTranslationEngine: TranslationEngine {
     enum Provider: String { case google, yandex }
     private let provider: Provider
-    private let session: URLSession
+    /// Одна сессия на процесс: URLSession удерживает делегата до invalidate, а мост Chrome
+    /// создаёт движок на каждый запрос. Per-instance сессии накапливались бы до выхода приложения.
+    /// Сессия не хранит cookies, кэш и состояние запроса, поэтому общий экземпляр безопасен.
+    private static let session = URLSession(configuration: sessionConfiguration(),
+                                            delegate: CloudRedirectGuard(), delegateQueue: nil)
+    private var session: URLSession { Self.session }
     private var operation: Task<TranslationResult, Error>?
     private var operationID: UUID?
     var displayName: String { provider == .google ? "Google Cloud" : "Yandex Cloud" }
-    init(_ provider: Provider) {
-        self.provider = provider
-        session = URLSession(configuration: Self.sessionConfiguration(), delegate: CloudRedirectGuard(), delegateQueue: nil)
-    }
+    init(_ provider: Provider) { self.provider = provider }
     /// Системный proxy/PAC наследуется; cookies/cache и redirects не переносят секреты.
     static func sessionConfiguration() -> URLSessionConfiguration {
         let config = URLSessionConfiguration.ephemeral

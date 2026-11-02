@@ -199,24 +199,6 @@
         }
       }
     },
-    "After registration, load the BrowserExtension folder as an unpacked extension at chrome://extensions. Use only the Koto extension with ID %@.": {
-      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "After registration, load the BrowserExtension folder as an unpacked extension at chrome://extensions. Use only the Koto extension with ID %@."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "После регистрации загрузите папку BrowserExtension как распакованное расширение через chrome://extensions. Используйте только расширение Koto с ID %@."
-          }
-        }
-      }
-    },
     "All three sources are translated locally by default. Excluded apps are blocked for Accessibility capture and excluded from screenshots.": {
       "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -2323,24 +2305,6 @@
         }
       }
     },
-    "Native host registered for this copy of Koto.": {
-      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Native host registered for this copy of Koto."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Native host зарегистрирован для текущей копии Koto."
-          }
-        }
-      }
-    },
     "New API key": {
       "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -2751,24 +2715,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Распознаём текст на Mac…"
-          }
-        }
-      }
-    },
-    "Register native host for Chrome": {
-      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Register native host for Chrome"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Зарегистрировать native host для Chrome"
           }
         }
       }
@@ -3417,24 +3363,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Приложение не предоставило выделенный текст. Используйте «Службы → Перевести в Koto» в исходном приложении или OCR области."
-          }
-        }
-      }
-    },
-    "The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection.": {
-      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Мост принимает только собственное расширение, работает через локальный Unix socket и требует аутентификацию для каждого подключения."
           }
         }
       }
@@ -4375,24 +4303,6 @@
         }
       }
     },
-    "Unable to register the host. Check the Koto installation and directory permissions.": {
-      "comment": "Пользовательская строка: Features/Settings/BrowserBridgeSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unable to register the host. Check the Koto installation and directory permissions."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не удалось зарегистрировать host. Проверьте установку Koto и права каталога."
-          }
-        }
-      }
-    },
     "Unable to remove the key": {
       "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -4893,6 +4803,1572 @@
           "stringUnit": {
             "state": "translated",
             "value": "⌃⌥⌘T — выделенный текст\n⌃⌥⌘R — область экрана (OCR)\n⌃⌥⌘L — живой перевод"
+          }
+        }
+      }
+    },
+    "Updates are checked only when you click the button.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates are checked only when you click the button."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновления проверяются только по нажатию кнопки."
+          }
+        }
+      }
+    },
+    "Checking for updates…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking for updates…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка обновлений…"
+          }
+        }
+      }
+    },
+    "You have the latest version.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You have the latest version."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У вас последняя версия."
+          }
+        }
+      }
+    },
+    "Update available: %@": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update available: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступно обновление: %@"
+          }
+        }
+      }
+    },
+    "Downloading update…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading update…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузка обновления…"
+          }
+        }
+      }
+    },
+    "Verifying the update…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifying the update…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка обновления…"
+          }
+        }
+      }
+    },
+    "Installing the update. Koto will restart.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installing the update. Koto will restart."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка обновления. Koto перезапустится."
+          }
+        }
+      }
+    },
+    "GitHub temporarily limited requests. Try again later.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub temporarily limited requests. Try again later."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub временно ограничил запросы. Повторите позже."
+          }
+        }
+      }
+    },
+    "The update server returned an unexpected response.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The update server returned an unexpected response."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервер обновлений вернул неожиданный ответ."
+          }
+        }
+      }
+    },
+    "The downloaded update failed verification and was not installed.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The downloaded update failed verification and was not installed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загруженное обновление не прошло проверку и не установлено."
+          }
+        }
+      }
+    },
+    "The release has no checksum file, so the update was not installed.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The release has no checksum file, so the update was not installed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У выпуска нет файла контрольных сумм, поэтому обновление не установлено."
+          }
+        }
+      }
+    },
+    "The update package is damaged or is not Koto.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The update package is damaged or is not Koto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пакет обновления повреждён или это не Koto."
+          }
+        }
+      }
+    },
+    "The package is not newer than the installed version.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The package is not newer than the installed version."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пакет не новее установленной версии."
+          }
+        }
+      }
+    },
+    "The update has an invalid code signature and was not installed.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The update has an invalid code signature and was not installed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У обновления недействительная подпись кода, оно не установлено."
+          }
+        }
+      }
+    },
+    "Koto cannot replace itself in this folder. Move it to Applications or install the update manually.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto cannot replace itself in this folder. Move it to Applications or install the update manually."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto не может заменить себя в этой папке. Переместите приложение в «Программы» или установите обновление вручную."
+          }
+        }
+      }
+    },
+    "Unable to start the installer. Install the update manually from the release page.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to start the installer. Install the update manually from the release page."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось запустить установщик. Установите обновление вручную со страницы выпуска."
+          }
+        }
+      }
+    },
+    "The operation took too long and was stopped. Try again.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The operation took too long and was stopped. Try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Операция заняла слишком много времени и остановлена. Повторите попытку."
+          }
+        }
+      }
+    },
+    "Update cancelled.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update cancelled."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление отменено."
+          }
+        }
+      }
+    },
+    "Unable to reach the update server. Check your connection.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to reach the update server. Check your connection."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось связаться с сервером обновлений. Проверьте подключение."
+          }
+        }
+      }
+    },
+    "Update": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление"
+          }
+        }
+      }
+    },
+    "Koto is a native macOS translator: text, selections and screen regions, local engines and a Chrome extension.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto is a native macOS translator: text, selections and screen regions, local engines and a Chrome extension."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto — нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome."
+          }
+        }
+      }
+    },
+    "Check for updates": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for updates"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить обновления"
+          }
+        }
+      }
+    },
+    "Open the release page": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the release page"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть страницу выпуска"
+          }
+        }
+      }
+    },
+    "Show update…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show update…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать обновление…"
+          }
+        }
+      }
+    },
+    "Update available": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update available"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступно обновление"
+          }
+        }
+      }
+    },
+    "New version": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New version"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новая версия"
+          }
+        }
+      }
+    },
+    "Installed": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установлено"
+          }
+        }
+      }
+    },
+    "Download size": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download size"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер загрузки"
+          }
+        }
+      }
+    },
+    "The update is downloaded, verified against the release checksums and installed automatically. Koto restarts once to finish.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The update is downloaded, verified against the release checksums and installed automatically. Koto restarts once to finish."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление загружается, сверяется с контрольными суммами выпуска и устанавливается автоматически. Для завершения Koto один раз перезапустится."
+          }
+        }
+      }
+    },
+    "Release page": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Release page"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Страница выпуска"
+          }
+        }
+      }
+    },
+    "Later": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Later"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Позже"
+          }
+        }
+      }
+    },
+    "Install and restart": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install and restart"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установить и перезапустить"
+          }
+        }
+      }
+    },
+    "Sign in to Google Cloud Console and create a project (or choose an existing one).": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to Google Cloud Console and create a project (or choose an existing one)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите в Google Cloud Console и создайте проект (или выберите существующий)."
+          }
+        }
+      }
+    },
+    "Open Google Cloud Console": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Google Cloud Console"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть Google Cloud Console"
+          }
+        }
+      }
+    },
+    "Link a billing account to the project. Cloud Translation requires billing; a free monthly quota applies.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link a billing account to the project. Cloud Translation requires billing; a free monthly quota applies."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Привяжите к проекту платёжный аккаунт. Cloud Translation требует биллинг; действует бесплатная ежемесячная квота."
+          }
+        }
+      }
+    },
+    "Open the Cloud Translation API page and click Enable. Koto uses Basic (v2).": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the Cloud Translation API page and click Enable. Koto uses Basic (v2)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте страницу Cloud Translation API и нажмите «Включить». Koto использует Basic (v2)."
+          }
+        }
+      }
+    },
+    "Open Cloud Translation API": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Cloud Translation API"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть Cloud Translation API"
+          }
+        }
+      }
+    },
+    "Go to APIs & Services → Credentials → Create credentials → API key.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to APIs & Services → Credentials → Create credentials → API key."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перейдите в «API и сервисы» → «Учётные данные» → «Создать учётные данные» → «Ключ API»."
+          }
+        }
+      }
+    },
+    "Open Credentials": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Credentials"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть учётные данные"
+          }
+        }
+      }
+    },
+    "Recommended: choose Restrict key, select Cloud Translation API under API restrictions and save.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommended: choose Restrict key, select Cloud Translation API under API restrictions and save."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рекомендуется: выберите «Ограничить ключ», в ограничениях API укажите Cloud Translation API и сохраните."
+          }
+        }
+      }
+    },
+    "Copy the key. In Koto choose “Google Cloud Basic v2” as the key provider, paste it into “New API key” and click Save to Keychain.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the key. In Koto choose “Google Cloud Basic v2” as the key provider, paste it into “New API key” and click Save to Keychain."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопируйте ключ. В Koto выберите провайдера «Google Cloud Basic v2», вставьте ключ в поле «Новый API-ключ» и нажмите «Сохранить в Keychain»."
+          }
+        }
+      }
+    },
+    "Choose Google Cloud as the engine in the main window. The key is stored only in the macOS Keychain; Remove key deletes it.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Google Cloud as the engine in the main window. The key is stored only in the macOS Keychain; Remove key deletes it."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В главном окне выберите движок Google Cloud. Ключ хранится только в Keychain macOS; «Удалить ключ» стирает его."
+          }
+        }
+      }
+    },
+    "Sign in to Yandex Cloud Console. Create a cloud and a folder if you do not have them, and link a billing account.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to Yandex Cloud Console. Create a cloud and a folder if you do not have them, and link a billing account."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите в консоль Yandex Cloud. Создайте облако и каталог, если их нет, и привяжите платёжный аккаунт."
+          }
+        }
+      }
+    },
+    "Open Yandex Cloud Console": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Yandex Cloud Console"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть консоль Yandex Cloud"
+          }
+        }
+      }
+    },
+    "In the folder, open Service accounts and create a service account.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the folder, open Service accounts and create a service account."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В каталоге откройте «Сервисные аккаунты» и создайте сервисный аккаунт."
+          }
+        }
+      }
+    },
+    "Grant the service account the role ai.translate.user on the folder (Access bindings).": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant the service account the role ai.translate.user on the folder (Access bindings)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назначьте сервисному аккаунту роль ai.translate.user на каталог (права доступа)."
+          }
+        }
+      }
+    },
+    "Open the service account, click Create new key → Create API key. If asked for a scope, choose yc.ai.translate.execute.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the service account, click Create new key → Create API key. If asked for a scope, choose yc.ai.translate.execute."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте сервисный аккаунт и нажмите «Создать новый ключ» → «Создать API-ключ». Если запросят область действия, выберите yc.ai.translate.execute."
+          }
+        }
+      }
+    },
+    "Copy the secret key immediately: it is shown only once.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the secret key immediately: it is shown only once."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сразу скопируйте секретный ключ: он показывается только один раз."
+          }
+        }
+      }
+    },
+    "In Koto choose “Yandex · service account API key”, paste the key into “New API key” and click Save to Keychain.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Koto choose “Yandex · service account API key”, paste the key into “New API key” and click Save to Keychain."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В Koto выберите «Yandex · API-ключ сервисного аккаунта», вставьте ключ в поле «Новый API-ключ» и нажмите «Сохранить в Keychain»."
+          }
+        }
+      }
+    },
+    "Choose Yandex Cloud as the engine in the main window. The key is stored only in the macOS Keychain.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Yandex Cloud as the engine in the main window. The key is stored only in the macOS Keychain."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В главном окне выберите движок Yandex Cloud. Ключ хранится только в Keychain macOS."
+          }
+        }
+      }
+    },
+    "Yandex Translate documentation": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandex Translate documentation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документация Yandex Translate"
+          }
+        }
+      }
+    },
+    "How to get an API key": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to get an API key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как получить API-ключ"
+          }
+        }
+      }
+    },
+    "Provider consoles change over time: if a button is named differently, check the provider’s documentation. Pricing and quotas are set by your provider account; Koto never receives or stores your key outside the Keychain.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provider consoles change over time: if a button is named differently, check the provider’s documentation. Pricing and quotas are set by your provider account; Koto never receives or stores your key outside the Keychain."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Консоли провайдеров меняются: если кнопка называется иначе, сверьтесь с документацией провайдера. Тариф и квоты определяет ваш аккаунт; Koto не получает и не хранит ключ вне Keychain."
+          }
+        }
+      }
+    },
+    "FAQ: how to get a key": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FAQ: how to get a key"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FAQ: как получить ключ"
+          }
+        }
+      }
+    },
+    "Chrome extension": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome extension"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расширение Chrome"
+          }
+        }
+      }
+    },
+    "Not installed": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not installed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не установлено"
+          }
+        }
+      }
+    },
+    "Install extension for Chrome": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install extension for Chrome"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установить расширение для Chrome"
+          }
+        }
+      }
+    },
+    "Remove extension": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove extension"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить расширение"
+          }
+        }
+      }
+    },
+    "Chrome asks you to confirm unpacked extensions: after installing, turn on Developer mode at chrome://extensions, click “Load unpacked” and choose the folder that opens. The extension ID must be %@.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome asks you to confirm unpacked extensions: after installing, turn on Developer mode at chrome://extensions, click “Load unpacked” and choose the folder that opens. The extension ID must be %@."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome требует подтвердить распакованные расширения: после установки включите режим разработчика на chrome://extensions, нажмите «Загрузить распакованное расширение» и выберите открывшуюся папку. ID расширения должен быть %@."
+          }
+        }
+      }
+    },
+    "The switch above only turns the bridge on or off; it never removes the extension. The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The switch above only turns the bridge on or off; it never removes the extension. The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переключатель выше только включает или выключает мост и никогда не удаляет расширение. Мост принимает только собственное расширение Koto, работает через локальный Unix socket и аутентифицирует каждое подключение."
+          }
+        }
+      }
+    },
+    "Extension files and the native host are ready. Finish loading the extension in Chrome.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extension files and the native host are ready. Finish loading the extension in Chrome."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы расширения и native host готовы. Завершите загрузку расширения в Chrome."
+          }
+        }
+      }
+    },
+    "Google Chrome was not found: open chrome://extensions in your Chromium browser.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Chrome was not found: open chrome://extensions in your Chromium browser."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Chrome не найден: откройте chrome://extensions в вашем Chromium-браузере."
+          }
+        }
+      }
+    },
+    "Unable to install the extension. Check the Koto installation and directory permissions.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to install the extension. Check the Koto installation and directory permissions."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось установить расширение. Проверьте установку Koto и права на каталоги."
+          }
+        }
+      }
+    },
+    "Native host and extension files removed. Also remove the Koto extension at chrome://extensions.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native host and extension files removed. Also remove the Koto extension at chrome://extensions."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native host и файлы расширения удалены. Удалите также расширение Koto на chrome://extensions."
+          }
+        }
+      }
+    },
+    "Unable to remove the extension files. Check access to the Koto directory.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to remove the extension files. Check access to the Koto directory."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить файлы расширения. Проверьте доступ к каталогу Koto."
+          }
+        }
+      }
+    },
+    "Loading language list…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading language list…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузка списка языков…"
+          }
+        }
+      }
+    },
+    "Ready": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готов"
+          }
+        }
+      }
+    },
+    "Language list is not loaded yet.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language list is not loaded yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Список языков ещё не загружен."
+          }
+        }
+      }
+    },
+    "Ready · API key saved": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready · API key saved"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готов · ключ API сохранён"
+          }
+        }
+      }
+    },
+    "No API key. Add it in Settings → Cloud translation.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No API key. Add it in Settings → Cloud translation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет ключа API. Добавьте его в «Настройки» → «Облачный перевод»."
+          }
+        }
+      }
+    },
+    "Model is being installed…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model is being installed…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель устанавливается…"
+          }
+        }
+      }
+    },
+    "Model not installed. Install it in Settings → Local translation.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model not installed. Install it in Settings → Local translation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модель не установлена. Установите её в «Настройки» → «Локальный перевод»."
+          }
+        }
+      }
+    },
+    "Ready · model loaded": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready · model loaded"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готов · модель загружена"
+          }
+        }
+      }
+    },
+    "Ready · model loads on first translation": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready · model loads on first translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готов · модель загрузится при первом переводе"
+          }
+        }
+      }
+    },
+    "Checking…": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка…"
+          }
+        }
+      }
+    },
+    "Enabled in Safari": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enabled in Safari"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включено в Safari"
+          }
+        }
+      }
+    },
+    "Installed, turned off in Safari": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed, turned off in Safari"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установлено, выключено в Safari"
+          }
+        }
+      }
+    },
+    "Not found": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not found"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не найдено"
+          }
+        }
+      }
+    },
+    "Safari browser": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safari browser"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузер Safari"
+          }
+        }
+      }
+    },
+    "Safari extension": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safari extension"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расширение Safari"
+          }
+        }
+      }
+    },
+    "Turn on in Safari": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on in Safari"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить в Safari"
+          }
+        }
+      }
+    },
+    "Turn off in Safari": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off in Safari"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключить в Safari"
+          }
+        }
+      }
+    },
+    "Refresh status": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh status"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновить статус"
+          }
+        }
+      }
+    },
+    "Safari does not see the extension yet. Move Koto to Applications, launch it once, then refresh.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safari does not see the extension yet. Move Koto to Applications, launch it once, then refresh."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safari ещё не видит расширение. Переместите Koto в «Программы», запустите его один раз и обновите статус."
+          }
+        }
+      }
+    },
+    "Unable to open Safari settings. Open Safari → Settings → Extensions manually.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to open Safari settings. Open Safari → Settings → Extensions manually."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось открыть настройки Safari. Откройте Safari → «Настройки» → «Расширения» вручную."
+          }
+        }
+      }
+    },
+    "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В Safari откройте «Настройки» → «Расширения» и отметьте Koto. Эта предварительная сборка не подписана Apple Developer ID: сначала включите в Safari «Разработка» → «Разрешить неподписанные расширения» (выбор сбрасывается при выходе из Safari)."
+          }
+        }
+      }
+    },
+    "The Safari extension uses the same bridge as Chrome: the “Enable browser bridge” switch above pauses it without removing anything.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Safari extension uses the same bridge as Chrome: the “Enable browser bridge” switch above pauses it without removing anything."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расширение Safari использует тот же мост, что и Chrome: переключатель «Разрешить браузерный мост» выше приостанавливает его, ничего не удаляя."
           }
         }
       }

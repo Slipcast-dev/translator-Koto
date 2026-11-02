@@ -58,6 +58,7 @@ struct KotoApp: App {
 /// Удержание этой команды позволяет вновь открыть окно даже после уничтожения его содержимого.
 private struct MainWindowActionInstaller: View {
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.openSettings) private var openSettings
     let appDelegate: KotoAppDelegate
     let capture: CaptureCoordinator
 
@@ -72,6 +73,8 @@ private struct MainWindowActionInstaller: View {
                 appDelegate.reopenMainWindow = {
                     openWindow(id: WindowID.main)
                 }
+                // Помощник для автоматических снимков интерфейса: открывает Settings без нажатия клавиш.
+                if CommandLine.arguments.contains("--koto-open-settings") { openSettings() }
             }
     }
 }

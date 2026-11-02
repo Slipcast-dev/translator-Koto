@@ -212,7 +212,8 @@ async def main() -> None:
             await stop(host)
         if server is not None:
             await stop(server)
-    output = ROOT / "Docs/validation/bridge-integration.json"
+    output = ROOT / "build/validation/bridge-integration.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if report["status"] != "passed":

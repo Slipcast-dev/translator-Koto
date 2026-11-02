@@ -44,15 +44,19 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 }
 
 /// Модификатор подключён ко всем сценам, поэтому тема обновляется и в уже открытых окнах.
+/// Тема задаётся только через NSApp.appearance. Параллельный preferredColorScheme не снимается
+/// при возврате к nil и оставлял окно наполовину светлым, наполовину тёмным; значение nil
+/// у NSApp.appearance, напротив, надёжно следует за системной темой, в том числе при её смене.
 private struct KotoAppearanceModifier: ViewModifier {
     @AppStorage(AppAppearance.preferenceKey) private var selection = AppAppearance.system.rawValue
 
     func body(content: Content) -> some View {
         content
-            .preferredColorScheme(AppAppearance.resolve(selection).colorScheme)
             .onChange(of: selection, initial: true) { _, newValue in
-                // NSApp.appearance включает нативные части окна, не охваченные preferredColorScheme.
-                NSApp.appearance = AppAppearance.resolve(newValue).nativeAppearance
+                let native = AppAppearance.resolve(newValue).nativeAppearance
+                NSApp.appearance = native
+                // Уже открытые окна могли получить явный appearance раньше: сбрасываем его.
+                for window in NSApp.windows { window.appearance = nil }
             }
     }
 }
