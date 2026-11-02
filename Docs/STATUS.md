@@ -10,6 +10,10 @@ Alpha.14 опубликована: [release notes](RELEASE-0.1.0-alpha.14.md). �
 
 Исходная сборка и все четыре attestation артефактов **проверены** для тега v0.1.0-alpha.14 и коммита 33cdfea: [workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [отчёт проверки](validation/release-14.json). Смонтированный DMG и codesign пройдены. Опубликованные alpha.12 и alpha.13 остаются историческими.
 
+## После alpha.14 (не выпущено)
+
+Коммиты `4f66c67` (утечка `URLSession`) и `21d6660` (оптимизации: APFS-клон снимка модели, выгрузка runtime, пропуск OCR в Live, реже опрос native host). Версия и build остаются 0.1.0-alpha / 14, поэтому локальная тестовая сборка (`…-test-20261102`) не совпадает с опубликованными артефактами alpha.14 и не имеет их attestation. Локально пройдены `test_swift_ci.sh` (11 Swift-прогонов и проверка длинного пути), интеграция моста 23/23, SwiftLint `--strict`, Debug- и Release-сборка. Прирост скорости и энергии не измерялся, реальная генерация Qwen с новым снимком и выгрузкой не проверялась.
+
 ## Ограничения
 
 - Подпись ad hoc preview, без Developer ID и notarization: macOS может блокировать запуск. Koto не изменяет системные защиты.

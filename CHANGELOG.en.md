@@ -2,6 +2,10 @@
 
 # Changelog
 
+## Unreleased (after alpha.14)
+
+Fixed a `URLSession` leak in the cloud engines (one shared session). The model snapshot is now an APFS clone instead of a full copy; the runtime unloads after 10 minutes without requests; Live skips OCR when the frame is unchanged; the native host wakes less often when idle; the bridge removes `bridge.token` on stop. Documentation aligned with the code. Version and build are unchanged (0.1.0-alpha, build 14): the local test build differs from the published alpha.14.
+
 ## 0.1.0-alpha.14 — 2026-10-27
 
 Audit fixes and source-built GitHub artifact attestations; Chrome 0.1.4. [Release notes](Docs/RELEASE-0.1.0-alpha.14.md).

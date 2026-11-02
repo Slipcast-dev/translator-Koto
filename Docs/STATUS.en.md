@@ -10,6 +10,10 @@ Alpha.14 is published: [release notes](RELEASE-0.1.0-alpha.14.md). External audi
 
 Source build and all four artifact attestations are **verified**, constrained to tag v0.1.0-alpha.14 and source commit 33cdfea: [workflow](https://github.com/Slipcast-dev/translator-Koto/actions/runs/40428747991), [verification report](validation/release-14.json). Mounted DMG and codesign passed. Published alpha.12 and alpha.13 remain historical.
 
+## After alpha.14 (unreleased)
+
+Commits `4f66c67` (`URLSession` leak) and `21d6660` (optimizations: APFS-clone model snapshot, runtime unload, Live OCR skip, less frequent native host polling). Version and build stay 0.1.0-alpha / 14, so the local test build (`…-test-20261102`) differs from the published alpha.14 artifacts and has no attestation. Passed locally: `test_swift_ci.sh` (11 Swift runs and the long-path check), bridge integration 23/23, SwiftLint `--strict`, Debug and Release builds. Speed and energy gains were not measured; real Qwen generation with the new snapshot and unload was not verified.
+
 ## Limitations
 
 - Ad hoc preview signing, without Developer ID or notarization: macOS may block launch. Koto does not change system protections.
