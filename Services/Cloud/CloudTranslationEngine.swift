@@ -21,6 +21,13 @@ enum ProviderKeychain {
         }
         return key
     }
+    /// Проверка наличия записи без чтения секрета: не вызывает запрос доступа к Keychain.
+    static func exists(_ provider: String) -> Bool {
+        var query = query(provider)
+        query[kSecReturnData as String] = false
+        query[kSecMatchLimit as String] = kSecMatchLimitOne
+        return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
+    }
     static func save(_ key: String, provider: String) throws {
         let clean = key.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, clean.utf8.count <= 4096, !clean.contains("\n"), !clean.contains("\r") else {

@@ -24,6 +24,8 @@ python3 script/validate_repository.py
 ./script/test_quality_behaviors.sh
 ./script/test_bridge_protocol.sh
 python3 script/test_bridge_integration.py
+./script/test_update.sh
+./script/test_safari_bridge.sh
 ./script/test_apple_translation.sh
 ```
 
@@ -47,7 +49,7 @@ First request without manual warm-up: quit Koto and run `python3 script/test_bro
 
 ## CI / static analysis
 
-`bash script/test_swift_ci.sh` runs 11 deterministic Swift runs (9 shell suites plus direct Live and settings-migration harnesses) and a Python check of the long bridge socket path. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install the pinned SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (archive SHA-256 is verified); run `build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml`. GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.
+`bash script/test_swift_ci.sh` runs 13 deterministic runs (9 shell suites, direct Live and settings-migration harnesses, update test on real DMGs, Safari bridge client test) and a Python check of the long bridge socket path. The Safari extension is the second Xcode target `Koto Safari` (folder `SafariExtension/`), embedded into Koto.app/Contents/PlugIns; it shares popup and localization files with `BrowserExtension/`. `swiftlint lint --strict --config .swiftlint.yml` checks correctness rules without formatting unrelated code. Install the pinned SwiftLint 0.65.1 with `bash script/install_swiftlint.sh` (archive SHA-256 is verified); run `build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml`. GitHub Actions builds the app on macOS 26 arm64 and runs the same harnesses and lint rules. Dependabot monitors GitHub Actions and the llama.cpp submodule weekly; submodule updates require review and regeneration of the source locks before merging. Dependency Review checks newly introduced dependencies on pull requests. Pinned CMake/Ninja build tools and the model catalog are outside these automatic dependency checks.
 
 ## Проверяемое происхождение артефактов / Artifact provenance
 

@@ -21,7 +21,8 @@ A native macOS translator for text, selections and screen regions, with local en
 | Selected text | Accessibility, `⌃⌥⌘T` |
 | Screen-region OCR | On-device Vision, `⌃⌥⌘R` |
 | Live | Live translation, `⌃⌥⌘L`; endurance testing remains pending |
-| Chrome | Translate selections and visible fragments through the included extension |
+| Chrome and Safari | Translate selections and visible fragments through the included extensions (Safari: build verified, behaviour in Safari not yet tested) |
+| Updates | Check and install from GitHub Releases with one button in Settings |
 | Tools | Exact phrases, opt-in translation memory, speech and local explanations |
 | Cloud | Google/Yandex adapters with a Keychain-stored key; real accounts have not been validated |
 

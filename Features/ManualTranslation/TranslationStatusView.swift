@@ -9,7 +9,7 @@ struct TranslationStatusView: View {
     private var message: String {
         if let failure = model.failure { return failure.errorDescription ?? String(localized: "Translation error.") }
         switch model.phase {
-        case .idle: return String(localized: "\(model.engineName) · Ready")
+        case .idle: return "\(model.engineName) · \(readiness.text)"
         case .checking: return String(localized: "Checking language resources…")
         case .translating: return String(localized: "Translating…")
         case .needsDownload: return String(localized: "Prepare languages for this pair.")
@@ -20,15 +20,26 @@ struct TranslationStatusView: View {
         }
     }
 
+    private var readiness: EngineReadiness {
+        EngineStatus.shared.readiness(
+            of: EnginePreferences.shared.selected, languagesLoaded: !model.languages.isEmpty,
+            loadingLanguages: model.isLoadingLanguages, catalogFailure: model.catalogFailure)
+    }
+    /// Подсказка о неготовом движке показывается только в покое: ошибки и прогресс важнее.
+    private var warnsAboutEngine: Bool {
+        model.failure == nil && model.phase == .idle && !readiness.isReady
+    }
+
     var body: some View {
         HStack(spacing: 9) {
-            if model.isBusy { ProgressView().controlSize(.small) }
+            if model.isBusy || (model.phase == .idle && readiness.isLoading) { ProgressView().controlSize(.small) }
             else {
-                Image(systemName: model.failure == nil ? "globe" : "exclamationmark.triangle")
+                Image(systemName: model.failure != nil ? "exclamationmark.triangle"
+                      : warnsAboutEngine ? "exclamationmark.circle" : "globe")
             }
             Text(message)
                 .font(.callout)
-                .foregroundStyle(model.failure == nil ? Color.secondary : Color.red)
+                .foregroundStyle(model.failure != nil ? Color.red : warnsAboutEngine ? Color.orange : Color.secondary)
                 .textSelection(.enabled)
             Spacer(minLength: 0)
             if model.phase == .needsDownload {

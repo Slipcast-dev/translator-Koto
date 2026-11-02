@@ -14,6 +14,8 @@ Source build and all four artifact attestations are **verified**, constrained to
 
 Commits `4f66c67` (`URLSession` leak) and `21d6660` (optimizations: APFS-clone model snapshot, runtime unload, Live OCR skip, less frequent native host polling). Version and build stay 0.1.0-alpha / 14, so the local test build (`…-test-20261102`) differs from the published alpha.14 artifacts and has no attestation. Passed locally: `test_swift_ci.sh` (11 Swift runs and the long-path check), bridge integration 23/23, SwiftLint `--strict`, Debug and Release builds. Speed and energy gains were not measured; real Qwen generation with the new snapshot and unload was not verified.
 
+Added afterwards: updates from GitHub Releases (tested on real DMGs and the helper process without contacting GitHub; no release newer than alpha.14 exists yet, so an end-to-end check against live GitHub was not done), honest engine status (checked by screenshot for Apple and Qwen), the API key section and FAQ, a reworked Chromium section, the theme (the dark main window was checked by screenshot; the Settings window and live switching were not visually checked) and the Safari extension (target built and embedded, bridge client tested against a real server; enabling and working inside Safari were not tested).
+
 ## Limitations
 
 - Ad hoc preview signing, without Developer ID or notarization: macOS may block launch. Koto does not change system protections.

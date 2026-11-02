@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<!-- Расширение Safari обязано быть в песочнице. Ему разрешены только каталог моста Koto
+	     (токен и сокет) и короткий каталог сокета в /tmp. Путь домашнего каталога неизвестен
+	     на этапе сборки, поэтому используется шаблон. -->
+	<key>com.apple.security.temporary-exception.sbpl</key>
+	<array>
+		<string>(allow file-read* (regex #"^/Users/[^/]+/Library/Application Support/dev\.slipcast\.koto/BrowserBridge(/|$)"))</string>
+		<string>(allow network-outbound (regex #"^/Users/[^/]+/Library/Application Support/dev\.slipcast\.koto/BrowserBridge/bridge\.sock$"))</string>
+		<string>(allow file-read* (regex #"^/(private/)?tmp/koto-bridge-[0-9]+-[0-9a-f]+(/|$)"))</string>
+		<string>(allow network-outbound (regex #"^/(private/)?tmp/koto-bridge-[0-9]+-[0-9a-f]+/bridge\.sock$"))</string>
+	</array>
+</dict>
+</plist>

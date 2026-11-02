@@ -14,6 +14,10 @@ Manual translation memory is off by default and holds at most 500 phrases; captu
 
 The localized build uses neutral Ready/Translating statuses for cloud engines. The selected engine and cloud submission permissions remain visible; idle labels do not claim cloud processing happens on the device. [Status](STATUS.en.md).
 
+## Updates and Safari
+
+The update check runs only when you click the button and contacts `api.github.com` and GitHub download hosts (HTTPS; redirects are limited to github.com and githubusercontent.com); translation text and keys are never sent. The downloaded DMG is checked against the same release's SHA256SUMS.txt; this protects against corruption in transit but is not publisher verification (ad hoc signature, and attestations are not verified in-app). The Safari extension runs sandboxed with narrow exceptions: reading the bridge token and connecting to Koto's bridge socket; the same token, origin and 0700 directory apply as for Chrome.
+
 ## Границы доверия / Trust boundaries
 
 The public `manifest.key` fixes the ID of the unpacked extension; it is not a secret or proof of publisher identity. Another locally installed extension with the same key can use the same ID. The bridge also requires a 32-byte token stored in a 0700 user-owned directory with 0600 files. Native host checks the connected socket UID before sending HELLO. The app, which accepts connections through Network.framework, does not check the client UID and relies on the token, the extension origin, the 0700 directory and socket owner verification. Arbitrary malicious code running under the same UID can read user-owned files: this token does not establish isolation from that threat. Do not install untrusted unpacked extensions.

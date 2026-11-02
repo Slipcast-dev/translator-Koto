@@ -4,7 +4,7 @@
 
 ## Unreleased (after alpha.14)
 
-Fixed a `URLSession` leak in the cloud engines (one shared session). The model snapshot is now an APFS clone instead of a full copy; the runtime unloads after 10 minutes without requests; Live skips OCR when the frame is unchanged; the native host wakes less often when idle; the bridge removes `bridge.token` on stop. Documentation aligned with the code. Version and build are unchanged (0.1.0-alpha, build 14): the local test build differs from the published alpha.14.
+Fixed a `URLSession` leak in the cloud engines (one shared session). The model snapshot is now an APFS clone instead of a full copy; the runtime unloads after 10 minutes without requests; Live skips OCR when the frame is unchanged; the native host wakes less often when idle; the bridge removes `bridge.token` on stop. New: an “Update” section in Settings (check, download and automatic install from GitHub Releases with SHA-256 and signature checks); an honest engine status instead of a constant “Ready”; a simplified Chromium section (install/remove the extension, the switch only turns the bridge on); a Safari extension and settings section (build verified, behaviour in Safari not tested); an FAQ on getting Google and Yandex API keys; fixed light/dark switching and following the system theme. Documentation aligned with the code. Version and build are unchanged (0.1.0-alpha, build 14): the local test build differs from the published alpha.14.
 
 ## 0.1.0-alpha.14 — 2026-10-27
 

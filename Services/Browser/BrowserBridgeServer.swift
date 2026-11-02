@@ -177,7 +177,7 @@ private final class BrowserBridgeClient {
         guard !closed else { return }
         if !authenticated {
             guard message.type == .hello,
-                  message.payload["origin"] == BridgeOrigin.allowed,
+                  BridgeOrigin.accepts(message.payload["origin"]),
                   let provided = message.payload["token"], PrivateStorage.matches(provided, token) else {
                 close(); return
             }

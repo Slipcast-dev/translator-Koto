@@ -16,6 +16,13 @@ xcrun swiftc -parse-as-library -swift-version 6 -default-isolation MainActor -ta
     "$ROOT_DIR/Tests/SettingsMigrationTests.swift" -o "$ROOT_DIR/build/ci-tests/migration-tests"
 "$ROOT_DIR/build/ci-tests/migration-tests"
 
+# Обновление проверяется на реальных DMG; нужен любой собранный Koto.app (Debug из CI или Release).
+for candidate in "$ROOT_DIR/build/ci-derived/Build/Products/Debug/Koto.app" "$ROOT_DIR/build/DerivedData/Build/Products/Release/Koto.app"; do
+    if [[ -d "$candidate" ]]; then bash "$ROOT_DIR/script/test_update.sh" "$candidate"; break; fi
+done
+
+bash "$ROOT_DIR/script/test_safari_bridge.sh"
+
 # Native host должен соответствовать текущему исходному helper выбора socket path.
 bash "$ROOT_DIR/script/build_native_host.sh"
 python3 "$ROOT_DIR/script/test_bridge_long_path.py"
