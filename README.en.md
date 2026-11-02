@@ -1,15 +1,15 @@
 [Русский](README.md) | **English**
 
-Current release: **0.1.0-alpha.15**, Chrome **0.1.4**.
+Current release: **0.1.0-alpha.16**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 15" src="https://img.shields.io/badge/release-0.1.0--alpha.15-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 16" src="https://img.shields.io/badge/release-0.1.0--alpha.16-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 A native macOS translator for text, selections and screen regions, with local engines and a Chrome extension. **Translate. Stay in flow.**
 
-**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-0.1.0-15-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-Chrome-0.1.4.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
+**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-0.1.0-16-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-Chrome-0.1.4.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
 
 > Alpha preview for Apple Silicon. Ad hoc signing, without Apple Developer ID or notarization: macOS may block launch. Release checks were performed on M1 / macOS 27.2; macOS 26 remains untested.
 
@@ -56,6 +56,6 @@ The root cause of the intermittent initial Apple framework failure is unknown. K
 
 [Report a bug](https://github.com/Slipcast-dev/translator-Koto/issues/new/choose) · [Contributing](CONTRIBUTING.en.md) · [Security](SECURITY.en.md) · [Changelog](CHANGELOG.en.md)
 
-© 2026 **Slipcast-Dev**. First-party code is available under [MIT](LICENSE); distributions must preserve the copyright and license notice. [Community code of conduct](CODE_OF_CONDUCT.md). Third-party components retain their [licenses](THIRD_PARTY_NOTICES.en.md).
+© 2026 **Slipcast-Dev**. All rights reserved: Koto's own code is under a [proprietary license](LICENSE) — modifying or distributing it without the author's written consent is not allowed; using the official releases on your own devices is. [Community code of conduct](CODE_OF_CONDUCT.md). Third-party components retain their [licenses](THIRD_PARTY_NOTICES.en.md).
 
-Release files are built from source and attested. Verify a downloaded file: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.15`.
+Release files are built from source and attested. Verify a downloaded file: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`.

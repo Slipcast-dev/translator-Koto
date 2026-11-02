@@ -1,15 +1,15 @@
 **Русский** | [English](README.en.md)
 
-Текущий выпуск: **0.1.0-alpha.15**, Chrome **0.1.4**.
+Текущий выпуск: **0.1.0-alpha.16**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 15" src="https://img.shields.io/badge/release-0.1.0--alpha.15-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 16" src="https://img.shields.io/badge/release-0.1.0--alpha.16-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-0.1.0-15-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.15/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-0.1.0-16-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
 > Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
@@ -56,7 +56,7 @@ python3 script/package_release.py
 
 [Сообщить об ошибке](https://github.com/Slipcast-dev/translator-Koto/issues/new/choose) · [Участие](CONTRIBUTING.md) · [Безопасность](SECURITY.md) · [Изменения](CHANGELOG.md)
 
-© 2026 **Slipcast-Dev**. Собственный код распространяется по [MIT](LICENSE): при распространении сохраняются уведомление об авторстве и текст лицензии. [Правила сообщества](CODE_OF_CONDUCT.md). Сторонние компоненты сохраняют свои [лицензии](THIRD_PARTY_NOTICES.md).
+© 2026 **Slipcast-Dev**. Все права защищены: собственный код Koto распространяется по [проприетарной лицензии](LICENSE) — изменять и распространять его без письменного согласия автора нельзя; использовать официальные релизы на своих устройствах можно. [Правила сообщества](CODE_OF_CONDUCT.md). Сторонние компоненты сохраняют свои [лицензии](THIRD_PARTY_NOTICES.md).
 
 ### Автоматические Swift-проверки
 
@@ -64,4 +64,4 @@ python3 script/package_release.py
 
 Локальный runtime использует приватный Unix-сокет; перед любым запросом приложение проверяет UID и parent PID подключённого процесса на том же соединении. Мост Chrome: native host проверяет UID приложения на сокете, а само приложение принимает клиента по токену и origin расширения в каталоге 0700. Токен и текст не отправляются неподтверждённому серверу.
 
-Файлы выпуска собираются из исходников и подтверждены attestation. Проверка скачанного файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.15`.
+Файлы выпуска собираются из исходников и подтверждены attestation. Проверка скачанного файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`.

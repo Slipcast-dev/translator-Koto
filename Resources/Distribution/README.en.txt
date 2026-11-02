@@ -27,5 +27,5 @@ In the installed Koto app's Settings, register the native host and enable the br
 Do not register the host from the mounted DMG.
 
 Shortcuts: Control+Option+Command+T — selection, +R — OCR, +L — Live.
-macOS permissions must be granted by the Mac owner. Original licenses are preserved.
+macOS permissions must be granted by the Mac owner. Original licenses are preserved. The Koto license is the LICENSE file: modifying or distributing without the author's written consent is not allowed.
 Verification scope: Docs/LOCALIZATION.md. See Docs/STATUS.en.md for version and verification results.

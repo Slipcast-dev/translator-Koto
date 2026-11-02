@@ -6372,6 +6372,24 @@
           }
         }
       }
+    },
+    "Modification and distribution require the author’s written consent.": {
+      "comment": "Пользовательская строка: Features/About/AboutView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modification and distribution require the author’s written consent."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменение и распространение требуют письменного согласия автора."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

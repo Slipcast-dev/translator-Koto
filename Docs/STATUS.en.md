@@ -1,12 +1,12 @@
 [Русский](STATUS.md) | **English**
 
-# Koto 0.1.0-alpha.15 · Chrome 0.1.4
+# Koto 0.1.0-alpha.16 · Chrome 0.1.4
 
 Slipcast-Dev · arm64/macOS 26+. Release checks ran on macOS 27.2 / Xcode 27.
 
 ## State
 
-Preview (alpha) build: ad hoc signing, without Developer ID or notarization — macOS may block launch. Release files are built from source by a GitHub workflow and carry attestations ([release notes](RELEASE-0.1.0-alpha.15.md)). The Qwen model is not shipped; it is installed with a button in Settings.
+Preview (alpha) build: ad hoc signing, without Developer ID or notarization — macOS may block launch. Release files are built from source by a GitHub workflow and carry attestations ([release notes](RELEASE-0.1.0-alpha.16.md)). The Qwen model is not shipped; it is installed with a button in Settings.
 
 ## Automated checks
 
