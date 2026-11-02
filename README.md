@@ -7,7 +7,7 @@
 
 # Koto · Slipcast-Dev
 
-Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширение Chrome. **Native macOS translation, built around your flow.**
+Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширения Chrome и Safari. **Native macOS translation, built around your flow.**
 
 **[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-0.1.0-16-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.16/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
@@ -30,7 +30,7 @@
 
 **В Git, приложении и DMG нет весов моделей.** Для Qwen нажмите **«Установить модель»** в настройках. Выбрана **Qwen3 4B Instruct 2507 · Q4_K_M**: около **2,50 GB**, Apache 2.0, минимум 8 GiB RAM. Загрузка проверяется по размеру и SHA-256; есть прогресс, отмена и удаление. Веса сохраняются только в пользовательском Application Support, вне проекта. [Выбор и качество модели →](Docs/MODELS.md)
 
-Apple Translation использует системные языковые ресурсы. При их недоступности Koto предлагает явную подготовку. Build 11 также обрабатывает отказ session после успешной проверки ресурсов, сохраняя определённую языковую пару.
+Apple Translation использует системные языковые ресурсы. При их недоступности Koto предлагает явную подготовку. Если системный framework отказывает после успешной проверки ресурсов, Koto сохраняет определённую языковую пару и предлагает ту же явную подготовку.
 
 ## Приватность
 
@@ -60,8 +60,8 @@ python3 script/package_release.py
 
 ### Автоматические Swift-проверки
 
-`bash script/test_swift_ci.sh` запускает 11 детерминированных Swift-прогонов (9 shell-наборов, а также прямые harness Live и миграции настроек) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
+`bash script/test_swift_ci.sh` запускает 13 детерминированных прогонов (9 shell-наборов, прямые harness Live и миграции настроек, проверку обновления на настоящих DMG и клиент моста Safari) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
 
 Локальный runtime использует приватный Unix-сокет; перед любым запросом приложение проверяет UID и parent PID подключённого процесса на том же соединении. Мост Chrome: native host проверяет UID приложения на сокете, а само приложение принимает клиента по токену и origin расширения в каталоге 0700. Токен и текст не отправляются неподтверждённому серверу.
 
-Файлы выпуска собираются из исходников и подтверждены attestation. Проверка скачанного файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`.
+Файлы выпуска собираются из исходников и подтверждены attestation. Проверка скачанного файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml --source-ref refs/tags/v0.1.0-alpha.16`. Выпуск создаётся автоматически: смена `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig` на `main` запускает сборку, attestation и публикацию релиза ([процесс](Docs/BUILDING.md#выпуск)).

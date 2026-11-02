@@ -8,6 +8,10 @@ Slipcast-Dev · arm64/macOS 26+. Проверки выпуска выполня�
 
 Предварительная сборка (alpha): подпись ad hoc, без Developer ID и notarization — macOS может блокировать запуск. Файлы выпуска собираются workflow GitHub из исходников и подтверждаются attestation ([release notes](RELEASE-0.1.0-alpha.16.md)). Модель Qwen в поставку не входит и ставится кнопкой в настройках.
 
+## Лицензия и выпуски
+
+Koto распространяется по [проприетарной лицензии](../LICENSE): изменять и распространять без письменного согласия автора нельзя, использовать официальные релизы на своих устройствах можно (копии до alpha.15 включительно остаются на условиях MIT). Выпуск автоматический: смена `CURRENT_PROJECT_VERSION` на `main` запускает сборку, attestation и публикацию релиза; сайт сам подхватывает последний релиз ([процесс](BUILDING.md#выпуск)).
+
 ## Автоматические проверки
 
 `bash script/test_swift_ci.sh` (13 прогонов: Swift-наборы, обновление на настоящих DMG, клиент моста Safari, проверка длинного пути сокета), интеграция моста (`script/test_bridge_integration.py`), SwiftLint `--strict`, проверки репозитория и локализации (`script/validate_repository.py`, `script/validate_localization.py`), тесты Chrome. CI GitHub выполняет сборку на macOS 26, SwiftLint, Swift-наборы, CodeQL и Dependency Review.
