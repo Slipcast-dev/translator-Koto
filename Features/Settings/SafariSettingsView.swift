@@ -7,9 +7,9 @@ import SwiftUI
 /// Koto не может сделать это тихо, поэтому кнопки открывают нужный раздел настроек Safari.
 struct SafariSettingsView: View {
     nonisolated static let extensionIdentifier = "dev.slipcast.koto.safari"
-    private enum State { case checking, enabled, disabled, notFound }
+    private enum ExtensionState { case checking, enabled, disabled, notFound }
     @Bindable private var bridge = BrowserBridgeServer.shared
-    @State private var state = State.checking
+    @State private var state = ExtensionState.checking
     @State private var message = ""
 
     private var stateText: String {
