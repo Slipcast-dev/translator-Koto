@@ -50,36 +50,18 @@ def write_documentation(stage: Path, identity: str) -> None:
     """Сохранять ru/en и локальные ссылки без копирования всего репозитория."""
     directory = stage / "Docs"
     directory.mkdir()
-    shutil.copy2(ROOT / "Docs/AUDIT-2026-10-27.md", directory / "AUDIT-2026-10-27.md")
-    # Отчёт об исправлениях использует только текст и доступные документы.
-    shutil.copy2(ROOT / "Docs/REVIEW-FIXES-2026-10-25.md", directory / "REVIEW-FIXES-2026-10-25.md")
-    reports = (
-        "LOCALIZATION-DYNAMICS.md", "LOCALIZATION-CHROME.md",
-        "LOCALIZATION-ACCEPTANCE.md",
-    )
     for stem in ("INSTALLATION", "BUILDING", "MODELS", "PRIVACY", "STATUS"):
         for suffix in (".md", ".en.md"):
-            name = stem + suffix
-            text = (ROOT / "Docs" / name).read_text()
-            # Инженерные отчёты требуют исходников. Автономный пакет получает
-            # двуязычный отчёт без ссылок на отсутствующие исходные файлы.
-            for report in reports:
-                text = text.replace("(" + report + ")", "(LOCALIZATION.md)")
-            (directory / name).write_text(text)
-    validation = directory / "validation"
-    validation.mkdir()
-    shutil.copy2(ROOT / "Docs/validation/audit-2026-10-27.json", validation / "audit-2026-10-27.json")
-    shutil.copy2(
-        ROOT / "Docs/validation/results.json", validation / "results.json"
-    )
+            source = ROOT / "Docs" / (stem + suffix)
+            if source.is_file():
+                shutil.copy2(source, directory / source.name)
     for name in ("LICENSE", "CODE_OF_CONDUCT.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
         shutil.copy2(ROOT / name, stage / name)
-    # Текущие release notes и machine-readable проверки нужны и вне репозитория.
+    # Release notes текущего выпуска нужны и вне репозитория.
     for path in (ROOT / "Docs").glob("RELEASE-*.md"):
         shutil.copy2(path, directory / path.name)
-    for path in (ROOT / "Docs/validation").glob("release-*.json"):
-        shutil.copy2(path, validation / path.name)
     templates = ROOT / "Resources/Distribution"
+    shutil.copy2(templates / "LOCALIZATION.md", directory / "LOCALIZATION.md")
     if identity == "-":
         labels = {
             "ru": (
@@ -103,7 +85,6 @@ def write_documentation(stage: Path, identity: str) -> None:
         name = "README." + language + ".txt"
         text = (templates / name).read_text().format(signing=signing)
         (stage / name).write_text(text)
-    shutil.copy2(templates / "LOCALIZATION.md", directory / "LOCALIZATION.md")
     (stage / "README.txt").write_text(
         "Koto · Slipcast-Dev\n\n"
         "Русский: README.ru.txt и Docs/INSTALLATION.md\n"

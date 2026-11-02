@@ -1,11 +1,11 @@
 [Русский](INSTALLATION.md) | **English**
 
-# Installing Koto 0.1.0-alpha.14
+# Installing Koto 0.1.0-alpha.15
 
 Apple Silicon, macOS 26+. Release checks were performed on macOS 27.2; macOS 26 runtime remains untested.
 
-1. Download the DMG and SHA256SUMS.txt from [alpha 14](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.14).
-2. Compare `shasum -a 256 Koto-0.1.0-14-arm64-preview-ci.dmg` with SHA256SUMS.txt.
+1. Download the DMG and SHA256SUMS.txt from [alpha 15](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.15).
+2. Compare `shasum -a 256 Koto-0.1.0-15-arm64-preview-ci.dmg` with SHA256SUMS.txt.
 3. Open the DMG and drag Koto.app into Applications.
 4. Grant selection/OCR permissions through Koto Settings if needed.
 

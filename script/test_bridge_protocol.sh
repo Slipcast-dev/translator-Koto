@@ -2,7 +2,7 @@
 # Контрактные тесты и реальная AF_UNIX-служба с Apple Translation для integration.
 set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-mkdir -p "$ROOT_DIR/build/stage5" "$ROOT_DIR/Docs/validation"
+mkdir -p "$ROOT_DIR/build/stage5"
 xcrun swiftc -parse-as-library -swift-version 6 -default-isolation MainActor \
     -target arm64-apple-macosx26.0 "$ROOT_DIR"/Core/Bridge/*.swift \
     "$ROOT_DIR/Support/PrivateStorage.swift" "$ROOT_DIR/Tests/BridgeProtocolTests.swift" \

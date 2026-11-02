@@ -6,7 +6,7 @@ import SwiftUI
 /// Расширение Safari встроено в приложение; включается и выключается только самим Safari.
 /// Koto не может сделать это тихо, поэтому кнопки открывают нужный раздел настроек Safari.
 struct SafariSettingsView: View {
-    static let extensionIdentifier = "dev.slipcast.koto.safari"
+    nonisolated static let extensionIdentifier = "dev.slipcast.koto.safari"
     private enum State { case checking, enabled, disabled, notFound }
     @Bindable private var bridge = BrowserBridgeServer.shared
     @State private var state = State.checking
@@ -45,23 +45,23 @@ struct SafariSettingsView: View {
 
     private func refresh() {
         state = .checking
-        // Ответ приходит из XPC на служебной очереди: замыкание обязано быть явно @Sendable,
-        // иначе оно наследует изоляцию MainActor и приложение падает на проверке очереди.
-        SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: Self.extensionIdentifier) {
-            @Sendable (extensionState: SFSafariExtensionState?, error: Error?) in
-            let enabled = extensionState?.isEnabled
-            let failed = error != nil || extensionState == nil
-            Task { @MainActor in
-                state = failed ? .notFound : (enabled == true ? .enabled : .disabled)
-            }
+        // async-версия вместо completionHandler: SDK помечает обработчик как @MainActor, а XPC вызывает его
+        // на служебной очереди, и приложение падает на проверке изоляции (подтверждено crash-отчётами).
+        Task { @MainActor in
+            do {
+                let extensionState = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: Self.extensionIdentifier)
+                state = extensionState.isEnabled ? .enabled : .disabled
+            } catch { state = .notFound }
         }
     }
 
     private func openPreferences() {
-        SFSafariApplication.showPreferencesForExtension(withIdentifier: Self.extensionIdentifier) { @Sendable (error: Error?) in
-            let failed = error != nil
-            Task { @MainActor in
-                message = failed ? String(localized: "Unable to open Safari settings. Open Safari → Settings → Extensions manually.") : ""
+        Task { @MainActor in
+            do {
+                try await SFSafariApplication.showPreferencesForExtension(withIdentifier: Self.extensionIdentifier)
+                message = ""
+            } catch {
+                message = String(localized: "Unable to open Safari settings. Open Safari → Settings → Extensions manually.")
             }
         }
     }

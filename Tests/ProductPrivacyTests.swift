@@ -34,6 +34,7 @@ enum ProductTestError: Error { case assertion(String) }
         store.memoryEnabled = true
         store.remember(request,result:result)
         try expect(store.lookup(request)?.1 == String(localized: "Translation memory"),"opt-in memory lookup")
+        store.flush()
         let restored = TranslationStore(directory:directory,defaults:defaults)
         try expect(restored.memory.count == 1,"memory persists privately")
         store.add(input:"cat",output:"кошка",source:"en",target:"ru")

@@ -37,11 +37,11 @@ Preview использует ad hoc. Developer ID/notarization — отдель�
 
 ## Проверка локализации macOS
 
-После Release-сборки выполните `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`. Проверяются готовые ru/en ресурсы, 12 сочетаний языковых предпочтений и региона, plural, числа, RTL, язык инструкций пояснений и schema=1. Дополнительные Python-пакеты и модель не нужны. Подробности и ограничения: [динамическая локализация](LOCALIZATION-DYNAMICS.md).
+После Release-сборки выполните `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`. Проверяются готовые ru/en ресурсы, 12 сочетаний языковых предпочтений и региона, plural, числа, RTL, язык инструкций пояснений и schema=1. Дополнительные Python-пакеты и модель не нужны.
 
 ## Проверка локализации Chrome
 
-Выполните `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, затем `./script/test_bridge_protocol.sh`. npm-пакеты не нужны. Node.js требуется только для тестов. Границы логических и нативных проверок: [локализация Chrome](LOCALIZATION-CHROME.md).
+Выполните `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`, затем `./script/test_bridge_protocol.sh`. npm-пакеты не нужны. Node.js требуется только для тестов.
 
 CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Локальный пакет: `python3 script/package_release.py --artifact-suffix localization-hfs`; после монтирования — `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
 
@@ -53,6 +53,6 @@ CI: `python3 script/validate_localization.py` и `python3 -m unittest discover -
 
 ## Проверяемое происхождение артефактов / Artifact provenance
 
-`.github/workflows/build-artifacts.yml` builds preview artifacts from source on macOS 26 for a tag or manual workflow run and generates GitHub/Sigstore attestations. Download the workflow artifact, then verify each file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. These attestations bind bytes to a GitHub workflow/source revision; they do not provide Apple Developer ID or notarization. Existing locally built alpha.13 assets have not been retroactively attested. The workflow is merged and its first alpha.14 tag build completed successfully. See Docs/validation/release-14.json for the verified source revision and artifact hashes.
+`.github/workflows/build-artifacts.yml` builds preview artifacts from source on macOS 26 for a tag or manual workflow run and generates GitHub/Sigstore attestations. Download the workflow artifact, then verify each file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. These attestations bind bytes to a GitHub workflow/source revision; they do not provide Apple Developer ID or notarization.
 
 `CFBundleShortVersionString` is numeric (0.1.0); `KotoReleaseChannel` stores alpha for the UI. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode. Runtime model loading now uses an unlinked verified snapshot via inherited stdin; on APFS the snapshot is an instant copy-on-write clone and needs no extra space; if cloning is unavailable (another volume, non-APFS) a full copy is made and temporary space equal to the model size is required. No named model copy is retained. The runtime is unloaded after 10 minutes without requests.

@@ -4808,7 +4808,7 @@
       }
     },
     "Updates are checked only when you click the button.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4826,7 +4826,7 @@
       }
     },
     "Checking for updates…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4844,7 +4844,7 @@
       }
     },
     "You have the latest version.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4862,7 +4862,7 @@
       }
     },
     "Update available: %@": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4880,7 +4880,7 @@
       }
     },
     "Downloading update…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4898,7 +4898,7 @@
       }
     },
     "Verifying the update…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4916,7 +4916,7 @@
       }
     },
     "Installing the update. Koto will restart.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4934,7 +4934,7 @@
       }
     },
     "GitHub temporarily limited requests. Try again later.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4952,7 +4952,7 @@
       }
     },
     "The update server returned an unexpected response.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4970,7 +4970,7 @@
       }
     },
     "The downloaded update failed verification and was not installed.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -4988,7 +4988,7 @@
       }
     },
     "The release has no checksum file, so the update was not installed.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5006,7 +5006,7 @@
       }
     },
     "The update package is damaged or is not Koto.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5024,7 +5024,7 @@
       }
     },
     "The package is not newer than the installed version.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5042,7 +5042,7 @@
       }
     },
     "The update has an invalid code signature and was not installed.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5060,7 +5060,7 @@
       }
     },
     "Koto cannot replace itself in this folder. Move it to Applications or install the update manually.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5078,7 +5078,7 @@
       }
     },
     "Unable to start the installer. Install the update manually from the release page.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5096,7 +5096,7 @@
       }
     },
     "The operation took too long and was stopped. Try again.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5114,7 +5114,7 @@
       }
     },
     "Update cancelled.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5132,7 +5132,7 @@
       }
     },
     "Unable to reach the update server. Check your connection.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5150,7 +5150,7 @@
       }
     },
     "Update": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5168,7 +5168,7 @@
       }
     },
     "Koto is a native macOS translator: text, selections and screen regions, local engines and a Chrome extension.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5186,7 +5186,7 @@
       }
     },
     "Check for updates": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5204,7 +5204,7 @@
       }
     },
     "Open the release page": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5222,7 +5222,7 @@
       }
     },
     "Show update…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5240,7 +5240,7 @@
       }
     },
     "Update available": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5258,7 +5258,7 @@
       }
     },
     "New version": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5276,7 +5276,7 @@
       }
     },
     "Installed": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5294,7 +5294,7 @@
       }
     },
     "Download size": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5312,7 +5312,7 @@
       }
     },
     "The update is downloaded, verified against the release checksums and installed automatically. Koto restarts once to finish.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5330,7 +5330,7 @@
       }
     },
     "Release page": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5348,7 +5348,7 @@
       }
     },
     "Later": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5366,7 +5366,7 @@
       }
     },
     "Install and restart": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5384,7 +5384,7 @@
       }
     },
     "Sign in to Google Cloud Console and create a project (or choose an existing one).": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5402,7 +5402,7 @@
       }
     },
     "Open Google Cloud Console": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5420,7 +5420,7 @@
       }
     },
     "Link a billing account to the project. Cloud Translation requires billing; a free monthly quota applies.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5438,7 +5438,7 @@
       }
     },
     "Open the Cloud Translation API page and click Enable. Koto uses Basic (v2).": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5456,7 +5456,7 @@
       }
     },
     "Open Cloud Translation API": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5474,7 +5474,7 @@
       }
     },
     "Go to APIs & Services → Credentials → Create credentials → API key.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5492,7 +5492,7 @@
       }
     },
     "Open Credentials": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5510,7 +5510,7 @@
       }
     },
     "Recommended: choose Restrict key, select Cloud Translation API under API restrictions and save.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5528,7 +5528,7 @@
       }
     },
     "Copy the key. In Koto choose “Google Cloud Basic v2” as the key provider, paste it into “New API key” and click Save to Keychain.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5546,7 +5546,7 @@
       }
     },
     "Choose Google Cloud as the engine in the main window. The key is stored only in the macOS Keychain; Remove key deletes it.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5564,7 +5564,7 @@
       }
     },
     "Sign in to Yandex Cloud Console. Create a cloud and a folder if you do not have them, and link a billing account.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5582,7 +5582,7 @@
       }
     },
     "Open Yandex Cloud Console": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5600,7 +5600,7 @@
       }
     },
     "In the folder, open Service accounts and create a service account.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5618,7 +5618,7 @@
       }
     },
     "Grant the service account the role ai.translate.user on the folder (Access bindings).": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5636,7 +5636,7 @@
       }
     },
     "Open the service account, click Create new key → Create API key. If asked for a scope, choose yc.ai.translate.execute.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5654,7 +5654,7 @@
       }
     },
     "Copy the secret key immediately: it is shown only once.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5672,7 +5672,7 @@
       }
     },
     "In Koto choose “Yandex · service account API key”, paste the key into “New API key” and click Save to Keychain.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5690,7 +5690,7 @@
       }
     },
     "Choose Yandex Cloud as the engine in the main window. The key is stored only in the macOS Keychain.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5708,7 +5708,7 @@
       }
     },
     "Yandex Translate documentation": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5726,7 +5726,7 @@
       }
     },
     "How to get an API key": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5744,7 +5744,7 @@
       }
     },
     "Provider consoles change over time: if a button is named differently, check the provider’s documentation. Pricing and quotas are set by your provider account; Koto never receives or stores your key outside the Keychain.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5762,7 +5762,7 @@
       }
     },
     "FAQ: how to get a key": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5780,7 +5780,7 @@
       }
     },
     "Chrome extension": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5798,7 +5798,7 @@
       }
     },
     "Not installed": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5816,7 +5816,7 @@
       }
     },
     "Install extension for Chrome": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5834,7 +5834,7 @@
       }
     },
     "Remove extension": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5852,7 +5852,7 @@
       }
     },
     "Chrome asks you to confirm unpacked extensions: after installing, turn on Developer mode at chrome://extensions, click “Load unpacked” and choose the folder that opens. The extension ID must be %@.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5870,7 +5870,7 @@
       }
     },
     "The switch above only turns the bridge on or off; it never removes the extension. The bridge accepts only Koto’s own extension, uses a local Unix socket and authenticates every connection.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5888,7 +5888,7 @@
       }
     },
     "Extension files and the native host are ready. Finish loading the extension in Chrome.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5906,7 +5906,7 @@
       }
     },
     "Google Chrome was not found: open chrome://extensions in your Chromium browser.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5924,7 +5924,7 @@
       }
     },
     "Unable to install the extension. Check the Koto installation and directory permissions.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5942,7 +5942,7 @@
       }
     },
     "Native host and extension files removed. Also remove the Koto extension at chrome://extensions.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5960,7 +5960,7 @@
       }
     },
     "Unable to remove the extension files. Check access to the Koto directory.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5978,7 +5978,7 @@
       }
     },
     "Loading language list…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -5996,7 +5996,7 @@
       }
     },
     "Ready": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6014,7 +6014,7 @@
       }
     },
     "Language list is not loaded yet.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6032,7 +6032,7 @@
       }
     },
     "Ready · API key saved": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6050,7 +6050,7 @@
       }
     },
     "No API key. Add it in Settings → Cloud translation.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6068,7 +6068,7 @@
       }
     },
     "Model is being installed…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6086,7 +6086,7 @@
       }
     },
     "Model not installed. Install it in Settings → Local translation.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6104,7 +6104,7 @@
       }
     },
     "Ready · model loaded": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6122,7 +6122,7 @@
       }
     },
     "Ready · model loads on first translation": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6140,7 +6140,7 @@
       }
     },
     "Checking…": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6158,7 +6158,7 @@
       }
     },
     "Enabled in Safari": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6176,7 +6176,7 @@
       }
     },
     "Installed, turned off in Safari": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6194,7 +6194,7 @@
       }
     },
     "Not found": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6212,7 +6212,7 @@
       }
     },
     "Safari browser": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6230,7 +6230,7 @@
       }
     },
     "Safari extension": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6248,7 +6248,7 @@
       }
     },
     "Turn on in Safari": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6266,7 +6266,7 @@
       }
     },
     "Turn off in Safari": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6284,7 +6284,7 @@
       }
     },
     "Refresh status": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6302,7 +6302,7 @@
       }
     },
     "Safari does not see the extension yet. Move Koto to Applications, launch it once, then refresh.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6320,7 +6320,7 @@
       }
     },
     "Unable to open Safari settings. Open Safari → Settings → Extensions manually.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6338,7 +6338,7 @@
       }
     },
     "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -6356,7 +6356,7 @@
       }
     },
     "The Safari extension uses the same bridge as Chrome: the “Enable browser bridge” switch above pauses it without removing anything.": {
-      "comment": "Пользовательская строка: новые функции после alpha.14. Переводить целиком; коды, бренды и параметры сохранять.",
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {

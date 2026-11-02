@@ -248,6 +248,7 @@ final class LocalRuntimeSupervisor {
                 .appendingPathComponent("koto-" + UUID().uuidString, isDirectory: true)
             guard mkdir(directory.path, 0o700) == 0 else { throw LocalRuntimeFailure.start }
             privateDirectory = directory
+            Self.removeStaleDirectories(except: directory)
             let keyFile = directory.appendingPathComponent("api-key")
             let fd = open(keyFile.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0o600)
             guard fd >= 0 else { throw LocalRuntimeFailure.start }
@@ -284,6 +285,8 @@ final class LocalRuntimeSupervisor {
             }
             process = child
             try child.run()
+            // PID launcher нужен очистке: каталог после краха приложения распознаётся по мёртвому процессу.
+            try? Data("\(child.processIdentifier)\n".utf8).write(to: directory.appendingPathComponent("launcher.pid"))
             let ready = LocalEndpoint(socketPath: directory.appendingPathComponent("runtime.sock").path,
                                       launcherPID: child.processIdentifier, token: token)
             status = String(localized: "Loading local model…")
@@ -324,11 +327,34 @@ final class LocalRuntimeSupervisor {
 
     private func cleanupKey() {
         guard let directory = privateDirectory else { return }
-        // Удаляем только созданный этой операцией файл и пустой UUID-каталог.
-        unlink(directory.appendingPathComponent("api-key").path)
-        unlink(directory.appendingPathComponent("runtime.sock").path)
-        rmdir(directory.path)
+        Self.removeDirectory(directory)
         privateDirectory = nil
+    }
+
+    /// Только файлы, которые создаёт launch(); произвольное содержимое каталога не удаляется.
+    nonisolated private static func removeDirectory(_ directory: URL) {
+        for name in ["api-key", "runtime.sock", "launcher.pid"] { unlink(directory.appendingPathComponent(name).path) }
+        rmdir(directory.path)
+    }
+
+    /// После краха или принудительного выхода каталог /tmp/koto-<UUID> с ключом остаётся.
+    /// Удаляются только свои (uid) каталоги именно такого имени, чей launcher больше не жив:
+    /// запущенный другим экземпляром Koto runtime не затрагивается.
+    nonisolated static func removeStaleDirectories(except current: URL?) {
+        let root = URL(fileURLWithPath: "/tmp", isDirectory: true)
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: root.path) else { return }
+        for name in names where name.hasPrefix("koto-") && name.dropFirst(5).count == 36 && UUID(uuidString: String(name.dropFirst(5))) != nil {
+            let directory = root.appendingPathComponent(name, isDirectory: true)
+            if directory.standardizedFileURL == current?.standardizedFileURL { continue }
+            var metadata = stat()
+            guard lstat(directory.path, &metadata) == 0, (metadata.st_mode & S_IFMT) == S_IFDIR, metadata.st_uid == getuid() else { continue }
+            let pidText = (try? String(contentsOf: directory.appendingPathComponent("launcher.pid"), encoding: .utf8))
+                .flatMap { Int32($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+            // Без pid-файла каталог принадлежит запуску, не дошедшему до child: безопасно удалить только если он старше минуты.
+            if let pidText { if pidText > 1 && kill(pidText, 0) == 0 { continue } }
+            else if Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(metadata.st_mtimespec.tv_sec))) < 60 { continue }
+            removeDirectory(directory)
+        }
     }
 
     /// Копируем и хешируем одни и те же байты в сразу unlinked tempfile.

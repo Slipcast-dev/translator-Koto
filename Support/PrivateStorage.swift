@@ -4,7 +4,7 @@ import CryptoKit
 import Darwin
 
 /// Только собственные файлы: O_NOFOLLOW, owner UID, 0700 directory, 0600 regular files.
-enum PrivateStorage {
+nonisolated enum PrivateStorage {
     static func bridgeDirectory() throws -> URL {
         let support = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
                                                   appropriateFor: nil, create: true)
