@@ -30,6 +30,25 @@ struct FrameFingerprint: Sendable {
 @MainActor
 final class ScreenOCRService {
     private var captureInFlight = false
+    /// Первый вызов Vision на Mac может занять около минуты (система готовит модель). Прогрев выполняется
+    /// один раз в фоне при запуске, чтобы первое включение живого перевода не выглядело зависанием.
+    private(set) static var isWarm = false
+    private static var warming = false
+    static func warmUp() {
+        guard !isWarm, !warming else { return }
+        warming = true
+        Task.detached(priority: .utility) {
+            let size = CGSize(width: 240, height: 80)
+            let image = NSImage(size: size)
+            image.lockFocus()
+            NSColor.white.setFill(); CGRect(origin: .zero, size: size).fill()
+            ("Koto" as NSString).draw(at: CGPoint(x: 20, y: 24), withAttributes: [.font: NSFont.systemFont(ofSize: 32), .foregroundColor: NSColor.black])
+            image.unlockFocus()
+            var rect = CGRect(origin: .zero, size: size)
+            if let cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil) { _ = try? await recognizeImage(cgImage) }
+            await MainActor.run { warming = false; isWarm = true }
+        }
+    }
     func recognize(selection: CGRect, screen: NSScreen, excludeOwnWindows: Bool = false) async throws -> String {
         try await withExclusiveCapture {
             try await capture(selection: selection, screen: screen, excludeOwnWindows: excludeOwnWindows)

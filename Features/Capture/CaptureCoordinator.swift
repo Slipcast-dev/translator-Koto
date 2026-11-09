@@ -60,6 +60,7 @@ final class CaptureCoordinator {
     func start() {
         guard !started else { return }
         started = true
+        ScreenOCRService.warmUp()
         rememberApplication(NSWorkspace.shared.frontmostApplication)
         workspaceObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main

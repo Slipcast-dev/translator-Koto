@@ -69,13 +69,16 @@ final class HoverTranslationController {
             var lastPoint = NSEvent.mouseLocation
             var stillSince = ContinuousClock.now
             var handled = true
+            var outside = !region.contains(lastPoint)
             while !Task.isCancelled {
-                try? await Task.sleep(for: .milliseconds(80))
+                // Пока курсор вне области, опрос редкий: так экономится энергия.
+                try? await Task.sleep(for: .milliseconds(outside ? 250 : 80))
                 guard let self else { return }
                 let point = NSEvent.mouseLocation
                 guard region.contains(point) else {
-                    self.hide(); handled = true; lastPoint = point; continue
+                    self.hide(); handled = true; lastPoint = point; outside = true; continue
                 }
+                outside = false
                 if hypot(point.x - lastPoint.x, point.y - lastPoint.y) > 3 {
                     lastPoint = point; stillSince = .now; handled = false
                     if let shown = self.shownFrame, !shown.insetBy(dx: -4, dy: -4).contains(point) { self.hide() }

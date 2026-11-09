@@ -13,6 +13,10 @@ enum ProductTestError: Error { case assertion(String) }
         }
         try expect(!TranslationPrivacy.browserOriginAllowed("https://mail.google.com/", defaults: defaults), "default mail exclusion")
         try expect(!TranslationPrivacy.browserOriginAllowed("https://online.sberbank.ru/", defaults: defaults), "default finance exclusion")
+        let defaultApps = Set(TranslationPrivacy.defaultExcludedApps.split(whereSeparator: \.isNewline).map(String.init))
+        for bundle in ["com.1password.1password", "com.bitwarden.desktop", "com.apple.Passwords", "com.apple.keychainaccess", "com.apple.mail"] {
+            try expect(defaultApps.contains(bundle), "default exclusion includes " + bundle)
+        }
         defaults.set("", forKey: "privacy.excludedHosts")
         try expect(TranslationPrivacy.browserOriginAllowed("https://mail.google.com/", defaults: defaults), "explicit empty user list respected")
         // Длинный UTF-8 путь не передаётся в sockaddr_un; оба конца выбирают один fallback.
