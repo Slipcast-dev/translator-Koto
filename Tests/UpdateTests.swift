@@ -49,6 +49,9 @@ import Foundation
         try check(AppVersion.parse(tag: "v0.1.1-alpha.1")! > v14, "patch bump wins over build")
         try check(AppVersion.parse(tag: "v0.1.0", assetBuild: 1)! > v14, "stable release newer than alpha of same number")
         try check(AppVersion.parse(tag: "release-final") == nil, "garbage tag rejected")
+        try check(AppVersion.parse(tag: "v1.0.0", assetBuild: 20)! > AppVersion.parse(tag: "v0.1.0-alpha.19")!, "1.0.0 newer than every alpha")
+        try check(UpdateCatalog.buildNumber(inAssetName: "Koto-1.0.0-20-arm64.dmg") == 20, "build number read from the 1.0.0 file name")
+        try check(AppVersion.parse(tag: "v1.0.0", assetBuild: 20)!.display == "1.0.0 (20)", "stable version shown without alpha")
         let name15 = "Koto-0.1.0-15-arm64-preview-ci.dmg"
         let feed = "[" + [
             releaseJSON(tag: "v0.1.0-alpha.14", dmg: "Koto-0.1.0-14-arm64-preview-ci.dmg", size: 1000),
@@ -90,6 +93,13 @@ import Foundation
             try shell("/usr/bin/codesign", ["--force", "--deep", "--sign", "-", app.path])
             let dmg = root.appendingPathComponent(name)
             try shell("/usr/bin/hdiutil", ["create", "-ov", "-format", "UDZO", "-fs", "HFS+", "-volname", "Koto", "-srcfolder", folder.path, dmg.path])
+            // На части раннеров CI образ после создания оказывается нераспознаваемым: проверяем и пересоздаём без сжатия.
+            if (try? shell("/usr/bin/hdiutil", ["verify", dmg.path])) == nil {
+                fputs("DIAG created image \(dmg.lastPathComponent) failed verify; recreating as UDRO\n", stderr)
+                try? FileManager.default.removeItem(at: dmg)
+                try shell("/usr/bin/hdiutil", ["create", "-ov", "-format", "UDRO", "-fs", "HFS+", "-volname", "Koto", "-srcfolder", folder.path, dmg.path])
+                try shell("/usr/bin/hdiutil", ["verify", dmg.path])
+            }
             return dmg
         }
         func sha(_ url: URL) throws -> String {
@@ -98,12 +108,18 @@ import Foundation
             let out = Pipe(); pipe.standardOutput = out; try pipe.run(); pipe.waitUntilExit()
             return String(decoding: out.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self).split(separator: " ").first.map(String.init) ?? ""
         }
-        let dmgNew = try makeDMG(build: newBuild, name: "Koto-0.1.0-\(newBuild)-arm64-preview-ci.dmg")
-        let dmgSame = try makeDMG(build: oldBuild, name: "Koto-0.1.0-\(oldBuild)-arm64-preview-ci.dmg")
+        // Версия и канал берутся у проверяемого приложения: тест работает и для alpha, и для стабильного выпуска.
+        let sourceInfo = try PropertyListSerialization.propertyList(
+            from: Data(contentsOf: sourceApp.appendingPathComponent("Contents/Info.plist")), format: nil) as? [String: Any] ?? [:]
+        let short = sourceInfo["CFBundleShortVersionString"] as? String ?? "0.1.0"
+        let channel = sourceInfo["KotoReleaseChannel"] as? String ?? ""
+        let dmgNew = try makeDMG(build: newBuild, name: "Koto-\(short)-\(newBuild)-arm64.dmg")
+        let dmgSame = try makeDMG(build: oldBuild, name: "Koto-\(short)-\(oldBuild)-arm64.dmg")
+        let newTag = "v\(short)" + (channel.isEmpty ? "" : "-\(channel).\(newBuild)")
         let sizeNew = (try FileManager.default.attributesOfItem(atPath: dmgNew.path)[.size] as? NSNumber)?.int64Value ?? 0
         let goodSums = try sha(dmgNew) + "  " + dmgNew.lastPathComponent + "\n"
         let badSums = String(repeating: "0", count: 64) + "  " + dmgNew.lastPathComponent + "\n"
-        let releases = "[" + releaseJSON(tag: "v0.1.0-alpha.\(newBuild)", dmg: dmgNew.lastPathComponent, size: sizeNew) + "]"
+        let releases = "[" + releaseJSON(tag: newTag, dmg: dmgNew.lastPathComponent, size: sizeNew) + "]"
 
         func transport(sums: String, dmg: URL, slow: Bool = false) -> UpdateTransport {
             UpdateTransport(
@@ -161,8 +177,12 @@ import Foundation
         try check(notNewer && !terminated && buildNumber(of: target) == oldBuild, "same-version package rejected")
 
         // 3d. Отмена загрузки не зависает.
+        // Отменённая медленная загрузка проснётся через 60 секунд и перезапишет свой файл: у неё отдельный каталог,
+        // иначе на медленной машине она портит DMG следующего теста.
+        let slowWork = root.appendingPathComponent("work-slow")
+        try FileManager.default.createDirectory(at: slowWork, withIntermediateDirectories: true)
         let slow = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew, slow: true), current: current, target: target,
-                                     workDirectory: work, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                     workDirectory: slowWork, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
         slow.install(release)
         _ = await waitFor(slow, seconds: 5) { $0 == .downloading }
         let cancelStarted = ContinuousClock.now
@@ -176,8 +196,29 @@ import Foundation
                                           workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
                                           processID: sleeper.processIdentifier, terminate: { terminated = true })
         installer.install(release)
-        let prepared = await waitFor(installer, seconds: 120) { if case .readyToRestart = $0 { true } else { false } }
-        try check(prepared, "update downloaded, verified and prepared in the background")
+        _ = await waitFor(installer, seconds: 240) {
+            switch $0 { case .readyToRestart, .failed: true; default: false }
+        }
+        let prepared: Bool = { if case .readyToRestart = installer.phase { true } else { false } }()
+        if !prepared {
+            // Диагностика для CI: сравниваем исходный образ и скачанную копию.
+            func capture(_ path: String, _ args: [String]) -> String {
+                let process = Process(); process.executableURL = URL(fileURLWithPath: path); process.arguments = args
+                let pipe = Pipe(); process.standardOutput = pipe; process.standardError = pipe
+                guard (try? process.run()) != nil else { return "cannot run" }
+                let data = pipe.fileHandleForReading.readDataToEndOfFile(); process.waitUntilExit()
+                return "status \(process.terminationStatus): " + String(decoding: data.prefix(400), as: UTF8.self)
+            }
+            let copy = work.appendingPathComponent(dmgNew.lastPathComponent)
+            for file in [dmgNew, copy] {
+                let size = (try? FileManager.default.attributesOfItem(atPath: file.path)[.size] as? NSNumber)?.int64Value ?? -1
+                fputs("DIAG \(file.path) size \(size) sha \((try? sha(file)) ?? "?")\n", stderr)
+                fputs("DIAG verify: " + capture("/usr/bin/hdiutil", ["verify", file.path]) + "\n", stderr)
+                fputs("DIAG imageinfo: " + capture("/usr/bin/hdiutil", ["imageinfo", file.path]) + "\n", stderr)
+            }
+            fputs("DIAG info: " + capture("/usr/bin/hdiutil", ["info"]) + "\n", stderr)
+        }
+        try check(prepared, "update downloaded, verified and prepared in the background (phase: \(installer.phase))")
         try check(!terminated, "the app is not restarted without the user's consent")
         try check(buildNumber(of: target) == oldBuild, "bundle is not replaced before the restart")
         if case .restart = installer.pendingPrompt { passed.append("restart prompt is shown after preparation") }

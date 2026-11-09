@@ -57,7 +57,10 @@ struct CaptureLensView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if coordinator.failure != .accessibilityRequired && coordinator.failure != .screenRequired {
-                Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
+                HStack(spacing: 8) {
+                    if coordinator.captureBusy { ProgressView().controlSize(.small) }
+                    Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
+                }
             }
             if !model.sourceText.isEmpty {
                 LanguageSelectionView(model: model)
@@ -87,7 +90,9 @@ struct CaptureLensView: View {
                 CapturePermissionView(coordinator: coordinator)
             } else {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R")).font(.callout).foregroundStyle(.secondary)
+                    if !coordinator.captureBusy {
+                        Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R")).font(.callout).foregroundStyle(.secondary)
+                    }
                     Spacer()
                 }
             }

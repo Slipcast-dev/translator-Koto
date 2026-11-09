@@ -317,7 +317,10 @@ final class UpdateModel {
         case .badResponse, .noRelease: String(localized: "The update server returned an unexpected response.")
         case .tooLarge, .checksumMismatch: String(localized: "The downloaded update failed verification and was not installed.")
         case .checksumMissing: String(localized: "The release has no checksum file, so the update was not installed.")
-        case .mountFailed, .appMissing, .wrongApp: String(localized: "The update package is damaged or is not Koto.")
+        // Короткий код в скобках помогает отличить сбой монтирования от неверного пакета.
+        case .mountFailed: String(localized: "The update package is damaged or is not Koto.") + " (mount)"
+        case .appMissing: String(localized: "The update package is damaged or is not Koto.") + " (app)"
+        case .wrongApp: String(localized: "The update package is damaged or is not Koto.") + " (id)"
         case .notNewer: String(localized: "The package is not newer than the installed version.")
         case .signature: String(localized: "The update has an invalid code signature and was not installed.")
         case .notWritable: String(localized: "Koto cannot replace itself in this folder. Move it to Applications or install the update manually.")

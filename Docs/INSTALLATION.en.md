@@ -1,21 +1,21 @@
 [Русский](INSTALLATION.md) | **English**
 
-# Installing Koto 0.1.0-alpha.18
+# Installing Koto 1.0.0
 
 Apple Silicon, macOS 26+. Release checks were performed on macOS 27.2; macOS 26 runtime remains untested.
 
-1. Download the DMG and SHA256SUMS.txt from [alpha 18](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.18).
-2. Compare `shasum -a 256 Koto-0.1.0-18-arm64-preview-ci.dmg` with SHA256SUMS.txt.
+1. Download the DMG and SHA256SUMS.txt from [1.0.0](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v1.0.0).
+2. Compare `shasum -a 256 Koto-1.0.0-20-arm64.dmg` with SHA256SUMS.txt.
 3. Open the DMG and drag Koto.app into Applications.
 4. Grant selection/OCR permissions through Koto Settings if needed.
 
-The preview is signed ad hoc, without Developer ID or notarization; macOS may refuse to launch it. Scripts do not disable Gatekeeper or modify system trust. Alternatively, [build from source](BUILDING.en.md). Replacing an ad hoc build may require removing and re-adding the current Koto.app in the system permission lists, then restarting it. Password/Touch ID prompts must be confirmed by the Mac owner.
+The release is signed ad hoc, without Developer ID or notarization; macOS may refuse to launch it. Scripts do not disable Gatekeeper or modify system trust. Alternatively, [build from source](BUILDING.en.md). Replacing an ad hoc build may require removing and re-adding the current Koto.app in the system permission lists, then restarting it. Password/Touch ID prompts must be confirmed by the Mac owner.
 
 For Apple Translation, select the languages and click Translate. If Prepare languages appears, complete that explicit step. For optional Qwen, use the model installation button: [models](MODELS.en.md).
 
 ## macOS permissions
 
-Translating selected text needs Accessibility; screen regions and Live need Screen & System Audio Recording; manual translation and Chrome work without them. When access is missing, Koto shows a panel with two rows: what is needed, whether it is granted, and an “Allow…” button that opens the right Settings pane. Statuses refresh on their own and the original command continues automatically once access is granted. Screen recording may need a restart: the panel has a “Restart Koto” button.
+Translating selected text needs Accessibility; screen regions and Live need Screen & System Audio Recording; manual translation and Chrome work without them. How to use: select text in any app and press ⌃⌥⌘T; for a screen region press ⌃⌥⌘R; for live translation press ⌃⌥⌘L (or “Live translation” in the Koto menu): choose a region and hold the cursor over a word, and the translation appears next to it (the “Replace text in place” mode draws the translation over the original lines). The Koto window hides after you choose the region; stop it from the Koto menu. Settings are split into tabs: General, Translation, Privacy, Browsers, Advanced. When access is missing, Koto shows a panel with two rows: what is needed, whether it is granted, and an “Allow…” button that opens the right Settings pane. Statuses refresh on their own and the original command continues automatically once access is granted. Screen recording may need a restart: the panel has a “Restart Koto” button.
 
 If Koto is turned on in the list but access does not appear, after a few seconds the panel offers “Reset and ask again” (runs `tccutil reset` for Koto only). Run Koto from Applications, not from a download or a disk image: macOS does not keep permissions for such a copy. Starting with alpha.18 the release signature is tied to the identifier `dev.slipcast.koto` rather than the build hash, so granted permissions survive updates; after moving to alpha.18 grant access once more.
 
@@ -27,7 +27,7 @@ If Apple language resources are unavailable, choose the same pair in Koto and cl
 
 ## Safari
 
-The Safari extension is embedded in Koto.app (`Contents/PlugIns/Koto Safari.appex`). Move Koto to Applications, launch it once, then use “Turn on in Safari” in the “Safari browser” section (it opens Safari's extension settings). The preview build is not signed with an Apple Developer ID, so first enable Safari's Develop → Allow Unsigned Extensions; the choice resets when Safari quits. The extension uses the same bridge and the same switch as Chrome. **Not verified in a real Safari:** the build, embedding, signing and the bridge client are tested automatically, but enabling the extension and translating inside Safari need a manual check on your Mac.
+The Safari extension is embedded in Koto.app (`Contents/PlugIns/Koto Safari.appex`). Move Koto to Applications, launch it once, then use “Turn on in Safari” in the “Safari browser” section (it opens Safari's extension settings). This build is not signed with an Apple Developer ID, so first enable Safari's Develop → Allow Unsigned Extensions; the choice resets when Safari quits. The extension uses the same bridge and the same switch as Chrome. **Not verified in a real Safari:** the build, embedding, signing and the bridge client are tested automatically, but enabling the extension and translating inside Safari need a manual check on your Mac.
 
 ## Updating
 

@@ -66,13 +66,19 @@ final class ScreenOCRService {
         try await Self.recognizeImage(captureImage(selection: selection, screen: screen, excludeOwnWindows: excludeOwnWindows))
     }
 
+    func captureSnapshot(selection: CGRect, screen: NSScreen) async throws -> CGImage {
+        try await captureImage(selection: selection, screen: screen, excludeOwnWindows: true)
+    }
+
     private func captureImage(selection: CGRect, screen: NSScreen, excludeOwnWindows: Bool) async throws -> CGImage {
         guard CGPreflightScreenCaptureAccess() else { throw CaptureFailure.screenRequired }
         guard let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
             throw CaptureFailure.unavailable
         }
         let rect = try CaptureGeometry.sourceRect(selection: selection, screen: screen.frame)
-        let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+        let content: SCShareableContent
+        do { content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true) }
+        catch { throw Self.mapped(error) }
         try Task.checkCancellation()
         guard let display = content.displays.first(where: { $0.displayID == number.uint32Value }) else {
             throw CaptureFailure.unavailable
@@ -93,9 +99,19 @@ final class ScreenOCRService {
                 || TranslationPrivacy.excluded($0.owningApplication?.bundleIdentifier)
         }
         let filter = SCContentFilter(display: display, excludingWindows: excluded)
-        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
+        let image: CGImage
+        do { image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config) }
+        catch { throw Self.mapped(error) }
         try Task.checkCancellation()
         return image
+    }
+
+    /// Preflight может сообщать «доступ есть», а ScreenCaptureKit отказывает (устаревшая запись в списке разрешений).
+    /// Такой отказ — вопрос разрешения, а не сбой захвата: пользователь увидит панель доступа.
+    nonisolated static func mapped(_ error: Error) -> Error {
+        let ns = error as NSError
+        if ns.domain == "com.apple.ScreenCaptureKit.SCStreamErrorDomain", ns.code == -3801 { return CaptureFailure.screenRequired }
+        return error
     }
 
     /// Синхронный Vision выполняется вне MainActor: перетаскивание/отмена остаются отзывчивыми.
@@ -130,5 +146,127 @@ final class ScreenOCRService {
             guard text.count <= TranslationRequest.characterLimit else { throw CaptureFailure.tooLong }
             return text
         }.value
+    }
+}
+
+/// Слово на экране и его рамка в глобальных координатах AppKit.
+struct RecognizedWord: Sendable, Equatable {
+    let text: String
+    let frame: CGRect
+}
+
+extension ScreenOCRService {
+    /// Слово под указателем. Снимается только небольшой прямоугольник вокруг точки внутри выбранной области.
+    func word(at point: CGPoint, within region: CGRect, screen: NSScreen) async throws -> RecognizedWord? {
+        let window = CGRect(x: point.x - 180, y: point.y - 40, width: 360, height: 80)
+            .intersection(region).intersection(screen.frame)
+        guard !window.isNull, window.width >= 16, window.height >= 16 else { return nil }
+        return try await withExclusiveCapture {
+            let image = try await captureSnapshot(selection: window, screen: screen)
+            let words = try await Self.recognizeWords(in: image, rect: window)
+            return Self.nearest(words, to: point)
+        }
+    }
+
+    nonisolated static func nearest(_ words: [RecognizedWord], to point: CGPoint) -> RecognizedWord? {
+        func distance(_ word: RecognizedWord) -> CGFloat {
+            let dx = max(word.frame.minX - point.x, 0, point.x - word.frame.maxX)
+            let dy = max(word.frame.minY - point.y, 0, point.y - word.frame.maxY)
+            return hypot(dx, dy)
+        }
+        guard let best = words.min(by: { distance($0) < distance($1) }), distance(best) <= 10 else { return nil }
+        return best
+    }
+
+    nonisolated static func recognizeWords(in image: CGImage, rect: CGRect) async throws -> [RecognizedWord] {
+        try await Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
+            let request = VNRecognizeTextRequest()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = false
+            request.automaticallyDetectsLanguage = true
+            try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+            var words: [RecognizedWord] = []
+            for observation in request.results ?? [] {
+                guard let candidate = observation.topCandidates(1).first else { continue }
+                let string = candidate.string
+                string.enumerateSubstrings(in: string.startIndex..<string.endIndex, options: .byWords) { substring, range, _, _ in
+                    guard let substring, !substring.isEmpty, let box = try? candidate.boundingBox(for: range)?.boundingBox else { return }
+                    let frame = CGRect(x: rect.minX + box.minX * rect.width, y: rect.minY + box.minY * rect.height,
+                                       width: box.width * rect.width, height: box.height * rect.height)
+                    words.append(RecognizedWord(text: substring, frame: frame))
+                }
+            }
+            return words
+        }.value
+    }
+}
+
+/// Строка текста на экране: рамка в глобальных координатах AppKit и цвет фона под ней (RGB 0...1).
+struct RecognizedLine: Sendable, Equatable {
+    let text: String
+    let frame: CGRect
+    let background: [Double]
+}
+
+extension ScreenOCRService {
+    /// Строки всей области для перевода на месте. Если кадр не изменился, возвращается nil без OCR.
+    func lines(in region: CGRect, screen: NSScreen, previous: FrameFingerprint?) async throws
+        -> (lines: [RecognizedLine]?, fingerprint: FrameFingerprint?) {
+        try await withExclusiveCapture {
+            let image = try await captureSnapshot(selection: region, screen: screen)
+            let current = FrameFingerprint.make(from: image)
+            if let previous, let current, current.matches(previous) { return (nil, previous) }
+            return (try await Self.recognizeLines(in: image, rect: region), current)
+        }
+    }
+
+    nonisolated static func recognizeLines(in image: CGImage, rect: CGRect) async throws -> [RecognizedLine] {
+        try await Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
+            let request = VNRecognizeTextRequest()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            request.automaticallyDetectsLanguage = true
+            try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+            var lines: [RecognizedLine] = []
+            for observation in request.results ?? [] {
+                guard let candidate = observation.topCandidates(1).first, candidate.confidence >= 0.3 else { continue }
+                let text = candidate.string.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard text.contains(where: \.isLetter) else { continue }
+                let box = observation.boundingBox
+                let frame = CGRect(x: rect.minX + box.minX * rect.width, y: rect.minY + box.minY * rect.height,
+                                   width: box.width * rect.width, height: box.height * rect.height)
+                lines.append(RecognizedLine(text: text, frame: frame, background: backgroundColor(of: image, box: box)))
+            }
+            return lines
+        }.value
+    }
+
+    /// Фон под строкой: медиана цветов по краю рамки, где текста почти нет.
+    nonisolated static func backgroundColor(of image: CGImage, box: CGRect) -> [Double] {
+        let width = CGFloat(image.width), height = CGFloat(image.height)
+        let pixelRect = CGRect(x: box.minX * width - 2, y: (1 - box.maxY) * height - 2,
+                               width: box.width * width + 4, height: box.height * height + 4)
+            .intersection(CGRect(x: 0, y: 0, width: width, height: height)).integral
+        guard pixelRect.width >= 2, pixelRect.height >= 2, let crop = image.cropping(to: pixelRect) else { return [1, 1, 1] }
+        let w = min(crop.width, 64), h = min(crop.height, 32)
+        var data = [UInt8](repeating: 0, count: w * h * 4)
+        let drawn = data.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(data: buffer.baseAddress, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4,
+                space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.interpolationQuality = .none
+            context.draw(crop, in: CGRect(x: 0, y: 0, width: w, height: h))
+            return true
+        }
+        guard drawn else { return [1, 1, 1] }
+        var channels: [[Int]] = [[], [], []]
+        for y in 0..<h {
+            for x in 0..<w where x == 0 || y == 0 || x == w - 1 || y == h - 1 {
+                let offset = (y * w + x) * 4
+                for c in 0..<3 { channels[c].append(Int(data[offset + c])) }
+            }
+        }
+        return channels.map { Double($0.sorted()[$0.count / 2]) / 255 }
     }
 }

@@ -49,6 +49,12 @@ echo "Сборка Koto ($CONFIGURATION)…"
     -derivedDataPath "$BUILD_ROOT/DerivedData" \
     build 2>&1 | /usr/bin/tee "$BUILD_ROOT/logs/build-$CONFIGURATION.log"
 
+# Ad hoc подпись по умолчанию привязывает разрешения macOS к хэшу сборки: после каждой пересборки
+# «Универсальный доступ» и «Запись экрана» перестают работать, хотя в списке Koto включён.
+# Требование по идентификатору одинаково у всех сборок, поэтому выданные доступы сохраняются.
+/usr/bin/codesign --force --sign - --options runtime --preserve-metadata=entitlements \
+    -r '=designated => identifier "dev.slipcast.koto"' "$APP_BUNDLE" >/dev/null 2>&1 || true
+
 echo "Приложение: $APP_BUNDLE"
 [[ "$MODE" != "--build-only" ]] || exit 0
 

@@ -35,7 +35,7 @@ struct SafariSettingsView: View {
                     .font(.caption).foregroundStyle(.orange)
             }
             if !message.isEmpty { Text(message).font(.caption).textSelection(.enabled) }
-            Text(String(localized: "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."))
+            Text(String(localized: "In Safari open Settings → Extensions and tick Koto. This build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."))
                 .font(.caption).foregroundStyle(.secondary)
             Text(String(localized: "The Safari extension uses the same bridge as Chrome: the “Enable browser bridge” switch above pauses it without removing anything."))
                 .font(.caption).foregroundStyle(.secondary)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Собрать проверяемый локальный alpha DMG, сохраняя защиты macOS."""
+"""Собрать проверяемый локальный DMG, сохраняя защиты macOS."""
 from __future__ import annotations
 
 import argparse
@@ -65,10 +65,10 @@ def write_documentation(stage: Path, identity: str) -> None:
     if identity == "-":
         labels = {
             "ru": (
-                "ПРЕДВАРИТЕЛЬНАЯ СБОРКА: подпись ad hoc, "
+                "Подпись ad hoc, "
                 "без сертификата разработчика."
             ),
-            "en": "PREVIEW: ad hoc signing, without a developer certificate.",
+            "en": "Ad hoc signing, without a developer certificate.",
         }
     else:
         labels = {
@@ -97,7 +97,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--identity", default="-",
-        help="SHA1 собственной Keychain identity; '-' = ad hoc preview",
+        help="SHA1 собственной Keychain identity; '-' = ad hoc",
     )
     parser.add_argument(
         "--app", type=Path, help="Готовый model-free app для упаковки"
@@ -173,8 +173,8 @@ def main() -> None:
     shutil.copytree(ROOT / "BrowserExtension", stage / "BrowserExtension")
     write_documentation(stage, args.identity)
     signing = ("self-signed Slipcast-Dev" if args.identity != "-"
-               else "AD HOC PREVIEW")
-    kind = "-self-signed" if args.identity != "-" else "-preview"
+               else "AD HOC")
+    kind = "-self-signed" if args.identity != "-" else ""
     name = f"Koto-{version}-{build}-arm64" + kind + suffix
     dmg = dist / (name + ".dmg")
     # Явно задаём HFS+: чтение APFS mount зависало в среде QA.

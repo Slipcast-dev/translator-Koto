@@ -115,6 +115,22 @@ struct CaptureTests {
             throw CaptureTestError.assertion("OCR line ranges")
         }
         try check(firstLine.lowerBound < secondLine.lowerBound, "OCR lines read from top to bottom")
+        let origin = CGRect(x: 100, y: 500, width: 1200, height: 360)
+        let found = try await ScreenOCRService.recognizeWords(in: cgImage, rect: origin)
+        guard let sleeping = found.first(where: { $0.text.lowercased() == "sleeping" }) else {
+            throw CaptureTestError.assertion("word recognition finds a word")
+        }
+        try check(sleeping.frame.midY > 700 && sleeping.frame.midY < 800, "word frame is in AppKit screen coordinates")
+        try check(sleeping.frame.midX > 300 && sleeping.frame.midX < 700, "word frame is placed horizontally")
+        try check(ScreenOCRService.nearest(found, to: CGPoint(x: sleeping.frame.midX, y: sleeping.frame.midY))?.text == sleeping.text,
+                  "cursor over the word picks that word")
+        let foundLines = try await ScreenOCRService.recognizeLines(in: cgImage, rect: origin)
+        guard let cat = foundLines.first(where: { $0.text.contains("cat is sleeping") }) else {
+            throw CaptureTestError.assertion("line recognition finds the first line")
+        }
+        try check(cat.frame.midY > 700 && cat.frame.midY < 800 && cat.frame.minX >= 100, "line frame is in AppKit screen coordinates")
+        try check(cat.background.allSatisfy { $0 > 0.9 }, "line background is sampled as white")
+        try check(foundLines.count == 2, "both fixture lines are found")
         let blank = NSImage(size: CGSize(width: 400, height: 200))
         blank.lockFocus(); NSColor.white.setFill(); CGRect(x: 0, y: 0, width: 400, height: 200).fill(); blank.unlockFocus()
         var blankRect = CGRect(origin: .zero, size: blank.size)
@@ -125,11 +141,23 @@ struct CaptureTests {
             _ = try await ScreenOCRService.recognizeImage(blankCG)
             throw CaptureTestError.assertion("blank OCR accepted")
         } catch CaptureFailure.noText { passed.append("blank image reports no text") }
+        let ids = ["en", "ru", "uk", "de", "fr", "ja"]
+        try check(LanguageDetector.detect("привет", among: ids) == "ru", "short Russian word is detected")
+        try check(LanguageDetector.detect("hello", among: ids) == "en", "short English word is detected")
+        try check(LanguageDetector.detect("привіт", among: ids) == "uk", "Ukrainian letters select Ukrainian")
+        try check(LanguageDetector.detect("こんにちは", among: ids) == "ja", "Japanese script is detected")
+        let words = [RecognizedWord(text: "left", frame: CGRect(x: 0, y: 0, width: 40, height: 14)),
+                     RecognizedWord(text: "right", frame: CGRect(x: 50, y: 0, width: 40, height: 14))]
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 60, y: 7))?.text == "right", "word under the cursor is chosen")
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 45, y: 7))?.text != nil, "cursor in the gap picks the nearest word")
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 300, y: 300)) == nil, "far cursor picks no word")
         // Команда, ожидавшая разрешение, продолжается только когда выдан именно нужный доступ.
         try check(PendingCapture.selection.canResume(accessibility: true, screen: false), "selection resumes after Accessibility")
         try check(!PendingCapture.selection.canResume(accessibility: false, screen: true), "selection does not resume on screen access")
         try check(PendingCapture.region.canResume(accessibility: false, screen: true), "region resumes after screen access")
         try check(!PendingCapture.region.canResume(accessibility: true, screen: false), "region does not resume on Accessibility")
+        try check(PendingCapture.live.canResume(accessibility: false, screen: true), "live resumes after screen access")
+        try check(!PendingCapture.live.canResume(accessibility: true, screen: false), "live does not resume on Accessibility")
         let report: [String: Any] = ["status": "passed", "count": passed.count, "tests": passed, "ocr_fixture_output": text]
         print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]), as: UTF8.self))
     }

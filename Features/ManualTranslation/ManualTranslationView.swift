@@ -21,7 +21,6 @@ struct ManualTranslationView: View {
                     .accessibilityHidden(true)
                 Text("Koto").font(.system(size: 25, weight: .bold, design: .rounded))
                 Spacer()
-                Text(String(localized: "Text translation")).foregroundStyle(.secondary)
             }
             if let issue = model.catalogFailure {
                 HStack {
@@ -29,13 +28,26 @@ struct ManualTranslationView: View {
                     Button(String(localized: "Try again")) { Task { await model.loadLanguages() } }
                 }
             }
-            Picker(String(localized: "Engine"), selection: $engines.selected) {
-                ForEach(TranslationEngineKind.allCases) { engine in Text(engine.title).tag(engine) }
-            }.pickerStyle(.segmented)
+            // Отдельные кнопки с небольшим интервалом, по центру окна.
+            HStack(spacing: 8) {
+                ForEach(TranslationEngineKind.allCases) { engine in
+                    let selected = engines.selected == engine
+                    Button { engines.selected = engine } label: {
+                        Text(engine.title).lineLimit(1).padding(.horizontal, 14).padding(.vertical, 6)
+                            .foregroundStyle(selected ? Color.white : Color.primary)
+                            .background(selected ? Color.accentColor : Color.secondary.opacity(0.14), in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(selected ? .isSelected : [])
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .accessibilityElement(children: .contain).accessibilityLabel(String(localized: "Engine"))
             LanguageSelectionView(model: model)
             HStack(alignment: .top, spacing: 20) {
                 TranslationInputView(model: model)
                 TranslationOutputView(result: model.result)
+                    .padding(.bottom, 44) // та же высота, что у строки кнопок под полем ввода
             }
             .frame(minHeight: 250)
             TranslationStatusView(model: model)
@@ -67,7 +79,7 @@ struct ManualTranslationView: View {
         }
         .sheet(isPresented: $showInsights) { LocalInsightsView(text: model.sourceText, target: model.targetIdentifier) }
         // Все действия собраны в одной панели инструментов и разделены по смыслу:
-        // захват → перевод → результат → пояснение → настройки.
+        // захват → результат → пояснение → настройки. «Перевести» и «Очистить» стоят под полем ввода.
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
                 Button { coordinator.captureSelection() } label: {
@@ -78,7 +90,7 @@ struct ManualTranslationView: View {
                     Label(String(localized: "Screen region"), systemImage: "viewfinder")
                 }
                 .help(String(localized: "Choose a region containing text · ⌃⌥⌘R"))
-                Button { openWindow(id: WindowID.live); NSApp.activate(ignoringOtherApps: true) } label: {
+                Button { coordinator.startLive() } label: {
                     Label(String(localized: "Live"), systemImage: "dot.radiowaves.left.and.right")
                 }
                 .help(String(localized: "Live translation of a screen region · ⌃⌥⌘L"))
@@ -87,22 +99,6 @@ struct ManualTranslationView: View {
                         .help(String(localized: "Cancel capture"))
                 }
             }
-            ToolbarItem(placement: .primaryAction) {
-                if model.isBusy {
-                    Button { model.cancel() } label: { Label(String(localized: "Cancel"), systemImage: "stop.circle") }
-                        .keyboardShortcut(.escape, modifiers: [])
-                        .help(String(localized: "Cancel translation · Esc"))
-                        .accessibilityIdentifier("translation.cancel")
-                } else {
-                    Button { model.submit() } label: { Label(String(localized: "Translate"), systemImage: "arrow.right.circle.fill") }
-                        .buttonStyle(.borderedProminent)
-                        .keyboardShortcut(.return, modifiers: .command)
-                        .disabled(!model.canTranslate)
-                        .help(String(localized: "Translate · ⌘↩"))
-                        .accessibilityIdentifier("translation.submit")
-                }
-            }
-            ToolbarSpacer(.fixed, placement: .primaryAction)
             ToolbarItemGroup(placement: .primaryAction) {
                 Button { copyResult() } label: {
                     Label(copied ? String(localized: "Copied") : String(localized: "Copy"), systemImage: copied ? "checkmark" : "doc.on.doc")
@@ -115,12 +111,6 @@ struct ManualTranslationView: View {
                 .disabled(model.result == nil).help(String(localized: "Speak the translation"))
                 Button { speech.stop() } label: { Label(String(localized: "Stop speech"), systemImage: "speaker.slash") }
                     .disabled(speech.status.isEmpty).help(String(localized: "Stop speech"))
-            }
-            ToolbarSpacer(.fixed, placement: .primaryAction)
-            ToolbarItem(placement: .primaryAction) {
-                Button { model.clear() } label: { Label(String(localized: "Clear"), systemImage: "trash") }
-                    .disabled(model.sourceText.isEmpty && model.result == nil).help(String(localized: "Clear text and translation"))
-                    .accessibilityIdentifier("translation.clear")
             }
             ToolbarSpacer(.fixed, placement: .primaryAction)
             ToolbarItem(placement: .primaryAction) {

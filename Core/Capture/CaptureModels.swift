@@ -12,7 +12,7 @@ enum CaptureFailure: Error, LocalizedError, Equatable, Sendable {
         case .accessibilityRequired: String(localized: "Allow Koto accessibility access in Privacy & Security, then try again.")
         case .screenRequired: String(localized: "Allow Koto to record the screen in macOS privacy settings, then try again. You may need to restart Koto.")
         case .noApplication: String(localized: "First select text in another app.")
-        case .noSelection: String(localized: "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR.")
+        case .noSelection: String(localized: "Koto could not read the selected text. Select text in another app and try again, or use Screen region.")
         case .secureField: String(localized: "Capturing protected fields is disabled.")
         case .cancelled: String(localized: "Capture cancelled.")
         case .invalidRegion: String(localized: "Select a region of at least 8 × 8 points within one screen.")
@@ -26,12 +26,12 @@ enum CaptureFailure: Error, LocalizedError, Equatable, Sendable {
 
 /// Команда, которую нельзя выполнить без разрешения macOS. После выдачи доступа она продолжается сама.
 enum PendingCapture: Equatable, Sendable {
-    case selection, region
+    case selection, region, live
 
     func canResume(accessibility: Bool, screen: Bool) -> Bool {
         switch self {
         case .selection: accessibility
-        case .region: screen
+        case .region, .live: screen
         }
     }
 }

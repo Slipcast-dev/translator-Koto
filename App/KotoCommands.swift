@@ -11,7 +11,8 @@ struct KotoCommands: Commands {
         CommandMenu(String(localized: "Translation")) {
             Button(String(localized: "Translate selection  ⌃⌥⌘T")) { capture.captureSelection() }
             Button(String(localized: "Translate screen region…  ⌃⌥⌘R")) { capture.captureRegion() }
-            Button(String(localized: "Live translation…  ⌃⌥⌘L")) { openWindow(id: WindowID.live); NSApp.activate(ignoringOtherApps: true) }
+            Button(String(localized: "Live translation…  ⌃⌥⌘L")) { capture.startLive() }
+            Button(String(localized: "Stop live translation")) { capture.live.stop() }.disabled(!capture.live.hasRegion)
             Button(String(localized: "Cancel capture")) { capture.cancel() }.disabled(!capture.captureBusy)
         }
         CommandGroup(replacing: .appInfo) {

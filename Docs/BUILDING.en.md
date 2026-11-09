@@ -17,8 +17,8 @@ python3 script/package_release.py
 
 - **Runtime.** llama.cpp is pinned by the submodule and `ThirdParty/llama-lock.json` to `7894e8b92481a8bb8ffe94f73b656ffe0dd01e10`; `verify_runtime_source.py` checks the tree SHA-256. GitHub source archives omit the submodule: if the tree is missing, `build_local_runtime.sh` fetches the pinned upstream. cmake and ninja are installed into `build/tooling`; the runtime is built statically with Metal. No weights are downloaded. Binary runtime resources are excluded from Git and restored by the commands above. The DMG already contains the runtime and needs neither Xcode nor Python.
 - **Targets.** The `Koto` app and the `Koto Safari` extension (folder `SafariExtension/`, embedded into `Koto.app/Contents/PlugIns`; the popup and localization are shared with `BrowserExtension/`).
-- **Version.** `CFBundleShortVersionString` is numeric (`MARKETING_VERSION`), the alpha channel lives in `KotoReleaseChannel`, and the build number is `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig`. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode.
-- **Signing.** The preview is ad hoc signed; Developer ID and notarization are a separate process. Do not disable system protections for testing.
+- **Version.** `CFBundleShortVersionString` is numeric (`MARKETING_VERSION`), an empty `KotoReleaseChannel` means a stable release, and the build number is `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig`. Do not set `SWIFT_VERSION` to a compiler minor version: 6.0 denotes the language mode.
+- **Signing.** The release is ad hoc signed; Developer ID and notarization are a separate process. Do not disable system protections for testing.
 - **Model.** The runtime starts from an anonymous verified snapshot through an inherited stdin; on APFS the snapshot is an instant copy-on-write clone needing no extra space, otherwise a full copy is made (temporary space equal to the model size). The runtime is unloaded after 10 minutes without requests.
 
 ## Layout
@@ -47,12 +47,12 @@ GitHub CI on macOS 26 builds the app unsigned and runs SwiftLint and `test_swift
 
 ## Release
 
-Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` and add `Docs/RELEASE-<version>.md` (for example `RELEASE-0.1.0-alpha.17.md`, bilingual notes, absolute links or links to neighbouring docs only). After the merge into `main` the workflow `.github/workflows/build-artifacts.yml`:
+Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` and add `Docs/RELEASE-<version>.md` (for example `RELEASE-1.0.0.md`, bilingual notes, absolute links or links to neighbouring docs only). After the merge into `main` the workflow `.github/workflows/build-artifacts.yml`:
 
 1. builds the app from source on macOS 26;
 2. packages the DMG, the Chrome extension ZIP and `SHA256SUMS.txt`;
 3. attests the files with GitHub/Sigstore;
-4. creates the tag `v<version>-alpha.<build>` and a prerelease with the notes.
+4. creates the tag `v<version>` and a release with the notes.
 
 If a release of that version already exists the build is skipped; the same workflow can also be run manually or by a `v*` tag. The workflow does not delete earlier releases. The [koto-website](https://github.com/Slipcast-dev/koto-website) site picks up the latest release on its own and updates the download links. Verify a file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. An attestation binds the files to a source revision and workflow; it does not replace an Apple Developer ID or notarization.
 

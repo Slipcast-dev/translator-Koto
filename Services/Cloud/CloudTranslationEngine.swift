@@ -134,9 +134,8 @@ final class CloudTranslationEngine: TranslationEngine {
                 throw TranslationFailure.failed
             }
             let detected = first[provider == .google ? "detectedSourceLanguage" : "detectedLanguageCode"] as? String
-            let recognizer = NLLanguageRecognizer()
-            recognizer.processString(request.text)
-            guard let source = request.source ?? (detected ?? recognizer.dominantLanguage?.rawValue).map({ TranslationLanguage(id: $0) }) else {
+            let guessed = detected ?? LanguageDetector.detect(request.text, among: ["ar","de","en","es","fr","hi","id","it","ja","ko","nl","pl","pt","ru","tr","uk","vi","zh"])
+            guard let source = request.source ?? guessed.map({ TranslationLanguage(id: $0) }) else {
                 throw TranslationFailure.unableToIdentify
             }
             return TranslationResult(requestID: request.id, text: text, source: source, target: request.target)

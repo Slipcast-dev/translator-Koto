@@ -251,9 +251,20 @@ nonisolated enum UpdateInstaller {
         let mount = workDirectory.appendingPathComponent("mount-" + UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: mount, withIntermediateDirectories: true,
                                                 attributes: [.posixPermissions: 0o700])
-        let attach = try await UpdateProcess.run("/usr/bin/hdiutil",
-            ["attach", "-nobrowse", "-readonly", "-noverify", "-noautoopen", "-mountpoint", mount.path, dmg.path], timeout: 120)
-        guard attach.status == 0 else { throw UpdateFailure.mountFailed }
+        // Монтирование на занятой системе иногда отказывает с первого раза: три попытки с короткой паузой.
+        var attached = false
+        for attempt in 1...3 where !attached {
+            let attach = try await UpdateProcess.run("/usr/bin/hdiutil",
+                ["attach", "-nobrowse", "-readonly", "-noverify", "-noautoopen", "-mountpoint", mount.path, dmg.path], timeout: 120)
+            attached = attach.status == 0
+            if !attached {
+                // Вывод hdiutil попадает в stderr: без него причину отказа монтирования не установить.
+                let size = (try? FileManager.default.attributesOfItem(atPath: dmg.path)[.size] as? NSNumber)?.int64Value ?? -1
+                fputs("hdiutil attach failed (\(attempt)/3, status \(attach.status), dmg \(size) bytes): \(attach.output)\n", stderr)
+                if attempt < 3 { try await Task.sleep(for: .seconds(2)) }
+            }
+        }
+        guard attached else { throw UpdateFailure.mountFailed }
         func detach() async {
             _ = try? await UpdateProcess.run("/usr/bin/hdiutil", ["detach", mount.path, "-force"], timeout: 60)
             try? FileManager.default.removeItem(at: mount)

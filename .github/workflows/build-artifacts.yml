@@ -1,4 +1,4 @@
-name: Attested preview artifacts
+name: Attested release artifacts
 # Автоматический выпуск: изменение CURRENT_PROJECT_VERSION в Config/Product.xcconfig на main собирает
 # приложение из исходников, подтверждает файлы attestation, создаёт тег и релиз.
 # Тег v* или ручной запуск выполняют ту же сборку для уже выбранной версии.
@@ -12,7 +12,7 @@ on:
 permissions:
   contents: read
 jobs:
-  preview:
+  release:
     runs-on: macos-26
     timeout-minutes: 60
     permissions:
@@ -31,9 +31,9 @@ jobs:
         run: |
           marketing=$(sed -n 's/^MARKETING_VERSION = //p' Config/Product.xcconfig)
           build=$(sed -n 's/^CURRENT_PROJECT_VERSION = //p' Config/Product.xcconfig)
-          tag="v${marketing}-alpha.${build}"
+          tag="v${marketing}"
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
-          echo "notes=Docs/RELEASE-${marketing}-alpha.${build}.md" >> "$GITHUB_OUTPUT"
+          echo "notes=Docs/RELEASE-${marketing}.md" >> "$GITHUB_OUTPUT"
           # Если релиз этой версии уже существует, повторная сборка не нужна.
           if gh release view "${tag}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -52,7 +52,7 @@ jobs:
           KOTO_CONFIGURATION: Release
         run: bash script/build_and_run.sh --build-only
       - if: steps.version.outputs.skip != 'true'
-        run: python3 script/package_release.py --artifact-suffix ci
+        run: python3 script/package_release.py
       - name: Package extension and checksums
         if: steps.version.outputs.skip != 'true'
         run: python3 script/package_browser.py
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: steps.version.outputs.skip != 'true'
         with:
-          name: koto-attested-preview
+          name: koto-attested-release
           path: dist/*
           if-no-files-found: error
       - name: Publish release
@@ -77,5 +77,5 @@ jobs:
           # Относительные ссылки заметок выпуска превращаются в абсолютные, заголовок убирается.
           sed -e '1{/^# /d;}' -e "s#(STATUS.md)#(${base}/STATUS.md)#" -e "s#(STATUS.en.md)#(${base}/STATUS.en.md)#" "${NOTES}" > release-notes.md
           marketing="${TAG#v}"
-          gh release create "${TAG}" dist/* --repo "${GITHUB_REPOSITORY}" --target "${GITHUB_SHA}" --prerelease \
-            --title "Koto ${marketing} · attested preview · Slipcast-Dev" --notes-file release-notes.md
+          gh release create "${TAG}" dist/* --repo "${GITHUB_REPOSITORY}" --target "${GITHUB_SHA}" --latest \
+            --title "Koto ${marketing} · Slipcast-Dev" --notes-file release-notes.md

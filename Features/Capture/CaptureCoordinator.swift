@@ -123,7 +123,7 @@ final class CaptureCoordinator {
     private func configureHotkeys() {
         hotkeys.unregister()
         hotkeyIssue = hotkeysEnabled ? hotkeys.register { [weak self] id in
-            if id == 1 { self?.captureSelection() } else if id == 2 { self?.captureRegion() } else if id == 3 { self?.openLive?() }
+            if id == 1 { self?.captureSelection() } else if id == 2 { self?.captureRegion() } else if id == 3 { self?.startLive() }
         } : nil
     }
 
@@ -148,7 +148,8 @@ final class CaptureCoordinator {
                 await translate(captured, id: id)
             } catch {
                 guard operationID == id, !Task.isCancelled else { return }
-                showFailure((error as? CaptureFailure) ?? .unavailable)
+                let issue = (error as? CaptureFailure) ?? .unavailable
+                if issue == .accessibilityRequired { awaitPermission(for: .selection, failure: issue) } else { showFailure(issue) }
             }
         }
     }
@@ -177,6 +178,8 @@ final class CaptureCoordinator {
             guard let rect, let screen else { cancel(); return }
             message = String(localized: "Recognizing text on this Mac…")
             startDeadline(id: id)
+            // Окно с индикатором появляется сразу: первое обращение к записи экрана может занять время.
+            showLens(anchor: rect)
             task = Task { [weak self] in
                 guard let self else { return }
                 do {
@@ -187,7 +190,8 @@ final class CaptureCoordinator {
                     await translate(CapturedText(text: text, anchor: rect), id: id)
                 } catch {
                     guard operationID == id, !Task.isCancelled else { return }
-                    showFailure((error as? CaptureFailure) ?? .unavailable)
+                    let issue = (error as? CaptureFailure) ?? .unavailable
+                    if issue == .screenRequired { awaitPermission(for: .region, failure: issue) } else { showFailure(issue) }
                 }
             }
         }
@@ -247,6 +251,22 @@ final class CaptureCoordinator {
     /// Показывает панель разрешений и следит за доступом: выдача разрешения продолжает исходную команду.
     private func awaitPermission(for command: PendingCapture, failure issue: CaptureFailure) {
         showFailure(issue)
+        waitForPermission(for: command)
+    }
+
+    /// Живой перевод: окно открывается сразу; без доступа к экрану оно показывает панель разрешений,
+    /// а выбор области начинается сам, как только доступ выдан.
+    func startLive() {
+        refreshPermissions()
+        // Повторное нажатие горячей клавиши выключает уже идущий перевод: он виден поверх других окон.
+        if live.running { live.stop(); return }
+        openLive?()
+        guard screenGranted else { waitForPermission(for: .live); return }
+        if !live.hasRegion { live.chooseRegion() }
+    }
+
+    func waitForPermission(for command: PendingCapture) {
+        permissionWatcher?.cancel()
         pendingCapture = command
         permissionWatcher = Task { [weak self] in
             while !Task.isCancelled {
@@ -262,6 +282,7 @@ final class CaptureCoordinator {
                 switch pending {
                 case .selection: self.captureSelection()
                 case .region: self.captureRegion()
+                case .live: self.live.chooseRegion()
                 }
                 return
             }

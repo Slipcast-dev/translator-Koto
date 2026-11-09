@@ -3349,24 +3349,6 @@
         }
       }
     },
-    "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR.": {
-      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The app did not provide selected text. Use Services → Translate in Koto in the source app, or capture a screen region with OCR."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложение не предоставило выделенный текст. Используйте «Службы → Перевести в Koto» в исходном приложении или OCR области."
-          }
-        }
-      }
-    },
     "The clipboard or active app changed. Try capturing again.": {
       "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -6337,20 +6319,20 @@
         }
       }
     },
-    "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
+    "In Safari open Settings → Extensions and tick Koto. This build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
       "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."
+            "value": "In Safari open Settings → Extensions and tick Koto. This build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "В Safari откройте «Настройки» → «Расширения» и отметьте Koto. Эта предварительная сборка не подписана Apple Developer ID: сначала включите в Safari «Разработка» → «Разрешить неподписанные расширения» (выбор сбрасывается при выходе из Safari)."
+            "value": "В Safari откройте «Настройки» → «Расширения» и отметьте Koto. Эта сборка не подписана Apple Developer ID: сначала включите в Safari «Разработка» → «Разрешить неподписанные расширения» (выбор сбрасывается при выходе из Safari)."
           }
         }
       }
@@ -7179,6 +7161,510 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сбросить и запросить заново"
+          }
+        }
+      }
+    },
+    "Live translation reads text from a screen region, so Koto needs the Screen & System Audio Recording permission.": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation reads text from a screen region, so Koto needs the Screen & System Audio Recording permission."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод читает текст из области экрана, поэтому Koto нужно разрешение «Запись экрана и системного звука»."
+          }
+        }
+      }
+    },
+    "Accessibility": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Универсальный доступ"
+          }
+        }
+      }
+    },
+    "Screen & System Audio Recording": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen & System Audio Recording"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запись экрана и системного звука"
+          }
+        }
+      }
+    },
+    "Manual translation works without these permissions. If access does not appear, use “Reset and ask again” in the permissions panel.": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual translation works without these permissions. If access does not appear, use “Reset and ask again” in the permissions panel."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ручной перевод работает без этих разрешений. Если доступ не появляется, нажмите «Сбросить и запросить заново» в панели разрешений."
+          }
+        }
+      }
+    },
+    "Koto watches a region of the screen and translates its text when it changes: subtitles, chats, games.": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto watches a region of the screen and translates its text when it changes: subtitles, chats, games."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto следит за областью экрана и переводит её текст, когда он меняется: субтитры, чаты, игры."
+          }
+        }
+      }
+    },
+    "Choose the part of the screen with text": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the part of the screen with text"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите часть экрана с текстом"
+          }
+        }
+      }
+    },
+    "Drag a rectangle over the text. Translation starts at once. Press Esc to cancel.": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag a rectangle over the text. Translation starts at once. Press Esc to cancel."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обведите текст прямоугольником. Перевод начнётся сразу. Esc — отмена."
+          }
+        }
+      }
+    },
+    "Another region…": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another region…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Другая область…"
+          }
+        }
+      }
+    },
+    "Recognized": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognized"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Распознано"
+          }
+        }
+      }
+    },
+    "Details": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подробности"
+          }
+        }
+      }
+    },
+    "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved. The engine is chosen in the main window.": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the selected region is recognized. Koto windows are excluded from capture. Frames and text are not saved. The engine is chosen in the main window."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Распознаётся только выбранная область. Окна Koto исключены из захвата. Кадры и текст не сохраняются. Движок выбирается в главном окне."
+          }
+        }
+      }
+    },
+    "Exclusions": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exclusions"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исключения"
+          }
+        }
+      }
+    },
+    "Memory and phrases": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memory and phrases"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память и фразы"
+          }
+        }
+      }
+    },
+    "Startup": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Startup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запуск"
+          }
+        }
+      }
+    },
+    "Diagnostics": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Диагностика"
+          }
+        }
+      }
+    },
+    "General": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Основные"
+          }
+        }
+      }
+    },
+    "Privacy": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приватность"
+          }
+        }
+      }
+    },
+    "Browsers": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browsers"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузеры"
+          }
+        }
+      }
+    },
+    "Advanced": {
+      "comment": "Пользовательская строка: Features/Settings, Features/Live, Features/Capture. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Advanced"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дополнительно"
+          }
+        }
+      }
+    },
+    "Koto could not read the selected text. Select text in another app and try again, or use Screen region.": {
+      "comment": "Пользовательская строка: Core/Capture/CaptureModels.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto could not read the selected text. Select text in another app and try again, or use Screen region."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto не смог прочитать выделенный текст. Выделите текст в другом приложении и повторите или используйте «Область экрана»."
+          }
+        }
+      }
+    },
+    "Mode": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Режим"
+          }
+        }
+      }
+    },
+    "Word under the cursor": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Word under the cursor"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слово под курсором"
+          }
+        }
+      }
+    },
+    "Point the cursor at a word in the region: the translation appears next to it.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Point the cursor at a word in the region: the translation appears next to it."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наведите курсор на слово в области: перевод появится рядом с ним."
+          }
+        }
+      }
+    },
+    "Stop live translation": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop live translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить живой перевод"
+          }
+        }
+      }
+    },
+    "Replace text in place": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace text in place"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заменять текст на месте"
+          }
+        }
+      }
+    },
+    "Foreign text in the region is replaced by its translation right where it is.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foreign text in the region is replaced by its translation right where it is."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Иностранный текст в области заменяется переводом прямо на том же месте."
+          }
+        }
+      }
+    },
+    "The translation is drawn over the other app. Stop it here or from the Koto menu in the menu bar. Nothing is saved.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation is drawn over the other app. Stop it here or from the Koto menu in the menu bar. Nothing is saved."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод рисуется поверх другого приложения. Остановить его можно здесь или в меню Koto в строке меню. Ничего не сохраняется."
+          }
+        }
+      }
+    },
+    "Language not downloaded. Prepare it in the main Koto window first.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language not downloaded. Prepare it in the main Koto window first."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Язык не загружен. Сначала подготовьте его в главном окне Koto."
           }
         }
       }

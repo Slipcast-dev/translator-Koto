@@ -34,6 +34,27 @@ struct TranslationInputView: View {
                 .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(.separator.opacity(0.5)))
                 .accessibilityLabel(String(localized: "Source text"))
                 .accessibilityIdentifier("translation.input")
+            HStack {
+                Button { model.clear() } label: { Label(String(localized: "Clear"), systemImage: "trash") }
+                    .disabled(model.sourceText.isEmpty && model.result == nil)
+                    .help(String(localized: "Clear text and translation"))
+                    .accessibilityIdentifier("translation.clear")
+                Spacer()
+                if model.isBusy {
+                    Button { model.cancel() } label: { Label(String(localized: "Cancel"), systemImage: "stop.circle") }
+                        .keyboardShortcut(.escape, modifiers: [])
+                        .help(String(localized: "Cancel translation · Esc"))
+                        .accessibilityIdentifier("translation.cancel")
+                } else {
+                    Button { model.submit() } label: { Label(String(localized: "Translate"), systemImage: "arrow.right.circle.fill") }
+                        .buttonStyle(.borderedProminent)
+                        .keyboardShortcut(.return, modifiers: .command)
+                        .disabled(!model.canTranslate)
+                        .help(String(localized: "Translate · ⌘↩"))
+                        .accessibilityIdentifier("translation.submit")
+                }
+            }
+            .labelStyle(.titleAndIcon).controlSize(.large)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

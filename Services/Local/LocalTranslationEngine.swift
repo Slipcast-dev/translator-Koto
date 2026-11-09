@@ -23,11 +23,8 @@ final class LocalTranslationEngine: TranslationEngine {
         let source: TranslationLanguage
         if let selected = request.source { source = selected }
         else {
-            let recognizer = NLLanguageRecognizer()
-            recognizer.processString(request.text)
-            guard let language = recognizer.dominantLanguage,
-                  (recognizer.languageHypotheses(withMaximum:1)[language] ?? 0) >= 0.45 else { throw TranslationFailure.unableToIdentify }
-            source = TranslationLanguage(id: language.rawValue)
+            guard let id = LanguageDetector.detect(request.text, among: Self.languageIdentifiers) else { throw TranslationFailure.unableToIdentify }
+            source = TranslationLanguage(id: id)
         }
         // Не запускаем большую модель для неизвестных кодов или неуверенного auto detection.
         guard let sourceCode = source.localeLanguage.languageCode?.identifier,
