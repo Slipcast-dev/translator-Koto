@@ -43,7 +43,7 @@ struct PrivacySettingsView: View {
     @AppStorage("privacy.cloud.capture") private var cloudCapture = false
     @AppStorage("privacy.cloud.browser") private var cloudBrowser = false
     @AppStorage("privacy.cloud.live") private var cloudLive = false
-    @AppStorage("privacy.excludedApps") private var excluded = "com.apple.mail\ncom.apple.MobileSMS\nru.keepcoder.Telegram\nnet.whatsapp.WhatsApp\ncom.viber.osx"
+    @AppStorage("privacy.excludedApps") private var excluded = TranslationPrivacy.defaultExcludedApps
     @AppStorage("privacy.excludedHosts") private var excludedHosts = TranslationPrivacy.defaultExcludedHosts
     @Bindable private var store = TranslationStore.shared
     @State private var input = ""

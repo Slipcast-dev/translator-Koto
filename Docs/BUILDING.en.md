@@ -47,7 +47,7 @@ GitHub CI on macOS 26 builds the app unsigned and runs SwiftLint and `test_swift
 
 ## Release
 
-Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` and add `Docs/RELEASE-<version>.md` (for example `RELEASE-1.0.0.md`, bilingual notes, absolute links or links to neighbouring docs only). After the merge into `main` the workflow `.github/workflows/build-artifacts.yml`:
+Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Config/Product.xcconfig` and add `Docs/RELEASE-<version>.md` (for example `RELEASE-1.0.1.md`, bilingual notes, absolute links or links to neighbouring docs only). After the merge into `main` the workflow `.github/workflows/build-artifacts.yml`:
 
 1. builds the app from source on macOS 26;
 2. packages the DMG, the Chrome extension ZIP and `SHA256SUMS.txt`;

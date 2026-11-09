@@ -63,7 +63,9 @@ final class LiveTranslationCoordinator {
         if model.languages.isEmpty { Task { await model.loadLanguages() } }
         switch mode {
         case .inPlace:
-            message = String(localized: "Foreign text in the region is replaced by its translation right where it is.")
+            message = ScreenOCRService.isWarm
+                ? String(localized: "Foreign text in the region is replaced by its translation right where it is.")
+                : String(localized: "Preparing text recognition for the first time. This can take up to a minute.")
             inPlace.start(region: region, screen: screen, pair: pair, onStatus: status)
         case .hover:
             message = String(localized: "Point the cursor at a word in the region: the translation appears next to it.")

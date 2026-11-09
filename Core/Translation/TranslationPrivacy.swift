@@ -25,9 +25,24 @@ enum TranslationPrivacy {
             return !suffix.isEmpty && (host == suffix || host.hasSuffix("." + suffix))
         }
     }
+    /// Мессенджеры, почта и менеджеры паролей не читаются ни через выделение, ни через снимок экрана.
+    static let defaultExcludedApps = """
+        com.apple.mail
+        com.apple.MobileSMS
+        ru.keepcoder.Telegram
+        net.whatsapp.WhatsApp
+        com.viber.osx
+        com.apple.Passwords
+        com.apple.keychainaccess
+        com.1password.1password
+        com.agilebits.onepassword7
+        com.bitwarden.desktop
+        org.keepassxc.keepassxc
+        com.lastpass.lastpassmacdesktop
+        com.dashlane.dashlanephonefinal
+        """
     static var excludedApplications: Set<String> {
-        let stored = UserDefaults.standard.string(forKey: "privacy.excludedApps")
-            ?? "com.apple.mail\ncom.apple.MobileSMS\nru.keepcoder.Telegram\nnet.whatsapp.WhatsApp\ncom.viber.osx"
+        let stored = UserDefaults.standard.string(forKey: "privacy.excludedApps") ?? defaultExcludedApps
         return Set(stored.split(whereSeparator: { $0.isWhitespace || $0 == "," }).map(String.init))
     }
     static func excluded(_ bundleID: String?) -> Bool { bundleID.map { excludedApplications.contains($0) } ?? false }

@@ -7668,6 +7668,24 @@
           }
         }
       }
+    },
+    "Preparing text recognition for the first time. This can take up to a minute.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing text recognition for the first time. This can take up to a minute."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Первая подготовка распознавания текста. Это может занять до минуты."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

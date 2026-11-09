@@ -12,6 +12,30 @@ final class QuickTranslator {
 
     var languageIDs: [String] { model.languages.map(\.id) }
 
+    func cached(_ text: String, pair: (source: String, target: String)) -> String? {
+        cache["\(pair.source)|\(pair.target)|\(text)"]
+    }
+
+    /// Несколько строк одним запросом: переводчик обычно сохраняет переносы. Если число строк в ответе не совпало,
+    /// каждая строка переводится отдельно. Результаты кэшируются построчно.
+    func translateBatch(_ texts: [String], pair: (source: String, target: String)) async -> [Outcome] {
+        guard texts.count > 1 else {
+            var single: [Outcome] = []
+            for text in texts { single.append(await translate(text, pair: pair)) }
+            return single
+        }
+        if case .text(let joined) = await translate(texts.joined(separator: "\n"), pair: pair) {
+            let parts = joined.split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
+            if parts.count == texts.count, parts.allSatisfy({ !$0.trimmingCharacters(in: .whitespaces).isEmpty }) {
+                for (text, part) in zip(texts, parts) { cache["\(pair.source)|\(pair.target)|\(text)"] = part }
+                return parts.map { .text($0) }
+            }
+        }
+        var each: [Outcome] = []
+        for text in texts { each.append(await translate(text, pair: pair)) }
+        return each
+    }
+
     func translate(_ text: String, pair: (source: String, target: String)) async -> Outcome {
         let key = "\(pair.source)|\(pair.target)|\(text)"
         if let cached = cache[key] { return .text(cached) }
@@ -145,22 +169,44 @@ final class InPlaceTranslationController {
     private func translate(_ lines: [RecognizedLine], region: CGRect, pair: (source: String, target: String),
                            onStatus: (String) -> Void) async {
         if translator.languageIDs.isEmpty { _ = await translator.translate("a", pair: pair) }
-        var shown: [OverlayLine] = []
-        for (index, line) in lines.enumerated() where !Task.isCancelled {
-            // Текст уже на языке перевода переводить не нужно.
+        // Нужны только строки на другом языке; уже переведённые берутся из кэша мгновенно.
+        var wanted: [(index: Int, line: RecognizedLine)] = []
+        for (index, line) in lines.enumerated() {
             if pair.source == "auto" {
                 guard let language = LanguageDetector.detect(line.text, among: translator.languageIDs),
                       language != pair.target else { continue }
             } else if pair.source == pair.target { continue }
-            switch await translator.translate(line.text, pair: pair) {
-            case .text(let text):
-                guard !Task.isCancelled else { return }
-                shown.append(OverlayLine(id: index, frame: line.frame, text: text, background: line.background,
-                                         originalLength: line.text.count))
-                overlay.show(lines: shown, region: region)
-            case .failure(let message):
-                onStatus(message)
+            wanted.append((index, line))
+        }
+        var shown: [Int: OverlayLine] = [:]
+        func publish() { overlay.show(lines: shown.keys.sorted().compactMap { shown[$0] }, region: region) }
+        func add(_ item: (index: Int, line: RecognizedLine), _ text: String) {
+            shown[item.index] = OverlayLine(id: item.index, frame: item.line.frame, text: text,
+                                            background: item.line.background, originalLength: item.line.text.count)
+        }
+        var pending: [(index: Int, line: RecognizedLine)] = []
+        for item in wanted {
+            if let cached = translator.cached(item.line.text, pair: pair) { add(item, cached) } else { pending.append(item) }
+        }
+        if !shown.isEmpty { publish() }
+        // Пачки до 12 строк и 1500 символов: меньше запросов, чем по одной строке.
+        var start = 0
+        while start < pending.count, !Task.isCancelled {
+            var end = start, size = 0
+            while end < pending.count, end - start < 12, size + pending[end].line.text.count <= 1500 || end == start {
+                size += pending[end].line.text.count; end += 1
             }
+            let chunk = Array(pending[start..<end])
+            let results = await translator.translateBatch(chunk.map(\.line.text), pair: pair)
+            guard !Task.isCancelled else { return }
+            for (item, result) in zip(chunk, results) {
+                switch result {
+                case .text(let text): add(item, text)
+                case .failure(let message): onStatus(message)
+                }
+            }
+            publish()
+            start = end
         }
     }
 }
