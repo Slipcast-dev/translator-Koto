@@ -115,6 +115,15 @@ struct CaptureTests {
             throw CaptureTestError.assertion("OCR line ranges")
         }
         try check(firstLine.lowerBound < secondLine.lowerBound, "OCR lines read from top to bottom")
+        let origin = CGRect(x: 100, y: 500, width: 1200, height: 360)
+        let found = try await ScreenOCRService.recognizeWords(in: cgImage, rect: origin)
+        guard let sleeping = found.first(where: { $0.text.lowercased() == "sleeping" }) else {
+            throw CaptureTestError.assertion("word recognition finds a word")
+        }
+        try check(sleeping.frame.midY > 700 && sleeping.frame.midY < 800, "word frame is in AppKit screen coordinates")
+        try check(sleeping.frame.midX > 300 && sleeping.frame.midX < 700, "word frame is placed horizontally")
+        try check(ScreenOCRService.nearest(found, to: CGPoint(x: sleeping.frame.midX, y: sleeping.frame.midY))?.text == sleeping.text,
+                  "cursor over the word picks that word")
         let blank = NSImage(size: CGSize(width: 400, height: 200))
         blank.lockFocus(); NSColor.white.setFill(); CGRect(x: 0, y: 0, width: 400, height: 200).fill(); blank.unlockFocus()
         var blankRect = CGRect(origin: .zero, size: blank.size)

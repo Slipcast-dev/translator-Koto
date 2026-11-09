@@ -36,6 +36,15 @@ final class HoverTooltip {
         panel.orderFrontRegardless()
     }
 
+    /// Перевод всей области: панель ложится поверх выбранного прямоугольника и пропускает мышь сквозь себя.
+    func showCovering(_ text: String, frame: CGRect) {
+        hosting.rootView = AnyView(ScrollView { Text(text).font(.system(size: 16, weight: .medium)).foregroundStyle(.primary)
+            .multilineTextAlignment(.leading).frame(maxWidth: .infinity, alignment: .topLeading).padding(12) }
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10)))
+        panel.setFrame(frame, display: true)
+        panel.orderFrontRegardless()
+    }
+
     func hide() { panel.orderOut(nil) }
 }
 
@@ -79,7 +88,7 @@ final class HoverTranslationController {
                     guard let word = try await self.ocr.word(at: point, within: region, screen: screen) else { self.hide(); continue }
                     // Курсор мог уйти, пока шёл OCR.
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
-                    guard let text = await self.translate(word.text, pair: pair()) else { continue }
+                    let text = await self.translate(word.text, pair: pair())
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
                     self.shownFrame = word.frame
                     self.tooltip.show(text, above: word.frame, on: screen.frame)
@@ -98,7 +107,8 @@ final class HoverTranslationController {
 
     private func hide() { shownFrame = nil; tooltip.hide() }
 
-    private func translate(_ word: String, pair: (source: String, target: String)) async -> String? {
+    /// Всегда возвращает текст подсказки: перевод или короткую причину, почему его нет.
+    private func translate(_ word: String, pair: (source: String, target: String)) async -> String {
         let key = "\(pair.source)|\(pair.target)|\(word.lowercased())"
         if let cached = cache[key] { return cached }
         if translator.languages.isEmpty { await translator.loadLanguages() }
@@ -113,9 +123,12 @@ final class HoverTranslationController {
                 cache[key] = text
                 return text
             }
+            if translator.phase == .needsDownload {
+                return String(localized: "Language not downloaded. Open Live translation to prepare it.")
+            }
             if translator.failure != .unableToIdentify { break }
         }
-        return nil
+        return translator.failure?.errorDescription ?? String(localized: "Unable to translate.")
     }
 }
 

@@ -19,6 +19,9 @@ final class LiveTranslationCoordinator {
     private(set) var latencyMilliseconds: [Double] = []
     @ObservationIgnored private let selector = RegionSelector()
     @ObservationIgnored private let ocr = ScreenOCRService()
+    @ObservationIgnored private let overlay = HoverTooltip()
+    /// Окно Koto не нужно, пока перевод виден поверх чужого приложения: View прячет его при запуске.
+    @ObservationIgnored var onStarted: (() -> Void)?
     @ObservationIgnored private lazy var hover = HoverTranslationController(ocr: ocr)
     @ObservationIgnored private var gate = LiveFrameGate()
     @ObservationIgnored private var producer: Task<Void, Never>?
@@ -48,6 +51,7 @@ final class LiveTranslationCoordinator {
             self.displayID = number.uint32Value
             self.captures = 0; self.translations = 0; self.latencyMilliseconds.removeAll()
             self.resume()
+            if self.running { self.onStarted?() }
         }
     }
 
@@ -103,6 +107,7 @@ final class LiveTranslationCoordinator {
                     guard self.gate.generation == id else { return }
                     _ = self.gate.accept("", generation: id)
                     self.model.clear()
+                    self.overlay.hide()
                     self.message = String(localized: "No text in the region yet")
                 } catch is CancellationError { return }
                 catch {
@@ -118,6 +123,7 @@ final class LiveTranslationCoordinator {
 
     func pause() {
         hover.stop()
+        overlay.hide()
         producer?.cancel(); producer = nil
         _ = gate.reset()
         model.cancel()
@@ -157,6 +163,7 @@ final class LiveTranslationCoordinator {
         latencyMilliseconds.append(Double(elapsed.seconds) * 1000 + Double(elapsed.attoseconds) / 1e15)
         if latencyMilliseconds.count > 120 { latencyMilliseconds.removeFirst() }
         message = String(localized: "Ready · translation runs again only when the text changes")
+        if mode == .area, let region { overlay.showCovering(result.text, frame: region) }
     }
 
     private func percentile(_ fraction: Double) -> Double? {

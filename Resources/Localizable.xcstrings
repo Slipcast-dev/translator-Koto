@@ -7632,6 +7632,42 @@
           }
         }
       }
+    },
+    "Stop live translation": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop live translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить живой перевод"
+          }
+        }
+      }
+    },
+    "Language not downloaded. Open Live translation to prepare it.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language not downloaded. Open Live translation to prepare it."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Язык не загружен. Откройте «Живой перевод», чтобы подготовить его."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

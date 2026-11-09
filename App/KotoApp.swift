@@ -76,7 +76,13 @@ private struct MainWindowActionInstaller: View {
                 capture.start()
                 appDelegate.capture = capture
                 capture.reopenMain = { openWindow(id: WindowID.main) }
-                capture.openLive = { openWindow(id: WindowID.live); NSApp.activate(ignoringOtherApps: true) }
+                capture.openLive = {
+                    openWindow(id: WindowID.live)
+                    liveWindow()?.makeKeyAndOrderFront(nil)
+                    NSApp.activate(ignoringOtherApps: true)
+                }
+                // Перевод виден поверх нужного приложения, поэтому окно Koto после выбора области убирается.
+                capture.live.onStarted = { liveWindow()?.orderOut(nil) }
                 appDelegate.reopenMainWindow = {
                     openWindow(id: WindowID.main)
                 }
@@ -96,4 +102,10 @@ private struct MainWindowActionInstaller: View {
                 }
             }
     }
+}
+
+/// Окно живого перевода: SwiftUI даёт ему идентификатор из WindowID.
+@MainActor
+func liveWindow() -> NSWindow? {
+    NSApp.windows.first { $0.identifier?.rawValue.contains(WindowID.live) == true }
 }

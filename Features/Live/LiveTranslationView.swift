@@ -33,7 +33,6 @@ struct LiveTranslationView: View {
                 coordinator.model.finishPreparation(id: id, failure: error)
             }
         }
-        .onDisappear { coordinator.stop() }
         .accessibilityIdentifier("koto.live")
     }
 
@@ -102,7 +101,7 @@ struct LiveTranslationView: View {
             }
             .frame(minHeight: 200)
             }
-            TranslationStatusView(model: coordinator.model)
+            if coordinator.mode == .area { TranslationStatusView(model: coordinator.model) }
             DisclosureGroup(String(localized: "Details"), isExpanded: $showDetails) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(String(localized: "Frames: \(AppLocalization.number(coordinator.captures)) · Translations: \(AppLocalization.number(coordinator.translations))"))

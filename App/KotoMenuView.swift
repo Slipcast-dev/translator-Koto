@@ -12,6 +12,7 @@ struct KotoMenuView: View {
         Button(String(localized: "Translate selection  ⌃⌥⌘T")) { capture.captureSelection() }
         Button(String(localized: "Translate screen region…  ⌃⌥⌘R")) { capture.captureRegion() }
         Button(String(localized: "Live translation…  ⌃⌥⌘L")) { capture.startLive() }
+        if capture.live.hasRegion { Button(String(localized: "Stop live translation")) { capture.live.stop() } }
         Divider()
         Button(String(localized: "Open Koto")) {
             openWindow(id: WindowID.main)
