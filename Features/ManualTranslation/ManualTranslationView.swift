@@ -47,6 +47,7 @@ struct ManualTranslationView: View {
             HStack(alignment: .top, spacing: 20) {
                 TranslationInputView(model: model)
                 TranslationOutputView(result: model.result)
+                    .padding(.bottom, 44) // та же высота, что у строки кнопок под полем ввода
             }
             .frame(minHeight: 250)
             TranslationStatusView(model: model)
@@ -78,7 +79,7 @@ struct ManualTranslationView: View {
         }
         .sheet(isPresented: $showInsights) { LocalInsightsView(text: model.sourceText, target: model.targetIdentifier) }
         // Все действия собраны в одной панели инструментов и разделены по смыслу:
-        // захват → перевод → результат → пояснение → настройки.
+        // захват → результат → пояснение → настройки. «Перевести» и «Очистить» стоят под полем ввода.
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
                 Button { coordinator.captureSelection() } label: {
@@ -98,22 +99,6 @@ struct ManualTranslationView: View {
                         .help(String(localized: "Cancel capture"))
                 }
             }
-            ToolbarItem(placement: .primaryAction) {
-                if model.isBusy {
-                    Button { model.cancel() } label: { Label(String(localized: "Cancel"), systemImage: "stop.circle") }
-                        .keyboardShortcut(.escape, modifiers: [])
-                        .help(String(localized: "Cancel translation · Esc"))
-                        .accessibilityIdentifier("translation.cancel")
-                } else {
-                    Button { model.submit() } label: { Label(String(localized: "Translate"), systemImage: "arrow.right.circle.fill") }
-                        .buttonStyle(.borderedProminent)
-                        .keyboardShortcut(.return, modifiers: .command)
-                        .disabled(!model.canTranslate)
-                        .help(String(localized: "Translate · ⌘↩"))
-                        .accessibilityIdentifier("translation.submit")
-                }
-            }
-            ToolbarSpacer(.fixed, placement: .primaryAction)
             ToolbarItemGroup(placement: .primaryAction) {
                 Button { copyResult() } label: {
                     Label(copied ? String(localized: "Copied") : String(localized: "Copy"), systemImage: copied ? "checkmark" : "doc.on.doc")
@@ -126,12 +111,6 @@ struct ManualTranslationView: View {
                 .disabled(model.result == nil).help(String(localized: "Speak the translation"))
                 Button { speech.stop() } label: { Label(String(localized: "Stop speech"), systemImage: "speaker.slash") }
                     .disabled(speech.status.isEmpty).help(String(localized: "Stop speech"))
-            }
-            ToolbarSpacer(.fixed, placement: .primaryAction)
-            ToolbarItem(placement: .primaryAction) {
-                Button { model.clear() } label: { Label(String(localized: "Clear"), systemImage: "trash") }
-                    .disabled(model.sourceText.isEmpty && model.result == nil).help(String(localized: "Clear text and translation"))
-                    .accessibilityIdentifier("translation.clear")
             }
             ToolbarSpacer(.fixed, placement: .primaryAction)
             ToolbarItem(placement: .primaryAction) {
