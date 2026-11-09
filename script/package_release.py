@@ -153,11 +153,18 @@ def main() -> None:
     manifest["runtimeSHA256"] = sha256(runtime / "llama-server")
     manifest["launcherSHA256"] = sha256(runtime / "koto-runtime-launcher")
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
-    run([
+    app_signing = [
         "/usr/bin/codesign", "--force", "--sign", args.identity,
         "--options", "runtime", "--timestamp=none",
-        "--entitlements", str(ROOT / "Config/Release.entitlements"), str(app),
-    ])
+        "--entitlements", str(ROOT / "Config/Release.entitlements"),
+    ]
+    if args.identity == "-":
+        # Ad hoc подпись по умолчанию привязывает требование к хэшу конкретной сборки, и macOS теряет
+        # выданные разрешения (Универсальный доступ, Запись экрана) после каждого обновления.
+        # Требование по идентификатору остаётся одинаковым у всех сборок, поэтому доступ сохраняется.
+        # Компромисс: разрешения получает любое приложение с этим идентификатором и ad hoc подписью.
+        app_signing += ["-r", '=designated => identifier "' + metadata["CFBundleIdentifier"] + '"']
+    run(app_signing + [str(app)])
     run([
         "/usr/bin/codesign", "--verify", "--deep", "--strict",
         "--verbose=2", str(app),

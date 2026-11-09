@@ -7110,6 +7110,78 @@
           }
         }
       }
+    },
+    "Koto is running from a download or disk image. macOS does not keep permissions for such a copy. Move Koto to Applications and open it from there.": {
+      "comment": "Пользовательская строка: Features/Capture/CapturePermissionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto is running from a download or disk image. macOS does not keep permissions for such a copy. Move Koto to Applications and open it from there."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto запущен из загрузки или образа диска. macOS не сохраняет разрешения для такой копии. Переместите Koto в «Программы» и откройте его оттуда."
+          }
+        }
+      }
+    },
+    "Koto is turned on in the list but access does not appear?": {
+      "comment": "Пользовательская строка: Features/Capture/CapturePermissionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto is turned on in the list but access does not appear?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto включён в списке, но доступ не появляется?"
+          }
+        }
+      }
+    },
+    "The entry in the list usually belongs to another Koto build. Click Reset and ask again, then turn Koto on once more.": {
+      "comment": "Пользовательская строка: Features/Capture/CapturePermissionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The entry in the list usually belongs to another Koto build. Click Reset and ask again, then turn Koto on once more."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запись в списке обычно относится к другой сборке Koto. Нажмите «Сбросить и запросить заново», затем ещё раз включите Koto."
+          }
+        }
+      }
+    },
+    "Reset and ask again": {
+      "comment": "Пользовательская строка: Features/Capture/CapturePermissionView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset and ask again"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить и запросить заново"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

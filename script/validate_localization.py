@@ -123,9 +123,51 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
     if required - catalogs["en"].keys():
         missing = required - catalogs["en"].keys()
         raise ValueError(f"Missing Chrome keys: {missing}")
-    return {"status": "passed", "catalog_keys": keys,
+    source_strings = check_source_strings(root)
+    return {"status": "passed", "source_strings_checked": source_strings, "catalog_keys": keys,
             "translated_values": values, "Chrome_messages_per_locale":
             len(catalogs["en"]), "Chrome_referenced_keys": len(required)}
+
+# Бренды и технические подписи, которые не переводятся.
+UNTRANSLATED = {"Koto", "Google Cloud Basic v2", "Google Cloud", "Yandex Cloud", "Apple Translation", "Live"}
+SOURCE_LITERAL = re.compile(
+    r'(?:String\(localized:|Text\(|Button\(|Toggle\(|Picker\(|Section\(|LabeledContent\(|Label\(|TextField\(|'
+    r'SecureField\(|Link\(|ProgressView\(|Window\(|CommandMenu\(|\.help\(|\.navigationTitle\(|\.accessibilityLabel\()'
+    r'\s*"((?:[^"\\]|\\.)*)"')
+
+
+def normalize_key(value: str) -> str:
+    """Интерполяции Swift и форматы каталога приводятся к одному виду."""
+    value = re.sub(r"\\\((?:[^()]|\([^()]*\))*\)", "%@", value)
+    value = re.sub(r"%(?:\d+\$)?(?:ll|l)?[@dif]", "%@", value)
+    return value.replace('\\"', '"').replace("\\n", "\n").replace("\\u{2019}", "’")
+
+
+def check_source_strings(root: Path = ROOT) -> int:
+    """Каждая пользовательская строка в коде должна быть в каталоге: иначе в русском интерфейсе появится английский."""
+    known: set[str] = set()
+    for path in (root / "Resources").glob("*.xcstrings"):
+        known.update(normalize_key(key) for key in json.loads(path.read_text())["strings"])
+    checked = 0
+    missing: list[str] = []
+    for folder in ("App", "Core", "Features", "Services", "Support"):
+        for path in sorted((root / folder).rglob("*.swift")):
+            text = path.read_text()
+            for match in SOURCE_LITERAL.finditer(text):
+                if text[max(0, match.start() - 12):match.start()].endswith("verbatim: "):
+                    continue
+                raw = match.group(1)
+                key = normalize_key(raw)
+                # Усечённые вложенные интерполяции и чисто символьные строки не являются ключами.
+                if "\\(" in key or not re.search(r"[A-Za-zА-Яа-я]{2,}", key) or key in UNTRANSLATED:
+                    continue
+                checked += 1
+                if key not in known:
+                    missing.append(f"{path.relative_to(root)}: {raw[:70]}")
+    if missing:
+        raise ValueError("Strings missing from the String Catalog:\n" + "\n".join(missing))
+    return checked
+
 
 
 if __name__ == "__main__":

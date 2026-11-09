@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,6 +31,10 @@ def verify(directory: Path) -> dict[str, int | str]:
         raise ValueError("Model weights found in package")
     if digest(resources / "LICENSE") != digest(ROOT / "LICENSE"):
         raise ValueError("Application license is missing or stale")
+    # Разрешения macOS должны переживать обновления: требование подписи не привязано к хэшу сборки.
+    requirement = subprocess.run(["/usr/bin/codesign", "-d", "-r-", str(app)], capture_output=True, text=True)
+    if 'designated => identifier "dev.slipcast.koto"' not in requirement.stdout + requirement.stderr:
+        raise ValueError("Application signature must use the stable identifier requirement")
     browser_files = 0
     for source in (ROOT / "BrowserExtension").rglob("*"):
         if source.is_file():

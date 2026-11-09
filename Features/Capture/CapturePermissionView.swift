@@ -16,6 +16,11 @@ struct CapturePermissionView: View {
     }
 
     var body: some View {
+        ScrollView(.vertical) { content }
+            .scrollBounceBehavior(.basedOnSize)
+    }
+
+    private var content: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: "lock.shield.fill").font(.system(size: 30)).foregroundStyle(.tint)
@@ -46,13 +51,38 @@ struct CapturePermissionView: View {
                     }
                 }
             }
+            if coordinator.runsOutsideApplications {
+                note(symbol: "folder.badge.questionmark",
+                     String(localized: "Koto is running from a download or disk image. macOS does not keep permissions for such a copy. Move Koto to Applications and open it from there."))
+            }
+            if coordinator.permissionHelpNeeded {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label(String(localized: "Koto is turned on in the list but access does not appear?"), systemImage: "questionmark.circle.fill")
+                        .font(.callout.weight(.semibold))
+                    Text(String(localized: "The entry in the list usually belongs to another Koto build. Click Reset and ask again, then turn Koto on once more."))
+                        .font(.caption).fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Button(String(localized: "Reset and ask again")) { coordinator.resetPermissions() }
+                            .disabled(coordinator.resettingPermissions)
+                        if coordinator.resettingPermissions { ProgressView().controlSize(.small) }
+                    }
+                }
+                .padding(12)
+                .background(.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+            }
             if coordinator.pendingCapture != nil {
                 Label(String(localized: "Koto continues on its own as soon as access is granted."), systemImage: "bolt.horizontal.circle")
                     .font(.caption).foregroundStyle(.secondary)
             }
-            Spacer(minLength: 0)
             Text(String(localized: "Manual translation works without these permissions. Text and images are not saved. After a Koto update macOS may ask for access again."))
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func note(symbol: String, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: symbol).foregroundStyle(.orange)
+            Text(text).font(.caption).fixedSize(horizontal: false, vertical: true)
         }
     }
 
