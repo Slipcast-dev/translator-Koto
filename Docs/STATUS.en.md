@@ -1,12 +1,12 @@
 [Русский](STATUS.md) | **English**
 
-# Koto 0.1.0-alpha.19 · Chrome 0.1.4
+# Koto 1.0.0 · Chrome 0.1.4
 
 Slipcast-Dev · arm64/macOS 26+. Release checks ran on macOS 27.2 / Xcode 27.
 
 ## State
 
-Preview (alpha) build: ad hoc signing, without Developer ID or notarization — macOS may block launch. Release files are built from source by a GitHub workflow and carry attestations ([release notes](RELEASE-0.1.0-alpha.19.md)). The Qwen model is not shipped; it is installed with a button in Settings.
+Release 1.0.0: ad hoc signing, without Developer ID or notarization — macOS may block launch. Release files are built from source by a GitHub workflow and carry attestations ([release notes](RELEASE-1.0.0.md)). The Qwen model is not shipped; it is installed with a button in Settings.
 
 ## License and releases
 
@@ -19,7 +19,7 @@ Koto is under a [proprietary license](../LICENSE): modifying or distributing it 
 ## Not verified
 
 - Full interactive acceptance on macOS 26, Live (endurance, energy, latency), sleep/wake, a broad application matrix.
-- The Safari extension inside Safari (build, embedding, signing and the bridge client are tested; enabling the extension and translating in Safari are not). The preview build needs “Allow Unsigned Extensions” in Safari.
+- The Safari extension inside Safari (build, embedding, signing and the bridge client are tested; enabling the extension and translating in Safari are not). The build needs “Allow Unsigned Extensions” in Safari.
 - Real Google and Yandex accounts, speech, login launch.
 - Real Qwen generation and semantic quality over the current transport.
 - An end-to-end update through live GitHub: possible once a release newer than the installed one exists.

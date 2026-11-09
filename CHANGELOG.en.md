@@ -2,10 +2,11 @@
 
 # Changelog
 
-## 0.1.0-alpha.19
+## 1.0.0
 
-Release: [Docs/RELEASE-0.1.0-alpha.19.md](Docs/RELEASE-0.1.0-alpha.19.md).
+Release: [Docs/RELEASE-1.0.0.md](Docs/RELEASE-1.0.0.md).
 
+- First stable release: no alpha markers, tag `v1.0.0`, file `Koto-1.0.0-20-arm64.dmg`. Signing is still ad hoc, without Developer ID or notarization.
 - Selected-text translation also works where an app does not expose the selection through Accessibility: Koto briefly copies the selection (⌘C) and restores the previous clipboard contents. Password fields are never read.
 - Screen region: the translation window appears immediately with a progress indicator, and a denied Screen Recording shows the permissions panel instead of nothing.
 - Live translation by hover: after choosing a region, hold the cursor over a word and the translation appears next to it (the “Whole region” mode remains). The window has three steps (permission → region → translation) with clear “Choose region…”, “Pause”, “Stop” buttons; every entry point leads to the same place.

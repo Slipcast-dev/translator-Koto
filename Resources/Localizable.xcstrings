@@ -6319,20 +6319,20 @@
         }
       }
     },
-    "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
+    "In Safari open Settings → Extensions and tick Koto. This build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits).": {
       "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "In Safari open Settings → Extensions and tick Koto. This preview build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."
+            "value": "In Safari open Settings → Extensions and tick Koto. This build is not signed with an Apple Developer ID: first enable Develop → Allow Unsigned Extensions in Safari (the choice resets when Safari quits)."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "В Safari откройте «Настройки» → «Расширения» и отметьте Koto. Эта предварительная сборка не подписана Apple Developer ID: сначала включите в Safari «Разработка» → «Разрешить неподписанные расширения» (выбор сбрасывается при выходе из Safari)."
+            "value": "В Safari откройте «Настройки» → «Расширения» и отметьте Koto. Эта сборка не подписана Apple Developer ID: сначала включите в Safari «Разработка» → «Разрешить неподписанные расширения» (выбор сбрасывается при выходе из Safari)."
           }
         }
       }

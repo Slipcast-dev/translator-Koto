@@ -49,6 +49,9 @@ import Foundation
         try check(AppVersion.parse(tag: "v0.1.1-alpha.1")! > v14, "patch bump wins over build")
         try check(AppVersion.parse(tag: "v0.1.0", assetBuild: 1)! > v14, "stable release newer than alpha of same number")
         try check(AppVersion.parse(tag: "release-final") == nil, "garbage tag rejected")
+        try check(AppVersion.parse(tag: "v1.0.0", assetBuild: 20)! > AppVersion.parse(tag: "v0.1.0-alpha.19")!, "1.0.0 newer than every alpha")
+        try check(UpdateCatalog.buildNumber(inAssetName: "Koto-1.0.0-20-arm64.dmg") == 20, "build number read from the 1.0.0 file name")
+        try check(AppVersion.parse(tag: "v1.0.0", assetBuild: 20)!.display == "1.0.0 (20)", "stable version shown without alpha")
         let name15 = "Koto-0.1.0-15-arm64-preview-ci.dmg"
         let feed = "[" + [
             releaseJSON(tag: "v0.1.0-alpha.14", dmg: "Koto-0.1.0-14-arm64-preview-ci.dmg", size: 1000),

@@ -1,17 +1,17 @@
 **Русский** | [English](README.en.md)
 
-Текущий выпуск: **0.1.0-alpha.19**, Chrome **0.1.4**.
+Текущий выпуск: **1.0.0**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 19" src="https://img.shields.io/badge/release-0.1.0--alpha.19-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Версия 1.0.0" src="https://img.shields.io/badge/release-1.0.0-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширения Chrome и Safari. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.19/Koto-0.1.0-19-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.19/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v1.0.0/Koto-1.0.0-20-arm64.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v1.0.0/Koto-Chrome-0.1.4.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
-> Alpha preview для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
+> Выпуск для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
 ## Возможности
 
