@@ -48,7 +48,9 @@ struct CaptureLensView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
+            if coordinator.failure != .accessibilityRequired && coordinator.failure != .screenRequired {
+                Text(coordinator.message).font(.callout).foregroundStyle(.secondary).textSelection(.enabled)
+            }
             if !model.sourceText.isEmpty {
                 LanguageSelectionView(model: model)
                 ScrollView {
@@ -73,18 +75,13 @@ struct CaptureLensView: View {
                     }
                     Button(String(localized: "Open in window")) { coordinator.openCapturedInMain() }
                 }
+            } else if coordinator.failure == .accessibilityRequired || coordinator.failure == .screenRequired {
+                CapturePermissionView(coordinator: coordinator)
             } else {
-                Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R"))
-                HStack {
-                    Button(String(localized: "Selection access")) { coordinator.requestAccessibility() }
-                    Button(String(localized: "Screen access")) { coordinator.requestScreen() }
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R")).font(.callout).foregroundStyle(.secondary)
+                    Spacer()
                 }
-                Button(String(localized: "Check permissions")) { coordinator.refreshPermissions() }
-                Text(String(localized: "Selection: \(coordinator.accessibilityGranted ? String(localized: "granted") : String(localized: "not granted")) · Screen: \(coordinator.screenGranted ? String(localized: "granted") : String(localized: "not granted"))"))
-                    .font(.caption)
-                Text(String(localized: "After granting access, repeat the original action. Text and images are not saved."))
-                    .font(.caption).foregroundStyle(.secondary)
-                Spacer()
             }
         }
         .padding(16)

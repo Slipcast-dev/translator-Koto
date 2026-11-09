@@ -60,6 +60,9 @@ import Foundation
         let picked = try UpdateCatalog.newest(from: Data(feed.utf8), newerThan: v14)
         try check(picked?.tag == "v0.1.0-alpha.15", "newest trusted non-draft release selected")
         try check(picked?.notes.contains("#") == false && picked?.notes.contains("**") == false, "markdown stripped from notes")
+        let bilingual = "**Русский.** Лицензия: [текст](https://example.com/LICENSE) изменена.\n\n**English.** License: [text](https://example.com/LICENSE) changed."
+        try check(UpdateCatalog.summary(bilingual, language: "ru") == "Лицензия: текст изменена.", "Russian notes selected and links reduced to text")
+        try check(UpdateCatalog.summary(bilingual, language: "en") == "License: text changed.", "English notes selected for other languages")
         try check(try UpdateCatalog.newest(from: Data(feed.utf8), newerThan: AppVersion.parse(tag: "v0.1.0-alpha.15")!) == nil, "no update when current")
         do { _ = try UpdateCatalog.newest(from: Data("not json".utf8), newerThan: v14); throw Failure(description: "bad json accepted") }
         catch is UpdateFailure { passed.append("bad json rejected") }
@@ -173,9 +176,14 @@ import Foundation
                                           workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
                                           processID: sleeper.processIdentifier, terminate: { terminated = true })
         installer.install(release)
-        let staged = await waitFor(installer, seconds: 120) { _ in terminated }
-        try check(staged, "update downloaded, verified and handed to the installer")
-        try check(buildNumber(of: target) == oldBuild, "bundle is not replaced while the app is still running")
+        let prepared = await waitFor(installer, seconds: 120) { if case .readyToRestart = $0 { true } else { false } }
+        try check(prepared, "update downloaded, verified and prepared in the background")
+        try check(!terminated, "the app is not restarted without the user's consent")
+        try check(buildNumber(of: target) == oldBuild, "bundle is not replaced before the restart")
+        if case .restart = installer.pendingPrompt { passed.append("restart prompt is shown after preparation") }
+        else { throw Failure(description: "restart prompt missing") }
+        installer.restartNow()
+        try check(terminated, "restart now hands over to the installer and quits")
         sleeper.waitUntilExit()
         var replaced = false
         for _ in 0..<150 where !replaced {
@@ -188,6 +196,83 @@ import Foundation
         try check(leftovers.isEmpty, "no staged or backup bundles left behind")
         try shell("/usr/bin/codesign", ["--verify", "--deep", "--strict", target.path])
         try check(true, "replaced app passes codesign verification")
+
+        // 3f. «Позже»: копия подготовлена, приложение не тронуто; замена происходит при выходе.
+        let apps2 = root.appendingPathComponent("Apps2"); try FileManager.default.createDirectory(at: apps2, withIntermediateDirectories: true)
+        let target2 = apps2.appendingPathComponent("Koto.app")
+        try shell("/usr/bin/ditto", [sourceApp.path, target2.path])
+        let sleeper2 = Process(); sleeper2.executableURL = URL(fileURLWithPath: "/bin/sleep"); sleeper2.arguments = ["4"]
+        try sleeper2.run()
+        var terminated2 = false
+        let later = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew), current: current, target: target2,
+                                workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
+                                processID: sleeper2.processIdentifier, terminate: { terminated2 = true })
+        later.install(release)
+        _ = await waitFor(later, seconds: 120) { if case .readyToRestart = $0 { true } else { false } }
+        later.dismissPrompt()
+        try check(later.hasStagedUpdate && later.pendingPrompt == nil && !terminated2, "Later keeps the prepared update and does not restart")
+        try check(buildNumber(of: target2) == oldBuild, "bundle untouched after Later")
+        later.cancel()
+        try check(later.hasStagedUpdate, "cancel does not discard a prepared update")
+        later.applyOnQuit()
+        try check(!later.hasStagedUpdate, "quit hands the prepared update to the installer")
+        sleeper2.waitUntilExit()
+        var replaced2 = false
+        for _ in 0..<150 where !replaced2 {
+            replaced2 = buildNumber(of: target2) == newBuild
+            if !replaced2 { try await Task.sleep(for: .milliseconds(200)) }
+        }
+        try check(replaced2, "prepared update applied when the app quits")
+        try await Task.sleep(for: .seconds(1))
+        try check((try? FileManager.default.contentsOfDirectory(atPath: apps2.path))?.filter { $0 != "Koto.app" }.isEmpty == true, "no leftovers after the deferred update")
+
+        // 3g. Проверка при запуске: молчит при сбое, уважает пропуск версии, не чаще раза в час, отключается.
+        func isolated() -> UserDefaults { UserDefaults(suiteName: "koto-update-test-" + UUID().uuidString)! }
+        final class Counter: @unchecked Sendable { nonisolated(unsafe) var fetches = 0 }
+        func counting(_ fail: Bool, _ counter: Counter) -> UpdateTransport {
+            UpdateTransport(fetch: { _ in counter.fetches += 1; if fail { throw UpdateFailure.network }; return Data(releases.utf8) },
+                            download: { _, _, _ in })
+        }
+        let c1 = Counter()
+        let bgDefaults = isolated()
+        let background = UpdateModel(transport: counting(false, c1), current: current, target: target, workDirectory: work,
+                                     bundleIdentifier: bundleID, relaunch: false, defaults: bgDefaults, terminate: {})
+        background.checkInBackground()
+        _ = await waitFor(background, seconds: 10) { if case .available = $0 { true } else { false } }
+        if case .available = background.pendingPrompt { passed.append("background check offers the update") } else { throw Failure(description: "no background offer") }
+        background.dismissPrompt()
+        background.checkInBackground()
+        try check(c1.fetches == 1, "background check runs at most once per interval")
+
+        let c2 = Counter()
+        let failing = UpdateModel(transport: counting(true, c2), current: current, target: target, workDirectory: work,
+                                  bundleIdentifier: bundleID, relaunch: false, defaults: isolated(), terminate: {})
+        failing.checkInBackground()
+        try await Task.sleep(for: .milliseconds(500))
+        try check(c2.fetches == 1 && failing.phase == .idle && failing.pendingPrompt == nil, "background failure is silent")
+
+        let c3 = Counter()
+        let skipDefaults = isolated()
+        let skipper = UpdateModel(transport: counting(false, c3), current: current, target: target, workDirectory: work,
+                                  bundleIdentifier: bundleID, relaunch: false, defaults: skipDefaults, terminate: {})
+        skipper.check()
+        _ = await waitFor(skipper, seconds: 10) { if case .available = $0 { true } else { false } }
+        skipper.skip(release)
+        skipDefaults.removeObject(forKey: UpdateModel.lastAutoCheckKey)
+        skipper.checkInBackground()
+        try await Task.sleep(for: .milliseconds(500))
+        try check(skipper.pendingPrompt == nil, "a skipped version is not offered at launch")
+        skipper.check()
+        _ = await waitFor(skipper, seconds: 10) { if case .available = $0 { true } else { false } }
+        try check(skipper.pendingPrompt != nil, "a manual check still shows a skipped version")
+
+        let c4 = Counter()
+        let offDefaults = isolated(); offDefaults.set(false, forKey: UpdateModel.autoCheckKey)
+        let off = UpdateModel(transport: counting(false, c4), current: current, target: target, workDirectory: work,
+                              bundleIdentifier: bundleID, relaunch: false, defaults: offDefaults, terminate: {})
+        off.checkInBackground()
+        try await Task.sleep(for: .milliseconds(300))
+        try check(c4.fetches == 0, "automatic check can be turned off")
 
         print(String(decoding: try JSONSerialization.data(withJSONObject: ["status": "passed", "tests": passed], options: [.sortedKeys]), as: UTF8.self))
     }

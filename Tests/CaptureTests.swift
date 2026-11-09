@@ -125,6 +125,11 @@ struct CaptureTests {
             _ = try await ScreenOCRService.recognizeImage(blankCG)
             throw CaptureTestError.assertion("blank OCR accepted")
         } catch CaptureFailure.noText { passed.append("blank image reports no text") }
+        // Команда, ожидавшая разрешение, продолжается только когда выдан именно нужный доступ.
+        try check(PendingCapture.selection.canResume(accessibility: true, screen: false), "selection resumes after Accessibility")
+        try check(!PendingCapture.selection.canResume(accessibility: false, screen: true), "selection does not resume on screen access")
+        try check(PendingCapture.region.canResume(accessibility: false, screen: true), "region resumes after screen access")
+        try check(!PendingCapture.region.canResume(accessibility: true, screen: false), "region does not resume on Accessibility")
         let report: [String: Any] = ["status": "passed", "count": passed.count, "tests": passed, "ocr_fixture_output": text]
         print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]), as: UTF8.self))
     }

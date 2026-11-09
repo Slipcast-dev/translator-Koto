@@ -14,6 +14,7 @@ struct KotoApp: App {
         Window("Koto", id: WindowID.main) {
             MainWindowView(coordinator: capture)
                 .kotoAppearance()
+                .kotoUpdatePrompts()
                 .background(MainWindowActionInstaller(appDelegate: appDelegate, capture: capture))
         }
         .defaultLaunchBehavior(.presented)
@@ -65,6 +66,12 @@ private struct MainWindowActionInstaller: View {
     var body: some View {
         Color.clear
             .allowsHitTesting(false)
+            // Найденное обновление или вопрос о перезапуске показываются в главном окне: открываем его, если оно закрыто.
+            .onChange(of: UpdateModel.shared.pendingPrompt) { _, prompt in
+                guard prompt != nil else { return }
+                openWindow(id: WindowID.main)
+                NSApp.activate(ignoringOtherApps: true)
+            }
             .onAppear {
                 capture.start()
                 appDelegate.capture = capture
@@ -75,6 +82,18 @@ private struct MainWindowActionInstaller: View {
                 }
                 // Помощник для автоматических снимков интерфейса: открывает Settings без нажатия клавиш.
                 if CommandLine.arguments.contains("--koto-open-settings") { openSettings() }
+                // Те же помощники для снимков панели разрешений: запускают захват, как горячая клавиша.
+                if CommandLine.arguments.contains("--koto-capture-selection") {
+                    Task { @MainActor in try? await Task.sleep(for: .seconds(1.5)); capture.captureSelection() }
+                }
+                if CommandLine.arguments.contains("--koto-capture-region") {
+                    Task { @MainActor in try? await Task.sleep(for: .seconds(1.5)); capture.captureRegion() }
+                }
+                // Проверка обновления при запуске: через несколько секунд, чтобы не мешать старту; молча при ошибке.
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(4))
+                    UpdateModel.shared.checkInBackground()
+                }
             }
     }
 }

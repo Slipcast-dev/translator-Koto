@@ -41,7 +41,7 @@ build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml
 - Локализация: после Release-сборки `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`; Chrome: `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`; каталоги: `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Подробнее: [LOCALIZATION.md](LOCALIZATION.md).
 - Пакет: после `package_release.py` смонтируйте DMG и выполните `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
 - Первый запрос без прогрева: `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en` (нужны системные ресурсы EN/RU; модель не скачивается, облако не используется).
-- Для снимков интерфейса приложение принимает аргумент `--koto-open-settings`, который открывает окно настроек.
+- Для снимков интерфейса приложение принимает аргументы `--koto-open-settings` (окно настроек), `--koto-capture-selection` и `--koto-capture-region` (запуск захвата, как горячая клавиша; без разрешений показывает панель доступа).
 
 CI GitHub на macOS 26 собирает приложение без подписи, выполняет SwiftLint и `test_swift_ci.sh`; отдельно работают CodeQL и Dependency Review. Dependabot раз в неделю проверяет GitHub Actions и submodule llama.cpp; обновление submodule требует проверки runtime.
 

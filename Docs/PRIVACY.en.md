@@ -16,7 +16,7 @@ The localized build uses neutral Ready/Translating statuses for cloud engines. T
 
 ## Updates and Safari
 
-The update check runs only when you click the button and contacts `api.github.com` and GitHub download hosts (HTTPS; redirects are limited to github.com and githubusercontent.com); translation text and keys are never sent. The downloaded DMG is checked against the same release's SHA256SUMS.txt; this protects against corruption in transit but is not publisher verification (ad hoc signature, and attestations are not verified in-app). The Safari extension runs sandboxed with narrow exceptions: reading the bridge token and connecting to Koto's bridge socket; the same token, origin and 0700 directory apply as for Chrome.
+The update check runs at launch (at most once an hour; it can be turned off in Settings) and on demand; it contacts `api.github.com` and GitHub download hosts (HTTPS; redirects are limited to github.com and githubusercontent.com); translation text and keys are never sent. Nothing is downloaded until the user agrees. The downloaded DMG is checked against the same release's SHA256SUMS.txt; this protects against corruption in transit but is not publisher verification (ad hoc signature, and attestations are not verified in-app). The Safari extension runs sandboxed with narrow exceptions: reading the bridge token and connecting to Koto's bridge socket; the same token, origin and 0700 directory apply as for Chrome.
 
 ## Границы доверия / Trust boundaries
 

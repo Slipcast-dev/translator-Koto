@@ -63,19 +63,38 @@ nonisolated struct UpdateTransport: Sendable {
     }
 }
 
-/// Состояние раздела «Обновление». Каждая стадия имеет тайм-аут, отмену и понятную ошибку.
+/// Состояние обновления. Каждая стадия имеет тайм-аут, отмену и понятную ошибку.
+/// Проверка при запуске выполняется молча; загрузка и установка начинаются только после согласия пользователя.
 @MainActor @Observable
 final class UpdateModel {
     enum Phase: Equatable {
         case idle, checking, upToDate
         case available(AppRelease)
         case downloading, verifying, installing
+        /// Копия подготовлена рядом с приложением; для замены нужен перезапуск.
+        case readyToRestart(AppRelease)
         case failed(String)
     }
+
+    /// Что нужно показать пользователю. Окно сообщения живёт в главном окне приложения.
+    enum Prompt: Equatable, Identifiable {
+        case available(AppRelease)
+        case restart(AppRelease)
+        var id: String {
+            switch self { case .available(let release): "available-" + release.tag; case .restart(let release): "restart-" + release.tag }
+        }
+    }
+
+    nonisolated static let autoCheckKey = "update.autoCheck"
+    nonisolated static let skippedBuildKey = "update.skippedBuild"
+    nonisolated static let lastAutoCheckKey = "update.lastAutoCheck"
+    /// Не чаще раза в час: публичный API GitHub ограничивает запросы без токена.
+    nonisolated static let autoCheckInterval: TimeInterval = 3_600
 
     private(set) var phase: Phase = .idle
     private(set) var progress: Double = 0
     private(set) var checkedAt: Date?
+    private(set) var pendingPrompt: Prompt?
     var failedRelease: AppRelease?
 
     @ObservationIgnored private let transport: UpdateTransport
@@ -86,8 +105,10 @@ final class UpdateModel {
     @ObservationIgnored private let relaunch: Bool
     @ObservationIgnored private let processID: Int32
     @ObservationIgnored private let terminate: @MainActor () -> Void
+    @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var operationID = UUID()
+    @ObservationIgnored private var staged: (url: URL, release: AppRelease)?
 
     init(transport: UpdateTransport = .live,
          current: AppVersion? = nil,
@@ -96,6 +117,7 @@ final class UpdateModel {
          bundleIdentifier: String = Bundle.main.bundleIdentifier ?? "dev.slipcast.koto",
          relaunch: Bool = true,
          processID: Int32 = ProcessInfo.processInfo.processIdentifier,
+         defaults: UserDefaults = .standard,
          terminate: @escaping @MainActor () -> Void = {}) {
         self.transport = transport
         self.current = current ?? AppVersion.bundle(Bundle.main.infoDictionary ?? [:])
@@ -106,6 +128,7 @@ final class UpdateModel {
         self.bundleIdentifier = bundleIdentifier
         self.relaunch = relaunch
         self.processID = processID
+        self.defaults = defaults
         self.terminate = terminate
     }
 
@@ -113,35 +136,66 @@ final class UpdateModel {
         switch phase { case .checking, .downloading, .verifying, .installing: true; default: false }
     }
     var currentDescription: String { current.display }
+    var hasStagedUpdate: Bool { staged != nil }
+
+    /// Проверка при запуске включена по умолчанию и отключается в настройках.
+    var autoCheckEnabled: Bool { defaults.object(forKey: Self.autoCheckKey) as? Bool ?? true }
 
     var statusText: String {
         switch phase {
-        case .idle: String(localized: "Updates are checked only when you click the button.")
+        case .idle: autoCheckEnabled
+            ? String(localized: "Koto checks for updates when it starts.")
+            : String(localized: "Automatic checks are off. Click the button to check.")
         case .checking: String(localized: "Checking for updates…")
         case .upToDate: String(localized: "You have the latest version.")
         case .available(let release): String(localized: "Update available: \(release.version.display)")
         case .downloading: String(localized: "Downloading update…")
         case .verifying: String(localized: "Verifying the update…")
-        case .installing: String(localized: "Installing the update. Koto will restart.")
+        case .installing: String(localized: "Preparing the update…")
+        case .readyToRestart(let release): String(localized: "Update \(release.version.display) is ready. Restart Koto to finish.")
         case .failed(let message): message
         }
     }
 
+    /// Ручная проверка: результат всегда показывается, даже если эта версия была пропущена.
     func check() {
+        // Уже подготовленное обновление не затираем повторной проверкой: просто напоминаем о перезапуске.
+        if hasStagedUpdate { showPrompt(); return }
+        run(background: false)
+    }
+
+    /// Проверка при запуске: молчит при ошибке и при отсутствии обновления, уважает «Пропустить версию».
+    func checkInBackground() {
+        guard autoCheckEnabled, !isBusy, staged == nil else { return }
+        if let last = defaults.object(forKey: Self.lastAutoCheckKey) as? Date,
+           Date().timeIntervalSince(last) < Self.autoCheckInterval { return }
+        removeLeftovers()
+        run(background: true)
+    }
+
+    private func run(background: Bool) {
         guard !isBusy else { return }
-        start(.checking) { [self] id in
+        if background { defaults.set(Date(), forKey: Self.lastAutoCheckKey) }
+        start(background ? .idle : .checking, silent: background) { [self] id in
             let transport = self.transport
             let data = try await self.withTimeout(30) { try await transport.fetch(UpdateTransport.releasesURL) }
             let release = try UpdateCatalog.newest(from: data, newerThan: self.current)
             guard self.operationID == id else { return }
             self.checkedAt = Date()
-            self.phase = release.map { .available($0) } ?? .upToDate
+            guard let release else { self.phase = background ? .idle : .upToDate; return }
+            if background, self.defaults.integer(forKey: Self.skippedBuildKey) == release.version.build {
+                self.phase = .idle; return
+            }
+            self.phase = .available(release)
+            self.pendingPrompt = .available(release)
         }
     }
 
+    /// Загрузка и подготовка идут в фоне; замена приложения откладывается до перезапуска.
     func install(_ release: AppRelease) {
         guard !isBusy else { return }
         failedRelease = release
+        pendingPrompt = nil
         start(.downloading) { [self] id in
             try PrivateStorage.ensureDirectory(self.workDirectory.deletingLastPathComponent())
             try PrivateStorage.ensureDirectory(self.workDirectory)
@@ -166,27 +220,72 @@ final class UpdateModel {
             }.value
             try Task.checkCancellation()
             self.phase = .installing
-            let staged = try await UpdateInstaller.stage(
+            let preparedCopy = try await UpdateInstaller.stage(
                 dmg: dmg, workDirectory: self.workDirectory, target: self.target,
                 current: self.current, bundleIdentifier: self.bundleIdentifier)
             try? FileManager.default.removeItem(at: dmg)
-            guard self.operationID == id else { try? FileManager.default.removeItem(at: staged); return }
-            try UpdateInstaller.launchSwap(staged: staged, target: self.target,
-                processID: self.processID, relaunch: self.relaunch,
-                workDirectory: self.workDirectory)
-            // Помощник дожидается выхода процесса, заменяет bundle и сам запускает новую версию.
-            self.terminate()
+            guard self.operationID == id else { try? FileManager.default.removeItem(at: preparedCopy); return }
+            self.staged = (preparedCopy, release)
+            self.phase = .readyToRestart(release)
+            self.pendingPrompt = .restart(release)
+        }
+    }
+
+    /// «Перезапустить сейчас»: помощник ждёт выхода процесса, заменяет bundle и запускает новую версию.
+    func restartNow() {
+        guard let staged else { return }
+        pendingPrompt = nil
+        do {
+            try UpdateInstaller.launchSwap(staged: staged.url, target: target, processID: processID,
+                                           relaunch: relaunch, workDirectory: workDirectory)
+            self.staged = nil
+            terminate()
+        } catch { phase = .failed(Self.message(for: error)) }
+    }
+
+    /// «Позже»: подготовленная копия применяется при обычном выходе из приложения, без повторного запуска.
+    func applyOnQuit() {
+        guard let staged else { return }
+        self.staged = nil
+        try? UpdateInstaller.launchSwap(staged: staged.url, target: target, processID: processID,
+                                        relaunch: false, workDirectory: workDirectory)
+    }
+
+    func dismissPrompt() { pendingPrompt = nil }
+
+    /// «Пропустить версию»: сообщение о ней при запуске больше не показывается, ручная проверка её покажет.
+    func skip(_ release: AppRelease) {
+        defaults.set(release.version.build, forKey: Self.skippedBuildKey)
+        pendingPrompt = nil
+        if case .available = phase { phase = .idle }
+    }
+
+    func showPrompt() {
+        switch phase {
+        case .available(let release): pendingPrompt = .available(release)
+        case .readyToRestart(let release): pendingPrompt = .restart(release)
+        default: break
         }
     }
 
     func cancel() {
+        guard !hasStagedUpdate else { return }
         operationID = UUID()
         operation?.cancel(); operation = nil
         if case .failed = phase { return }
         phase = .idle; progress = 0
     }
 
-    private func start(_ initial: Phase, _ body: @escaping @MainActor (UUID) async throws -> Void) {
+    /// Остатки подготовленных копий после аварийного завершения: прячутся рядом с приложением.
+    private func removeLeftovers() {
+        let parent = target.deletingLastPathComponent()
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: parent.path) else { return }
+        for name in names where name.hasPrefix(".Koto-update-") && name.hasSuffix(".app") {
+            try? FileManager.default.removeItem(at: parent.appendingPathComponent(name))
+        }
+    }
+
+    private func start(_ initial: Phase, silent: Bool = false, _ body: @escaping @MainActor (UUID) async throws -> Void) {
         let id = UUID()
         operationID = id
         phase = initial
@@ -196,7 +295,8 @@ final class UpdateModel {
             do { try await body(id) }
             catch {
                 guard self.operationID == id, !(error is CancellationError) else { return }
-                self.phase = .failed(Self.message(for: error))
+                // Фоновая проверка не беспокоит пользователя ошибками сети.
+                self.phase = silent ? .idle : .failed(Self.message(for: error))
             }
         }
     }

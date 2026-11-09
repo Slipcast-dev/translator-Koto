@@ -8,18 +8,21 @@ extension UpdateModel {
     static let shared = UpdateModel(terminate: { NSApp.terminate(nil) })
 }
 
-/// Верхний раздел настроек: версия, описание, проверка и установка обновления.
+/// Раздел настроек: версия, описание, автоматическая проверка и ручное управление обновлением.
+/// Сообщения об обновлении показывает главное окно (UpdatePrompts), чтобы они не зависели от окна настроек.
 struct UpdateSettingsView: View {
     @Bindable private var model = UpdateModel.shared
-    @State private var offered: AppRelease?
+    @AppStorage(UpdateModel.autoCheckKey) private var autoCheck = true
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         Section(String(localized: "Update")) {
             LabeledContent(String(localized: "Version"), value: "\(ProductInfo.version) (\(ProductInfo.build))")
             Text(String(localized: "Koto is a native macOS translator: text, selections and screen regions, local engines and a Chrome extension."))
                 .font(.callout).foregroundStyle(.secondary)
+            Toggle(String(localized: "Check for updates when Koto starts"), isOn: $autoCheck)
             HStack {
-                Button(String(localized: "Check for updates")) { model.check() }
+                Button(String(localized: "Check for updates")) { model.check(); reveal() }
                     .disabled(model.isBusy)
                     .accessibilityIdentifier("update.check")
                 if model.isBusy {
@@ -34,54 +37,23 @@ struct UpdateSettingsView: View {
             if model.isFailed, let release = model.failedRelease {
                 Link(String(localized: "Open the release page"), destination: release.page).font(.caption)
             }
-            if case .available(let release) = model.phase {
-                Button(String(localized: "Show update…")) { offered = release }
+            switch model.phase {
+            case .available:
+                Button(String(localized: "Show update…")) { model.showPrompt(); reveal() }
+            case .readyToRestart:
+                HStack {
+                    Button(String(localized: "Restart now")) { model.restartNow() }.buttonStyle(.borderedProminent)
+                    Text(String(localized: "Or later: the update is applied when you quit Koto.")).font(.caption).foregroundStyle(.secondary)
+                }
+            default: EmptyView()
             }
-        }
-        // Меню обновления появляется само, как только проверка нашла новую версию.
-        .onChange(of: model.phase) { _, phase in
-            if case .available(let release) = phase { offered = release }
-        }
-        .sheet(item: $offered) { release in
-            UpdateOfferView(release: release, model: model) { offered = nil }
         }
     }
-}
 
-private struct UpdateOfferView: View {
-    let release: AppRelease
-    let model: UpdateModel
-    let close: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(String(localized: "Update available")).font(.title2.bold())
-            LabeledContent(String(localized: "New version"), value: release.version.display)
-            LabeledContent(String(localized: "Installed"), value: model.currentDescription)
-            LabeledContent(String(localized: "Download size"), value: AppLocalization.bytes(release.dmg.size))
-            ScrollView {
-                Text(release.notes.isEmpty ? release.title : release.notes)
-                    .frame(maxWidth: .infinity, alignment: .leading).textSelection(.enabled)
-            }
-            .frame(height: 150)
-            .padding(8).background(.quaternary, in: RoundedRectangle(cornerRadius: 8))
-            if model.isBusy {
-                if model.phase == .downloading { ProgressView(value: model.progress) } else { ProgressView() }
-            }
-            Text(model.statusText).font(.caption).foregroundStyle(model.isFailed ? Color.red : Color.secondary)
-            Text(String(localized: "The update is downloaded, verified against the release checksums and installed automatically. Koto restarts once to finish."))
-                .font(.caption).foregroundStyle(.secondary)
-            HStack {
-                Link(String(localized: "Release page"), destination: release.page)
-                Spacer()
-                Button(String(localized: "Later")) { model.cancel(); close() }.keyboardShortcut(.cancelAction)
-                Button(String(localized: "Install and restart")) { model.install(release) }
-                    .buttonStyle(.borderedProminent).disabled(model.isBusy)
-                    .keyboardShortcut(.defaultAction)
-            }
-        }
-        .padding(22)
-        .frame(width: 480)
+    /// Сообщение об обновлении живёт в главном окне: открываем его, если оно было закрыто.
+    private func reveal() {
+        openWindow(id: WindowID.main)
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 

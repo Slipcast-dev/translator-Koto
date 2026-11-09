@@ -6,6 +6,9 @@ import SwiftUI
 /// Окно владеет model, а подвиды получают тот же reference state: нет независимых копий ввода/результата.
 struct ManualTranslationView: View {
     @Bindable var model: ManualTranslationModel
+    let coordinator: CaptureCoordinator
+    @Environment(\.openWindow) private var openWindow
+    @Bindable private var speech = SpeechController.shared
     @Bindable private var engines = EnginePreferences.shared
     @State private var showInsights = false
     @State private var copied = false
@@ -36,34 +39,8 @@ struct ManualTranslationView: View {
             }
             .frame(minHeight: 250)
             TranslationStatusView(model: model)
-            HStack {
-                Button(String(localized: "Explanation and alternatives · local")) { showInsights = true }
-                    .disabled(model.sourceText.isEmpty || model.sourceText.count > 500)
-                    .help(String(localized: "Meaning, expressions and translation alternatives: up to 500 characters"))
-                Text(SpeechController.shared.status).font(.caption).foregroundStyle(.secondary)
-            }
-
             HStack(spacing: 12) {
-                if model.isBusy {
-                    Button(String(localized: "Cancel")) { model.cancel() }
-                        .keyboardShortcut(.escape, modifiers: [])
-                        .accessibilityIdentifier("translation.cancel")
-                } else {
-                    Button(String(localized: "Translate")) { model.submit() }
-                        .buttonStyle(.borderedProminent)
-                        .keyboardShortcut(.return, modifiers: .command)
-                        .disabled(!model.canTranslate)
-                        .accessibilityIdentifier("translation.submit")
-                }
-                Button(copied ? String(localized: "Copied") : String(localized: "Copy")) { copyResult() }
-                    .disabled(model.result == nil)
-                    .accessibilityIdentifier("translation.copy")
-                Button(String(localized: "Clear")) { model.clear() }
-                    .disabled(model.sourceText.isEmpty && model.result == nil)
-                    .accessibilityIdentifier("translation.clear")
-                Button(String(localized: "Speak")) { if let result = model.result { SpeechController.shared.speak(result) } }
-                    .disabled(model.result == nil)
-                Button(String(localized: "Stop")) { SpeechController.shared.stop() }
+                Text(speech.status).font(.caption).foregroundStyle(.secondary)
                 Spacer()
                 Text(ProductInfo.versionDescription).font(.caption).foregroundStyle(.secondary)
             }
@@ -89,10 +66,72 @@ struct ManualTranslationView: View {
             }
         }
         .sheet(isPresented: $showInsights) { LocalInsightsView(text: model.sourceText, target: model.targetIdentifier) }
+        // Все действия собраны в одной панели инструментов и разделены по смыслу:
+        // захват → перевод → результат → пояснение → настройки.
         .toolbar {
-            ToolbarItem {
-                SettingsLink { Image(systemName: "gearshape") }
-                    .help(String(localized: "Koto Settings")).accessibilityLabel(String(localized: "Koto Settings"))
+            ToolbarItemGroup(placement: .navigation) {
+                Button { coordinator.captureSelection() } label: {
+                    Label(String(localized: "Selection"), systemImage: "text.cursor")
+                }
+                .help(String(localized: "Translate text selected in another app · ⌃⌥⌘T"))
+                Button { coordinator.captureRegion() } label: {
+                    Label(String(localized: "Screen region"), systemImage: "viewfinder")
+                }
+                .help(String(localized: "Choose a region containing text · ⌃⌥⌘R"))
+                Button { openWindow(id: WindowID.live); NSApp.activate(ignoringOtherApps: true) } label: {
+                    Label(String(localized: "Live"), systemImage: "dot.radiowaves.left.and.right")
+                }
+                .help(String(localized: "Live translation of a screen region · ⌃⌥⌘L"))
+                if coordinator.captureBusy {
+                    Button { coordinator.cancel() } label: { Label(String(localized: "Cancel capture"), systemImage: "xmark.circle") }
+                        .help(String(localized: "Cancel capture"))
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                if model.isBusy {
+                    Button { model.cancel() } label: { Label(String(localized: "Cancel"), systemImage: "stop.circle") }
+                        .keyboardShortcut(.escape, modifiers: [])
+                        .help(String(localized: "Cancel translation · Esc"))
+                        .accessibilityIdentifier("translation.cancel")
+                } else {
+                    Button { model.submit() } label: { Label(String(localized: "Translate"), systemImage: "arrow.right.circle.fill") }
+                        .buttonStyle(.borderedProminent)
+                        .keyboardShortcut(.return, modifiers: .command)
+                        .disabled(!model.canTranslate)
+                        .help(String(localized: "Translate · ⌘↩"))
+                        .accessibilityIdentifier("translation.submit")
+                }
+            }
+            ToolbarSpacer(.fixed, placement: .primaryAction)
+            ToolbarItemGroup(placement: .primaryAction) {
+                Button { copyResult() } label: {
+                    Label(copied ? String(localized: "Copied") : String(localized: "Copy"), systemImage: copied ? "checkmark" : "doc.on.doc")
+                }
+                .disabled(model.result == nil).help(String(localized: "Copy the translation"))
+                .accessibilityIdentifier("translation.copy")
+                Button { if let result = model.result { speech.speak(result) } } label: {
+                    Label(String(localized: "Speak"), systemImage: "speaker.wave.2")
+                }
+                .disabled(model.result == nil).help(String(localized: "Speak the translation"))
+                Button { speech.stop() } label: { Label(String(localized: "Stop speech"), systemImage: "speaker.slash") }
+                    .disabled(speech.status.isEmpty).help(String(localized: "Stop speech"))
+            }
+            ToolbarSpacer(.fixed, placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) {
+                Button { model.clear() } label: { Label(String(localized: "Clear"), systemImage: "trash") }
+                    .disabled(model.sourceText.isEmpty && model.result == nil).help(String(localized: "Clear text and translation"))
+                    .accessibilityIdentifier("translation.clear")
+            }
+            ToolbarSpacer(.fixed, placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) {
+                Button { showInsights = true } label: { Label(String(localized: "Explanation"), systemImage: "text.book.closed") }
+                    .disabled(model.sourceText.isEmpty || model.sourceText.count > 500)
+                    .help(String(localized: "Explanation and alternatives · local · up to 500 characters"))
+            }
+            ToolbarSpacer(.fixed, placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) {
+                SettingsLink { Label(String(localized: "Koto Settings"), systemImage: "gearshape") }
+                    .help(String(localized: "Koto Settings"))
             }
         }
         .accessibilityIdentifier("koto.main")

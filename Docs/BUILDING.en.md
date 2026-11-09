@@ -41,7 +41,7 @@ build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml
 - Localization: after the Release build run `python3 script/test_localization.py` and `./script/test_localization_dynamics.sh`; Chrome: `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`; catalogs: `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. See [LOCALIZATION.md](LOCALIZATION.md).
 - Package: after `package_release.py`, mount the DMG and run `python3 script/verify_localized_package.py /path/to/mounted/Koto`.
 - First request without warm-up: `python3 script/test_browser_cold_start.py --app build/DerivedData/Build/Products/Release/Koto.app --language en` (needs system EN/RU resources; no model download, no cloud).
-- For interface snapshots the app accepts `--koto-open-settings`, which opens the Settings window.
+- For interface snapshots the app accepts `--koto-open-settings` (the Settings window), `--koto-capture-selection` and `--koto-capture-region` (start a capture like the hotkey; without permissions they show the access panel).
 
 GitHub CI on macOS 26 builds the app unsigned and runs SwiftLint and `test_swift_ci.sh`; CodeQL and Dependency Review run separately. Dependabot checks GitHub Actions and the llama.cpp submodule weekly; a submodule update needs a runtime check.
 

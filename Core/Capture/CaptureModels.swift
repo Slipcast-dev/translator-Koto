@@ -24,6 +24,18 @@ enum CaptureFailure: Error, LocalizedError, Equatable, Sendable {
     }
 }
 
+/// Команда, которую нельзя выполнить без разрешения macOS. После выдачи доступа она продолжается сама.
+enum PendingCapture: Equatable, Sendable {
+    case selection, region
+
+    func canResume(accessibility: Bool, screen: Bool) -> Bool {
+        switch self {
+        case .selection: accessibility
+        case .region: screen
+        }
+    }
+}
+
 /// Точки AppKit имеют начало снизу слева; ScreenCaptureKit использует локальное начало сверху.
 enum CaptureGeometry {
     static func sourceRect(selection: CGRect, screen: CGRect) throws -> CGRect {
