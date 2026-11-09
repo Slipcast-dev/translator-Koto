@@ -193,6 +193,24 @@ import Foundation
             switch $0 { case .readyToRestart, .failed: true; default: false }
         }
         let prepared: Bool = { if case .readyToRestart = installer.phase { true } else { false } }()
+        if !prepared {
+            // Диагностика для CI: сравниваем исходный образ и скачанную копию.
+            func capture(_ path: String, _ args: [String]) -> String {
+                let process = Process(); process.executableURL = URL(fileURLWithPath: path); process.arguments = args
+                let pipe = Pipe(); process.standardOutput = pipe; process.standardError = pipe
+                guard (try? process.run()) != nil else { return "cannot run" }
+                let data = pipe.fileHandleForReading.readDataToEndOfFile(); process.waitUntilExit()
+                return "status \(process.terminationStatus): " + String(decoding: data.prefix(400), as: UTF8.self)
+            }
+            let copy = work.appendingPathComponent(dmgNew.lastPathComponent)
+            for file in [dmgNew, copy] {
+                let size = (try? FileManager.default.attributesOfItem(atPath: file.path)[.size] as? NSNumber)?.int64Value ?? -1
+                fputs("DIAG \(file.path) size \(size) sha \((try? sha(file)) ?? "?")\n", stderr)
+                fputs("DIAG verify: " + capture("/usr/bin/hdiutil", ["verify", file.path]) + "\n", stderr)
+                fputs("DIAG imageinfo: " + capture("/usr/bin/hdiutil", ["imageinfo", file.path]) + "\n", stderr)
+            }
+            fputs("DIAG info: " + capture("/usr/bin/hdiutil", ["info"]) + "\n", stderr)
+        }
         try check(prepared, "update downloaded, verified and prepared in the background (phase: \(installer.phase))")
         try check(!terminated, "the app is not restarted without the user's consent")
         try check(buildNumber(of: target) == oldBuild, "bundle is not replaced before the restart")
