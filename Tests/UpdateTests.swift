@@ -170,8 +170,12 @@ import Foundation
         try check(notNewer && !terminated && buildNumber(of: target) == oldBuild, "same-version package rejected")
 
         // 3d. Отмена загрузки не зависает.
+        // Отменённая медленная загрузка проснётся через 60 секунд и перезапишет свой файл: у неё отдельный каталог,
+        // иначе на медленной машине она портит DMG следующего теста.
+        let slowWork = root.appendingPathComponent("work-slow")
+        try FileManager.default.createDirectory(at: slowWork, withIntermediateDirectories: true)
         let slow = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew, slow: true), current: current, target: target,
-                                     workDirectory: work, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                     workDirectory: slowWork, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
         slow.install(release)
         _ = await waitFor(slow, seconds: 5) { $0 == .downloading }
         let cancelStarted = ContinuousClock.now
