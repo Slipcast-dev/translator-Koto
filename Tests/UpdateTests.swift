@@ -93,6 +93,13 @@ import Foundation
             try shell("/usr/bin/codesign", ["--force", "--deep", "--sign", "-", app.path])
             let dmg = root.appendingPathComponent(name)
             try shell("/usr/bin/hdiutil", ["create", "-ov", "-format", "UDZO", "-fs", "HFS+", "-volname", "Koto", "-srcfolder", folder.path, dmg.path])
+            // На части раннеров CI образ после создания оказывается нераспознаваемым: проверяем и пересоздаём без сжатия.
+            if (try? shell("/usr/bin/hdiutil", ["verify", dmg.path])) == nil {
+                fputs("DIAG created image \(dmg.lastPathComponent) failed verify; recreating as UDRO\n", stderr)
+                try? FileManager.default.removeItem(at: dmg)
+                try shell("/usr/bin/hdiutil", ["create", "-ov", "-format", "UDRO", "-fs", "HFS+", "-volname", "Koto", "-srcfolder", folder.path, dmg.path])
+                try shell("/usr/bin/hdiutil", ["verify", dmg.path])
+            }
             return dmg
         }
         func sha(_ url: URL) throws -> String {
