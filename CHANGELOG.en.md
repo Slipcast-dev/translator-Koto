@@ -8,6 +8,8 @@ Release: [Docs/RELEASE-0.1.0-alpha.17.md](Docs/RELEASE-0.1.0-alpha.17.md).
 
 - Main window: all buttons in one macOS-style toolbar, grouped by function.
 - Quick translation window: a permissions panel with statuses, an “Allow…” button, automatic continuation of the command after access is granted and a restart for screen recording; the panel appears only for access errors.
+- The quick translation window no longer extends past the screen; the permissions panel has hints (a copy outside Applications, “Reset and ask again”). The release signature is tied to the identifier, so permissions survive updates.
+- The localization check matches every string in the code with the catalog so the interface language is never mixed.
 - Updates: a background check at launch (can be turned off), an offer with “Install”, “Later”, “Skip”, background preparation only with consent, a restart question with a “Later” option (applied when you quit).
 
 ## 0.1.0-alpha.16

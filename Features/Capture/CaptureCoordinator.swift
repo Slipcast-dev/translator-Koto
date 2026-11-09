@@ -21,6 +21,16 @@ final class CaptureCoordinator {
     private(set) var pendingCapture: PendingCapture?
     /// После запроса записи экрана macOS часто требует перезапуск приложения: тогда показываем кнопку.
     private(set) var screenAccessRequested = false
+    /// Доступ запрошен, но macOS его не применила: показываем подсказки по исправлению (старая запись, копия вне «Программ»).
+    private(set) var permissionHelpNeeded = false
+    private(set) var resettingPermissions = false
+    @ObservationIgnored private var lastRequestAt: Date?
+
+    /// Копия запущена из загрузки или образа: macOS не сохраняет для неё разрешения.
+    var runsOutsideApplications: Bool {
+        let path = Bundle.main.bundlePath
+        return path.contains("/AppTranslocation/") || path.hasPrefix("/Volumes/")
+    }
     var reopenMain: (() -> Void)?
     var hotkeysEnabled: Bool {
         didSet {
@@ -88,6 +98,7 @@ final class CaptureCoordinator {
     }
 
     func requestAccessibility() {
+        lastRequestAt = Date(); permissionHelpNeeded = false
         // Только явная кнопка показывает TCC prompt; на старте приложение ничего не запрашивает.
         // C API объявляет постоянный ключ как mutable global. Используем его документированное значение,
         // чтобы не ослаблять strict concurrency ради неизменяемого ключа словаря.
@@ -101,6 +112,7 @@ final class CaptureCoordinator {
 
     func requestScreen() {
         screenAccessRequested = true
+        lastRequestAt = Date(); permissionHelpNeeded = false
         _ = CGRequestScreenCaptureAccess()
         if !CGPreflightScreenCaptureAccess(), let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture") {
             NSWorkspace.shared.open(url)
@@ -241,13 +253,40 @@ final class CaptureCoordinator {
                 try? await Task.sleep(for: .seconds(1))
                 guard let self, !Task.isCancelled, let pending = self.pendingCapture else { return }
                 self.refreshPermissions()
-                guard pending.canResume(accessibility: self.accessibilityGranted, screen: self.screenGranted) else { continue }
+                guard pending.canResume(accessibility: self.accessibilityGranted, screen: self.screenGranted) else {
+                    // Прошло несколько секунд после запроса, а доступа нет: типичные причины — устаревшая запись в списке или копия вне «Программ».
+                    if let asked = self.lastRequestAt, Date().timeIntervalSince(asked) > 8 { self.permissionHelpNeeded = true }
+                    continue
+                }
                 self.lens?.hide()
                 switch pending {
                 case .selection: self.captureSelection()
                 case .region: self.captureRegion()
                 }
                 return
+            }
+        }
+    }
+
+    /// Сбрасывает записи macOS именно для Koto и запрашивает доступ заново. Помогает, когда Koto включён в списке,
+    /// но не получает доступ: запись относилась к другой сборке (ad hoc подпись меняется с каждой версией).
+    func resetPermissions() {
+        guard !resettingPermissions else { return }
+        resettingPermissions = true
+        let bundleID = Bundle.main.bundleIdentifier ?? "dev.slipcast.koto"
+        Task { [weak self] in
+            for service in ["Accessibility", "ScreenCapture"] {
+                _ = try? await UpdateProcess.run("/usr/bin/tccutil", ["reset", service, bundleID], timeout: 15)
+            }
+            guard let self else { return }
+            self.resettingPermissions = false
+            self.permissionHelpNeeded = false
+            self.screenAccessRequested = false
+            self.refreshPermissions()
+            // Новый запрос: macOS покажет системное окно или откроет нужный раздел настроек.
+            switch self.pendingCapture {
+            case .region: self.requestScreen()
+            default: self.requestAccessibility()
             }
         }
     }

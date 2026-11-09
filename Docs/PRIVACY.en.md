@@ -18,6 +18,10 @@ The localized build uses neutral Ready/Translating statuses for cloud engines. T
 
 The update check runs at launch (at most once an hour; it can be turned off in Settings) and on demand; it contacts `api.github.com` and GitHub download hosts (HTTPS; redirects are limited to github.com and githubusercontent.com); translation text and keys are never sent. Nothing is downloaded until the user agrees. The downloaded DMG is checked against the same release's SHA256SUMS.txt; this protects against corruption in transit but is not publisher verification (ad hoc signature, and attestations are not verified in-app). The Safari extension runs sandboxed with narrow exceptions: reading the bridge token and connecting to Koto's bridge socket; the same token, origin and 0700 directory apply as for Chrome.
 
+## Signature and permissions
+
+Releases are ad hoc signed. So that macOS permissions are not lost with every update, the code requirement is set by the identifier `dev.slipcast.koto` rather than the build hash. Trade-off: any app with that identifier and an ad hoc signature inherits the permissions (Accessibility, Screen Recording). A Developer ID would remove this trade-off.
+
 ## Границы доверия / Trust boundaries
 
 The public `manifest.key` fixes the ID of the unpacked extension; it is not a secret or proof of publisher identity. Another locally installed extension with the same key can use the same ID. The bridge also requires a 32-byte token stored in a 0700 user-owned directory with 0600 files. Native host checks the connected socket UID before sending HELLO. The app, which accepts connections through Network.framework, does not check the client UID and relies on the token, the extension origin, the 0700 directory and socket owner verification. Arbitrary malicious code running under the same UID can read user-owned files: this token does not establish isolation from that threat. Do not install untrusted unpacked extensions.

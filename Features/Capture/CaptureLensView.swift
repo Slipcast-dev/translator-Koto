@@ -22,11 +22,19 @@ final class CaptureLensController: NSObject, NSWindowDelegate {
         panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
         panel.minSize = CGSize(width: 400, height: 330)
         panel.hidesOnDeactivate = false
-        panel.contentView = NSHostingView(rootView: CaptureLensView(coordinator: coordinator).kotoAppearance())
+        let hosting = NSHostingView(rootView: CaptureLensView(coordinator: coordinator).kotoAppearance())
+        // Размер окна задаёт панель, а не содержимое: иначе Spacer и ScrollView раздувают окно за пределы экрана.
+        hosting.sizingOptions = []
+        panel.contentView = hosting
+        panel.maxSize = CGSize(width: 900, height: 760)
         panel.delegate = self
     }
 
+    private static let defaultSize = CGSize(width: 460, height: 440)
+
     func show(anchor: CGRect) {
+        // Каждый показ начинается со стандартного размера; пользовательское растягивание не накапливается.
+        panel.setContentSize(Self.defaultSize)
         let screen = NSScreen.screens.first(where: { $0.frame.intersects(anchor.insetBy(dx: -1, dy: -1)) })
             ?? NSScreen.main
         if let screen {

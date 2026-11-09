@@ -13,6 +13,12 @@ The preview is signed ad hoc, without Developer ID or notarization; macOS may re
 
 For Apple Translation, select the languages and click Translate. If Prepare languages appears, complete that explicit step. For optional Qwen, use the model installation button: [models](MODELS.en.md).
 
+## macOS permissions
+
+Translating selected text needs Accessibility; screen regions and Live need Screen & System Audio Recording; manual translation and Chrome work without them. When access is missing, Koto shows a panel with two rows: what is needed, whether it is granted, and an “Allow…” button that opens the right Settings pane. Statuses refresh on their own and the original command continues automatically once access is granted. Screen recording may need a restart: the panel has a “Restart Koto” button.
+
+If Koto is turned on in the list but access does not appear, after a few seconds the panel offers “Reset and ask again” (runs `tccutil reset` for Koto only). Run Koto from Applications, not from a download or a disk image: macOS does not keep permissions for such a copy. Starting with alpha.17 the release signature is tied to the identifier `dev.slipcast.koto` rather than the build hash, so granted permissions survive updates; after moving to alpha.17 grant access once more.
+
 ## Chrome 0.1.4
 
 In Koto Settings (“Chromium browser”) click “Install extension for Chrome”: Koto registers the native host, places the extension files in `~/Library/Application Support/dev.slipcast.koto/ChromeExtension`, and opens that folder and `chrome://extensions`. Chrome requires confirmation: turn on Developer mode, click “Load unpacked” and choose the folder that opened. Extension ID: `bodbmpckhpjhkkhhadamlbkddaikilok`. The “Enable browser bridge” switch only turns the extension on or off and removes nothing; “Remove extension” deletes the host registration and the files (the extension itself is removed in Chrome). After updating Koto, click “Install extension for Chrome” again and reload the extension. You can still use BrowserExtension from the DMG or Koto-Chrome-0.1.4.zip manually. On an HTTP(S) tab, click Koto and choose an action; internal Chrome pages are excluded.
