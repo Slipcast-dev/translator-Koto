@@ -1,15 +1,15 @@
 [Русский](README.md) | **English**
 
-Current release: **0.1.0-alpha.18**, Chrome **0.1.4**.
+Current release: **0.1.0-alpha.19**, Chrome **0.1.4**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Alpha 18" src="https://img.shields.io/badge/release-0.1.0--alpha.18-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
+<p align="center"><img alt="Alpha 19" src="https://img.shields.io/badge/release-0.1.0--alpha.19-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"></p>
 
 # Koto · Slipcast-Dev
 
 A native macOS translator for text, selections and screen regions, with local engines and Chrome and Safari extensions. **Translate. Stay in flow.**
 
-**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.18/Koto-0.1.0-18-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.18/Koto-Chrome-0.1.4.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
+**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.19/Koto-0.1.0-19-arm64-preview-ci.dmg)** · [Chrome 0.1.4 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v0.1.0-alpha.19/Koto-Chrome-0.1.4.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
 
 > Alpha preview for Apple Silicon. Ad hoc signing, without Apple Developer ID or notarization: macOS may block launch. Release checks were performed on M1 / macOS 27.2; macOS 26 remains untested.
 

@@ -125,11 +125,18 @@ struct CaptureTests {
             _ = try await ScreenOCRService.recognizeImage(blankCG)
             throw CaptureTestError.assertion("blank OCR accepted")
         } catch CaptureFailure.noText { passed.append("blank image reports no text") }
+        let words = [RecognizedWord(text: "left", frame: CGRect(x: 0, y: 0, width: 40, height: 14)),
+                     RecognizedWord(text: "right", frame: CGRect(x: 50, y: 0, width: 40, height: 14))]
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 60, y: 7))?.text == "right", "word under the cursor is chosen")
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 45, y: 7))?.text != nil, "cursor in the gap picks the nearest word")
+        try check(ScreenOCRService.nearest(words, to: CGPoint(x: 300, y: 300)) == nil, "far cursor picks no word")
         // Команда, ожидавшая разрешение, продолжается только когда выдан именно нужный доступ.
         try check(PendingCapture.selection.canResume(accessibility: true, screen: false), "selection resumes after Accessibility")
         try check(!PendingCapture.selection.canResume(accessibility: false, screen: true), "selection does not resume on screen access")
         try check(PendingCapture.region.canResume(accessibility: false, screen: true), "region resumes after screen access")
         try check(!PendingCapture.region.canResume(accessibility: true, screen: false), "region does not resume on Accessibility")
+        try check(PendingCapture.live.canResume(accessibility: false, screen: true), "live resumes after screen access")
+        try check(!PendingCapture.live.canResume(accessibility: true, screen: false), "live does not resume on Accessibility")
         let report: [String: Any] = ["status": "passed", "count": passed.count, "tests": passed, "ocr_fixture_output": text]
         print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]), as: UTF8.self))
     }

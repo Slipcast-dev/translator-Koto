@@ -4,7 +4,7 @@
 
 Apple Translation, Vision and Qwen run on the device. Apple languages and Qwen may require separate downloads. Qwen is downloaded from a pinned Hugging Face URL only through an explicit button action.
 
-Accessibility enables selection reading; Screen Capture enables reading the selected region. System category names and permission scope depend on macOS. Permissions are granted by the Mac owner; confirmations are never bypassed. Screenshots are not saved.
+Accessibility enables selection reading; if an app does not expose it, Koto briefly copies the selection (⌘C) and immediately restores the previous clipboard contents (password fields are never read); Screen Capture enables reading the selected region. System category names and permission scope depend on macOS. Permissions are granted by the Mac owner; confirmations are never bypassed. Screenshots are not saved.
 
 The browser bridge is disabled by default: it uses a private AF_UNIX socket, HELLO/token authentication and the extension's own origin. After a user action, the extension reads selections/visible fragments from the active HTTP(S) page, skips fields/code/editable content, and sends the origin without path/query. Original DOM text nodes are not replaced; translations are added separately and can be cleared with a button.
 

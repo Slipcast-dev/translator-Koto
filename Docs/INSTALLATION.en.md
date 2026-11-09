@@ -1,11 +1,11 @@
 [Русский](INSTALLATION.md) | **English**
 
-# Installing Koto 0.1.0-alpha.18
+# Installing Koto 0.1.0-alpha.19
 
 Apple Silicon, macOS 26+. Release checks were performed on macOS 27.2; macOS 26 runtime remains untested.
 
-1. Download the DMG and SHA256SUMS.txt from [alpha 18](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.18).
-2. Compare `shasum -a 256 Koto-0.1.0-18-arm64-preview-ci.dmg` with SHA256SUMS.txt.
+1. Download the DMG and SHA256SUMS.txt from [alpha 19](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.19).
+2. Compare `shasum -a 256 Koto-0.1.0-19-arm64-preview-ci.dmg` with SHA256SUMS.txt.
 3. Open the DMG and drag Koto.app into Applications.
 4. Grant selection/OCR permissions through Koto Settings if needed.
 
@@ -15,7 +15,7 @@ For Apple Translation, select the languages and click Translate. If Prepare lang
 
 ## macOS permissions
 
-Translating selected text needs Accessibility; screen regions and Live need Screen & System Audio Recording; manual translation and Chrome work without them. When access is missing, Koto shows a panel with two rows: what is needed, whether it is granted, and an “Allow…” button that opens the right Settings pane. Statuses refresh on their own and the original command continues automatically once access is granted. Screen recording may need a restart: the panel has a “Restart Koto” button.
+Translating selected text needs Accessibility; screen regions and Live need Screen & System Audio Recording; manual translation and Chrome work without them. How to use: select text in any app and press ⌃⌥⌘T; for a screen region press ⌃⌥⌘R; for live translation press ⌃⌥⌘L (or “Live translation” in the Koto menu): choose a region and hold the cursor over a word, and the translation appears next to it (the “Whole region” mode translates all text in the region). Settings are split into tabs: General, Translation, Privacy, Browsers, Advanced. When access is missing, Koto shows a panel with two rows: what is needed, whether it is granted, and an “Allow…” button that opens the right Settings pane. Statuses refresh on their own and the original command continues automatically once access is granted. Screen recording may need a restart: the panel has a “Restart Koto” button.
 
 If Koto is turned on in the list but access does not appear, after a few seconds the panel offers “Reset and ask again” (runs `tccutil reset` for Koto only). Run Koto from Applications, not from a download or a disk image: macOS does not keep permissions for such a copy. Starting with alpha.18 the release signature is tied to the identifier `dev.slipcast.koto` rather than the build hash, so granted permissions survive updates; after moving to alpha.18 grant access once more.
 

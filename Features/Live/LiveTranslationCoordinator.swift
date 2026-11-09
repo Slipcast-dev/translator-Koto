@@ -8,6 +8,9 @@ import Observation
 @MainActor @Observable
 final class LiveTranslationCoordinator {
     let model = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .live)
+    /// Режим работы: слово под курсором (по умолчанию) или перевод всего текста области.
+    enum Mode: String, CaseIterable, Identifiable { case hover, area; var id: String { rawValue } }
+    var mode: Mode = .hover { didSet { if mode != oldValue, hasRegion { restart() } } }
     private(set) var running = false
     private(set) var paused = false
     private(set) var message = String(localized: "Choose a screen region for live translation")
@@ -16,6 +19,7 @@ final class LiveTranslationCoordinator {
     private(set) var latencyMilliseconds: [Double] = []
     @ObservationIgnored private let selector = RegionSelector()
     @ObservationIgnored private let ocr = ScreenOCRService()
+    @ObservationIgnored private lazy var hover = HoverTranslationController(ocr: ocr)
     @ObservationIgnored private var gate = LiveFrameGate()
     @ObservationIgnored private var producer: Task<Void, Never>?
     @ObservationIgnored private var region: CGRect?
@@ -47,8 +51,22 @@ final class LiveTranslationCoordinator {
         }
     }
 
+    private func restart() { pause(); resume() }
+
     func resume() {
-        guard region != nil, !running else { return }
+        guard let region, !running else { return }
+        if mode == .hover {
+            guard let screen = NSScreen.screens.first(where: {
+                ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID
+            }), screen.frame == screenFrame else { message = CaptureFailure.invalidRegion.errorDescription ?? ""; return }
+            running = true; paused = false
+            message = String(localized: "Point the cursor at a word in the region: the translation appears next to it.")
+            hover.start(region: region, screen: screen, pair: { [weak self] in
+                (self?.model.sourceIdentifier ?? "auto", self?.model.targetIdentifier ?? "ru")
+            }, onStatus: { [weak self] in self?.message = $0 })
+            if model.languages.isEmpty { Task { await model.loadLanguages() } }
+            return
+        }
         let id = gate.reset()
         // Первый кадр после запуска или смены пары всегда проходит OCR.
         fingerprint = nil
@@ -99,6 +117,7 @@ final class LiveTranslationCoordinator {
     }
 
     func pause() {
+        hover.stop()
         producer?.cancel(); producer = nil
         _ = gate.reset()
         model.cancel()

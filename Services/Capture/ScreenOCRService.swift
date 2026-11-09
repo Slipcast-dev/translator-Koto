@@ -66,13 +66,19 @@ final class ScreenOCRService {
         try await Self.recognizeImage(captureImage(selection: selection, screen: screen, excludeOwnWindows: excludeOwnWindows))
     }
 
+    func captureSnapshot(selection: CGRect, screen: NSScreen) async throws -> CGImage {
+        try await captureImage(selection: selection, screen: screen, excludeOwnWindows: true)
+    }
+
     private func captureImage(selection: CGRect, screen: NSScreen, excludeOwnWindows: Bool) async throws -> CGImage {
         guard CGPreflightScreenCaptureAccess() else { throw CaptureFailure.screenRequired }
         guard let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
             throw CaptureFailure.unavailable
         }
         let rect = try CaptureGeometry.sourceRect(selection: selection, screen: screen.frame)
-        let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+        let content: SCShareableContent
+        do { content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true) }
+        catch { throw Self.mapped(error) }
         try Task.checkCancellation()
         guard let display = content.displays.first(where: { $0.displayID == number.uint32Value }) else {
             throw CaptureFailure.unavailable
@@ -93,9 +99,19 @@ final class ScreenOCRService {
                 || TranslationPrivacy.excluded($0.owningApplication?.bundleIdentifier)
         }
         let filter = SCContentFilter(display: display, excludingWindows: excluded)
-        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
+        let image: CGImage
+        do { image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config) }
+        catch { throw Self.mapped(error) }
         try Task.checkCancellation()
         return image
+    }
+
+    /// Preflight может сообщать «доступ есть», а ScreenCaptureKit отказывает (устаревшая запись в списке разрешений).
+    /// Такой отказ — вопрос разрешения, а не сбой захвата: пользователь увидит панель доступа.
+    nonisolated static func mapped(_ error: Error) -> Error {
+        let ns = error as NSError
+        if ns.domain == "com.apple.ScreenCaptureKit.SCStreamErrorDomain", ns.code == -3801 { return CaptureFailure.screenRequired }
+        return error
     }
 
     /// Синхронный Vision выполняется вне MainActor: перетаскивание/отмена остаются отзывчивыми.
@@ -129,6 +145,59 @@ final class ScreenOCRService {
             guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw CaptureFailure.noText }
             guard text.count <= TranslationRequest.characterLimit else { throw CaptureFailure.tooLong }
             return text
+        }.value
+    }
+}
+
+/// Слово на экране и его рамка в глобальных координатах AppKit.
+struct RecognizedWord: Sendable, Equatable {
+    let text: String
+    let frame: CGRect
+}
+
+extension ScreenOCRService {
+    /// Слово под указателем. Снимается только небольшой прямоугольник вокруг точки внутри выбранной области.
+    func word(at point: CGPoint, within region: CGRect, screen: NSScreen) async throws -> RecognizedWord? {
+        let window = CGRect(x: point.x - 180, y: point.y - 40, width: 360, height: 80)
+            .intersection(region).intersection(screen.frame)
+        guard !window.isNull, window.width >= 16, window.height >= 16 else { return nil }
+        return try await withExclusiveCapture {
+            let image = try await captureSnapshot(selection: window, screen: screen)
+            let words = try await Self.recognizeWords(in: image, rect: window)
+            return Self.nearest(words, to: point)
+        }
+    }
+
+    nonisolated static func nearest(_ words: [RecognizedWord], to point: CGPoint) -> RecognizedWord? {
+        func distance(_ word: RecognizedWord) -> CGFloat {
+            let dx = max(word.frame.minX - point.x, 0, point.x - word.frame.maxX)
+            let dy = max(word.frame.minY - point.y, 0, point.y - word.frame.maxY)
+            return hypot(dx, dy)
+        }
+        guard let best = words.min(by: { distance($0) < distance($1) }), distance(best) <= 10 else { return nil }
+        return best
+    }
+
+    nonisolated static func recognizeWords(in image: CGImage, rect: CGRect) async throws -> [RecognizedWord] {
+        try await Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
+            let request = VNRecognizeTextRequest()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = false
+            request.automaticallyDetectsLanguage = true
+            try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+            var words: [RecognizedWord] = []
+            for observation in request.results ?? [] {
+                guard let candidate = observation.topCandidates(1).first else { continue }
+                let string = candidate.string
+                string.enumerateSubstrings(in: string.startIndex..<string.endIndex, options: .byWords) { substring, range, _, _ in
+                    guard let substring, !substring.isEmpty, let box = try? candidate.boundingBox(for: range)?.boundingBox else { return }
+                    let frame = CGRect(x: rect.minX + box.minX * rect.width, y: rect.minY + box.minY * rect.height,
+                                       width: box.width * rect.width, height: box.height * rect.height)
+                    words.append(RecognizedWord(text: substring, frame: frame))
+                }
+            }
+            return words
         }.value
     }
 }

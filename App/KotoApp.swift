@@ -23,7 +23,7 @@ struct KotoApp: App {
         .commands { KotoCommands(capture: capture) }
 
         Window(String(localized: "Live translation — Koto"), id: WindowID.live) {
-            LiveTranslationView(coordinator: capture.live).kotoAppearance()
+            LiveTranslationView(coordinator: capture.live, capture: capture).kotoAppearance()
         }
         .defaultSize(width: 900, height: 650)
         .defaultLaunchBehavior(.suppressed)

@@ -78,7 +78,7 @@ struct ManualTranslationView: View {
                     Label(String(localized: "Screen region"), systemImage: "viewfinder")
                 }
                 .help(String(localized: "Choose a region containing text · ⌃⌥⌘R"))
-                Button { openWindow(id: WindowID.live); NSApp.activate(ignoringOtherApps: true) } label: {
+                Button { coordinator.startLive() } label: {
                     Label(String(localized: "Live"), systemImage: "dot.radiowaves.left.and.right")
                 }
                 .help(String(localized: "Live translation of a screen region · ⌃⌥⌘L"))

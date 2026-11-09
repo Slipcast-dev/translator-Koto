@@ -2,9 +2,18 @@
 
 # Changelog
 
+## 0.1.0-alpha.19
+
+Release: [Docs/RELEASE-0.1.0-alpha.19.md](Docs/RELEASE-0.1.0-alpha.19.md).
+
+- Selected-text translation also works where an app does not expose the selection through Accessibility: Koto briefly copies the selection (⌘C) and restores the previous clipboard contents. Password fields are never read.
+- Screen region: the translation window appears immediately with a progress indicator, and a denied Screen Recording shows the permissions panel instead of nothing.
+- Live translation by hover: after choosing a region, hold the cursor over a word and the translation appears next to it (the “Whole region” mode remains). The window has three steps (permission → region → translation) with clear “Choose region…”, “Pause”, “Stop” buttons; every entry point leads to the same place.
+- Settings simplified: tabs General, Translation, Privacy, Browsers, Advanced; permissions are two rows with an “Allow…” button.
+
 ## 0.1.0-alpha.18
 
-Release: [Docs/RELEASE-0.1.0-alpha.18.md](Docs/RELEASE-0.1.0-alpha.18.md).
+Release: [alpha.18](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.18).
 
 - The quick translation window no longer extends past the screen; the permissions panel has hints (a copy outside Applications, “Reset and ask again”). The release signature is tied to the identifier, so permissions survive updates.
 - The localization check matches every string in the code with the catalog so the interface language is never mixed.

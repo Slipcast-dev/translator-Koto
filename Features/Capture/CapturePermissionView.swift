@@ -11,6 +11,7 @@ struct CapturePermissionView: View {
         switch coordinator.pendingCapture {
         case .selection: String(localized: "To translate selected text, Koto needs the Accessibility permission.")
         case .region: String(localized: "To recognize a screen region, Koto needs the Screen & System Audio Recording permission.")
+        case .live: String(localized: "Live translation reads text from a screen region, so Koto needs the Screen & System Audio Recording permission.")
         case nil: String(localized: "Quick translation from other apps needs macOS permissions.")
         }
     }
@@ -37,7 +38,7 @@ struct CapturePermissionView: View {
                 Divider().padding(.leading, 44)
                 row(symbol: "viewfinder", title: String(localized: "Screen region and Live"),
                     detail: String(localized: "System Settings → Privacy & Security → Screen & System Audio Recording"),
-                    granted: coordinator.screenGranted, needed: coordinator.pendingCapture == .region,
+                    granted: coordinator.screenGranted, needed: coordinator.pendingCapture == .region || coordinator.pendingCapture == .live,
                     action: { coordinator.requestScreen() })
             }
             .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
