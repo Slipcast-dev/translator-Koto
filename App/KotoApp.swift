@@ -15,6 +15,8 @@ struct KotoApp: App {
             MainWindowView(coordinator: capture)
                 .kotoAppearance()
                 .kotoUpdatePrompts()
+                // Название «Koto» в панели инструментов не нужно: оно уже есть в заголовке содержимого.
+                .toolbar(removing: .title)
                 .background(MainWindowActionInstaller(appDelegate: appDelegate, capture: capture))
         }
         .defaultLaunchBehavior(.presented)

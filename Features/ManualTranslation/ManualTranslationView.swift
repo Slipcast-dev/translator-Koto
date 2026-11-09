@@ -28,9 +28,21 @@ struct ManualTranslationView: View {
                     Button(String(localized: "Try again")) { Task { await model.loadLanguages() } }
                 }
             }
-            Picker(String(localized: "Engine"), selection: $engines.selected) {
-                ForEach(TranslationEngineKind.allCases) { engine in Text(engine.title).tag(engine) }
-            }.pickerStyle(.segmented).labelsHidden()
+            // Отдельные кнопки с небольшим интервалом, по центру окна.
+            HStack(spacing: 8) {
+                ForEach(TranslationEngineKind.allCases) { engine in
+                    let selected = engines.selected == engine
+                    Button { engines.selected = engine } label: {
+                        Text(engine.title).lineLimit(1).padding(.horizontal, 14).padding(.vertical, 6)
+                            .foregroundStyle(selected ? Color.white : Color.primary)
+                            .background(selected ? Color.accentColor : Color.secondary.opacity(0.14), in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(selected ? .isSelected : [])
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .accessibilityElement(children: .contain).accessibilityLabel(String(localized: "Engine"))
             LanguageSelectionView(model: model)
             HStack(alignment: .top, spacing: 20) {
                 TranslationInputView(model: model)
