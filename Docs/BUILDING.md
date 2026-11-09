@@ -47,7 +47,7 @@ CI GitHub на macOS 26 собирает приложение без подпи�
 
 ## Выпуск
 
-Выпуск автоматический. В pull request увеличьте `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig` и добавьте `Docs/RELEASE-<версия>.md` (например `RELEASE-1.0.0.md`, двуязычные заметки, ссылки только абсолютные или на соседние документы). После слияния в `main` workflow `.github/workflows/build-artifacts.yml`:
+Выпуск автоматический. В pull request увеличьте `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig` и добавьте `Docs/RELEASE-<версия>.md` (например `RELEASE-1.0.1.md`, двуязычные заметки, ссылки только абсолютные или на соседние документы). После слияния в `main` workflow `.github/workflows/build-artifacts.yml`:
 
 1. собирает приложение из исходников на macOS 26;
 2. упаковывает DMG, ZIP расширения Chrome и `SHA256SUMS.txt`;

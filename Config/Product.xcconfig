@@ -4,9 +4,9 @@ PRODUCT_BUNDLE_IDENTIFIER = dev.slipcast.koto
 KOTO_DEVELOPER = Slipcast-Dev
 KOTO_COPYRIGHT = © 2026 Slipcast-Dev. All rights reserved.
 // CFBundleShortVersionString — числовой. Пустой канал означает стабильный выпуск.
-MARKETING_VERSION = 1.0.0
+MARKETING_VERSION = 1.0.1
 KOTO_RELEASE_CHANNEL =
-CURRENT_PROJECT_VERSION = 20
+CURRENT_PROJECT_VERSION = 21
 
 // Первый выпуск — arm64/macOS 26+. Поддержка 26 проверяется отдельно от сборки SDK 27.
 MACOSX_DEPLOYMENT_TARGET = 26.0

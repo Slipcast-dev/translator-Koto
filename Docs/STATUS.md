@@ -1,12 +1,12 @@
 **Русский** | [English](STATUS.en.md)
 
-# Koto 1.0.0 · Chrome 0.1.4
+# Koto 1.0.1 · Chrome 0.1.4
 
 Slipcast-Dev · arm64/macOS 26+. Проверки выпуска выполнялись на macOS 27.2 / Xcode 27.
 
 ## Состояние
 
-Выпуск 1.0.0: подпись ad hoc, без Developer ID и notarization — macOS может блокировать запуск. Файлы выпуска собираются workflow GitHub из исходников и подтверждаются attestation ([release notes](RELEASE-1.0.0.md)). Модель Qwen в поставку не входит и ставится кнопкой в настройках.
+Выпуск 1.0.1: подпись ad hoc, без Developer ID и notarization — macOS может блокировать запуск. Файлы выпуска собираются workflow GitHub из исходников и подтверждаются attestation ([release notes](RELEASE-1.0.1.md)). Модель Qwen в поставку не входит и ставится кнопкой в настройках.
 
 ## Лицензия и выпуски
 
