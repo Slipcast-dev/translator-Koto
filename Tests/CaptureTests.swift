@@ -125,6 +125,11 @@ struct CaptureTests {
             _ = try await ScreenOCRService.recognizeImage(blankCG)
             throw CaptureTestError.assertion("blank OCR accepted")
         } catch CaptureFailure.noText { passed.append("blank image reports no text") }
+        let ids = ["en", "ru", "uk", "de", "fr", "ja"]
+        try check(LanguageDetector.detect("привет", among: ids) == "ru", "short Russian word is detected")
+        try check(LanguageDetector.detect("hello", among: ids) == "en", "short English word is detected")
+        try check(LanguageDetector.detect("привіт", among: ids) == "uk", "Ukrainian letters select Ukrainian")
+        try check(LanguageDetector.detect("こんにちは", among: ids) == "ja", "Japanese script is detected")
         let words = [RecognizedWord(text: "left", frame: CGRect(x: 0, y: 0, width: 40, height: 14)),
                      RecognizedWord(text: "right", frame: CGRect(x: 50, y: 0, width: 40, height: 14))]
         try check(ScreenOCRService.nearest(words, to: CGPoint(x: 60, y: 7))?.text == "right", "word under the cursor is chosen")

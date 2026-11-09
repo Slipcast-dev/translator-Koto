@@ -21,7 +21,7 @@ struct LiveTranslationView: View {
                 translation
             }
         }
-        .padding(24).frame(minWidth: 640, minHeight: 460)
+        .padding(24).frame(minWidth: 680, minHeight: 460)
         .task { capture.refreshPermissions(); if !capture.screenGranted { capture.waitForPermission(for: .live) } }
         .onChange(of: engines.selected) { _, _ in coordinator.engineChanged() }
         .onChange(of: coordinator.model.result?.requestID) { _, _ in coordinator.didPublish() }
@@ -76,9 +76,10 @@ struct LiveTranslationView: View {
                 }
                 Button { coordinator.chooseRegion() } label: { Label(String(localized: "Another region…"), systemImage: "viewfinder") }
                 Button(role: .destructive) { coordinator.stop() } label: { Label(String(localized: "Stop"), systemImage: "stop.fill") }
-                Spacer()
-                LanguageSelectionView(model: coordinator.model).fixedSize()
+                Spacer(minLength: 0)
             }
+            .labelStyle(.titleAndIcon).lineLimit(1).fixedSize(horizontal: false, vertical: true)
+            LanguageSelectionView(model: coordinator.model)
             Picker(String(localized: "Mode"), selection: $coordinator.mode) {
                 Text(String(localized: "Word under the cursor")).tag(LiveTranslationCoordinator.Mode.hover)
                 Text(String(localized: "Whole region")).tag(LiveTranslationCoordinator.Mode.area)

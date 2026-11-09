@@ -9,6 +9,7 @@ Release: [Docs/RELEASE-0.1.0-alpha.19.md](Docs/RELEASE-0.1.0-alpha.19.md).
 - Selected-text translation also works where an app does not expose the selection through Accessibility: Koto briefly copies the selection (⌘C) and restores the previous clipboard contents. Password fields are never read.
 - Screen region: the translation window appears immediately with a progress indicator, and a denied Screen Recording shows the permissions panel instead of nothing.
 - Live translation by hover: after choosing a region, hold the cursor over a word and the translation appears next to it (the “Whole region” mode remains). The window has three steps (permission → region → translation) with clear “Choose region…”, “Pause”, “Stop” buttons; every entry point leads to the same place.
+- Language auto-detection works on short words (“привет” no longer fails); extra labels removed from the main window; Live mode buttons show full names.
 - Settings simplified: tabs General, Translation, Privacy, Browsers, Advanced; permissions are two rows with an “Allow…” button.
 
 ## 0.1.0-alpha.18

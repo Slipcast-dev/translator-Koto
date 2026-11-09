@@ -21,7 +21,6 @@ struct ManualTranslationView: View {
                     .accessibilityHidden(true)
                 Text("Koto").font(.system(size: 25, weight: .bold, design: .rounded))
                 Spacer()
-                Text(String(localized: "Text translation")).foregroundStyle(.secondary)
             }
             if let issue = model.catalogFailure {
                 HStack {
@@ -31,7 +30,7 @@ struct ManualTranslationView: View {
             }
             Picker(String(localized: "Engine"), selection: $engines.selected) {
                 ForEach(TranslationEngineKind.allCases) { engine in Text(engine.title).tag(engine) }
-            }.pickerStyle(.segmented)
+            }.pickerStyle(.segmented).labelsHidden()
             LanguageSelectionView(model: model)
             HStack(alignment: .top, spacing: 20) {
                 TranslationInputView(model: model)

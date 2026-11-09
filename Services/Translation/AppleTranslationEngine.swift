@@ -124,14 +124,11 @@ final class AppleTranslationEngine: TranslationEngine {
 
     private func identifySource(in text: String) async throws -> TranslationLanguage {
         // NaturalLanguage выполняет определение на устройстве; короткая/смешанная фраза может быть неоднозначной.
-        let recognizer = NLLanguageRecognizer()
-        recognizer.processString(text)
-        guard let language = recognizer.dominantLanguage,
-              (recognizer.languageHypotheses(withMaximum: 1)[language] ?? 0) >= 0.45 else {
+        let available = try await supportedLanguages()
+        guard let id = LanguageDetector.detect(text, among: available.map(\.id)) else {
             throw TranslationFailure.unableToIdentify
         }
-        let available = try await supportedLanguages()
-        let detected = TranslationLanguage(id: language.rawValue)
+        let detected = TranslationLanguage(id: id)
         if let exact = available.first(where: { $0.id == detected.id }) { return exact }
         guard let match = available.first(where: {
             $0.localeLanguage.languageCode == detected.localeLanguage.languageCode
