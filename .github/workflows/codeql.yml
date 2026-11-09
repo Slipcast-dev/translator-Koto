@@ -24,7 +24,7 @@ jobs:
           -destination 'generic/platform=macOS' -derivedDataPath build/codeql
           CODE_SIGNING_ALLOWED=NO clean build
       - run: xcrun clang++ -std=c++20 -Wall -Wextra -Wpedantic NativeTools/RuntimeLauncher.cpp -o build/codeql-launcher
-      - uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+      - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4
         with:
           category: native
   scripts:
@@ -38,6 +38,6 @@ jobs:
         with:
           languages: javascript-typescript,python
           build-mode: none
-      - uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+      - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4
         with:
           category: scripts
