@@ -257,7 +257,12 @@ nonisolated enum UpdateInstaller {
             let attach = try await UpdateProcess.run("/usr/bin/hdiutil",
                 ["attach", "-nobrowse", "-readonly", "-noverify", "-noautoopen", "-mountpoint", mount.path, dmg.path], timeout: 120)
             attached = attach.status == 0
-            if !attached, attempt < 3 { try await Task.sleep(for: .seconds(2)) }
+            if !attached {
+                // Вывод hdiutil попадает в stderr: без него причину отказа монтирования не установить.
+                let size = (try? FileManager.default.attributesOfItem(atPath: dmg.path)[.size] as? NSNumber)?.int64Value ?? -1
+                fputs("hdiutil attach failed (\(attempt)/3, status \(attach.status), dmg \(size) bytes): \(attach.output)\n", stderr)
+                if attempt < 3 { try await Task.sleep(for: .seconds(2)) }
+            }
         }
         guard attached else { throw UpdateFailure.mountFailed }
         func detach() async {

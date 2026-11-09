@@ -189,7 +189,10 @@ import Foundation
                                           workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
                                           processID: sleeper.processIdentifier, terminate: { terminated = true })
         installer.install(release)
-        let prepared = await waitFor(installer, seconds: 240) { if case .readyToRestart = $0 { true } else { false } }
+        _ = await waitFor(installer, seconds: 240) {
+            switch $0 { case .readyToRestart, .failed: true; default: false }
+        }
+        let prepared: Bool = { if case .readyToRestart = installer.phase { true } else { false } }()
         try check(prepared, "update downloaded, verified and prepared in the background (phase: \(installer.phase))")
         try check(!terminated, "the app is not restarted without the user's consent")
         try check(buildNumber(of: target) == oldBuild, "bundle is not replaced before the restart")
