@@ -15,6 +15,12 @@ final class CaptureCoordinator {
     private(set) var hotkeyIssue: String?
     private(set) var accessibilityGranted = false
     private(set) var screenGranted = false
+    /// Последняя ошибка захвата: окно показывает панель разрешений только для ошибок доступа.
+    private(set) var failure: CaptureFailure?
+    /// Команда, ожидающая разрешения: продолжится автоматически, как только доступ появится.
+    private(set) var pendingCapture: PendingCapture?
+    /// После запроса записи экрана macOS часто требует перезапуск приложения: тогда показываем кнопку.
+    private(set) var screenAccessRequested = false
     var reopenMain: (() -> Void)?
     var hotkeysEnabled: Bool {
         didSet {
@@ -32,6 +38,7 @@ final class CaptureCoordinator {
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var operationID: UUID?
     @ObservationIgnored private var deadline: Task<Void, Never>?
+    @ObservationIgnored private var permissionWatcher: Task<Void, Never>?
     @ObservationIgnored private var workspaceObserver: NSObjectProtocol?
     @ObservationIgnored private var previousApplication: NSRunningApplication?
     @ObservationIgnored private var started = false
@@ -93,6 +100,7 @@ final class CaptureCoordinator {
     }
 
     func requestScreen() {
+        screenAccessRequested = true
         _ = CGRequestScreenCaptureAccess()
         if !CGPreflightScreenCaptureAccess(), let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture") {
             NSWorkspace.shared.open(url)
@@ -111,7 +119,7 @@ final class CaptureCoordinator {
         cancel()
         refreshPermissions()
         guard accessibilityGranted else {
-            showFailure(.accessibilityRequired)
+            awaitPermission(for: .selection, failure: .accessibilityRequired)
             return
         }
         let front = NSWorkspace.shared.frontmostApplication
@@ -146,7 +154,7 @@ final class CaptureCoordinator {
     func captureRegion() {
         cancel()
         refreshPermissions()
-        guard screenGranted else { showFailure(.screenRequired); return }
+        guard screenGranted else { awaitPermission(for: .region, failure: .screenRequired); return }
         lens?.hide()
         let id = beginOperation(message: String(localized: "Select a region containing text. Press Esc to cancel."))
         // Таймер начнётся после выбора: пользователь не должен спешить с выделением.
@@ -174,6 +182,8 @@ final class CaptureCoordinator {
     }
 
     func cancel() {
+        permissionWatcher?.cancel(); permissionWatcher = nil
+        pendingCapture = nil
         // ID отзывается раньше закрытия окон, чтобы callback selector не запустил старую задачу.
         operationID = nil
         task?.cancel(); task = nil
@@ -185,6 +195,7 @@ final class CaptureCoordinator {
     }
 
     private func beginOperation(message: String) -> UUID {
+        failure = nil
         lensModel.clear()
         let id = UUID()
         operationID = id
@@ -215,13 +226,45 @@ final class CaptureCoordinator {
         deadline?.cancel(); deadline = nil
         operationID = nil
         captureBusy = false
+        failure = nil
         message = AppLocalization.capturedCharacters(captured.text.count)
         showLens(anchor: captured.anchor)
         lensModel.submit()
     }
 
+    /// Показывает панель разрешений и следит за доступом: выдача разрешения продолжает исходную команду.
+    private func awaitPermission(for command: PendingCapture, failure issue: CaptureFailure) {
+        showFailure(issue)
+        pendingCapture = command
+        permissionWatcher = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                guard let self, !Task.isCancelled, let pending = self.pendingCapture else { return }
+                self.refreshPermissions()
+                guard pending.canResume(accessibility: self.accessibilityGranted, screen: self.screenGranted) else { continue }
+                self.lens?.hide()
+                switch pending {
+                case .selection: self.captureSelection()
+                case .region: self.captureRegion()
+                }
+                return
+            }
+        }
+    }
+
+    /// Перезапуск нужен после выдачи записи экрана: macOS применяет её к новому процессу.
+    func relaunch() {
+        let helper = Process()
+        helper.executableURL = URL(fileURLWithPath: "/bin/sh")
+        helper.arguments = ["-c", "sleep 1; /usr/bin/open -n \"$0\"", Bundle.main.bundlePath]
+        helper.standardOutput = FileHandle.nullDevice; helper.standardError = FileHandle.nullDevice
+        guard (try? helper.run()) != nil else { return }
+        NSApp.terminate(nil)
+    }
+
     private func showFailure(_ issue: CaptureFailure) {
         cancel()
+        failure = issue
         lensModel.clear()
         message = issue.errorDescription ?? String(localized: "Unable to capture text.")
         showLens(anchor: CGRect(origin: NSEvent.mouseLocation, size: .zero))

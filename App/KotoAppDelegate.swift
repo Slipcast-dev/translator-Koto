@@ -6,7 +6,11 @@ final class KotoAppDelegate: NSObject, NSApplicationDelegate {
     var reopenMainWindow: (() -> Void)?
     weak var capture: CaptureCoordinator?
 
-    func applicationWillTerminate(_ notification: Notification) { capture?.stop() }
+    func applicationWillTerminate(_ notification: Notification) {
+        capture?.stop()
+        // Отложенное обновление («Позже») применяется при выходе: помощник заменит bundle после завершения процесса.
+        UpdateModel.shared.applyOnQuit()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // MenuBarExtra не должен превращать обычное приложение в скрытый menu-only процесс.

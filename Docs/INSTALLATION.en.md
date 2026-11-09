@@ -1,11 +1,11 @@
 [Русский](INSTALLATION.md) | **English**
 
-# Installing Koto 0.1.0-alpha.16
+# Installing Koto 0.1.0-alpha.17
 
 Apple Silicon, macOS 26+. Release checks were performed on macOS 27.2; macOS 26 runtime remains untested.
 
-1. Download the DMG and SHA256SUMS.txt from [alpha 16](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.16).
-2. Compare `shasum -a 256 Koto-0.1.0-16-arm64-preview-ci.dmg` with SHA256SUMS.txt.
+1. Download the DMG and SHA256SUMS.txt from [alpha 17](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.17).
+2. Compare `shasum -a 256 Koto-0.1.0-17-arm64-preview-ci.dmg` with SHA256SUMS.txt.
 3. Open the DMG and drag Koto.app into Applications.
 4. Grant selection/OCR permissions through Koto Settings if needed.
 
@@ -25,7 +25,7 @@ The Safari extension is embedded in Koto.app (`Contents/PlugIns/Koto Safari.appe
 
 ## Updating
 
-The “Update” section at the top of Settings shows the version, a short description and a “Check for updates” button. The check contacts GitHub Releases only when you click. If a newer version exists, a window shows its number, notes and size. “Install and restart” downloads the DMG, verifies its SHA-256 against the release's SHA256SUMS.txt, checks that the package is a newer, validly signed Koto, stages a copy next to the app, and after Koto quits replaces it and relaunches. The folder containing Koto.app must be writable. Every stage has a timeout and the download can be cancelled.
+When it starts, Koto checks GitHub Releases on its own (at most once an hour; turn it off in Settings → Update). If a newer version exists, the main window shows a message with its number, notes and size: “Install”, “Later” or “Skip” (the version is no longer offered at launch). Nothing is downloaded until you click “Install”: Koto downloads the DMG, verifies its SHA-256 against the release's SHA256SUMS.txt, checks that it is a newer, validly signed Koto and prepares a copy next to the app — all in the background, without interrupting your work. When the copy is ready you are asked to restart: “Restart now” replaces the app and launches the new version, “Later” keeps the prepared update and it is applied when you quit Koto. A manual check is the “Check for updates” button in Settings. The folder containing Koto.app must be writable. Every stage has a timeout and the download can be cancelled. After an update macOS may ask for the permissions (Accessibility, Screen Recording) again: the ad hoc signature changes with every build.
 
 ## Uninstall
 

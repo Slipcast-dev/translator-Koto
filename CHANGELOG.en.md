@@ -2,9 +2,17 @@
 
 # Changelog
 
+## 0.1.0-alpha.17
+
+Release: [Docs/RELEASE-0.1.0-alpha.17.md](Docs/RELEASE-0.1.0-alpha.17.md).
+
+- Main window: all buttons in one macOS-style toolbar, grouped by function.
+- Quick translation window: a permissions panel with statuses, an “Allow…” button, automatic continuation of the command after access is granted and a restart for screen recording; the panel appears only for access errors.
+- Updates: a background check at launch (can be turned off), an offer with “Install”, “Later”, “Skip”, background preparation only with consent, a restart question with a “Later” option (applied when you quit).
+
 ## 0.1.0-alpha.16
 
-Release: [Docs/RELEASE-0.1.0-alpha.16.md](Docs/RELEASE-0.1.0-alpha.16.md).
+Release: [alpha.16](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.16).
 
 - The license changed from MIT to the Koto proprietary license: modifying or distributing Koto without the author's written consent is not allowed. Copies up to and including alpha.15 stay under MIT.
 - The license is shown in the About window; the package ships the new `LICENSE`.

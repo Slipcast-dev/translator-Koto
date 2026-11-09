@@ -119,13 +119,21 @@ nonisolated enum UpdateCatalog {
         return Int(name[range])
     }
 
-    /// Краткое описание: Markdown-разметка убирается, длина ограничивается.
-    nonisolated static func summary(_ body: String) -> String {
-        let plain = body.replacingOccurrences(of: "**", with: "").replacingOccurrences(of: "__", with: "")
+    /// Краткое описание: заметки двуязычные («Русский.» и «English.»), выбирается язык интерфейса;
+    /// Markdown-разметка и ссылки убираются, длина ограничивается.
+    nonisolated static func summary(_ body: String, language: String = Bundle.main.preferredLocalizations.first ?? "en") -> String {
+        var text = body
+        if let english = text.range(of: "**English.**") {
+            text = language == "ru" ? String(text[..<english.lowerBound]) : String(text[english.upperBound...])
+        }
+        text = text.replacingOccurrences(of: "**Русский.**", with: "")
+        // [название](адрес) → название
+        text = text.replacingOccurrences(of: #"\[([^\]]+)\]\([^)]*\)"#, with: "$1", options: .regularExpression)
+        let plain = text.replacingOccurrences(of: "**", with: "").replacingOccurrences(of: "__", with: "")
             .replacingOccurrences(of: "`", with: "")
             .split(whereSeparator: \.isNewline)
             .map { $0.trimmingCharacters(in: CharacterSet(charactersIn: "#*>`- \t")) }
-            .filter { !$0.isEmpty }
+            .filter { !$0.isEmpty && !$0.hasPrefix("gh attestation") && !$0.hasPrefix("--") }
             .joined(separator: "\n")
         return plain.count <= 700 ? plain : String(plain.prefix(700)) + "…"
     }

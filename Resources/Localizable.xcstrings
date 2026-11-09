@@ -6390,6 +6390,726 @@
           }
         }
       }
+    },
+    "Koto checks for updates when it starts.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto checks for updates when it starts."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto проверяет обновления при запуске."
+          }
+        }
+      }
+    },
+    "Automatic checks are off. Click the button to check.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic checks are off. Click the button to check."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматическая проверка выключена. Нажмите кнопку, чтобы проверить."
+          }
+        }
+      }
+    },
+    "Preparing the update…": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing the update…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовка обновления…"
+          }
+        }
+      }
+    },
+    "Update %@ is ready. Restart Koto to finish.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update %@ is ready. Restart Koto to finish."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление %@ готово. Перезапустите Koto для завершения."
+          }
+        }
+      }
+    },
+    "Check for updates when Koto starts": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for updates when Koto starts"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверять обновления при запуске Koto"
+          }
+        }
+      }
+    },
+    "Restart now": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart now"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезапустить сейчас"
+          }
+        }
+      }
+    },
+    "Or later: the update is applied when you quit Koto.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or later: the update is applied when you quit Koto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Или позже: обновление применится при выходе из Koto."
+          }
+        }
+      }
+    },
+    "Restart Koto to finish the update": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Koto to finish the update"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезапустите Koto, чтобы завершить обновление"
+          }
+        }
+      }
+    },
+    "Version %@ is ready. Koto will restart to apply it. If you choose Later, the update is applied when you quit Koto.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ is ready. Koto will restart to apply it. If you choose Later, the update is applied when you quit Koto."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия %@ готова. Koto перезапустится, чтобы применить её. Если выбрать «Позже», обновление применится при выходе из Koto."
+          }
+        }
+      }
+    },
+    "Koto downloads and verifies the update in the background and keeps working. You will be asked before it restarts.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto downloads and verifies the update in the background and keeps working. You will be asked before it restarts."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto скачает и проверит обновление в фоне и продолжит работать. Перед перезапуском вас спросят."
+          }
+        }
+      }
+    },
+    "Install": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установить"
+          }
+        }
+      }
+    },
+    "To translate selected text, Koto needs the Accessibility permission.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To translate selected text, Koto needs the Accessibility permission."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы переводить выделенный текст, Koto нужно разрешение «Универсальный доступ»."
+          }
+        }
+      }
+    },
+    "To recognize a screen region, Koto needs the Screen & System Audio Recording permission.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To recognize a screen region, Koto needs the Screen & System Audio Recording permission."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы распознавать область экрана, Koto нужно разрешение «Запись экрана и системного звука»."
+          }
+        }
+      }
+    },
+    "Quick translation from other apps needs macOS permissions.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick translation from other apps needs macOS permissions."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Быстрому переводу из других приложений нужны разрешения macOS."
+          }
+        }
+      }
+    },
+    "Access needed": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access needed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужен доступ"
+          }
+        }
+      }
+    },
+    "Selected text": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected text"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделенный текст"
+          }
+        }
+      }
+    },
+    "System Settings → Privacy & Security → Accessibility": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings → Privacy & Security → Accessibility"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системные настройки → Конфиденциальность и безопасность → Универсальный доступ"
+          }
+        }
+      }
+    },
+    "Screen region and Live": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen region and Live"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Область экрана и Live"
+          }
+        }
+      }
+    },
+    "System Settings → Privacy & Security → Screen & System Audio Recording": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings → Privacy & Security → Screen & System Audio Recording"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системные настройки → Конфиденциальность и безопасность → Запись экрана и системного звука"
+          }
+        }
+      }
+    },
+    "After turning on screen recording, macOS may need Koto to restart before the permission works.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After turning on screen recording, macOS may need Koto to restart before the permission works."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После включения записи экрана macOS может потребовать перезапустить Koto, чтобы разрешение заработало."
+          }
+        }
+      }
+    },
+    "Restart Koto": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Koto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезапустить Koto"
+          }
+        }
+      }
+    },
+    "Koto continues on its own as soon as access is granted.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto continues on its own as soon as access is granted."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto продолжит сам, как только доступ будет выдан."
+          }
+        }
+      }
+    },
+    "Manual translation works without these permissions. Text and images are not saved. After a Koto update macOS may ask for access again.": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual translation works without these permissions. Text and images are not saved. After a Koto update macOS may ask for access again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ручной перевод работает без этих разрешений. Текст и изображения не сохраняются. После обновления Koto macOS может запросить доступ снова."
+          }
+        }
+      }
+    },
+    "Allowed": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allowed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешено"
+          }
+        }
+      }
+    },
+    "Allow…": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить…"
+          }
+        }
+      }
+    },
+    "Selection": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделение"
+          }
+        }
+      }
+    },
+    "Translate text selected in another app · ⌃⌥⌘T": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate text selected in another app · ⌃⌥⌘T"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести текст, выделенный в другом приложении · ⌃⌥⌘T"
+          }
+        }
+      }
+    },
+    "Screen region": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen region"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Область экрана"
+          }
+        }
+      }
+    },
+    "Live translation of a screen region · ⌃⌥⌘L": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation of a screen region · ⌃⌥⌘L"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод области экрана · ⌃⌥⌘L"
+          }
+        }
+      }
+    },
+    "Cancel translation · Esc": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel translation · Esc"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить перевод · Esc"
+          }
+        }
+      }
+    },
+    "Translate · ⌘↩": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate · ⌘↩"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести · ⌘↩"
+          }
+        }
+      }
+    },
+    "Copy the translation": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировать перевод"
+          }
+        }
+      }
+    },
+    "Speak the translation": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speak the translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Озвучить перевод"
+          }
+        }
+      }
+    },
+    "Stop speech": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop speech"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить озвучивание"
+          }
+        }
+      }
+    },
+    "Clear text and translation": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear text and translation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить текст и перевод"
+          }
+        }
+      }
+    },
+    "Explanation": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explanation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пояснение"
+          }
+        }
+      }
+    },
+    "Explanation and alternatives · local · up to 500 characters": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explanation and alternatives · local · up to 500 characters"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пояснение и варианты · локально · до 500 символов"
+          }
+        }
+      }
+    },
+    "Live": {
+      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live"
+          }
+        }
+      }
+    },
+    "Skip": {
+      "comment": "Пользовательская строка: Features/Welcome/UpdatePrompts.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пропустить"
+          }
+        }
+      }
+    },
+    "Do not offer this version at launch": {
+      "comment": "Пользовательская строка: Features/Welcome/UpdatePrompts.swift. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not offer this version at launch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не предлагать эту версию при запуске"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
