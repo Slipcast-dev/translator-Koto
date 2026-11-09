@@ -124,6 +124,13 @@ struct CaptureTests {
         try check(sleeping.frame.midX > 300 && sleeping.frame.midX < 700, "word frame is placed horizontally")
         try check(ScreenOCRService.nearest(found, to: CGPoint(x: sleeping.frame.midX, y: sleeping.frame.midY))?.text == sleeping.text,
                   "cursor over the word picks that word")
+        let foundLines = try await ScreenOCRService.recognizeLines(in: cgImage, rect: origin)
+        guard let cat = foundLines.first(where: { $0.text.contains("cat is sleeping") }) else {
+            throw CaptureTestError.assertion("line recognition finds the first line")
+        }
+        try check(cat.frame.midY > 700 && cat.frame.midY < 800 && cat.frame.minX >= 100, "line frame is in AppKit screen coordinates")
+        try check(cat.background.allSatisfy { $0 > 0.9 }, "line background is sampled as white")
+        try check(foundLines.count == 2, "both fixture lines are found")
         let blank = NSImage(size: CGSize(width: 400, height: 200))
         blank.lockFocus(); NSColor.white.setFill(); CGRect(x: 0, y: 0, width: 400, height: 200).fill(); blank.unlockFocus()
         var blankRect = CGRect(origin: .zero, size: blank.size)

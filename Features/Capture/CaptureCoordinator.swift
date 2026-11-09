@@ -258,6 +258,8 @@ final class CaptureCoordinator {
     /// а выбор области начинается сам, как только доступ выдан.
     func startLive() {
         refreshPermissions()
+        // Повторное нажатие горячей клавиши выключает уже идущий перевод: он виден поверх других окон.
+        if live.running { live.stop(); return }
         openLive?()
         guard screenGranted else { waitForPermission(for: .live); return }
         if !live.hasRegion { live.chooseRegion() }

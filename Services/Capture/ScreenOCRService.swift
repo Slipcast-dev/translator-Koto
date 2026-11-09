@@ -201,3 +201,72 @@ extension ScreenOCRService {
         }.value
     }
 }
+
+/// Строка текста на экране: рамка в глобальных координатах AppKit и цвет фона под ней (RGB 0...1).
+struct RecognizedLine: Sendable, Equatable {
+    let text: String
+    let frame: CGRect
+    let background: [Double]
+}
+
+extension ScreenOCRService {
+    /// Строки всей области для перевода на месте. Если кадр не изменился, возвращается nil без OCR.
+    func lines(in region: CGRect, screen: NSScreen, previous: FrameFingerprint?) async throws
+        -> (lines: [RecognizedLine]?, fingerprint: FrameFingerprint?) {
+        try await withExclusiveCapture {
+            let image = try await captureSnapshot(selection: region, screen: screen)
+            let current = FrameFingerprint.make(from: image)
+            if let previous, let current, current.matches(previous) { return (nil, previous) }
+            return (try await Self.recognizeLines(in: image, rect: region), current)
+        }
+    }
+
+    nonisolated static func recognizeLines(in image: CGImage, rect: CGRect) async throws -> [RecognizedLine] {
+        try await Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
+            let request = VNRecognizeTextRequest()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            request.automaticallyDetectsLanguage = true
+            try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+            var lines: [RecognizedLine] = []
+            for observation in request.results ?? [] {
+                guard let candidate = observation.topCandidates(1).first, candidate.confidence >= 0.3 else { continue }
+                let text = candidate.string.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard text.contains(where: \.isLetter) else { continue }
+                let box = observation.boundingBox
+                let frame = CGRect(x: rect.minX + box.minX * rect.width, y: rect.minY + box.minY * rect.height,
+                                   width: box.width * rect.width, height: box.height * rect.height)
+                lines.append(RecognizedLine(text: text, frame: frame, background: backgroundColor(of: image, box: box)))
+            }
+            return lines
+        }.value
+    }
+
+    /// Фон под строкой: медиана цветов по краю рамки, где текста почти нет.
+    nonisolated static func backgroundColor(of image: CGImage, box: CGRect) -> [Double] {
+        let width = CGFloat(image.width), height = CGFloat(image.height)
+        let pixelRect = CGRect(x: box.minX * width - 2, y: (1 - box.maxY) * height - 2,
+                               width: box.width * width + 4, height: box.height * height + 4)
+            .intersection(CGRect(x: 0, y: 0, width: width, height: height)).integral
+        guard pixelRect.width >= 2, pixelRect.height >= 2, let crop = image.cropping(to: pixelRect) else { return [1, 1, 1] }
+        let w = min(crop.width, 64), h = min(crop.height, 32)
+        var data = [UInt8](repeating: 0, count: w * h * 4)
+        let drawn = data.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(data: buffer.baseAddress, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4,
+                space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.interpolationQuality = .none
+            context.draw(crop, in: CGRect(x: 0, y: 0, width: w, height: h))
+            return true
+        }
+        guard drawn else { return [1, 1, 1] }
+        var channels: [[Int]] = [[], [], []]
+        for y in 0..<h {
+            for x in 0..<w where x == 0 || y == 0 || x == w - 1 || y == h - 1 {
+                let offset = (y * w + x) * 4
+                for c in 0..<3 { channels[c].append(Int(data[offset + c])) }
+            }
+        }
+        return channels.map { Double($0.sorted()[$0.count / 2]) / 255 }
+    }
+}

@@ -53,10 +53,9 @@ final class HoverTooltip {
 @MainActor
 final class HoverTranslationController {
     private let ocr: ScreenOCRService
-    private let translator = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .live)
+    private let translator = QuickTranslator()
     private let tooltip = HoverTooltip()
     private var loop: Task<Void, Never>?
-    private var cache: [String: String] = [:]
     private var shownFrame: CGRect?
 
     init(ocr: ScreenOCRService) { self.ocr = ocr }
@@ -88,7 +87,10 @@ final class HoverTranslationController {
                     guard let word = try await self.ocr.word(at: point, within: region, screen: screen) else { self.hide(); continue }
                     // Курсор мог уйти, пока шёл OCR.
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
-                    let text = await self.translate(word.text, pair: pair())
+                    let text: String
+                    switch await self.translator.translate(word.text, pair: pair()) {
+                    case .text(let value), .failure(let value): text = value
+                    }
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
                     self.shownFrame = word.frame
                     self.tooltip.show(text, above: word.frame, on: screen.frame)
@@ -106,30 +108,6 @@ final class HoverTranslationController {
     func stop() { loop?.cancel(); loop = nil; hide() }
 
     private func hide() { shownFrame = nil; tooltip.hide() }
-
-    /// Всегда возвращает текст подсказки: перевод или короткую причину, почему его нет.
-    private func translate(_ word: String, pair: (source: String, target: String)) async -> String {
-        let key = "\(pair.source)|\(pair.target)|\(word.lowercased())"
-        if let cached = cache[key] { return cached }
-        if translator.languages.isEmpty { await translator.loadLanguages() }
-        for source in pair.source == "auto" ? ["auto", "en"] : [pair.source] {
-            translator.targetIdentifier = pair.target
-            translator.sourceIdentifier = source
-            translator.sourceText = word
-            translator.submit()
-            while translator.isBusy, !Task.isCancelled { try? await Task.sleep(for: .milliseconds(40)) }
-            if let text = translator.result?.text, !text.isEmpty {
-                if cache.count > 500 { cache.removeAll() }
-                cache[key] = text
-                return text
-            }
-            if translator.phase == .needsDownload {
-                return String(localized: "Language not downloaded. Open Live translation to prepare it.")
-            }
-            if translator.failure != .unableToIdentify { break }
-        }
-        return translator.failure?.errorDescription ?? String(localized: "Unable to translate.")
-    }
 }
 
 private extension CGPoint {

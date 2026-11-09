@@ -7561,24 +7561,6 @@
         }
       }
     },
-    "Whole region": {
-      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Whole region"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вся область"
-          }
-        }
-      }
-    },
     "Point the cursor at a word in the region: the translation appears next to it.": {
       "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -7593,42 +7575,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Наведите курсор на слово в области: перевод появится рядом с ним."
-          }
-        }
-      }
-    },
-    "Hold the cursor over a word": {
-      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hold the cursor over a word"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Задержите курсор на слове"
-          }
-        }
-      }
-    },
-    "Inside the chosen region the translation appears right next to the word. Nothing is saved.": {
-      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inside the chosen region the translation appears right next to the word. Nothing is saved."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "В выбранной области перевод появляется прямо рядом со словом. Ничего не сохраняется."
           }
         }
       }
@@ -7651,20 +7597,74 @@
         }
       }
     },
-    "Language not downloaded. Open Live translation to prepare it.": {
+    "Replace text in place": {
       "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Language not downloaded. Open Live translation to prepare it."
+            "value": "Replace text in place"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Язык не загружен. Откройте «Живой перевод», чтобы подготовить его."
+            "value": "Заменять текст на месте"
+          }
+        }
+      }
+    },
+    "Foreign text in the region is replaced by its translation right where it is.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foreign text in the region is replaced by its translation right where it is."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Иностранный текст в области заменяется переводом прямо на том же месте."
+          }
+        }
+      }
+    },
+    "The translation is drawn over the other app. Stop it here or from the Koto menu in the menu bar. Nothing is saved.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation is drawn over the other app. Stop it here or from the Koto menu in the menu bar. Nothing is saved."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод рисуется поверх другого приложения. Остановить его можно здесь или в меню Koto в строке меню. Ничего не сохраняется."
+          }
+        }
+      }
+    },
+    "Language not downloaded. Prepare it in the main Koto window first.": {
+      "comment": "Пользовательская строка: Features/Live. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language not downloaded. Prepare it in the main Koto window first."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Язык не загружен. Сначала подготовьте его в главном окне Koto."
           }
         }
       }
