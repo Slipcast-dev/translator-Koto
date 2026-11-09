@@ -2,9 +2,16 @@
 
 # Changelog
 
+## 0.1.0-alpha.18
+
+Release: [Docs/RELEASE-0.1.0-alpha.18.md](Docs/RELEASE-0.1.0-alpha.18.md).
+
+- The quick translation window no longer extends past the screen; the permissions panel has hints (a copy outside Applications, “Reset and ask again”). The release signature is tied to the identifier, so permissions survive updates.
+- The localization check matches every string in the code with the catalog so the interface language is never mixed.
+
 ## 0.1.0-alpha.17
 
-Release: [Docs/RELEASE-0.1.0-alpha.17.md](Docs/RELEASE-0.1.0-alpha.17.md).
+Release: [alpha.17](https://github.com/Slipcast-dev/translator-Koto/releases/tag/v0.1.0-alpha.17).
 
 - Main window: all buttons in one macOS-style toolbar, grouped by function.
 - Quick translation window: a permissions panel with statuses, an “Allow…” button, automatic continuation of the command after access is granted and a restart for screen recording; the panel appears only for access errors.
