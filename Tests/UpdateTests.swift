@@ -101,12 +101,18 @@ import Foundation
             let out = Pipe(); pipe.standardOutput = out; try pipe.run(); pipe.waitUntilExit()
             return String(decoding: out.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self).split(separator: " ").first.map(String.init) ?? ""
         }
-        let dmgNew = try makeDMG(build: newBuild, name: "Koto-0.1.0-\(newBuild)-arm64-preview-ci.dmg")
-        let dmgSame = try makeDMG(build: oldBuild, name: "Koto-0.1.0-\(oldBuild)-arm64-preview-ci.dmg")
+        // Версия и канал берутся у проверяемого приложения: тест работает и для alpha, и для стабильного выпуска.
+        let sourceInfo = try PropertyListSerialization.propertyList(
+            from: Data(contentsOf: sourceApp.appendingPathComponent("Contents/Info.plist")), format: nil) as? [String: Any] ?? [:]
+        let short = sourceInfo["CFBundleShortVersionString"] as? String ?? "0.1.0"
+        let channel = sourceInfo["KotoReleaseChannel"] as? String ?? ""
+        let dmgNew = try makeDMG(build: newBuild, name: "Koto-\(short)-\(newBuild)-arm64.dmg")
+        let dmgSame = try makeDMG(build: oldBuild, name: "Koto-\(short)-\(oldBuild)-arm64.dmg")
+        let newTag = "v\(short)" + (channel.isEmpty ? "" : "-\(channel).\(newBuild)")
         let sizeNew = (try FileManager.default.attributesOfItem(atPath: dmgNew.path)[.size] as? NSNumber)?.int64Value ?? 0
         let goodSums = try sha(dmgNew) + "  " + dmgNew.lastPathComponent + "\n"
         let badSums = String(repeating: "0", count: 64) + "  " + dmgNew.lastPathComponent + "\n"
-        let releases = "[" + releaseJSON(tag: "v0.1.0-alpha.\(newBuild)", dmg: dmgNew.lastPathComponent, size: sizeNew) + "]"
+        let releases = "[" + releaseJSON(tag: newTag, dmg: dmgNew.lastPathComponent, size: sizeNew) + "]"
 
         func transport(sums: String, dmg: URL, slow: Bool = false) -> UpdateTransport {
             UpdateTransport(
