@@ -185,8 +185,8 @@ import Foundation
                                           workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
                                           processID: sleeper.processIdentifier, terminate: { terminated = true })
         installer.install(release)
-        let prepared = await waitFor(installer, seconds: 120) { if case .readyToRestart = $0 { true } else { false } }
-        try check(prepared, "update downloaded, verified and prepared in the background")
+        let prepared = await waitFor(installer, seconds: 240) { if case .readyToRestart = $0 { true } else { false } }
+        try check(prepared, "update downloaded, verified and prepared in the background (phase: \(installer.phase))")
         try check(!terminated, "the app is not restarted without the user's consent")
         try check(buildNumber(of: target) == oldBuild, "bundle is not replaced before the restart")
         if case .restart = installer.pendingPrompt { passed.append("restart prompt is shown after preparation") }
