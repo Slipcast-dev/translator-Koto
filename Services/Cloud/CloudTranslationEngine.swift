@@ -84,42 +84,65 @@ final class CloudTranslationEngine: TranslationEngine {
         return config
     }
     func supportedLanguages() async throws -> [TranslationLanguage] {
-        // Консервативный общий набор. Остальные пары не рекламируются без проверки каталога API.
-        ["ar","de","en","es","fr","hi","id","it","ja","ko","nl","pl","pt","ru","tr","uk","vi","zh"]
+        // Общий набор с локальной моделью и расширениями; оба провайдера поддерживают эти языки.
+        TranslationLanguage.commonIdentifiers
             .map { TranslationLanguage(id: $0) }.sorted { $0.displayName < $1.displayName }
     }
     func readiness(for request: TranslationRequest) async throws -> TranslationReadiness {
         _ = try ProviderKeychain.read(provider.rawValue)
         return .installed(request)
     }
-    func translate(_ request: TranslationRequest) async throws -> TranslationResult {
-        let key = try ProviderKeychain.read(provider.rawValue)
-        if provider == .yandex, request.text.count > 10_000 {
-            throw TranslationFailure.engineIssue(String(localized: "Yandex accepts up to \(AppLocalization.number(10_000)) characters per request."))
+    /// Размер одного запроса к провайдеру в байтах UTF-8: заметно ниже лимитов Google и Yandex (10 000 символов).
+    nonisolated static let chunkBytes = 4_000
+    nonisolated static let maximumAttempts = 3
+
+    /// Повторяются только перегрузка и временные сбои: 429 и 5xx. Пауза растёт (1, 2 с), `Retry-After` учитывается до 8 с.
+    nonisolated static func retryDelay(status: Int, retryAfter: String?, attempt: Int) -> Duration? {
+        guard attempt < maximumAttempts, status == 429 || (500...599).contains(status) else { return nil }
+        let requested = retryAfter.flatMap { Double($0.trimmingCharacters(in: .whitespaces)) }
+        return .seconds(min(8, max(0, requested ?? Double(1 << (attempt - 1)))))
+    }
+
+    private func send(_ text: String, request: TranslationRequest, key: String)
+        async throws -> (text: String, detected: String?) {
+        let endpoint = provider == .google ? "https://translation.googleapis.com/language/translate/v2"
+            : "https://translate.api.cloud.yandex.net/translate/v2/translate"
+        guard let url = URL(string: endpoint) else { throw TranslationFailure.failed }
+        var http = URLRequest(url: url)
+        http.httpMethod = "POST"
+        http.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        var body: [String: Any]
+        if provider == .google {
+            http.setValue(key, forHTTPHeaderField: "X-goog-api-key")
+            body = ["q": text, "target": request.target.id, "format": "text"]
+            if let source = request.source { body["source"] = source.id }
+        } else {
+            // API-key сервисного аккаунта: folderId не передаётся, согласно REST reference.
+            http.setValue("Api-Key " + key, forHTTPHeaderField: "Authorization")
+            body = ["texts": [text], "targetLanguageCode": request.target.id, "format": "PLAIN_TEXT"]
+            if let source = request.source { body["sourceLanguageCode"] = source.id }
         }
-        let task = Task { () throws -> TranslationResult in
-            let endpoint = provider == .google ? "https://translation.googleapis.com/language/translate/v2"
-                : "https://translate.api.cloud.yandex.net/translate/v2/translate"
-            guard let url = URL(string: endpoint) else { throw TranslationFailure.failed }
-            var http = URLRequest(url: url)
-            http.httpMethod = "POST"
-            http.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            var body: [String: Any]
-            if provider == .google {
-                http.setValue(key, forHTTPHeaderField: "X-goog-api-key")
-                body = ["q": request.text, "target": request.target.id, "format": "text"]
-                if let source = request.source { body["source"] = source.id }
-            } else {
-                // API-key сервисного аккаунта: folderId не передаётся, согласно REST reference.
-                http.setValue("Api-Key " + key, forHTTPHeaderField: "Authorization")
-                body = ["texts": [request.text], "targetLanguageCode": request.target.id, "format": "PLAIN_TEXT"]
-                if let source = request.source { body["sourceLanguageCode"] = source.id }
+        http.httpBody = try JSONSerialization.data(withJSONObject: body)
+        var attempt = 1
+        while true {
+            let data: Data
+            let response: URLResponse
+            do { (data, response) = try await session.data(for: http) }
+            catch let error as URLError where attempt < Self.maximumAttempts
+                && [.timedOut, .networkConnectionLost, .notConnectedToInternet].contains(error.code) {
+                try await Task.sleep(for: .seconds(Double(1 << (attempt - 1))))
+                attempt += 1
+                continue
             }
-            http.httpBody = try JSONSerialization.data(withJSONObject: body)
-            let (data, response) = try await session.data(for: http)
             try Task.checkCancellation()
             let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-            guard status == 200 else {
+            if status != 200 {
+                if let delay = Self.retryDelay(status: status,
+                    retryAfter: (response as? HTTPURLResponse)?.value(forHTTPHeaderField: "Retry-After"), attempt: attempt) {
+                    try await Task.sleep(for: delay)
+                    attempt += 1
+                    continue
+                }
                 // Ответ сервиса может содержать пользовательский текст: не показываем сырое тело.
                 let message = [401: String(localized: "API key rejected."), 403: String(localized: "Check the key permissions and API access."),
                                429: String(localized: "Provider quota exhausted. Try again later.")][status]
@@ -130,15 +153,35 @@ final class CloudTranslationEngine: TranslationEngine {
                   let object = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw TranslationFailure.failed }
             let container = provider == .google ? (object["data"] as? [String: Any] ?? [:]) : object
             guard let first = (container["translations"] as? [[String: Any]])?.first,
-                  let text = first[provider == .google ? "translatedText" : "text"] as? String, !text.isEmpty else {
+                  let translated = first[provider == .google ? "translatedText" : "text"] as? String, !translated.isEmpty else {
                 throw TranslationFailure.failed
             }
-            let detected = first[provider == .google ? "detectedSourceLanguage" : "detectedLanguageCode"] as? String
-            let guessed = detected ?? LanguageDetector.detect(request.text, among: ["ar","de","en","es","fr","hi","id","it","ja","ko","nl","pl","pt","ru","tr","uk","vi","zh"])
+            return (translated, first[provider == .google ? "detectedSourceLanguage" : "detectedLanguageCode"] as? String)
+        }
+    }
+
+    func translate(_ request: TranslationRequest) async throws -> TranslationResult {
+        let key = try ProviderKeychain.read(provider.rawValue)
+        let task = Task { () throws -> TranslationResult in
+            // Длинный текст уходит частями по границам предложений; пробелы и переносы сохраняются буквально.
+            var output = ""
+            var detected: String?
+            for piece in TranslationChunker.pieces(request.text, maximumBytes: Self.chunkBytes) {
+                try Task.checkCancellation()
+                switch piece {
+                case .literal(let separator): output += separator
+                case .text(let part):
+                    let answer = try await send(part, request: request, key: key)
+                    output += answer.text
+                    detected = detected ?? answer.detected
+                }
+            }
+            guard !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw TranslationFailure.failed }
+            let guessed = detected ?? LanguageDetector.detect(request.text, among: TranslationLanguage.commonIdentifiers)
             guard let source = request.source ?? guessed.map({ TranslationLanguage(id: $0) }) else {
                 throw TranslationFailure.unableToIdentify
             }
-            return TranslationResult(requestID: request.id, text: text, source: source, target: request.target)
+            return TranslationResult(requestID: request.id, text: output, source: source, target: request.target)
         }
         operation = task; operationID = request.id
         defer { if operationID == request.id { operation = nil; operationID = nil } }

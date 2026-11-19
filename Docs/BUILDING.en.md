@@ -54,6 +54,10 @@ Releases are automatic. In a pull request raise `CURRENT_PROJECT_VERSION` in `Co
 3. attests the files with GitHub/Sigstore;
 4. creates the tag `v<version>` and a release with the notes.
 
-If a release of that version already exists the build is skipped; the same workflow can also be run manually or by a `v*` tag. The workflow does not delete earlier releases. The [koto-website](https://github.com/Slipcast-dev/koto-website) site picks up the latest release on its own and updates the download links. Verify a file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. An attestation binds the files to a source revision and workflow; it does not replace an Apple Developer ID or notarization.
+If a release of that version already exists the build is skipped; the same workflow can also be run manually (the workflow creates the `v*` tag itself and that tag does not start a second build). The workflow does not delete earlier releases. The [koto-website](https://github.com/Slipcast-dev/koto-website) site picks up the latest release on its own and updates the download links. Verify a file with `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. An attestation binds the files to a source revision and workflow; it does not replace an Apple Developer ID or notarization.
 
 Changes reach `main` through pull requests with auto-merge enabled after the required checks.
+
+## Update signing key
+
+The in-app updater only installs a release whose `SHA256SUMS.txt` carries a valid Ed25519 signature (`SHA256SUMS.txt.sig`). The public key is `KOTO_UPDATE_PUBLIC_KEY` in `Config/Product.xcconfig`; the private key is the repository secret `KOTO_UPDATE_SIGNING_KEY` (base64, 32 bytes) and is used only by the `publish` job. Generate a pair with `swift script/update_signing.swift generate`. Rotating the key requires a manual install of one release, because installed copies trust the old public key.

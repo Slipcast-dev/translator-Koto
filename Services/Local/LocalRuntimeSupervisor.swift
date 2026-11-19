@@ -178,7 +178,23 @@ final class LocalRuntimeSupervisor {
     @ObservationIgnored private let resourceRoot: URL
     @ObservationIgnored private let modelFileOverride: URL?
 
-    init(resourceRoot: URL? = nil, modelFile: URL? = nil, idleTimeout: Duration = .seconds(600)) {
+    /// Время простоя до выгрузки модели: `defaults write dev.slipcast.koto local.idleTimeoutSeconds -int 1800`.
+    /// Допустимы значения от минуты до суток; иначе действует 10 минут.
+    nonisolated static func configuredIdleTimeout(_ defaults: UserDefaults = .standard) -> Duration {
+        let seconds = defaults.integer(forKey: "local.idleTimeoutSeconds")
+        return .seconds((60...86_400).contains(seconds) ? seconds : 600)
+    }
+
+    /// Потоки инференса: число производительных ядер (на Apple silicon эффективные ядра только замедляют),
+    /// не меньше 2 и не больше 8.
+    nonisolated static func inferenceThreads() -> Int {
+        var count: Int32 = 0
+        var size = MemoryLayout<Int32>.size
+        let performance = sysctlbyname("hw.perflevel0.physicalcpu", &count, &size, nil, 0) == 0 ? Int(count) : 0
+        return min(8, max(2, performance > 0 ? performance : 4))
+    }
+
+    init(resourceRoot: URL? = nil, modelFile: URL? = nil, idleTimeout: Duration = LocalRuntimeSupervisor.configuredIdleTimeout()) {
         self.modelFileOverride = modelFile
         self.idleTimeout = idleTimeout
         self.resourceRoot = resourceRoot ?? Bundle.main.resourceURL ?? URL(fileURLWithPath: "/nonexistent")
@@ -263,7 +279,7 @@ final class LocalRuntimeSupervisor {
             child.arguments = [runtime.path, "--model", "/dev/fd/0",
                 "--host", directory.appendingPathComponent("runtime.sock").path,
                 "--api-key-file", keyFile.path, "--ctx-size", "4096",
-                "--parallel", "1", "--threads", "4", "--n-gpu-layers", "99",
+                "--parallel", "1", "--threads", String(Self.inferenceThreads()), "--n-gpu-layers", "99",
                 "--no-webui", "--offline", "--log-disable"]
             // Исключаем унаследованные LLAMA_* и proxy настройки внешнего окружения.
             child.environment = ["PATH": "/usr/bin:/bin", "HOME": NSHomeDirectory(),
@@ -337,6 +353,12 @@ final class LocalRuntimeSupervisor {
         rmdir(directory.path)
     }
 
+    nonisolated private static func isLauncher(_ pid: pid_t) -> Bool {
+        var buffer = [CChar](repeating: 0, count: 4096)
+        guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return false }
+        return URL(fileURLWithPath: String(cString: buffer)).lastPathComponent == "koto-runtime-launcher"
+    }
+
     /// После краха или принудительного выхода каталог /tmp/koto-<UUID> с ключом остаётся.
     /// Удаляются только свои (uid) каталоги именно такого имени, чей launcher больше не жив:
     /// запущенный другим экземпляром Koto runtime не затрагивается.
@@ -351,7 +373,9 @@ final class LocalRuntimeSupervisor {
             let pidText = (try? String(contentsOf: directory.appendingPathComponent("launcher.pid"), encoding: .utf8))
                 .flatMap { Int32($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
             // Без pid-файла каталог принадлежит запуску, не дошедшему до child: безопасно удалить только если он старше минуты.
-            if let pidText { if pidText > 1 && kill(pidText, 0) == 0 { continue } }
+            // Живым считается только процесс с именем нашего launcher: переиспользованный PID чужого
+            // процесса не должен оставлять каталог с ключом навсегда.
+            if let pidText { if pidText > 1 && kill(pidText, 0) == 0 && isLauncher(pidText) { continue } }
             else if Date().timeIntervalSince(Date(timeIntervalSince1970: TimeInterval(metadata.st_mtimespec.tv_sec))) < 60 { continue }
             removeDirectory(directory)
         }

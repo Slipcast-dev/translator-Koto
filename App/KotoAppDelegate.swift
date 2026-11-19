@@ -8,6 +8,10 @@ final class KotoAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         capture?.stop()
+        // Мост и локальный движок убирают токены и ключи с диска; память переводов дописывается до выхода.
+        BrowserBridgeServer.shared.stop()
+        LocalRuntimeSupervisor.shared.stop()
+        TranslationStore.shared.flush()
         // Отложенное обновление («Позже») применяется при выходе: помощник заменит bundle после завершения процесса.
         UpdateModel.shared.applyOnQuit()
     }

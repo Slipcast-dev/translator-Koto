@@ -6,6 +6,9 @@ import Foundation
 struct TranslationLanguage: Hashable, Identifiable, Sendable {
     let id: String
 
+    /// Единый список языков для локальной модели и облака (расширения Chrome/Safari держат такой же в popup.js).
+    nonisolated static let commonIdentifiers = ["ar","de","en","es","fr","hi","id","it","ja","ko","nl","pl","pt","ru","th","tr","uk","vi","zh"]
+
     var localeLanguage: Locale.Language { Locale.Language(identifier: id) }
     var displayName: String {
         Locale(identifier: AppLocalization.languageIdentifier)

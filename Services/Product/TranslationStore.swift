@@ -21,6 +21,8 @@ final class TranslationStore {
     private(set) var glossary: [PhraseRecord] = []
     private(set) var memory: [PhraseRecord] = []
     private(set) var status = ""
+    @ObservationIgnored private var memoryDirty = false
+    @ObservationIgnored private var memoryWriteScheduled = false
     var memoryEnabled: Bool {
         didSet {
             defaults.set(memoryEnabled, forKey: "memory.enabled")
@@ -90,21 +92,42 @@ final class TranslationStore {
         next.append(record)
         next = Array(next.suffix(500))
         memory = next
-        // Файл памяти может занимать мегабайты: запись на фоновой очереди не блокирует интерфейс.
-        // Очередь последовательная, поэтому порядок записей сохраняется (последняя версия побеждает).
-        let data = try? JSONEncoder().encode(next)
+        memoryDirty = true
+        scheduleMemoryWrite()
+    }
+
+    /// Файл памяти может занимать мегабайты. Записи склеиваются: серия переводов даёт одну запись через пару секунд,
+    /// а при выходе и очистке `flush()` дописывает всё сразу. Запись идёт на фоновой очереди.
+    private func scheduleMemoryWrite() {
+        guard !memoryWriteScheduled else { return }
+        memoryWriteScheduled = true
+        Task { [weak self] in
+            try? await Task.sleep(for: .seconds(2))
+            self?.writeMemoryIfNeeded()
+        }
+    }
+    private func writeMemoryIfNeeded() {
+        memoryWriteScheduled = false
+        guard memoryDirty else { return }
+        memoryDirty = false
+        let data = try? JSONEncoder().encode(memory)
         let url = try? file("memory.json")
         guard let data, let url else { status = String(localized: "Unable to save translation memory"); return }
         // @Sendable обязателен: иначе замыкание наследует MainActor и падает на проверке очереди.
+        // Очередь последовательная, поэтому порядок записей сохраняется (последняя версия побеждает).
         Self.writer.async { @Sendable [weak self] in
             do { try PrivateStorage.write(data, to: url) }
             catch { Task { @MainActor in self?.status = String(localized: "Unable to save translation memory") } }
         }
     }
     /// Дожидается отложенных записей памяти (выход приложения, очистка, проверки).
-    func flush() { Self.writer.sync {} }
+    func flush() {
+        writeMemoryIfNeeded()
+        Self.writer.sync {}
+    }
 
     func clearMemory() {
+        memoryDirty = false
         flush()
         do { try persist([], name: "memory.json"); memory.removeAll(); status = String(localized: "Memory cleared") }
         catch { status = String(localized: "Unable to clear the memory file") }

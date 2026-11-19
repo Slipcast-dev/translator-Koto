@@ -22,7 +22,7 @@ def main() -> None:
                 archive.write(path, path.relative_to(ROOT))
     records = []
     for path in sorted(dist.iterdir()):
-        if path.is_file() and path.name != 'SHA256SUMS.txt':
+        if path.is_file() and path.name not in {'SHA256SUMS.txt', 'SHA256SUMS.txt.sig'}:
             with path.open('rb') as artifact:
                 digest = hashlib.file_digest(artifact, 'sha256').hexdigest()
             records.append(f'{digest}  {path.name}\n')

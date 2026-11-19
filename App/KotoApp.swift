@@ -88,6 +88,7 @@ private struct MainWindowActionInstaller: View {
                 appDelegate.reopenMainWindow = {
                     openWindow(id: WindowID.main)
                 }
+#if DEBUG
                 // Помощник для автоматических снимков интерфейса: открывает Settings без нажатия клавиш.
                 if CommandLine.arguments.contains("--koto-open-settings") { openSettings() }
                 // Те же помощники для снимков панели разрешений: запускают захват, как горячая клавиша.
@@ -97,6 +98,7 @@ private struct MainWindowActionInstaller: View {
                 if CommandLine.arguments.contains("--koto-capture-region") {
                     Task { @MainActor in try? await Task.sleep(for: .seconds(1.5)); capture.captureRegion() }
                 }
+#endif
                 // Проверка обновления при запуске: через несколько секунд, чтобы не мешать старту; молча при ошибке.
                 Task { @MainActor in
                     try? await Task.sleep(for: .seconds(4))
