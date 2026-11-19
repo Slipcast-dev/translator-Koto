@@ -2,9 +2,9 @@
 
 # Changelog
 
-## 1.0.2
+## 2.0.0
 
-Release: [Docs/RELEASE-1.0.2.md](Docs/RELEASE-1.0.2.md).
+Release: [Docs/RELEASE-2.0.0.md](Docs/RELEASE-2.0.0.md).
 
 - Security: the updater verifies an Ed25519 signature over `SHA256SUMS.txt`, accepts files only from this repository's releases and no longer strips quarantine; build and publish are separate jobs; developer launch flags are Debug-only; tokens and keys are removed on quit; the native host verifies the app signature.
 - Reliability: cloud translation splits long text and retries on 429/5xx; one shared language list; disk writes use F_FULLFSYNC.

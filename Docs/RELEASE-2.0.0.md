@@ -1,4 +1,4 @@
-# Koto 1.0.2
+# Koto 2.0.0
 
 **Русский.** Выпуск для Apple Silicon, macOS 26+. Подпись ad hoc, без Apple Developer ID и notarization: macOS может блокировать запуск. Веса моделей в DMG не входят.
 
