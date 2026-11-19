@@ -56,11 +56,18 @@ nonisolated struct AppRelease: Sendable, Equatable, Identifiable {
     let page: URL
     let dmg: ReleaseAsset
     let checksums: ReleaseAsset?
+    /// Подпись Ed25519 файла SHA256SUMS.txt ключом разработчика: независимый от GitHub корень доверия.
+    let signature: ReleaseAsset?
+    init(tag: String, version: AppVersion, title: String, notes: String, page: URL,
+         dmg: ReleaseAsset, checksums: ReleaseAsset?, signature: ReleaseAsset? = nil) {
+        self.tag = tag; self.version = version; self.title = title; self.notes = notes
+        self.page = page; self.dmg = dmg; self.checksums = checksums; self.signature = signature
+    }
 }
 
 nonisolated enum UpdateFailure: Error, Equatable {
     case network, rateLimited, badResponse, noRelease
-    case tooLarge, checksumMissing, checksumMismatch
+    case tooLarge, checksumMissing, checksumMismatch, untrusted
     case mountFailed, appMissing, wrongApp, notNewer, signature
     case notWritable, helperFailed, timedOut, cancelled
 }
@@ -87,6 +94,15 @@ nonisolated enum UpdateCatalog {
             || host == "githubusercontent.com" || host.hasSuffix(".githubusercontent.com")
     }
 
+    /// Файлы выпуска берутся только из релизов этого репозитория: ссылка из JSON не должна вести
+    /// в чужой репозиторий на github.com, даже если хост формально «свой».
+    nonisolated static let releaseDownloadPrefix = "/slipcast-dev/translator-koto/releases/download/"
+
+    nonisolated static func isTrustedAsset(_ url: URL) -> Bool {
+        guard isTrustedHost(url), url.host?.lowercased() == "github.com", url.query == nil, url.fragment == nil else { return false }
+        return url.path.lowercased().hasPrefix(releaseDownloadPrefix)
+    }
+
     /// Возвращает самый новый выпуск, строго новее current; nil — обновлений нет.
     nonisolated static func newest(from data: Data, newerThan current: AppVersion) throws -> AppRelease? {
         guard data.count <= 2_000_000, let releases = try? JSONDecoder().decode([Release].self, from: data) else {
@@ -95,17 +111,20 @@ nonisolated enum UpdateCatalog {
         var best: AppRelease?
         for release in releases where !release.draft {
             guard let dmg = release.assets.first(where: { $0.name.hasSuffix(".dmg") && $0.name.contains("arm64") }),
-                  isTrustedHost(dmg.browser_download_url), dmg.size > 0, dmg.size <= maximumDownload else { continue }
+                  isTrustedAsset(dmg.browser_download_url), dmg.size > 0, dmg.size <= maximumDownload else { continue }
             let assetBuild = buildNumber(inAssetName: dmg.name)
             guard let version = AppVersion.parse(tag: release.tag_name, assetBuild: assetBuild),
                   version > current else { continue }
             let sums = release.assets.first(where: { $0.name == "SHA256SUMS.txt" })
-                .flatMap { isTrustedHost($0.browser_download_url) && $0.size <= 65_536 ? $0 : nil }
+                .flatMap { isTrustedAsset($0.browser_download_url) && $0.size <= 65_536 ? $0 : nil }
+            let signature = release.assets.first(where: { $0.name == "SHA256SUMS.txt.sig" })
+                .flatMap { isTrustedAsset($0.browser_download_url) && $0.size <= 1_024 ? $0 : nil }
             let candidate = AppRelease(
                 tag: release.tag_name, version: version, title: release.name ?? release.tag_name,
                 notes: summary(release.body ?? ""), page: release.html_url,
                 dmg: ReleaseAsset(name: dmg.name, url: dmg.browser_download_url, size: dmg.size),
-                checksums: sums.map { ReleaseAsset(name: $0.name, url: $0.browser_download_url, size: $0.size) })
+                checksums: sums.map { ReleaseAsset(name: $0.name, url: $0.browser_download_url, size: $0.size) },
+                signature: signature.map { ReleaseAsset(name: $0.name, url: $0.browser_download_url, size: $0.size) })
             if best == nil || candidate.version > best!.version { best = candidate }
         }
         return best
@@ -210,7 +229,6 @@ nonisolated enum UpdateInstaller {
     OLD="$TARGET.old-$$"
     if /bin/mv "$TARGET" "$OLD"; then
       if /bin/mv "$NEW" "$TARGET"; then
-        /usr/bin/xattr -dr com.apple.quarantine "$TARGET" 2>/dev/null
         /bin/rm -rf "$OLD"
       else
         /bin/mv "$OLD" "$TARGET"
@@ -223,9 +241,18 @@ nonisolated enum UpdateInstaller {
     /bin/rm -f "$0"
     """
 
-    /// Проверяет SHA-256 загруженного DMG по SHA256SUMS.txt того же выпуска.
-    nonisolated static func verify(dmg: URL, release: AppRelease, checksumsText: String?) throws {
-        guard let checksumsText, let expected = UpdateCatalog.expectedHash(in: checksumsText, fileName: release.dmg.name) else {
+    /// Проверяет подпись разработчика под SHA256SUMS.txt (Ed25519, ключ вшит в приложение),
+    /// затем SHA-256 загруженного DMG по этому файлу. Без ключа или подписи установка отклоняется.
+    nonisolated static func verify(dmg: URL, release: AppRelease, checksums: Data?, signature: Data?,
+                                   publicKey: Data?) throws {
+        guard let checksums else { throw UpdateFailure.checksumMissing }
+        guard let publicKey, let signature, signature.count <= 1_024,
+              let key = try? Curve25519.Signing.PublicKey(rawRepresentation: publicKey),
+              let raw = Data(base64Encoded: String(decoding: signature, as: UTF8.self)
+                .trimmingCharacters(in: .whitespacesAndNewlines)),
+              key.isValidSignature(raw, for: checksums) else { throw UpdateFailure.untrusted }
+        guard let checksumsText = String(data: checksums, encoding: .utf8),
+              let expected = UpdateCatalog.expectedHash(in: checksumsText, fileName: release.dmg.name) else {
             throw UpdateFailure.checksumMissing
         }
         guard let handle = try? FileHandle(forReadingFrom: dmg) else { throw UpdateFailure.badResponse }

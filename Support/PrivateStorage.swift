@@ -78,6 +78,8 @@ nonisolated enum PrivateStorage {
             guard count > 0 else { throw CocoaError(.fileWriteUnknown) }
             offset += count
         }
+        // Без сброса на диск после потери питания rename может закрепиться раньше данных, и файл окажется пустым.
+        if fcntl(fd, F_FULLFSYNC) != 0 { guard fsync(fd) == 0 else { throw CocoaError(.fileWriteUnknown) } }
         var old = stat()
         if lstat(url.path, &old) == 0 {
             guard (old.st_mode & S_IFMT) == S_IFREG, old.st_uid == getuid() else { throw CocoaError(.fileWriteNoPermission) }

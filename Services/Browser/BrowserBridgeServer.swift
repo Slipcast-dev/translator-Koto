@@ -35,7 +35,16 @@ final class BrowserBridgeServer {
         enabled = directory == nil && UserDefaults.standard.bool(forKey: "browserBridge.enabled")
     }
 
-    func startIfEnabled() { if enabled { start() } }
+    func startIfEnabled() {
+        if enabled { start() } else { removeStaleToken() }
+    }
+    /// После аварийного выхода токен моста мог остаться на диске; при выключенном мосте он не нужен.
+    private func removeStaleToken() {
+        guard listener == nil, let directory = try? directoryOverride ?? PrivateStorage.bridgeDirectory() else { return }
+        let file = directory.appendingPathComponent("bridge.token").path
+        var metadata = stat()
+        if lstat(file, &metadata) == 0, (metadata.st_mode & S_IFMT) == S_IFREG, metadata.st_uid == getuid() { unlink(file) }
+    }
     func start() {
         guard listener == nil else { return }
         do {

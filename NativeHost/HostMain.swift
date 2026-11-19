@@ -1,5 +1,6 @@
 import Foundation
 import Darwin
+import Security
 
 /// Native Messaging host использует один poll-loop: частичный stdin не блокирует socket/stdout.
 /// Никаких пользовательских данных в stderr; stdout содержит только framed JSON.
@@ -181,11 +182,25 @@ struct KotoNativeHost {
         return fd
     }
 
+    /// Перед запуском через `open` проверяется целостная подпись всего bundle и его идентификатор:
+    /// подменённая или повреждённая копия не запускается. Это не заменяет Developer ID, но отсекает
+    /// неподписанные и изменённые после подписи каталоги с тем же именем.
+    private static func hasValidSignature(_ app: URL) -> Bool {
+        var code: SecStaticCode?
+        var requirement: SecRequirement?
+        guard SecStaticCodeCreateWithPath(app as CFURL, [], &code) == errSecSuccess, let code,
+              SecRequirementCreateWithString("identifier \"dev.slipcast.koto\"" as CFString, [], &requirement) == errSecSuccess,
+              let requirement else { return false }
+        let flags = SecCSFlags(rawValue: kSecCSCheckAllArchitectures | kSecCSStrictValidate | kSecCSCheckNestedCode)
+        return SecStaticCodeCheckValidity(code, flags, requirement) == errSecSuccess
+    }
+
     private static func launchDesktop() {
         var candidate = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent()
         while candidate.path != "/" && candidate.pathExtension != "app" { candidate.deleteLastPathComponent() }
         guard candidate.pathExtension == "app",
-              Bundle(url: candidate)?.bundleIdentifier == "dev.slipcast.koto" else { return }
+              Bundle(url: candidate)?.bundleIdentifier == "dev.slipcast.koto",
+              hasValidSignature(candidate) else { return }
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
         process.arguments = ["-g", candidate.path]

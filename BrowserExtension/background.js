@@ -121,9 +121,10 @@ async function act(message) {
     return {segments:output,pageOrigin:location.origin};
   });
   let completed = 0;
-  for (let index=0; index<segments.length; index+=2) {
+  // 4 запроса одновременно: столько же допускают мост (4 задачи на соединение) и очередь worker.
+  for (let index=0; index<segments.length; index+=4) {
     if (generation !== current) throw new Error("cancelled");
-    const batch = await Promise.all(segments.slice(index,index+2).map(async segment => ({
+    const batch = await Promise.all(segments.slice(index,index+4).map(async segment => ({
       id:segment.id,original:segment.text,text:await translate(segment.text,source,target,pageOrigin)
     })));
     if (generation !== current) throw new Error("cancelled");

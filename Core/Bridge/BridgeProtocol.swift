@@ -32,7 +32,6 @@ struct BridgeFrameDecoder {
             // Data после removeFirst может иметь ненулевой startIndex.
             // Диапазон строится относительно текущего начала, иначе второй кадр вызывает trap.
             let body = buffer.subdata(in: (buffer.startIndex + 4)..<(buffer.startIndex + full))
-            guard String(data: body, encoding: .utf8) != nil else { throw BridgeProtocolFailure.json }
             let value: BridgeEnvelope
             do { value = try JSONDecoder().decode(BridgeEnvelope.self, from: body) }
             catch { throw BridgeProtocolFailure.json }

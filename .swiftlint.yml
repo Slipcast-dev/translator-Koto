@@ -4,6 +4,11 @@ only_rules:
   - force_try
   - duplicate_imports
   - unneeded_break_in_switch
+  - empty_count
+  - trailing_semicolon
+  - redundant_discardable_let
+  - unused_closure_parameter
+  - legacy_constructor
 included:
   - App
   - Core

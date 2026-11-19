@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 
 /// Проверка обновления на настоящих DMG, hdiutil, codesign и процессе-помощнике.
@@ -30,8 +31,9 @@ import Foundation
         """
         {"tag_name":"\(tag)","name":"Koto \(tag)","body":"## Что нового\\n- Исправления\\n- **Быстрее** запуск","draft":\(draft),
          "html_url":"https://github.com/Slipcast-dev/translator-Koto/releases/tag/\(tag)",
-         "assets":[{"name":"\(dmg)","browser_download_url":"https://\(host)/x/\(dmg)","size":\(size)},
-                   {"name":"SHA256SUMS.txt","browser_download_url":"https://github.com/x/SHA256SUMS.txt","size":200}]}
+         "assets":[{"name":"\(dmg)","browser_download_url":"https://\(host)/Slipcast-dev/translator-Koto/releases/download/\(tag)/\(dmg)","size":\(size)},
+                   {"name":"SHA256SUMS.txt","browser_download_url":"https://github.com/Slipcast-dev/translator-Koto/releases/download/\(tag)/SHA256SUMS.txt","size":200},
+                   {"name":"SHA256SUMS.txt.sig","browser_download_url":"https://github.com/Slipcast-dev/translator-Koto/releases/download/\(tag)/SHA256SUMS.txt.sig","size":90}]}
         """
     }
 
@@ -42,6 +44,9 @@ import Foundation
         let root = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("koto-update-test-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
+
+        let signingKey = Curve25519.Signing.PrivateKey()
+        let signingPublic = signingKey.publicKey.rawRepresentation
 
         // 1. Версии и каталог релизов.
         let v14 = AppVersion.parse(tag: "v0.1.0-alpha.14")!
@@ -60,6 +65,9 @@ import Foundation
             releaseJSON(tag: "v0.1.0-alpha.17", dmg: "Koto-0.1.0-17-arm64-preview-ci.dmg", size: 1000, host: "evil.example.com"),
             releaseJSON(tag: "v0.1.0-alpha.18", dmg: "Koto-0.1.0-18-arm64-preview-ci.dmg", size: 900_000_000),
         ].joined(separator: ",") + "]"
+        let foreign = "[" + releaseJSON(tag: "v0.1.0-alpha.19", dmg: "Koto-0.1.0-19-arm64-preview-ci.dmg", size: 1000)
+            .replacingOccurrences(of: "Slipcast-dev/translator-Koto/releases/download", with: "someone/else/releases/download") + "]"
+        try check(try UpdateCatalog.newest(from: Data(foreign.utf8), newerThan: v14) == nil, "asset from a foreign repository rejected")
         let picked = try UpdateCatalog.newest(from: Data(feed.utf8), newerThan: v14)
         try check(picked?.tag == "v0.1.0-alpha.15", "newest trusted non-draft release selected")
         try check(picked?.notes.contains("#") == false && picked?.notes.contains("**") == false, "markdown stripped from notes")
@@ -121,10 +129,16 @@ import Foundation
         let badSums = String(repeating: "0", count: 64) + "  " + dmgNew.lastPathComponent + "\n"
         let releases = "[" + releaseJSON(tag: newTag, dmg: dmgNew.lastPathComponent, size: sizeNew) + "]"
 
-        func transport(sums: String, dmg: URL, slow: Bool = false) -> UpdateTransport {
+        func transport(sums: String, dmg: URL, slow: Bool = false, signer: Curve25519.Signing.PrivateKey? = nil,
+                       signed: Bool = true) -> UpdateTransport {
             UpdateTransport(
                 fetch: { url in
                     if url == UpdateTransport.releasesURL { return Data(releases.utf8) }
+                    if url.lastPathComponent.hasSuffix(".sig") {
+                        guard signed else { throw UpdateFailure.network }
+                        let signature = try (signer ?? signingKey).signature(for: Data(sums.utf8))
+                        return Data((signature.base64EncodedString() + "\n").utf8)
+                    }
                     return Data(sums.utf8)
                 },
                 download: { _, destination, progress in
@@ -151,7 +165,7 @@ import Foundation
         // 3a. Проверка находит обновление.
         var terminated = false
         let finder = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew), current: current, target: target,
-                                       workDirectory: work, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                       workDirectory: work, bundleIdentifier: bundleID, relaunch: false, publicKey: signingPublic, terminate: { terminated = true })
         finder.check()
         let found = await waitFor(finder, seconds: 10) { if case .available = $0 { true } else { false } }
         try check(found, "check finds the newer release")
@@ -159,10 +173,27 @@ import Foundation
 
         // 3b. Неверная контрольная сумма: ничего не устанавливается.
         let tampered = UpdateModel(transport: transport(sums: badSums, dmg: dmgNew), current: current, target: target,
-                                         workDirectory: work, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                         workDirectory: work, bundleIdentifier: bundleID, relaunch: false, publicKey: signingPublic, terminate: { terminated = true })
         tampered.install(release)
         let rejected = await waitFor(tampered, seconds: 60) { if case .failed = $0 { true } else { false } }
         try check(rejected && !terminated && buildNumber(of: target) == oldBuild, "checksum mismatch rejected and app untouched")
+
+        // 3b2. Подпись чужим ключом или её отсутствие: ничего не устанавливается.
+        let foreignKey = Curve25519.Signing.PrivateKey()
+        for (label, signer, signed) in [("wrong key", foreignKey, true), ("missing signature", signingKey, false)] {
+            let model = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew, signer: signer, signed: signed), current: current,
+                                    target: target, workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
+                                    publicKey: signingPublic, terminate: { terminated = true })
+            model.install(release)
+            let refused = await waitFor(model, seconds: 60) { if case .failed = $0 { true } else { false } }
+            try check(refused && !terminated && buildNumber(of: target) == oldBuild, "update rejected: \(label)")
+        }
+        let keyless = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew), current: current, target: target,
+                                  workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
+                                  publicKey: nil, terminate: { terminated = true })
+        keyless.install(release)
+        let keylessRefused = await waitFor(keyless, seconds: 60) { if case .failed = $0 { true } else { false } }
+        try check(keylessRefused && !terminated, "update rejected when the app has no public key")
 
         // 3c. Пакет той же версии не ставится.
         let sameRelease = AppRelease(tag: release.tag, version: release.version, title: release.title, notes: "", page: release.page,
@@ -171,7 +202,7 @@ import Foundation
             checksums: release.checksums)
         let sameSums = try sha(dmgSame) + "  " + dmgSame.lastPathComponent + "\n"
         let same = UpdateModel(transport: transport(sums: sameSums, dmg: dmgSame), current: current, target: target,
-                                     workDirectory: work, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                     workDirectory: work, bundleIdentifier: bundleID, relaunch: false, publicKey: signingPublic, terminate: { terminated = true })
         same.install(sameRelease)
         let notNewer = await waitFor(same, seconds: 90) { if case .failed = $0 { true } else { false } }
         try check(notNewer && !terminated && buildNumber(of: target) == oldBuild, "same-version package rejected")
@@ -182,7 +213,7 @@ import Foundation
         let slowWork = root.appendingPathComponent("work-slow")
         try FileManager.default.createDirectory(at: slowWork, withIntermediateDirectories: true)
         let slow = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew, slow: true), current: current, target: target,
-                                     workDirectory: slowWork, bundleIdentifier: bundleID, relaunch: false, terminate: { terminated = true })
+                                     workDirectory: slowWork, bundleIdentifier: bundleID, relaunch: false, publicKey: signingPublic, terminate: { terminated = true })
         slow.install(release)
         _ = await waitFor(slow, seconds: 5) { $0 == .downloading }
         let cancelStarted = ContinuousClock.now
@@ -194,7 +225,7 @@ import Foundation
         try sleeper.run()
         let installer = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew), current: current, target: target,
                                           workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
-                                          processID: sleeper.processIdentifier, terminate: { terminated = true })
+                                          processID: sleeper.processIdentifier, publicKey: signingPublic, terminate: { terminated = true })
         installer.install(release)
         _ = await waitFor(installer, seconds: 240) {
             switch $0 { case .readyToRestart, .failed: true; default: false }
@@ -247,7 +278,7 @@ import Foundation
         var terminated2 = false
         let later = UpdateModel(transport: transport(sums: goodSums, dmg: dmgNew), current: current, target: target2,
                                 workDirectory: work, bundleIdentifier: bundleID, relaunch: false,
-                                processID: sleeper2.processIdentifier, terminate: { terminated2 = true })
+                                processID: sleeper2.processIdentifier, publicKey: signingPublic, terminate: { terminated2 = true })
         later.install(release)
         _ = await waitFor(later, seconds: 120) { if case .readyToRestart = $0 { true } else { false } }
         later.dismissPrompt()
@@ -277,7 +308,7 @@ import Foundation
         let c1 = Counter()
         let bgDefaults = isolated()
         let background = UpdateModel(transport: counting(false, c1), current: current, target: target, workDirectory: work,
-                                     bundleIdentifier: bundleID, relaunch: false, defaults: bgDefaults, terminate: {})
+                                     bundleIdentifier: bundleID, relaunch: false, defaults: bgDefaults, publicKey: signingPublic, terminate: {})
         background.checkInBackground()
         _ = await waitFor(background, seconds: 10) { if case .available = $0 { true } else { false } }
         if case .available = background.pendingPrompt { passed.append("background check offers the update") } else { throw Failure(description: "no background offer") }
@@ -287,7 +318,7 @@ import Foundation
 
         let c2 = Counter()
         let failing = UpdateModel(transport: counting(true, c2), current: current, target: target, workDirectory: work,
-                                  bundleIdentifier: bundleID, relaunch: false, defaults: isolated(), terminate: {})
+                                  bundleIdentifier: bundleID, relaunch: false, defaults: isolated(), publicKey: signingPublic, terminate: {})
         failing.checkInBackground()
         try await Task.sleep(for: .milliseconds(500))
         try check(c2.fetches == 1 && failing.phase == .idle && failing.pendingPrompt == nil, "background failure is silent")
@@ -295,7 +326,7 @@ import Foundation
         let c3 = Counter()
         let skipDefaults = isolated()
         let skipper = UpdateModel(transport: counting(false, c3), current: current, target: target, workDirectory: work,
-                                  bundleIdentifier: bundleID, relaunch: false, defaults: skipDefaults, terminate: {})
+                                  bundleIdentifier: bundleID, relaunch: false, defaults: skipDefaults, publicKey: signingPublic, terminate: {})
         skipper.check()
         _ = await waitFor(skipper, seconds: 10) { if case .available = $0 { true } else { false } }
         skipper.skip(release)
@@ -310,7 +341,7 @@ import Foundation
         let c4 = Counter()
         let offDefaults = isolated(); offDefaults.set(false, forKey: UpdateModel.autoCheckKey)
         let off = UpdateModel(transport: counting(false, c4), current: current, target: target, workDirectory: work,
-                              bundleIdentifier: bundleID, relaunch: false, defaults: offDefaults, terminate: {})
+                              bundleIdentifier: bundleID, relaunch: false, defaults: offDefaults, publicKey: signingPublic, terminate: {})
         off.checkInBackground()
         try await Task.sleep(for: .milliseconds(300))
         try check(c4.fetches == 0, "automatic check can be turned off")

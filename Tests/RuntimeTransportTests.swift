@@ -96,14 +96,22 @@ import CryptoKit
         }
         let dead = Process(); dead.executableURL = URL(fileURLWithPath: "/usr/bin/true"); try dead.run(); dead.waitUntilExit()
         let staleDirectory = try makeDirectory(pid: dead.processIdentifier)
-        let liveDirectory = try makeDirectory(pid: getpid())
+        // «Живой» launcher — настоящий процесс с именем koto-runtime-launcher; чужой процесс с тем же PID не считается живым.
+        let launcherCopy = FileManager.default.temporaryDirectory.appendingPathComponent("koto-launcher-" + UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: launcherCopy, withIntermediateDirectories: true)
+        let fakeLauncher = launcherCopy.appendingPathComponent("koto-runtime-launcher")
+        try FileManager.default.copyItem(at: URL(fileURLWithPath: "/bin/sleep"), to: fakeLauncher)
+        let live = Process(); live.executableURL = fakeLauncher; live.arguments = ["60"]; try live.run()
+        defer { live.terminate(); try? FileManager.default.removeItem(at: launcherCopy) }
+        let liveDirectory = try makeDirectory(pid: live.processIdentifier)
+        let reusedPidDirectory = try makeDirectory(pid: getpid())
         let freshNoPid = try makeDirectory(pid: nil)
         let foreign = URL(fileURLWithPath: "/tmp/koto-not-a-uuid-" + UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: foreign, withIntermediateDirectories: false)
-        defer { for url in [staleDirectory, liveDirectory, freshNoPid, foreign] { try? FileManager.default.removeItem(at: url) } }
+        defer { for url in [staleDirectory, liveDirectory, reusedPidDirectory, freshNoPid, foreign] { try? FileManager.default.removeItem(at: url) } }
         LocalRuntimeSupervisor.removeStaleDirectories(except: nil)
         func exists(_ url: URL) -> Bool { FileManager.default.fileExists(atPath: url.path) }
-        guard !exists(staleDirectory), exists(liveDirectory), exists(freshNoPid), exists(foreign) else {
+        guard !exists(staleDirectory), !exists(reusedPidDirectory), exists(liveDirectory), exists(freshNoPid), exists(foreign) else {
             throw NSError(domain: "RuntimeTransportTests", code: 3, userInfo: [NSLocalizedDescriptionKey: "stale directory cleanup"])
         }
         passed.append("stale runtime directory removed; live, fresh and foreign directories kept")

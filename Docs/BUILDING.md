@@ -54,6 +54,10 @@ CI GitHub на macOS 26 собирает приложение без подпи�
 3. подтверждает файлы attestation GitHub/Sigstore;
 4. создаёт тег `v<версия>` и выпуск с заметками.
 
-Если релиз этой версии уже есть, сборка пропускается; тот же workflow можно запустить вручную или тегом `v*`. Прежние релизы workflow не удаляет. Сайт [koto-website](https://github.com/Slipcast-dev/koto-website) сам подхватывает последний релиз и обновляет ссылки скачивания. Проверка файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. Attestation связывает файлы с исходной ревизией и workflow, но не заменяет Apple Developer ID и notarization.
+Если релиз этой версии уже есть, сборка пропускается; тот же workflow можно запустить вручную (тег `v*` workflow создаёт сам и повторно сборку им не запускает). Прежние релизы workflow не удаляет. Сайт [koto-website](https://github.com/Slipcast-dev/koto-website) сам подхватывает последний релиз и обновляет ссылки скачивания. Проверка файла: `gh attestation verify PATH --repo Slipcast-dev/translator-Koto --signer-workflow Slipcast-dev/translator-Koto/.github/workflows/build-artifacts.yml`. Attestation связывает файлы с исходной ревизией и workflow, но не заменяет Apple Developer ID и notarization.
 
 Изменения в `main` вносятся pull request с включённым авто-слиянием после обязательных проверок.
+
+## Ключ подписи обновлений
+
+Встроенное обновление устанавливает только выпуск, у которого `SHA256SUMS.txt` подписан Ed25519 (`SHA256SUMS.txt.sig`). Публичный ключ — `KOTO_UPDATE_PUBLIC_KEY` в `Config/Product.xcconfig`; приватный — секрет репозитория `KOTO_UPDATE_SIGNING_KEY` (base64, 32 байта), его использует только job `publish`. Пара создаётся командой `swift script/update_signing.swift generate`. При смене ключа один выпуск придётся поставить вручную: установленные копии доверяют старому публичному ключу.

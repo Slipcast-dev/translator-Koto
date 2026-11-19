@@ -169,12 +169,13 @@ final class ModelInstallationManager {
                 let temporary: URL
                 let response: URLResponse
                 if let downloadOverride { (temporary,response) = try await downloadOverride(session,url) }
-                else { (temporary,response) = try await session.download(from:url,delegate:delegate) }
+                else { (temporary,response) = try await self.resumableDownload(session,url,delegate:delegate,directory:directory) }
                 networkTemporary = temporary
                 try Task.checkCancellation()
                 guard let http = response as? HTTPURLResponse,
                       response.url.map(ModelDownloadPolicy.allows) == true else { throw ModelInstallationFailure.response }
-                guard http.statusCode == 200 else { throw ModelInstallationFailure.http(http.statusCode) }
+                // 206 — успешно возобновлённая загрузка; полный размер и SHA-256 проверяются ниже в любом случае.
+                guard http.statusCode == 200 || http.statusCode == 206 else { throw ModelInstallationFailure.http(http.statusCode) }
                 var downloaded = stat()
                 guard lstat(temporary.path,&downloaded) == 0, (downloaded.st_mode & S_IFMT) == S_IFREG,
                       downloaded.st_uid == getuid(), downloaded.st_size == spec.bytes else { throw ModelInstallationFailure.response }
@@ -203,6 +204,36 @@ final class ModelInstallationManager {
             }
         }
     }
+    /// Данные возобновления лежат рядом с моделью (0600). При обрыве или отмене загрузка продолжится с того же места;
+    /// устаревшие данные (система очистила временный файл, файл на сервере изменился) отбрасываются, и загрузка начинается заново.
+    private func resumableDownload(_ session: URLSession, _ url: URL, delegate: ModelDownloadDelegate,
+                                   directory: URL) async throws -> (URL, URLResponse) {
+        let marker = directory.appendingPathComponent(".download-resume")
+        if let saved = try? PrivateStorage.read(marker, maximum: 1_048_576), !saved.isEmpty {
+            do {
+                let result = try await session.download(resumeFrom: saved, delegate: delegate)
+                unlink(marker.path)
+                return result
+            } catch {
+                if Task.isCancelled || (error as? URLError)?.code == .cancelled { try? storeResume(error, at: marker); throw error }
+                unlink(marker.path)
+            }
+        }
+        do {
+            let result = try await session.download(from: url, delegate: delegate)
+            unlink(marker.path)
+            return result
+        } catch {
+            try? storeResume(error, at: marker)
+            throw error
+        }
+    }
+    private func storeResume(_ error: Error, at marker: URL) throws {
+        guard let data = (error as NSError).userInfo[NSURLSessionDownloadTaskResumeData] as? Data,
+              !data.isEmpty, data.count <= 1_048_576 else { return }
+        try PrivateStorage.write(data, to: marker)
+    }
+
     func cancel() { operation?.cancel(); status = String(localized: "Cancelling installation…") }
     func remove() {
         guard !isBusy, let specification else { return }

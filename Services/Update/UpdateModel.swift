@@ -15,10 +15,16 @@ nonisolated struct UpdateTransport: Sendable {
             var request = URLRequest(url: url, timeoutInterval: 20)
             request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
             request.setValue("Koto-Updater", forHTTPHeaderField: "User-Agent")
+            // Список релизов запрашивается условно: ответ 304 не расходует лимит GitHub и не качает тело заново.
+            let cache = url == releasesURL ? ReleaseListCache() : nil
+            if let validator = cache?.etag { request.setValue(validator, forHTTPHeaderField: "If-None-Match") }
             let (data, response) = try await LiveSession.shared.data(for: request)
-            let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+            let http = response as? HTTPURLResponse
+            let status = http?.statusCode ?? 0
+            if status == 304, let cached = cache?.body { return cached }
             if status == 403 || status == 429 { throw UpdateFailure.rateLimited }
             guard status == 200 else { throw UpdateFailure.network }
+            if let cache, let validator = http?.value(forHTTPHeaderField: "ETag") { cache.store(etag: validator, body: data) }
             return data
         },
         download: { url, destination, progress in
@@ -44,6 +50,30 @@ nonisolated struct UpdateTransport: Sendable {
             try? FileManager.default.removeItem(at: destination)
             try FileManager.default.moveItem(at: temporary, to: destination)
         })
+
+    /// ETag и тело последнего списка релизов лежат в каталоге кэша пользователя (0700/0600).
+    /// Тело не доверенное: после чтения оно проходит ту же проверку `UpdateCatalog.newest`.
+    private struct ReleaseListCache {
+        private let directory = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Caches/dev.slipcast.koto/Updates", isDirectory: true)
+        private var etagFile: URL { directory.appendingPathComponent("releases.etag") }
+        private var bodyFile: URL { directory.appendingPathComponent("releases.json") }
+        var etag: String? {
+            guard body != nil, let data = try? PrivateStorage.read(etagFile, maximum: 256),
+                  let value = String(data: data, encoding: .utf8), !value.isEmpty else { return nil }
+            return value
+        }
+        var body: Data? { try? PrivateStorage.read(bodyFile, maximum: 2_000_000) }
+        func store(etag: String, body: Data) {
+            guard body.count <= 2_000_000, etag.utf8.count <= 256 else { return }
+            do {
+                try PrivateStorage.ensureDirectory(directory.deletingLastPathComponent())
+                try PrivateStorage.ensureDirectory(directory)
+                try PrivateStorage.write(body, to: bodyFile)
+                try PrivateStorage.write(Data(etag.utf8), to: etagFile)
+            } catch {}
+        }
+    }
 
     /// Без cookies и кэша; редиректы допускаются только на хосты GitHub.
     private final class LiveSessionHolder: NSObject, URLSessionTaskDelegate, Sendable {
@@ -106,6 +136,8 @@ final class UpdateModel {
     @ObservationIgnored private let processID: Int32
     @ObservationIgnored private let terminate: @MainActor () -> Void
     @ObservationIgnored private let defaults: UserDefaults
+    /// Публичный ключ Ed25519 разработчика (Info.plist → KotoUpdatePublicKey). Пустой ключ отключает установку.
+    @ObservationIgnored private let publicKey: Data?
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var operationID = UUID()
     @ObservationIgnored private var staged: (url: URL, release: AppRelease)?
@@ -118,7 +150,10 @@ final class UpdateModel {
          relaunch: Bool = true,
          processID: Int32 = ProcessInfo.processInfo.processIdentifier,
          defaults: UserDefaults = .standard,
+         publicKey: Data? = (Bundle.main.object(forInfoDictionaryKey: "KotoUpdatePublicKey") as? String)
+             .flatMap { Data(base64Encoded: $0) },
          terminate: @escaping @MainActor () -> Void = {}) {
+        self.publicKey = publicKey
         self.transport = transport
         self.current = current ?? AppVersion.bundle(Bundle.main.infoDictionary ?? [:])
             ?? AppVersion(major: 0, minor: 0, patch: 0, stable: false, build: 0)
@@ -201,9 +236,13 @@ final class UpdateModel {
             try PrivateStorage.ensureDirectory(self.workDirectory)
             let dmg = self.workDirectory.appendingPathComponent(release.dmg.name)
             var sums: Data?
+            var signature: Data?
+            let transport = self.transport
             if let asset = release.checksums {
-                let transport = self.transport
                 sums = try await self.withTimeout(30) { try await transport.fetch(asset.url) }
+            }
+            if let asset = release.signature {
+                signature = try await self.withTimeout(30) { try await transport.fetch(asset.url) }
             }
             let total = Double(release.dmg.size)
             try await self.transport.download(release.dmg.url, dmg) { [weak self] received in
@@ -214,9 +253,11 @@ final class UpdateModel {
             }
             try Task.checkCancellation()
             self.phase = .verifying
-            let checksumsText = sums.flatMap { String(data: $0, encoding: .utf8) }
+            let key = self.publicKey
+            let signedSums = sums, signatureData = signature
             try await Task.detached(priority: .utility) {
-                try UpdateInstaller.verify(dmg: dmg, release: release, checksumsText: checksumsText)
+                try UpdateInstaller.verify(dmg: dmg, release: release, checksums: signedSums,
+                                           signature: signatureData, publicKey: key)
             }.value
             try Task.checkCancellation()
             self.phase = .installing
@@ -317,6 +358,7 @@ final class UpdateModel {
         case .badResponse, .noRelease: String(localized: "The update server returned an unexpected response.")
         case .tooLarge, .checksumMismatch: String(localized: "The downloaded update failed verification and was not installed.")
         case .checksumMissing: String(localized: "The release has no checksum file, so the update was not installed.")
+        case .untrusted: String(localized: "The update is not signed with the Koto developer key and was not installed.")
         // Короткий код в скобках помогает отличить сбой монтирования от неверного пакета.
         case .mountFailed: String(localized: "The update package is damaged or is not Koto.") + " (mount)"
         case .appMissing: String(localized: "The update package is damaged or is not Koto.") + " (app)"

@@ -1,24 +1,30 @@
 name: Attested release artifacts
 # Автоматический выпуск: изменение CURRENT_PROJECT_VERSION в Config/Product.xcconfig на main собирает
-# приложение из исходников, подтверждает файлы attestation, создаёт тег и релиз.
-# Тег v* или ручной запуск выполняют ту же сборку для уже выбранной версии.
+# приложение из исходников, подписывает SHA256SUMS ключом обновлений, подтверждает файлы attestation,
+# создаёт тег и релиз. Тег v* не запускает сборку: его создаёт сам workflow, иначе два запуска
+# гонялись бы за один релиз. Для повторного выпуска уже выбранной версии есть ручной запуск.
+# Сборка (CMake, pip, llama.cpp) идёт без прав записи; права и секреты есть только у job publish.
 # Прежние релизы workflow не удаляет: это решение остаётся за владельцем репозитория.
 on:
   workflow_dispatch:
   push:
-    tags: ['v*']
     branches: [main]
     paths: ['Config/Product.xcconfig']
 permissions:
   contents: read
+concurrency:
+  group: release
+  cancel-in-progress: false
 jobs:
-  release:
+  build:
     runs-on: macos-26
     timeout-minutes: 60
     permissions:
-      contents: write
-      id-token: write
-      attestations: write
+      contents: read
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      notes: ${{ steps.version.outputs.notes }}
+      skip: ${{ steps.version.outputs.skip }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -30,7 +36,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           marketing=$(sed -n 's/^MARKETING_VERSION = //p' Config/Product.xcconfig)
-          build=$(sed -n 's/^CURRENT_PROJECT_VERSION = //p' Config/Product.xcconfig)
           tag="v${marketing}"
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "notes=Docs/RELEASE-${marketing}.md" >> "$GITHUB_OUTPUT"
@@ -56,22 +61,46 @@ jobs:
       - name: Package extension and checksums
         if: steps.version.outputs.skip != 'true'
         run: python3 script/package_browser.py
-      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
-        if: steps.version.outputs.skip != 'true'
-        with:
-          subject-path: 'dist/*'
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: steps.version.outputs.skip != 'true'
         with:
-          name: koto-attested-release
+          name: koto-built-release
           path: dist/*
           if-no-files-found: error
+
+  publish:
+    needs: build
+    if: needs.build.outputs.skip != 'true'
+    runs-on: macos-26
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: koto-built-release
+          path: dist
+      - name: Sign checksums with the update key
+        env:
+          KOTO_UPDATE_SIGNING_KEY: ${{ secrets.KOTO_UPDATE_SIGNING_KEY }}
+        run: |
+          if [ -z "${KOTO_UPDATE_SIGNING_KEY}" ]; then echo "Secret KOTO_UPDATE_SIGNING_KEY is not set" >&2; exit 1; fi
+          swift script/update_signing.swift sign dist/SHA256SUMS.txt dist/SHA256SUMS.txt.sig
+          public=$(sed -n 's/^KOTO_UPDATE_PUBLIC_KEY = //p' Config/Product.xcconfig)
+          swift script/update_signing.swift verify dist/SHA256SUMS.txt dist/SHA256SUMS.txt.sig "${public}"
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: 'dist/*'
       - name: Publish release
-        if: steps.version.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ steps.version.outputs.tag }}
-          NOTES: ${{ steps.version.outputs.notes }}
+          TAG: ${{ needs.build.outputs.tag }}
+          NOTES: ${{ needs.build.outputs.notes }}
         run: |
           base="https://github.com/${GITHUB_REPOSITORY}/blob/main/Docs"
           # Относительные ссылки заметок выпуска превращаются в абсолютные, заголовок убирается.

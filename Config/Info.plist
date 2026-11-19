@@ -32,6 +32,8 @@
 	<string>$(KOTO_COPYRIGHT)</string>
 	<key>KotoReleaseChannel</key>
 	<string>$(KOTO_RELEASE_CHANNEL)</string>
+	<key>KotoUpdatePublicKey</key>
+	<string>$(KOTO_UPDATE_PUBLIC_KEY)</string>
 	<key>KotoDeveloper</key>
 	<string>$(KOTO_DEVELOPER)</string>
 	<key>NSServices</key>

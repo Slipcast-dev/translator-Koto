@@ -65,7 +65,7 @@ struct PrivacySettingsView: View {
         }
         Section(String(localized: "Memory and phrases")) {
             Toggle(String(localized: "Save manual translations on this Mac"), isOn: $store.memoryEnabled)
-            Text(String(localized: "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it.")).font(.caption)
+            Text(String(localized: "Up to 500 phrases. Capture, browser and Live text are not saved. The file is not encrypted: other apps running as you can read it. Turning memory off clears it.")).font(.caption)
             Button(AppLocalization.clearMemoryLabel(store.memory.count)) { store.clearMemory() }
             DisclosureGroup(String(localized: "Exact phrases")) {
                 TextField(String(localized: "Source phrase"), text: $input)

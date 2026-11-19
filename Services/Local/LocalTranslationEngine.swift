@@ -13,7 +13,7 @@ final class LocalTranslationEngine: TranslationEngine {
 
     init(runtime: LocalRuntimeSupervisor = .shared) { self.runtime = runtime }
 
-    nonisolated static let languageIdentifiers = ["ar","de","en","es","fr","hi","id","it","ja","ko","nl","pl","pt","ru","th","tr","uk","vi","zh"]
+    nonisolated static let languageIdentifiers = TranslationLanguage.commonIdentifiers
     func supportedLanguages() async throws -> [TranslationLanguage] {
         Self.languageIdentifiers
             .map { TranslationLanguage(id: $0) }.sorted { $0.displayName < $1.displayName }

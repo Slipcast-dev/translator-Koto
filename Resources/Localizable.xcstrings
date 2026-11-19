@@ -4501,20 +4501,20 @@
         }
       }
     },
-    "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it.": {
+    "Up to 500 phrases. Capture, browser and Live text are not saved. The file is not encrypted: other apps running as you can read it. Turning memory off clears it.": {
       "comment": "Пользовательская строка: Features/Settings/ProductSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Up to 500 phrases. Capture, browser and Live text are not saved. Turning memory off clears it."
+            "value": "Up to 500 phrases. Capture, browser and Live text are not saved. The file is not encrypted: other apps running as you can read it. Turning memory off clears it."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "До 500 фраз. Захват, браузер и Live не сохраняются. При выключении память очищается."
+            "value": "До 500 фраз. Захват, браузер и Live не сохраняются. Файл не зашифрован: его могут прочитать другие программы вашей учётной записи. При выключении память очищается."
           }
         }
       }
@@ -5037,6 +5037,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "У обновления недействительная подпись кода, оно не установлено."
+          }
+        }
+      }
+    },
+    "The update is not signed with the Koto developer key and was not installed.": {
+      "comment": "Пользовательская строка: Features/Settings, Services/Update, SafariExtension. Переводить целиком; коды, бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The update is not signed with the Koto developer key and was not installed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление не подписано ключом разработчика Koto, оно не установлено."
           }
         }
       }
