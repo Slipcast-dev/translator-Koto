@@ -47,7 +47,7 @@ struct BridgeFrameDecoder {
 
     static func encode(_ value: BridgeEnvelope) throws -> Data {
         let body = try JSONEncoder().encode(value)
-        guard body.count > 0, body.count <= maximum else { throw BridgeProtocolFailure.length }
+        guard !body.isEmpty, body.count <= maximum else { throw BridgeProtocolFailure.length }
         var length = UInt32(body.count).littleEndian
         var frame = withUnsafeBytes(of: &length) { Data($0) }
         frame.append(body)
