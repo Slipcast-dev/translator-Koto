@@ -40,5 +40,7 @@ shasum -a 256 "$ROOT_DIR/Resources/LocalRuntime/llama-server"
 xcrun clang++ -std=c++20 -O2 -arch arm64 -mmacosx-version-min=26.0 \
     "$ROOT_DIR/NativeTools/RuntimeLauncher.cpp" -o "$ROOT_DIR/Resources/LocalRuntime/koto-runtime-launcher"
 codesign --force --sign - "$ROOT_DIR/Resources/LocalRuntime/koto-runtime-launcher"
+# Прежний каталог удаляется: иначе cp -R вкладывает копию в licenses/licenses при каждой сборке.
+rm -rf "$ROOT_DIR/Resources/LocalRuntime/licenses"
 cp -R "$SOURCE_DIR/licenses" "$ROOT_DIR/Resources/LocalRuntime/licenses"
 python3 -c 'import pathlib,hashlib,json,sys; r=pathlib.Path(sys.argv[1]); value={"commit":"7894e8b92481a8bb8ffe94f73b656ffe0dd01e10","runtimeSHA256":hashlib.sha256((r/"llama-server").read_bytes()).hexdigest(),"launcherSHA256":hashlib.sha256((r/"koto-runtime-launcher").read_bytes()).hexdigest()}; (r/"manifest.json").write_text(json.dumps(value,indent=2)+"\n"); print(json.dumps(value))' "$ROOT_DIR/Resources/LocalRuntime"
