@@ -55,10 +55,18 @@ enum TranslationChunker {
 
     /// Проверяются URL и шаблонные placeholders, которые нельзя переводить или терять.
     nonisolated static func protectedFragments(in text: String) -> [String] {
-        let pattern = #"https?://[^\s<>\"\)]+|\{[A-Za-z_][A-Za-z0-9_.-]*\}|%\d*\$?[@dsf]"#
+        // Полноширинные скобки и знаки препинания CJK не входят в адрес: после него они идут без пробела.
+        let pattern = #"https?://[^\s<>\"\)（）。，、！？；：「」『』《》【】]+|\{[A-Za-z_][A-Za-z0-9_.-]*\}|%\d*\$?[@dsf]"#
         guard let expression = try? NSRegularExpression(pattern: pattern) else { return [] }
-        return expression.matches(in:text,range:NSRange(text.startIndex...,in:text)).compactMap {
-            Range($0.range,in:text).map { String(text[$0]) }
+        // Знак в конце предложения принадлежит тексту, а не адресу: переводчик вправе заменить его.
+        let trailing = CharacterSet(charactersIn: ".,;:!?'…—–»”’]")
+        return expression.matches(in:text,range:NSRange(text.startIndex...,in:text)).compactMap { match in
+            guard let range = Range(match.range,in:text) else { return nil }
+            var fragment = String(text[range])
+            if fragment.hasPrefix("http") {
+                while let last = fragment.unicodeScalars.last, trailing.contains(last) { fragment.unicodeScalars.removeLast() }
+            }
+            return fragment
         }
     }
     nonisolated static func preservesProtectedFragments(source: String, output: String) -> Bool {

@@ -89,7 +89,10 @@ final class CloudTranslationEngine: TranslationEngine {
             .map { TranslationLanguage(id: $0) }.sorted { $0.displayName < $1.displayName }
     }
     func readiness(for request: TranslationRequest) async throws -> TranslationReadiness {
-        _ = try ProviderKeychain.read(provider.rawValue)
+        // Секрет читается один раз, непосредственно перед отправкой; здесь достаточно наличия записи.
+        guard ProviderKeychain.exists(provider.rawValue) else {
+            throw TranslationFailure.engineIssue(String(localized: "Save the selected provider’s API key in Settings."))
+        }
         return .installed(request)
     }
     /// Размер одного запроса к провайдеру в байтах UTF-8: заметно ниже лимитов Google и Yandex (10 000 символов).
@@ -161,12 +164,20 @@ final class CloudTranslationEngine: TranslationEngine {
     }
 
     func translate(_ request: TranslationRequest) async throws -> TranslationResult {
+        try await translate(request, progress: { _ in })
+    }
+
+    func translate(_ request: TranslationRequest, progress: @escaping TranslationProgressHandler) async throws -> TranslationResult {
         let key = try ProviderKeychain.read(provider.rawValue)
         let task = Task { () throws -> TranslationResult in
             // Длинный текст уходит частями по границам предложений; пробелы и переносы сохраняются буквально.
             var output = ""
             var detected: String?
-            for piece in TranslationChunker.pieces(request.text, maximumBytes: Self.chunkBytes) {
+            let pieces = TranslationChunker.pieces(request.text, maximumBytes: Self.chunkBytes)
+            let total = pieces.filter { if case .text = $0 { true } else { false } }.count
+            var completed = 0
+            progress(TranslationProgress(completed: 0, total: total, partialText: ""))
+            for piece in pieces {
                 try Task.checkCancellation()
                 switch piece {
                 case .literal(let separator): output += separator
@@ -174,6 +185,9 @@ final class CloudTranslationEngine: TranslationEngine {
                     let answer = try await send(part, request: request, key: key)
                     output += answer.text
                     detected = detected ?? answer.detected
+                    completed += 1
+                    try Task.checkCancellation()
+                    progress(TranslationProgress(completed: completed, total: total, partialText: output))
                 }
             }
             guard !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw TranslationFailure.failed }

@@ -1,15 +1,15 @@
 **Русский** | [English](README.en.md)
 
-Текущий выпуск: **2.0.0**, Chrome **0.1.5**.
+Текущий выпуск: **3.0.0**, Chrome **0.1.6**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Версия 2.0.0" src="https://img.shields.io/badge/release-2.0.0-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"> <a href="https://github.com/Slipcast-dev/translator-Koto/stargazers"><img alt="Звёзды" src="https://img.shields.io/github/stars/Slipcast-dev/translator-Koto?style=flat&logo=github&color=efb366"></a> <a href="https://github.com/Slipcast-dev/translator-Koto/releases"><img alt="Скачивания" src="https://img.shields.io/github/downloads/Slipcast-dev/translator-Koto/total?style=flat&logo=github&color=efb366"></a></p>
+<p align="center"><img alt="Версия 3.0.0" src="https://img.shields.io/badge/release-3.0.0-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"> <a href="https://github.com/Slipcast-dev/translator-Koto/stargazers"><img alt="Звёзды" src="https://img.shields.io/github/stars/Slipcast-dev/translator-Koto?style=flat&logo=github&color=efb366"></a> <a href="https://github.com/Slipcast-dev/translator-Koto/releases"><img alt="Скачивания" src="https://img.shields.io/github/downloads/Slipcast-dev/translator-Koto/total?style=flat&logo=github&color=efb366"></a></p>
 
 # Koto · Slipcast-Dev
 
 Нативный переводчик для macOS: текст, выделение и область экрана, локальные движки и расширения Chrome и Safari. **Native macOS translation, built around your flow.**
 
-**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v2.0.0/Koto-2.0.0-22-arm64.dmg)** · [Chrome 0.1.5 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v2.0.0/Koto-Chrome-0.1.5.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
+**[Скачать DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v3.0.0/Koto-3.0.0-23-arm64.dmg)** · [Chrome 0.1.6 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v3.0.0/Koto-Chrome-0.1.6.zip) · [Релизы](https://github.com/Slipcast-dev/translator-Koto/releases) · [Установка](Docs/INSTALLATION.md) · [Сборка](Docs/BUILDING.md) · [Статус](Docs/STATUS.md)
 
 > Выпуск для Apple Silicon. Подпись ad hoc, без Apple Developer ID/notarization: macOS может блокировать запуск. Проверки выпуска выполнялись на M1 / macOS 27.2; macOS 26 ещё не проверена.
 
@@ -18,12 +18,14 @@
 | Возможность | Реализация |
 | --- | --- |
 | Ручной перевод | Apple Translation на устройстве; опциональная Qwen |
-| Выделение | Accessibility, `⌃⌥⌘T` |
-| OCR области | Vision на Mac, `⌃⌥⌘R` |
-| Live | Живой перевод, `⌃⌥⌘L`; длительные испытания впереди |
-| Chrome и Safari | Перевод выделения и видимых фрагментов через собственные расширения (Safari: сборка проверена, работа в Safari не проверена) |
+| Выделение | Accessibility, `⌃⌥⌘T` по умолчанию |
+| OCR области | Vision на Mac, `⌃⌥⌘R` по умолчанию |
+| Live | Живой перевод, `⌃⌥⌘L` по умолчанию; метка с движком и кнопкой «Остановить»; длительные испытания впереди |
+| Горячие клавиши | Все три сочетания меняются в настройках |
+| Chrome и Safari | Перевод выделения и видимого текста, по желанию — и при прокрутке (Safari: сборка проверена, работа в Safari не проверена) |
+| Длинные тексты | Qwen и облако показывают готовые части и прогресс |
 | Обновление | Проверка и автоматическая установка из GitHub Releases по кнопке в настройках |
-| Инструменты | Точные фразы, добровольная память, озвучивание и локальные пояснения |
+| Инструменты | Точные фразы с импортом и экспортом (JSON, CSV), добровольная память, озвучивание и локальные пояснения |
 | Облако | Google/Yandex адаптеры с ключом в Keychain; реальные аккаунты не аттестованы |
 
 ## Без встроенной модели
@@ -51,7 +53,6 @@ python3 script/package_release.py
 
 ## Проверки и ограничения
 
-
 Непостоянная внутренняя причина первоначального отказа Apple framework не установлена. Исправлена обработка отказа в Koto. Live endurance, sleep/wake, macOS 26 и часть внешних интеграций ещё требуют приёмки.
 
 [Сообщить об ошибке](https://github.com/Slipcast-dev/translator-Koto/issues/new/choose) · [Участие](CONTRIBUTING.md) · [Безопасность](SECURITY.md) · [Изменения](CHANGELOG.md)
@@ -60,7 +61,7 @@ python3 script/package_release.py
 
 ### Автоматические Swift-проверки
 
-`bash script/test_swift_ci.sh` запускает 13 детерминированных прогонов (9 shell-наборов, прямые harness Live и миграции настроек, проверку обновления на настоящих DMG и клиент моста Safari) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
+`bash script/test_swift_ci.sh` запускает 14 детерминированных прогонов (10 shell-наборов, прямые harness Live и миграции настроек, проверку обновления на настоящих DMG и клиент моста Safari) и Python-проверку длинного пути bridge, без модели и разрешений экрана. GitHub Actions выполняет этот же набор и сборку приложения на arm64/macOS 26. Scheme содержит только app target; `xcodebuild test` не является точкой запуска этих проверок. Локальный запуск на macOS 27 не подтверждает совместимость с macOS 26 до фактического результата CI.
 
 Локальный runtime использует приватный Unix-сокет; перед любым запросом приложение проверяет UID и parent PID подключённого процесса на том же соединении. Мост Chrome: native host проверяет UID приложения на сокете, а само приложение принимает клиента по токену и origin расширения в каталоге 0700. Токен и текст не отправляются неподтверждённому серверу.
 

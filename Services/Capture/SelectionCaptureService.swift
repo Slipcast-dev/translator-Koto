@@ -35,8 +35,9 @@ final class SelectionCaptureService {
                 return try checked(text: text, anchor: selectionBounds(element) ?? mouseAnchor())
             }
         }
-        // Запасной способ: приложение не отдаёт выделение через Accessibility.
-        if let text = await copiedSelection(from: application) {
+        // Запасной способ: приложение не отдаёт выделение через Accessibility. Его можно отключить:
+        // выделение на мгновение попадает в общий буфер и видно другим программам.
+        if Self.clipboardFallbackEnabled(), let text = await copiedSelection(from: application) {
             return try checked(text: text, anchor: elements.lazy.compactMap { self.selectionBounds($0) }.first ?? mouseAnchor())
         }
         throw CaptureFailure.noSelection
@@ -59,6 +60,12 @@ final class SelectionCaptureService {
     /// Отправляет Cmd+C приложению, ждёт изменения буфера и сразу восстанавливает прежнее содержимое.
     /// Текст читается из буфера один раз и нигде не сохраняется; если выделения нет, буфер не меняется.
     private static let clipboardLimit = 8_000_000
+    nonisolated static let clipboardFallbackKey = "capture.clipboardFallback"
+    nonisolated static func clipboardFallbackEnabled(_ defaults: UserDefaults = .standard) -> Bool {
+        defaults.object(forKey: clipboardFallbackKey) as? Bool ?? true
+    }
+    /// Ожидание копии: 50 шагов по 30 мс. Медленному приложению нужно больше 600 мс.
+    private static let copyPolls = 50
 
     private func copiedSelection(from application: NSRunningApplication) async -> String? {
         let pasteboard = NSPasteboard.general
@@ -76,8 +83,10 @@ final class SelectionCaptureService {
         down.postToPid(application.processIdentifier)
         up.postToPid(application.processIdentifier)
         var copied: String?
-        for _ in 0..<15 {
-            try? await Task.sleep(for: .milliseconds(40))
+        for _ in 0..<Self.copyPolls {
+            // Ожидание не прерывается отменой: после отправленного Cmd+C буфер нужно вернуть,
+            // а отменённый sleep завершался бы мгновенно, оставляя выделение в буфере.
+            await Task.detached { try? await Task.sleep(for: .milliseconds(30)) }.value
             if pasteboard.changeCount != before { copied = pasteboard.string(forType: .string); break }
         }
         if pasteboard.changeCount != before {

@@ -68,9 +68,45 @@ jobs:
           path: dist/*
           if-no-files-found: error
 
-  publish:
+  # Релиз не публикуется, пока те же проверки, что и в Repository checks, не прошли на этом commit.
+  tests:
     needs: build
     if: needs.build.outputs.skip != 'true'
+    runs-on: macos-26
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '22'
+      - run: python3 script/validate_repository.py
+      - run: python3 script/validate_localization.py
+      - run: python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py
+      - run: node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs
+      - name: SwiftLint correctness rules
+        run: |
+          bash script/install_swiftlint.sh
+          build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml
+      - run: bash script/build_native_host.sh
+      - run: >-
+          xcodebuild -project Koto.xcodeproj -scheme Koto -configuration Debug
+          -destination 'platform=macOS,arch=arm64' -derivedDataPath build/ci-derived
+          CODE_SIGNING_ALLOWED=NO build
+      - run: bash script/test_swift_ci.sh
+
+  publish:
+    needs: [build, tests]
+    # Ключ подписи обновлений доступен только выпуску из main. Ручное подтверждение включается
+    # в настройках GitHub: Environments → release → Required reviewers.
+    if: needs.build.outputs.skip != 'true' && github.ref == 'refs/heads/main'
+    environment: release
     runs-on: macos-26
     timeout-minutes: 20
     permissions:
@@ -92,7 +128,7 @@ jobs:
           if [ -z "${KOTO_UPDATE_SIGNING_KEY}" ]; then echo "Secret KOTO_UPDATE_SIGNING_KEY is not set" >&2; exit 1; fi
           swift script/update_signing.swift sign dist/SHA256SUMS.txt dist/SHA256SUMS.txt.sig
           public=$(sed -n 's/^KOTO_UPDATE_PUBLIC_KEY = //p' Config/Product.xcconfig)
-          swift script/update_signing.swift verify dist/SHA256SUMS.txt dist/SHA256SUMS.txt.sig "${public}"
+          swift script/update_signing.swift verify dist/SHA256SUMS.txt dist/SHA256SUMS.txt.sig "${public%%,*}"
       - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
         with:
           subject-path: 'dist/*'

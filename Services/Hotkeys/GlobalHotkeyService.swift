@@ -9,7 +9,8 @@ final class GlobalHotkeyService {
     private var registrations: [EventHotKeyRef] = []
     private var action: ((UInt32) -> Void)?
 
-    func register(action: @escaping (UInt32) -> Void) -> String? {
+    func register(_ bindings: [HotkeyAction: HotkeyBinding] = HotkeyPreferences.defaults,
+                  action: @escaping (UInt32) -> Void) -> String? {
         unregister()
         self.action = action
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
@@ -28,14 +29,15 @@ final class GlobalHotkeyService {
         }, 1, &spec, context, &handler)
         guard status == noErr else { unregister(); return String(localized: "Unable to register keyboard shortcuts.") }
         // Exclusive нужен для настоящего отказа при конфликте между разными процессами.
-        for (id, key) in [(UInt32(1), UInt32(kVK_ANSI_T)), (UInt32(2), UInt32(kVK_ANSI_R)), (UInt32(3), UInt32(kVK_ANSI_L))] {
+        for command in HotkeyAction.allCases {
+            let binding = bindings[command] ?? command.defaultBinding
             var reference: EventHotKeyRef?
-            let code = RegisterEventHotKey(key, UInt32(controlKey | optionKey | cmdKey),
-                EventHotKeyID(signature: 0x4B4F544F, id: id), GetApplicationEventTarget(),
+            let code = RegisterEventHotKey(binding.keyCode, binding.modifiers,
+                EventHotKeyID(signature: 0x4B4F544F, id: command.rawValue), GetApplicationEventTarget(),
                 OptionBits(kEventHotKeyExclusive), &reference)
             guard code == noErr, let reference else {
                 unregister()
-                return String(localized: "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again.")
+                return String(localized: "The shortcut \(binding.display) is in use. Release it in the other app or choose another one.")
             }
             registrations.append(reference)
         }

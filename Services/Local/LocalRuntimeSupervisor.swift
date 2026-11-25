@@ -63,14 +63,38 @@ struct LocalEndpoint: Sendable {
 enum LocalRuntimeTransport {
     nonisolated static func request(_ endpoint: LocalEndpoint, path: String, body: Data? = nil,
                                     authorized: Bool = true, timeout: TimeInterval = 120) async throws -> (Data, Int) {
-        let worker = Task.detached(priority: .userInitiated) {
-            try exchange(endpoint, path: path, body: body, authorized: authorized, timeout: timeout)
+        // Обмен ждёт ответ в poll до нескольких минут. На потоках кооперативного пула Swift это
+        // задерживало бы OCR и хеширование, поэтому блокирующий код идёт в отдельную очередь GCD.
+        let flag = CancellationFlag()
+        return try await withTaskCancellationHandler(operation: {
+            try await withCheckedThrowingContinuation { continuation in
+                queue.async {
+                    continuation.resume(with: Result {
+                        try exchange(endpoint, path: path, body: body, authorized: authorized, timeout: timeout, cancellation: flag)
+                    })
+                }
+            }
+        }, onCancel: { flag.cancel() })
+    }
+
+    private nonisolated static let queue = DispatchQueue(label: "dev.slipcast.koto.runtime-transport",
+                                                         qos: .userInitiated, attributes: .concurrent)
+
+    private nonisolated final class CancellationFlag: @unchecked Sendable {
+        private let lock = NSLock()
+        private var cancelled = false
+        nonisolated init() {}
+        nonisolated func cancel() { lock.lock(); cancelled = true; lock.unlock() }
+        nonisolated func check() throws {
+            lock.lock(); defer { lock.unlock() }
+            if cancelled { throw CancellationError() }
         }
-        return try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
     }
 
     nonisolated private static func exchange(_ endpoint: LocalEndpoint, path: String, body: Data?,
-                                             authorized: Bool, timeout: TimeInterval) throws -> (Data, Int) {
+                                             authorized: Bool, timeout: TimeInterval,
+                                             cancellation: CancellationFlag) throws -> (Data, Int) {
+        try cancellation.check()
         let fd = socket(AF_UNIX, SOCK_STREAM, 0)
         guard fd >= 0 else { throw LocalRuntimeFailure.start }
         defer { close(fd) }
@@ -91,7 +115,7 @@ enum LocalRuntimeTransport {
         let deadline = ContinuousClock.now.advanced(by: .seconds(timeout))
         func wait(_ events: Int16) throws {
             while true {
-                try Task.checkCancellation()
+                try cancellation.check()
                 guard ContinuousClock.now < deadline else { throw LocalRuntimeFailure.timeout }
                 var descriptor = pollfd(fd: fd, events: events, revents: 0)
                 let result = poll(&descriptor, 1, 100)
@@ -119,7 +143,7 @@ enum LocalRuntimeTransport {
               getsockopt(fd, SOL_LOCAL, LOCAL_PEERPID, &peer, &size) == 0,
               proc_pidinfo(peer, PROC_PIDTBSDINFO, 0, &info, Int32(MemoryLayout.size(ofValue: info))) == Int32(MemoryLayout.size(ofValue: info)),
               info.pbi_ppid == UInt32(endpoint.launcherPID) else { throw LocalRuntimeFailure.corrupt }
-        try Task.checkCancellation()
+        try cancellation.check()
         var headers = "\(body == nil ? "GET" : "POST") \(path) HTTP/1.0\r\nHost: localhost\r\nConnection: close\r\n"
         if authorized { headers += "Authorization: Bearer " + endpoint.token + "\r\n" }
         if let body { headers += "Content-Type: application/json\r\nContent-Length: \(body.count)\r\n" }
@@ -165,6 +189,8 @@ enum LocalRuntimeTransport {
 @MainActor @Observable
 final class LocalRuntimeSupervisor {
     static let shared = LocalRuntimeSupervisor()
+    /// Очередь генерации: llama-server запущен с `--parallel 1`.
+    @ObservationIgnored let gate = InferenceGate()
     private(set) var status = String(localized: "Local engine stopped")
     private(set) var isRunning = false
     @ObservationIgnored private var process: Process?
@@ -356,7 +382,8 @@ final class LocalRuntimeSupervisor {
     nonisolated private static func isLauncher(_ pid: pid_t) -> Bool {
         var buffer = [CChar](repeating: 0, count: 4096)
         guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return false }
-        return URL(fileURLWithPath: String(cString: buffer)).lastPathComponent == "koto-runtime-launcher"
+        let bytes = buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }
+        return URL(fileURLWithPath: String(decoding: bytes, as: UTF8.self)).lastPathComponent == "koto-runtime-launcher"
     }
 
     /// После краха или принудительного выхода каталог /tmp/koto-<UUID> с ключом остаётся.

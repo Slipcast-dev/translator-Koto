@@ -27,6 +27,7 @@ final class BrowserBridgeServer {
     @ObservationIgnored private var tokenPath: String?
     @ObservationIgnored private var seen = Set<String>()
     @ObservationIgnored private var seenOrder: [String] = []
+    @ObservationIgnored private var limiter = BridgeRateLimiter()
 
     init(directory: URL? = nil, makeEngine: @escaping () -> any TranslationEngine = { RoutingTranslationEngine() }) {
         directoryOverride = directory
@@ -74,6 +75,7 @@ final class BrowserBridgeServer {
                     let id = UUID()
                     let client = BrowserBridgeClient(id: id, connection: connection, token: self.token,
                         makeEngine: self.makeEngine, reserveID: { [weak self] value in self?.reserve(value) ?? false },
+                        admit: { [weak self] characters in self?.limiter.admit(characters: characters) ?? false },
                         onClose: { [weak self] in self?.clients.removeValue(forKey: id) })
                     self.clients[id] = client
                     client.start()
@@ -129,6 +131,7 @@ private final class BrowserBridgeClient {
     private let token: String
     private let makeEngine: () -> any TranslationEngine
     private let reserveID: (String) -> Bool
+    private let admit: (Int) -> Bool
     private let onClose: () -> Void
     private var decoder = BridgeFrameDecoder()
     private var authenticated = false
@@ -140,9 +143,9 @@ private final class BrowserBridgeClient {
     private var jobs: [String: (Task<Void, Never>, any TranslationEngine)] = [:]
 
     init(id: UUID, connection: NWConnection, token: String, makeEngine: @escaping () -> any TranslationEngine,
-         reserveID: @escaping (String) -> Bool, onClose: @escaping () -> Void) {
+         reserveID: @escaping (String) -> Bool, admit: @escaping (Int) -> Bool, onClose: @escaping () -> Void) {
         self.id = id; self.connection = connection; self.token = token
-        self.makeEngine = makeEngine; self.reserveID = reserveID; self.onClose = onClose
+        self.makeEngine = makeEngine; self.reserveID = reserveID; self.admit = admit; self.onClose = onClose
     }
     func start() {
         handshakeDeadline = Task { [weak self] in
@@ -213,6 +216,7 @@ private final class BrowserBridgeClient {
                   let target = message.payload["target"], Self.languageID(target) else { fail(message.id, "invalid_request"); return }
             let source = message.payload["source"] ?? "auto"
             guard source == "auto" || Self.languageID(source) else { fail(message.id, "invalid_language"); return }
+            guard admit(text.count) else { fail(message.id, "rate_limited"); return }
             let engine = makeEngine()
             let task = Task { [weak self] in
                 guard let self else { return }
@@ -265,7 +269,9 @@ private final class BrowserBridgeClient {
         idleDeadline?.cancel()
         idleDeadline = Task { [weak self] in
             do { try await Task.sleep(for: .seconds(300)) } catch { return }
-            self?.close()
+            guard let self else { return }
+            // Идущий перевод — не простой: соединение не обрывается, пока есть задания.
+            if self.jobs.isEmpty { self.close() } else { self.resetIdle() }
         }
     }
     func close() {

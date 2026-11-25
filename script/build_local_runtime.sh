@@ -8,7 +8,8 @@ CMAKE="$ROOT_DIR/build/tooling/bin/cmake"
 NINJA="$ROOT_DIR/build/tooling/bin/ninja"
 if [[ ! -x "$CMAKE" || ! -x "$NINJA" ]]; then
     python3 -m venv "$ROOT_DIR/build/tooling"
-    "$ROOT_DIR/build/tooling/bin/python" -m pip install 'cmake==3.31.6' 'ninja==1.11.1.4'
+    "$ROOT_DIR/build/tooling/bin/python" -m pip install --require-hashes --only-binary=:all: \
+        -r "$ROOT_DIR/script/requirements-build.txt"
 fi
 if [[ ! -f "$SOURCE_DIR/CMakeLists.txt" ]]; then
     git clone --no-checkout https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"

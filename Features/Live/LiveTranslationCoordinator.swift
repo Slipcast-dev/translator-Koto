@@ -24,6 +24,35 @@ final class LiveTranslationCoordinator {
     @ObservationIgnored private var region: CGRect?
     @ObservationIgnored private var screenFrame: CGRect?
     @ObservationIgnored private var displayID: UInt32?
+    @ObservationIgnored private lazy var indicator = LiveIndicatorController(coordinator: self)
+    @ObservationIgnored private var screenObserver: NSObjectProtocol?
+
+    init() {
+        // Отключение или перестановка дисплея делает выбранные координаты неверными.
+        screenObserver = NotificationCenter.default.addObserver(
+            forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.screenParametersChanged() }
+        }
+    }
+
+    private func screenParametersChanged() {
+        guard running, matchingScreen() == nil else { return }
+        fail(CaptureFailure.invalidRegion.errorDescription ?? "")
+    }
+
+    private func matchingScreen() -> NSScreen? {
+        guard let region, let screen = NSScreen.screens.first(where: {
+            ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID
+        }), screen.frame == screenFrame, screen.frame.contains(region) else { return nil }
+        return screen
+    }
+
+    /// Цикл режима завершился из-за ошибки: интерфейс обязан показать паузу и причину.
+    private func fail(_ reason: String) {
+        pause()
+        message = reason
+    }
 
     var hasRegion: Bool { region != nil }
     var regionDescription: String {
@@ -49,9 +78,7 @@ final class LiveTranslationCoordinator {
 
     func resume() {
         guard let region, !running else { return }
-        guard let screen = NSScreen.screens.first(where: {
-            ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID
-        }), screen.frame == screenFrame, screen.frame.contains(region) else {
+        guard let screen = matchingScreen() else {
             message = CaptureFailure.invalidRegion.errorDescription ?? ""
             return
         }
@@ -60,16 +87,18 @@ final class LiveTranslationCoordinator {
             (self?.model.sourceIdentifier ?? "auto", self?.model.targetIdentifier ?? "ru")
         }
         let status: (String) -> Void = { [weak self] in self?.message = $0 }
+        let failed: (String) -> Void = { [weak self] in self?.fail($0) }
         if model.languages.isEmpty { Task { await model.loadLanguages() } }
+        indicator.show(region: region, screen: screen.visibleFrame)
         switch mode {
         case .inPlace:
             message = ScreenOCRService.isWarm
                 ? String(localized: "Foreign text in the region is replaced by its translation right where it is.")
                 : String(localized: "Preparing text recognition for the first time. This can take up to a minute.")
-            inPlace.start(region: region, screen: screen, pair: pair, onStatus: status)
+            inPlace.start(region: region, screen: screen, pair: pair, onStatus: status, onFailure: failed)
         case .hover:
             message = String(localized: "Point the cursor at a word in the region: the translation appears next to it.")
-            hover.start(region: region, screen: screen, pair: pair, onStatus: status)
+            hover.start(region: region, screen: screen, pair: pair, onStatus: status, onFailure: failed)
         }
     }
 
@@ -84,6 +113,7 @@ final class LiveTranslationCoordinator {
         selector.cancel()
         region = nil; screenFrame = nil; displayID = nil
         paused = false
+        indicator.hide()
         message = String(localized: "Live translation stopped")
     }
 
@@ -93,6 +123,7 @@ final class LiveTranslationCoordinator {
     func engineChanged() {
         let restartAfter = running
         pause()
+        hover.resetTranslator(); inPlace.resetTranslator()
         Task { await model.loadLanguages() }
         if restartAfter { resume() }
     }

@@ -9,9 +9,9 @@ struct KotoMenuView: View {
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
-        Button(String(localized: "Translate selection  ⌃⌥⌘T")) { capture.captureSelection() }
-        Button(String(localized: "Translate screen region…  ⌃⌥⌘R")) { capture.captureRegion() }
-        Button(String(localized: "Live translation…  ⌃⌥⌘L")) { capture.startLive() }
+        Button(String(localized: "Translate selection  \(capture.shortcut(.selection))")) { capture.captureSelection() }
+        Button(String(localized: "Translate screen region…  \(capture.shortcut(.region))")) { capture.captureRegion() }
+        Button(String(localized: "Live translation…  \(capture.shortcut(.live))")) { capture.startLive() }
         if capture.live.hasRegion { Button(String(localized: "Stop live translation")) { capture.live.stop() } }
         Divider()
         Button(String(localized: "Open Koto")) {

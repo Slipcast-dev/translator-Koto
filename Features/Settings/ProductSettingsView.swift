@@ -1,4 +1,6 @@
+import AppKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 // Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
 
@@ -72,6 +74,15 @@ struct PrivacySettingsView: View {
                 TextField(String(localized: "Your translation"), text: $output)
                 HStack { TextField(String(localized: "Source: en"), text: $source); TextField(String(localized: "Target: ru"), text: $target) }
                 Button(String(localized: "Add phrase")) { store.add(input: input, output: output, source: source, target: target) }
+                HStack {
+                    Button(String(localized: "Import phrases…")) { GlossaryPanels.importPhrases(into: store) }
+                    Button(String(localized: "Export JSON…")) { GlossaryPanels.export(store, format: .json) }
+                        .disabled(store.glossary.isEmpty)
+                    Button(String(localized: "Export CSV…")) { GlossaryPanels.export(store, format: .csv) }
+                        .disabled(store.glossary.isEmpty)
+                }
+                Text(String(localized: "CSV columns: source, target, input, output. An imported phrase replaces the same phrase with the same languages. The exported file is not encrypted."))
+                    .font(.caption).foregroundStyle(.secondary)
                 ForEach(store.glossary) { record in
                     HStack {
                         Text("\(record.source) → \(record.target): \(record.input) → \(record.output)").lineLimit(2)
@@ -82,6 +93,37 @@ struct PrivacySettingsView: View {
             }
             if !store.status.isEmpty { Text(store.status).font(.caption) }
         }
+    }
+}
+
+/// Файлы выбирает только пользователь в системных панелях.
+@MainActor
+enum GlossaryPanels {
+    static func importPhrases(into store: TranslationStore) {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.allowedContentTypes = [.json, .commaSeparatedText]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        // Размер проверяется до чтения: большой посторонний файл не загружается в память.
+        guard let values = try? url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey]),
+              values.isRegularFile == true, let size = values.fileSize, size <= GlossaryExchange.maximumBytes,
+              let data = try? Data(contentsOf: url) else {
+            store.report(String(localized: "The file was rejected: check the format, language codes and phrase length."))
+            return
+        }
+        store.importGlossary(data, format: url.pathExtension.lowercased() == "csv" ? .csv : .json)
+    }
+
+    static func export(_ store: TranslationStore, format: GlossaryFormat) {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "Koto-phrases." + format.rawValue
+        panel.allowedContentTypes = [format == .csv ? .commaSeparatedText : .json]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try store.exportGlossary(format).write(to: url, options: .atomic)
+            store.report(String(localized: "Phrases exported"))
+        } catch { store.report(String(localized: "Unable to export phrases")) }
     }
 }
 

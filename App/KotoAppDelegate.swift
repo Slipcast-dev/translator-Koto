@@ -20,6 +20,8 @@ final class KotoAppDelegate: NSObject, NSApplicationDelegate {
         // MenuBarExtra не должен превращать обычное приложение в скрытый menu-only процесс.
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
+        // Помощник обновления ждёт это подтверждение, прежде чем удалить прежнюю копию.
+        UpdateInstaller.confirmLaunch()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

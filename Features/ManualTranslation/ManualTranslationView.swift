@@ -46,7 +46,7 @@ struct ManualTranslationView: View {
             LanguageSelectionView(model: model)
             HStack(alignment: .top, spacing: 20) {
                 TranslationInputView(model: model)
-                TranslationOutputView(result: model.result)
+                TranslationOutputView(result: model.result, partial: model.progress, targetIdentifier: model.targetIdentifier)
                     .padding(.bottom, 44) // та же высота, что у строки кнопок под полем ввода
             }
             .frame(minHeight: 250)
@@ -85,15 +85,15 @@ struct ManualTranslationView: View {
                 Button { coordinator.captureSelection() } label: {
                     Label(String(localized: "Selection"), systemImage: "text.cursor")
                 }
-                .help(String(localized: "Translate text selected in another app · ⌃⌥⌘T"))
+                .help(String(localized: "Translate text selected in another app · \(coordinator.shortcut(.selection))"))
                 Button { coordinator.captureRegion() } label: {
                     Label(String(localized: "Screen region"), systemImage: "viewfinder")
                 }
-                .help(String(localized: "Choose a region containing text · ⌃⌥⌘R"))
+                .help(String(localized: "Choose a region containing text · \(coordinator.shortcut(.region))"))
                 Button { coordinator.startLive() } label: {
                     Label(String(localized: "Live"), systemImage: "dot.radiowaves.left.and.right")
                 }
-                .help(String(localized: "Live translation of a screen region · ⌃⌥⌘L"))
+                .help(String(localized: "Live translation of a screen region · \(coordinator.shortcut(.live))"))
                 if coordinator.captureBusy {
                     Button { coordinator.cancel() } label: { Label(String(localized: "Cancel capture"), systemImage: "xmark.circle") }
                         .help(String(localized: "Cancel capture"))

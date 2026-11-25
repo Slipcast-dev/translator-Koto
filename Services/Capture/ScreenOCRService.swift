@@ -2,27 +2,40 @@ import AppKit
 @preconcurrency import ScreenCaptureKit
 import Vision
 
-/// Грубый отпечаток кадра: уменьшенное серое изображение. Хранится только последний, на диск не пишется.
+/// Отпечаток кадра: уменьшенное серое изображение. Хранится только последний, на диск не пишется.
 struct FrameFingerprint: Sendable {
     fileprivate let samples: [UInt8]
-    nonisolated static let side = 48
-    /// Средняя разница яркости (0...255), ниже которой кадр считается тем же: шум сжатия и мигание курсора.
-    nonisolated static let tolerance = 2.0
+    fileprivate let width: Int
+    fileprivate let height: Int
+    /// Сетка растёт вместе с областью (около 6 пикселей на ячейку): средняя разница по маленькой
+    /// фиксированной сетке не замечала смену одной строки на большом экране.
+    nonisolated static let cellPixels = 6
+    nonisolated static let maximumSide = 480
+    /// Разница яркости ячейки (0...255), которую уже нельзя объяснить шумом сжатия.
+    nonisolated static let cellTolerance = 24
+    /// Столько изменившихся ячеек допускается: мигающий курсор занимает несколько ячеек.
+    nonisolated static let changedCellAllowance = 6
     func matches(_ other: FrameFingerprint) -> Bool {
-        guard samples.count == other.samples.count, !samples.isEmpty else { return false }
-        let total = zip(samples, other.samples).reduce(0) { $0 + abs(Int($1.0) - Int($1.1)) }
-        return Double(total) / Double(samples.count) <= Self.tolerance
+        guard width == other.width, height == other.height, samples.count == other.samples.count, !samples.isEmpty else { return false }
+        var changed = 0
+        for index in samples.indices where abs(Int(samples[index]) - Int(other.samples[index])) > Self.cellTolerance {
+            changed += 1
+            if changed > Self.changedCellAllowance { return false }
+        }
+        return true
     }
     nonisolated static func make(from image: CGImage) -> FrameFingerprint? {
-        var pixels = [UInt8](repeating: 0, count: side * side)
+        let width = min(maximumSide, max(16, image.width / cellPixels))
+        let height = min(maximumSide, max(16, image.height / cellPixels))
+        var pixels = [UInt8](repeating: 0, count: width * height)
         let drawn = pixels.withUnsafeMutableBytes { buffer -> Bool in
-            guard let context = CGContext(data: buffer.baseAddress, width: side, height: side, bitsPerComponent: 8,
-                bytesPerRow: side, space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return false }
-            context.interpolationQuality = .low
-            context.draw(image, in: CGRect(x: 0, y: 0, width: side, height: side))
+            guard let context = CGContext(data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8,
+                bytesPerRow: width, space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return false }
+            context.interpolationQuality = .medium
+            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
             return true
         }
-        return drawn ? FrameFingerprint(samples: pixels) : nil
+        return drawn ? FrameFingerprint(samples: pixels, width: width, height: height) : nil
     }
 }
 

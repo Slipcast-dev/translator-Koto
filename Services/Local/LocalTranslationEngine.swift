@@ -39,6 +39,10 @@ final class LocalTranslationEngine: TranslationEngine {
     }
 
     func translate(_ request: TranslationRequest) async throws -> TranslationResult {
+        try await translate(request, progress: { _ in })
+    }
+
+    func translate(_ request: TranslationRequest, progress: @escaping TranslationProgressHandler) async throws -> TranslationResult {
         guard let source = request.source else { throw TranslationFailure.unableToIdentify }
         let task = Task { () throws -> TranslationResult in
             let english = Locale(identifier: "en")
@@ -51,7 +55,11 @@ final class LocalTranslationEngine: TranslationEngine {
             let generator = LocalGenerationService(runtime:runtime)
             var output = ""
             // Последовательно: не более одного inference; отмена не публикует частичную склейку.
-            for piece in TranslationChunker.pieces(request.text) {
+            let pieces = TranslationChunker.pieces(request.text)
+            let total = pieces.filter { if case .text = $0 { true } else { false } }.count
+            var completed = 0
+            progress(TranslationProgress(completed: 0, total: total, partialText: ""))
+            for piece in pieces {
                 try Task.checkCancellation()
                 switch piece {
                 case .literal(let separator): output += separator
@@ -66,6 +74,9 @@ final class LocalTranslationEngine: TranslationEngine {
                         throw TranslationFailure.engineIssue(String(localized: "The model changed a URL or placeholder. The result was rejected; try Apple Translation."))
                     }
                     output += translated
+                    completed += 1
+                    try Task.checkCancellation()
+                    progress(TranslationProgress(completed: completed, total: total, partialText: output))
                 }
             }
             guard TranslationChunker.preservesProtectedFragments(source:request.text,output:output) else {

@@ -113,7 +113,9 @@ nonisolated enum UpdateCatalog {
             guard let dmg = release.assets.first(where: { $0.name.hasSuffix(".dmg") && $0.name.contains("arm64") }),
                   isTrustedAsset(dmg.browser_download_url), dmg.size > 0, dmg.size <= maximumDownload else { continue }
             let assetBuild = buildNumber(inAssetName: dmg.name)
-            guard let version = AppVersion.parse(tag: release.tag_name, assetBuild: assetBuild),
+            // Имя из JSON станет именем файла ещё до проверки подписи: допускается только простое имя.
+            guard isSafeAssetName(dmg.name),
+                  let version = AppVersion.parse(tag: release.tag_name, assetBuild: assetBuild),
                   version > current else { continue }
             let sums = release.assets.first(where: { $0.name == "SHA256SUMS.txt" })
                 .flatMap { isTrustedAsset($0.browser_download_url) && $0.size <= 65_536 ? $0 : nil }
@@ -128,6 +130,10 @@ nonisolated enum UpdateCatalog {
             if best == nil || candidate.version > best!.version { best = candidate }
         }
         return best
+    }
+
+    nonisolated static func isSafeAssetName(_ name: String) -> Bool {
+        name.range(of: #"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}\.dmg\z"#, options: .regularExpression) != nil
     }
 
     /// Koto-0.1.0-14-arm64-preview-ci.dmg → 14.
@@ -216,10 +222,12 @@ nonisolated enum UpdateProcess {
 
 nonisolated enum UpdateInstaller {
     /// Скрипт-помощник: ждёт выхода приложения, меняет bundle атомарными mv и запускает новую версию.
-    /// При любом сбое возвращает прежнюю копию. Аргументы передаются отдельно, без интерполяции в shell.
+    /// При любом сбое возвращает прежнюю копию. Прежняя копия удаляется только после того, как новая
+    /// версия сообщила о запуске файлом MARKER; иначе она восстанавливается и запускается.
+    /// Аргументы передаются отдельно, без интерполяции в shell.
     nonisolated static let swapScript = """
     #!/bin/sh
-    PID="$1"; NEW="$2"; TARGET="$3"; RELAUNCH="$4"
+    PID="$1"; NEW="$2"; TARGET="$3"; RELAUNCH="$4"; MARKER="$5"; OPENER="$6"; LIMIT="$7"
     i=0
     while kill -0 "$PID" 2>/dev/null; do
       i=$((i+1))
@@ -227,30 +235,72 @@ nonisolated enum UpdateInstaller {
       sleep 0.1
     done
     OLD="$TARGET.old-$$"
-    if /bin/mv "$TARGET" "$OLD"; then
-      if /bin/mv "$NEW" "$TARGET"; then
-        /bin/rm -rf "$OLD"
-      else
-        /bin/mv "$OLD" "$TARGET"
-        /bin/rm -rf "$NEW"
-      fi
-    else
+    if ! /bin/mv "$TARGET" "$OLD"; then
       /bin/rm -rf "$NEW"
+      if [ "$RELAUNCH" = "1" ]; then "$OPENER" "$TARGET"; fi
+      /bin/rm -f "$0"; exit 1
     fi
-    if [ "$RELAUNCH" = "1" ]; then /usr/bin/open "$TARGET"; fi
-    /bin/rm -f "$0"
+    if ! /bin/mv "$NEW" "$TARGET"; then
+      /bin/mv "$OLD" "$TARGET"
+      /bin/rm -rf "$NEW"
+      if [ "$RELAUNCH" = "1" ]; then "$OPENER" "$TARGET"; fi
+      /bin/rm -f "$0"; exit 1
+    fi
+    if [ "$RELAUNCH" != "1" ]; then /bin/rm -rf "$OLD"; /bin/rm -f "$0"; exit 0; fi
+    /bin/rm -f "$MARKER"
+    started=0
+    if "$OPENER" "$TARGET"; then
+      i=0
+      while [ "$i" -lt "$LIMIT" ]; do
+        if [ -f "$MARKER" ]; then started=1; break; fi
+        i=$((i+1))
+        sleep 1
+      done
+    fi
+    if [ "$started" = "1" ]; then
+      /bin/rm -rf "$OLD"
+    else
+      /bin/mv "$TARGET" "$TARGET.failed-$$" && /bin/mv "$OLD" "$TARGET" && /bin/rm -rf "$TARGET.failed-$$"
+      "$OPENER" "$TARGET"
+    fi
+    /bin/rm -f "$MARKER" "$0"
     """
+
+    nonisolated static var updatesDirectory: URL {
+        FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Caches/dev.slipcast.koto/Updates", isDirectory: true)
+    }
+    nonisolated static let launchMarkerName = "launched.marker"
+
+    /// Новая версия подтверждает успешный запуск. Файл пишется только в уже существующий каталог обновлений.
+    nonisolated static func confirmLaunch(workDirectory: URL = updatesDirectory) {
+        guard FileManager.default.fileExists(atPath: workDirectory.path) else { return }
+        try? Data().write(to: workDirectory.appendingPathComponent(launchMarkerName))
+    }
+
+    /// KotoUpdatePublicKey: один или несколько ключей base64 через запятую. Новый ключ добавляется
+    /// в выпуске, подписанном старым; после обновления пользователей старый ключ удаляется.
+    nonisolated static func publicKeys(from value: String) -> Data? {
+        let parts = value.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+        let keys = parts.compactMap { Data(base64Encoded: $0) }.filter { $0.count == 32 }
+        return keys.isEmpty || keys.count != parts.count ? nil : keys.reduce(Data(), +)
+    }
 
     /// Проверяет подпись разработчика под SHA256SUMS.txt (Ed25519, ключ вшит в приложение),
     /// затем SHA-256 загруженного DMG по этому файлу. Без ключа или подписи установка отклоняется.
     nonisolated static func verify(dmg: URL, release: AppRelease, checksums: Data?, signature: Data?,
                                    publicKey: Data?) throws {
         guard let checksums else { throw UpdateFailure.checksumMissing }
+        // publicKey может содержать несколько ключей по 32 байта подряд: так выполняется ротация.
         guard let publicKey, let signature, signature.count <= 1_024,
-              let key = try? Curve25519.Signing.PublicKey(rawRepresentation: publicKey),
+              !publicKey.isEmpty, publicKey.count % 32 == 0, publicKey.count <= 32 * 4,
               let raw = Data(base64Encoded: String(decoding: signature, as: UTF8.self)
                 .trimmingCharacters(in: .whitespacesAndNewlines)),
-              key.isValidSignature(raw, for: checksums) else { throw UpdateFailure.untrusted }
+              stride(from: 0, to: publicKey.count, by: 32).contains(where: { offset in
+                  let bytes = publicKey.dropFirst(offset).prefix(32)
+                  return (try? Curve25519.Signing.PublicKey(rawRepresentation: Data(bytes)))?
+                      .isValidSignature(raw, for: checksums) == true
+              }) else { throw UpdateFailure.untrusted }
         guard let checksumsText = String(data: checksums, encoding: .utf8),
               let expected = UpdateCatalog.expectedHash(in: checksumsText, fileName: release.dmg.name) else {
             throw UpdateFailure.checksumMissing
@@ -319,13 +369,16 @@ nonisolated enum UpdateInstaller {
 
     /// Запускает помощника отдельным процессом: он переживёт завершение приложения.
     nonisolated static func launchSwap(staged: URL, target: URL, processID: Int32, relaunch: Bool,
-                                       workDirectory: URL) throws {
+                                       workDirectory: URL, opener: String = "/usr/bin/open",
+                                       launchTimeoutSeconds: Int = 60) throws {
         let script = workDirectory.appendingPathComponent("swap-" + UUID().uuidString + ".sh")
         try swapScript.write(to: script, atomically: true, encoding: .utf8)
         guard chmod(script.path, 0o700) == 0 else { throw UpdateFailure.helperFailed }
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/sh")
-        process.arguments = [script.path, String(processID), staged.path, target.path, relaunch ? "1" : "0"]
+        process.arguments = [script.path, String(processID), staged.path, target.path, relaunch ? "1" : "0",
+                             workDirectory.appendingPathComponent(launchMarkerName).path, opener,
+                             String(launchTimeoutSeconds)]
         process.standardOutput = FileHandle.nullDevice
         process.standardError = FileHandle.nullDevice
         process.standardInput = FileHandle.nullDevice

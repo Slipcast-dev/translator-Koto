@@ -19,6 +19,9 @@ final class ManualTranslationModel {
     private(set) var result: TranslationResult?
     private(set) var failure: TranslationFailure?
     private(set) var preparation: LanguagePreparationTicket?
+    /// Ход выполняющегося перевода; вне фазы translating всегда nil.
+    private(set) var progress: TranslationProgress?
+    private(set) var translationStartedAt: Date?
 
     @ObservationIgnored private let engine: any TranslationEngine
     @ObservationIgnored private let context: TranslationContext
@@ -116,7 +119,12 @@ final class ManualTranslationModel {
                     case .installed(let resolved):
                         preparationRequest = resolved
                         phase = .translating
-                        let translated = try await engine.translate(resolved)
+                        translationStartedAt = Date()
+                        let translated = try await engine.translate(resolved) { [weak self] update in
+                            // Запоздалая часть отменённого запроса не должна появиться в новом.
+                            guard self?.activeRequestID == request.id else { return }
+                            self?.progress = update
+                        }
                         // Engine может завершиться после cancel; одного Task.cancel недостаточно.
                         guard activeRequestID == request.id, !Task.isCancelled,
                               translated.requestID == request.id else { return }
@@ -218,10 +226,14 @@ final class ManualTranslationModel {
         deadline?.cancel()
         deadline = nil
         preparation = nil
+        progress = nil
+        translationStartedAt = nil
         engine.cancel()
     }
 
     private func finishOperation() {
+        progress = nil
+        translationStartedAt = nil
         deadline?.cancel()
         deadline = nil
         operation = nil

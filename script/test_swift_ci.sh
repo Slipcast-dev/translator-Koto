@@ -3,7 +3,7 @@
 # Scheme содержит приложение без XCTest target; проверки — отдельные @main harness.
 set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-for harness in manual_translation product_privacy capture runtime_transport quality_behaviors model_installation bridge_protocol localization_dynamics cloud_policy; do
+for harness in manual_translation product_privacy capture runtime_transport quality_behaviors model_installation bridge_protocol localization_dynamics cloud_policy regressions; do
     bash "$ROOT_DIR/script/test_${harness}.sh"
 done
 mkdir -p "$ROOT_DIR/build/ci-tests"
@@ -24,5 +24,5 @@ done
 bash "$ROOT_DIR/script/test_safari_bridge.sh"
 
 # Native host должен соответствовать текущему исходному helper выбора socket path.
-bash "$ROOT_DIR/script/build_native_host.sh"
+KOTO_TEST_HOOKS=1 bash "$ROOT_DIR/script/build_native_host.sh"
 python3 "$ROOT_DIR/script/test_bridge_long_path.py"

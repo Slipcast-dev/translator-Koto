@@ -29,24 +29,27 @@ enum SafariBridgeClient {
     /// Блокирующий вызов: вызывается из фоновой очереди обработчика, не из потока Safari.
     static func translate(text: String, source: String, target: String, pageOrigin: String,
                           directory: String = defaultDirectory(), timeout: TimeInterval = 240,
-                          launchApp: (() -> Void)? = nil) throws -> String {
+                          launchApp: (() -> Void)? = nil,
+                          isCancelled: () -> Bool = { false }) throws -> String {
         guard text.count <= 20_000, !text.isEmpty else { throw Failure(code: "invalid_request") }
         let deadline = Date().addingTimeInterval(timeout)
         let socketFile = socketPath(directory: directory)
         let fd = try connect(socketFile, directory: directory, deadline: deadline, launchApp: launchApp)
+        // Закрытие соединения отменяет задания на стороне приложения.
         defer { close(fd) }
+        if isCancelled() { throw Failure(code: "cancelled") }
 
         let tokenData = try readToken(directory + "/bridge.token")
         var decoder = BridgeFrameDecoder()
         let hello = BridgeEnvelope(type: .hello, payload: ["token": tokenData, "origin": BridgeOrigin.safari])
         try send(fd, hello, deadline: deadline)
-        let ack = try receive(fd, &decoder, deadline: deadline) { $0.id == hello.id }
+        let ack = try receive(fd, &decoder, deadline: deadline, isCancelled: isCancelled) { $0.id == hello.id }
         guard ack.type == .helloAck else { throw Failure(code: "bridge_error") }
 
         let request = BridgeEnvelope(type: .translate, payload: [
             "text": text, "source": source, "target": target, "pageOrigin": pageOrigin])
         try send(fd, request, deadline: deadline)
-        let answer = try receive(fd, &decoder, deadline: deadline) { $0.id == request.id }
+        let answer = try receive(fd, &decoder, deadline: deadline, isCancelled: isCancelled) { $0.id == request.id }
         if answer.type == .translated, let translated = answer.payload["text"] { return translated }
         throw Failure(code: answer.payload["code"] ?? "bridge_error")
     }
@@ -103,8 +106,10 @@ enum SafariBridgeClient {
         return fd
     }
 
-    private static func wait(_ fd: Int32, _ events: Int16, deadline: Date) throws {
+    private static func wait(_ fd: Int32, _ events: Int16, deadline: Date,
+                             isCancelled: () -> Bool = { false }) throws {
         while true {
+            if isCancelled() { throw Failure(code: "cancelled") }
             let remaining = deadline.timeIntervalSinceNow
             guard remaining > 0 else { throw Failure(code: "timeout") }
             var descriptor = pollfd(fd: fd, events: events, revents: 0)
@@ -127,10 +132,11 @@ enum SafariBridgeClient {
     }
 
     private static func receive(_ fd: Int32, _ decoder: inout BridgeFrameDecoder, deadline: Date,
+                                isCancelled: () -> Bool,
                                 matching: (BridgeEnvelope) -> Bool) throws -> BridgeEnvelope {
         var buffer = [UInt8](repeating: 0, count: 65_536)
         while true {
-            try wait(fd, Int16(POLLIN), deadline: deadline)
+            try wait(fd, Int16(POLLIN), deadline: deadline, isCancelled: isCancelled)
             let count = read(fd, &buffer, buffer.count)
             if count < 0 && (errno == EAGAIN || errno == EINTR) { continue }
             guard count > 0 else { throw Failure(code: "connection_lost") }

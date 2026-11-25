@@ -3,63 +3,6 @@ import SwiftUI
 
 // Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
 
-/// Быстрый перевод коротких фрагментов с кэшем. Не показывает UI и не пишет текст на диск.
-@MainActor
-final class QuickTranslator {
-    enum Outcome { case text(String), failure(String) }
-    private let model = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .live)
-    private var cache: [String: String] = [:]
-
-    var languageIDs: [String] { model.languages.map(\.id) }
-
-    func cached(_ text: String, pair: (source: String, target: String)) -> String? {
-        cache["\(pair.source)|\(pair.target)|\(text)"]
-    }
-
-    /// Несколько строк одним запросом: переводчик обычно сохраняет переносы. Если число строк в ответе не совпало,
-    /// каждая строка переводится отдельно. Результаты кэшируются построчно.
-    func translateBatch(_ texts: [String], pair: (source: String, target: String)) async -> [Outcome] {
-        guard texts.count > 1 else {
-            var single: [Outcome] = []
-            for text in texts { single.append(await translate(text, pair: pair)) }
-            return single
-        }
-        if case .text(let joined) = await translate(texts.joined(separator: "\n"), pair: pair) {
-            let parts = joined.split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
-            if parts.count == texts.count, parts.allSatisfy({ !$0.trimmingCharacters(in: .whitespaces).isEmpty }) {
-                for (text, part) in zip(texts, parts) { cache["\(pair.source)|\(pair.target)|\(text)"] = part }
-                return parts.map { .text($0) }
-            }
-        }
-        var each: [Outcome] = []
-        for text in texts { each.append(await translate(text, pair: pair)) }
-        return each
-    }
-
-    func translate(_ text: String, pair: (source: String, target: String)) async -> Outcome {
-        let key = "\(pair.source)|\(pair.target)|\(text)"
-        if let cached = cache[key] { return .text(cached) }
-        if model.languages.isEmpty { await model.loadLanguages() }
-        for source in pair.source == "auto" ? ["auto", "en"] : [pair.source] {
-            model.targetIdentifier = pair.target
-            model.sourceIdentifier = source
-            model.sourceText = text
-            model.submit()
-            while model.isBusy, !Task.isCancelled { try? await Task.sleep(for: .milliseconds(30)) }
-            if let result = model.result?.text, !result.isEmpty {
-                if cache.count > 800 { cache.removeAll() }
-                cache[key] = result
-                return .text(result)
-            }
-            if model.phase == .needsDownload {
-                return .failure(String(localized: "Language not downloaded. Prepare it in the main Koto window first."))
-            }
-            if model.failure != .unableToIdentify { break }
-        }
-        return .failure(model.failure?.errorDescription ?? String(localized: "Unable to translate."))
-    }
-}
-
 struct OverlayLine: Identifiable, Equatable {
     let id: Int
     let frame: CGRect
@@ -124,51 +67,95 @@ private struct InPlaceOverlayView: View {
     }
 }
 
+/// Паузы повтора после ошибок и интервал опроса неизменного экрана.
+enum LiveSchedule {
+    /// Первые неизменные кадры проверяются часто; на статичном экране интервал растёт до 1,5 с.
+    nonisolated static func idleInterval(unchanged: Int) -> Duration {
+        .milliseconds(min(1_500, 600 + max(0, unchanged - 5) * 150))
+    }
+    /// 2, 4, 8, 16, затем 30 секунд.
+    nonisolated static func retryDelay(failures: Int) -> Duration {
+        .seconds(min(30, 1 << min(5, max(1, failures))))
+    }
+    /// Столько сбоев захвата подряд считаются устойчивыми: режим переходит в паузу.
+    nonisolated static let captureFailureLimit = 5
+}
+
 /// Живой перевод на месте: Koto находит иностранный текст в области, определяет язык каждой строки
 /// и показывает перевод поверх исходной строки. Кадр не меняется — OCR и перевод не повторяются.
 @MainActor
 final class InPlaceTranslationController {
     private let ocr: ScreenOCRService
-    private let translator = QuickTranslator()
+    private let translator = QuickTranslator(engine: RoutingTranslationEngine())
     private let overlay = InPlaceOverlay()
     private var loop: Task<Void, Never>?
     private var fingerprint: FrameFingerprint?
 
     init(ocr: ScreenOCRService) { self.ocr = ocr }
 
+    /// `onFailure` сообщает, что цикл завершён: владелец обязан показать паузу, а не «работает».
     func start(region: CGRect, screen: NSScreen, pair: @escaping () -> (source: String, target: String),
-               onStatus: @escaping (String) -> Void) {
+               onStatus: @escaping (String) -> Void, onFailure: @escaping (String) -> Void) {
         stop()
         fingerprint = nil
         loop = Task { [weak self] in
+            var unchanged = 0, captureFailures = 0, translationFailures = 0
+            var lastLines: [RecognizedLine]?
+            var retryAt: ContinuousClock.Instant?
             while !Task.isCancelled {
                 guard let self else { return }
+                var pause = LiveSchedule.idleInterval(unchanged: unchanged)
                 do {
+                    // Срок повтора наступил: тот же кадр распознаётся и переводится снова.
+                    if let due = retryAt, ContinuousClock.now >= due { self.fingerprint = nil; retryAt = nil }
                     let frame = try await self.ocr.lines(in: region, screen: screen, previous: self.fingerprint)
                     guard !Task.isCancelled else { return }
+                    captureFailures = 0
                     self.fingerprint = frame.fingerprint
                     if let lines = frame.lines {
-                        // Кадр изменился: старые подписи могут стоять не на месте.
-                        self.overlay.hide()
-                        await self.translate(lines, region: region, pair: pair(), onStatus: onStatus)
-                    }
+                        unchanged = 0
+                        // Прежние подписи остаются, пока строки те же: это убирает мигание поверх видео.
+                        if lines != lastLines { self.overlay.hide() }
+                        lastLines = lines
+                        let complete = await self.translate(lines, region: region, pair: pair(), onStatus: onStatus)
+                        guard !Task.isCancelled else { return }
+                        if complete { translationFailures = 0; retryAt = nil }
+                        else {
+                            translationFailures += 1
+                            retryAt = .now.advanced(by: LiveSchedule.retryDelay(failures: translationFailures))
+                        }
+                        pause = LiveSchedule.idleInterval(unchanged: 0)
+                    } else { unchanged += 1 }
                 } catch is CancellationError { return }
-                catch CaptureFailure.noText { self.overlay.hide() }
+                catch CaptureFailure.noText { self.overlay.hide(); lastLines = nil }
                 catch {
                     self.overlay.hide()
-                    onStatus((error as? CaptureFailure)?.errorDescription ?? String(localized: "Live capture stopped after an error"))
-                    return
+                    lastLines = nil
+                    self.fingerprint = nil
+                    captureFailures += 1
+                    let message = (error as? CaptureFailure)?.errorDescription ?? String(localized: "Live capture stopped after an error")
+                    // Отсутствие доступа повтором не исправить; остальные сбои (сон дисплея) временные.
+                    if (error as? CaptureFailure) == .screenRequired || captureFailures >= LiveSchedule.captureFailureLimit {
+                        onFailure(message)
+                        return
+                    }
+                    onStatus(message)
+                    pause = LiveSchedule.retryDelay(failures: captureFailures)
                 }
-                try? await Task.sleep(for: .milliseconds(600))
+                try? await Task.sleep(for: pause)
             }
         }
     }
 
-    func stop() { loop?.cancel(); loop = nil; fingerprint = nil; overlay.hide() }
+    func stop() { loop?.cancel(); loop = nil; translator.cancel(); fingerprint = nil; overlay.hide() }
 
+    func resetTranslator() { translator.reset() }
+
+    /// false — часть строк не переведена и кадр нужно повторить позже.
     private func translate(_ lines: [RecognizedLine], region: CGRect, pair: (source: String, target: String),
-                           onStatus: (String) -> Void) async {
-        if translator.languageIDs.isEmpty { _ = await translator.translate("a", pair: pair) }
+                           onStatus: (String) -> Void) async -> Bool {
+        await translator.loadLanguages()
+        guard !Task.isCancelled else { return false }
         // Нужны только строки на другом языке; уже переведённые берутся из кэша мгновенно.
         var wanted: [(index: Int, line: RecognizedLine)] = []
         for (index, line) in lines.enumerated() {
@@ -198,15 +185,20 @@ final class InPlaceTranslationController {
             }
             let chunk = Array(pending[start..<end])
             let results = await translator.translateBatch(chunk.map(\.line.text), pair: pair)
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else { return false }
+            var failed: String?
             for (item, result) in zip(chunk, results) {
                 switch result {
                 case .text(let text): add(item, text)
-                case .failure(let message): onStatus(message)
+                case .failure(let message): failed = message
+                case .cancelled: return false
                 }
             }
             publish()
+            // После отказа движка остальные пачки не отправляются: кадр повторится с паузой.
+            if let failed { onStatus(failed); return false }
             start = end
         }
+        return !Task.isCancelled
     }
 }

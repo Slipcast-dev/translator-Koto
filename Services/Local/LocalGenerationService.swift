@@ -2,11 +2,44 @@ import Foundation
 
 // Сообщения разрешаются через Foundation, чтобы меню, ошибки и SwiftUI использовали один язык.
 
+/// Очередь FIFO к единственному слоту модели. Таймаут HTTP-запроса начинается только после того,
+/// как слот получен: ожидание соседних запросов больше не расходует время текущего.
+@MainActor
+final class InferenceGate {
+    private var busy = false
+    private var waiters: [(id: UUID, continuation: CheckedContinuation<Void, Error>)] = []
+    var waiting: Int { waiters.count }
+
+    func acquire() async throws {
+        try Task.checkCancellation()
+        if !busy { busy = true; return }
+        let id = UUID()
+        try await withTaskCancellationHandler(operation: {
+            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                if Task.isCancelled { continuation.resume(throwing: CancellationError()) }
+                else { waiters.append((id, continuation)) }
+            }
+        }, onCancel: {
+            Task { @MainActor in self.abandon(id) }
+        })
+    }
+    func release() {
+        if waiters.isEmpty { busy = false }
+        else { waiters.removeFirst().continuation.resume() }
+    }
+    private func abandon(_ id: UUID) {
+        guard let index = waiters.firstIndex(where: { $0.id == id }) else { return }
+        waiters.remove(at: index).continuation.resume(throwing: CancellationError())
+    }
+}
+
 /// Общая граница локального JSON inference для перевода и пояснений. Никаких внешних endpoint.
 @MainActor
 struct LocalGenerationService {
     let runtime: LocalRuntimeSupervisor
     func generate(instruction: String, input: String, schema: [String:Any], maximumTokens: Int = 1536) async throws -> Data {
+        try await runtime.gate.acquire()
+        defer { runtime.gate.release() }
         try Task.checkCancellation()
         let endpoint = try await runtime.start()
         try Task.checkCancellation()
