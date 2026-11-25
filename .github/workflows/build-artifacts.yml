@@ -61,7 +61,7 @@ jobs:
       - name: Package extension and checksums
         if: steps.version.outputs.skip != 'true'
         run: python3 script/package_browser.py
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: steps.version.outputs.skip != 'true'
         with:
           name: koto-built-release
