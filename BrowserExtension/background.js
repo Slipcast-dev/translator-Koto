@@ -40,14 +40,17 @@ function translate(text, source, target, pageOrigin) {
     catch { clearTimeout(timer); pending.delete(id); reject(new Error("native_host_unavailable")); }
   });
 }
-function cancel() {
-  generation++;
+function cancelRequests() {
   for (const [id, job] of pending) {
     try { nativePort?.postMessage({v:1,id:crypto.randomUUID(),type:"cancel",payload:{requestID:id}}); } catch {}
     clearTimeout(job.timer);
     job.reject(new Error("cancelled"));
   }
   pending.clear();
+}
+function cancel() {
+  generation++;
+  cancelRequests();
 }
 
 async function execute(tabId, func, args=[], documentId) {
@@ -62,23 +65,159 @@ async function activeTab() {
 }
 // Origin и текст читаются синхронно в одном document. URL из tabs.query
 // мог устареть до injection; documentId также закрепляет последующее добавление перевода.
-async function snapshot(tabId, func) {
-  const [injection] = await chrome.scripting.executeScript({target:{tabId},func});
+async function snapshot(tabId, func, args=[]) {
+  const [injection] = await chrome.scripting.executeScript({target:{tabId},func,args});
   const value = injection?.result;
   if (!injection?.documentId || !value || !/^https?:\/\//i.test(value.pageOrigin || "")) {
     throw new Error("unsupported_page");
   }
   return {...value,documentId:injection.documentId};
 }
+// Выполняется внутри страницы. Только видимые текстовые узлы; поля ввода и editable content исключены.
+// reset начинает новый перевод; без reset возвращаются лишь ещё не переведённые узлы (прокрутка).
+function collectVisible(reset) {
+  if (reset) {
+    for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
+    window.__kotoSlipcastNodes = new Map();
+    window.__kotoSlipcastSeen = new WeakMap();
+    window.__kotoSlipcastNext = 0;
+  }
+  const records = window.__kotoSlipcastNodes;
+  const seen = window.__kotoSlipcastSeen;
+  // Состояние исчезает при переходе на другую страницу или после «Убрать перевод».
+  if (!records || !seen) return {segments:[], pageOrigin:location.origin, gone:true};
+  const output = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let node, inspected = 0, characters = 0;
+  while ((node = walker.nextNode()) && inspected++ < 20000 && output.length < 40) {
+    const text = node.textContent;
+    const known = seen.get(node);
+    if (known?.text === text) continue;
+    const parent = node.parentElement;
+    if (!parent || !text.trim() || text.length > 1500 || characters + text.length > 20000 ||
+        parent.closest("script,style,noscript,textarea,input,select,option,code,pre,[contenteditable],[data-koto-translation]")) continue;
+    const range = document.createRange(); range.selectNodeContents(node);
+    const rect = range.getBoundingClientRect();
+    if (!rect.width || !rect.height || rect.bottom <= 0 || rect.top >= innerHeight) continue;
+    const style = getComputedStyle(parent);
+    if (style.visibility === "hidden" || style.display === "none") continue;
+    // Сайт изменил уже переведённый узел: прежняя подпись относится к старому тексту.
+    if (known) { records.get(known.id)?.output?.remove(); records.delete(known.id); }
+    const id = window.__kotoSlipcastNext++;
+    records.set(id, {node, original:text, output:null});
+    seen.set(node, {text, id});
+    output.push({id, text});
+    characters += text.length;
+  }
+  return {segments:output, pageOrigin:location.origin};
+}
+function removeTranslations() {
+  for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
+  window.__kotoSlipcastNodes = undefined;
+  window.__kotoSlipcastSeen = undefined;
+}
+// Перевод при прокрутке ограничен: забытая вкладка с бегущей строкой не должна бесконечно
+// загружать модель или расходовать облачную квоту.
+const FOLLOW = {interval: 1200, segments: 400, characters: 100000, duration: 10 * 60 * 1000};
+
+// При явно выбранном языке короткие соседние фрагменты уходят одним запросом. При автоопределении
+// пакет не объединяется: на странице с несколькими языками весь пакет получил бы один исходный язык.
+function groupSegments(segments, source) {
+  const groups = [];
+  let group = [], size = 0;
+  for (const segment of segments) {
+    if (group.length && (source === "auto" || group.length >= 8 || size + segment.text.length > 1500)) {
+      groups.push(group); group = []; size = 0;
+    }
+    group.push(segment); size += segment.text.length;
+  }
+  if (group.length) groups.push(group);
+  return groups;
+}
+async function translateGroup(group, source, target, pageOrigin, current) {
+  const item = (segment, text) => ({id:segment.id, original:segment.text, text});
+  if (group.length > 1) {
+    const joined = group.map(segment => segment.text.replace(/\s+/g, " ").trim()).join("\n");
+    const lines = (await translate(joined, source, target, pageOrigin)).split("\n");
+    if (lines.length === group.length && lines.every(line => line.trim())) {
+      return group.map((segment, index) => item(segment, lines[index]));
+    }
+  }
+  // Один фрагмент или ответ с другим числом строк: переводим по одному.
+  const results = [];
+  for (const segment of group) {
+    if (generation !== current) throw new Error("cancelled");
+    results.push(item(segment, await translate(segment.text, source, target, pageOrigin)));
+  }
+  return results;
+}
+async function translatePage(segments, session) {
+  let completed = 0;
+  const groups = groupSegments(segments, session.source);
+  // 4 запроса одновременно: столько же допускают мост (4 задачи на соединение) и очередь worker.
+  for (let index=0; index<groups.length; index+=4) {
+    if (generation !== session.generation) throw new Error("cancelled");
+    let batch;
+    try {
+      batch = (await Promise.all(groups.slice(index,index+4).map(group =>
+        translateGroup(group, session.source, session.target, session.pageOrigin, session.generation)))).flat();
+    } catch (error) {
+      // Ошибка одного фрагмента отменяет соседние: их результат уже некуда показывать.
+      if (generation === session.generation) cancelRequests();
+      throw error;
+    }
+    if (generation !== session.generation) throw new Error("cancelled");
+    completed += await execute(session.tabId, (batch,target) => {
+      let applied = 0;
+      for (const item of batch) {
+        const record = window.__kotoSlipcastNodes?.get(item.id);
+        // Поздний ответ не заменяет динамически обновлённый текст сайта.
+        if (!record?.node.isConnected || record.node.textContent !== item.original) continue;
+        const translated = document.createElement("span");
+        translated.textContent = item.text;
+        translated.lang = target;
+        // Текст перевода определяет направление независимо от языка сайта.
+        translated.dir = "auto";
+        // Метка не даёт принять собственный перевод за новый текст страницы при прокрутке.
+        translated.dataset.kotoTranslation = "1";
+        Object.assign(translated.style, {display:"block",whiteSpace:"pre-wrap",padding:"4px 0",color:"#7656c9",unicodeBidi:"isolate"});
+        record.output?.remove();
+        record.node.parentNode.insertBefore(translated, record.node.nextSibling);
+        record.output = translated;
+        applied++;
+      }
+      return applied;
+    }, [batch,session.target], session.documentId);
+  }
+  return completed;
+}
+// Опрос из worker вместо content script: страница не получает канала к native RPC.
+// documentId закрепляет документ — после перехода injection отклоняется и наблюдение заканчивается.
+async function followScroll(session, used) {
+  const deadline = Date.now() + FOLLOW.duration;
+  let {segments, characters} = used;
+  while (generation === session.generation && Date.now() < deadline &&
+         segments < FOLLOW.segments && characters < FOLLOW.characters) {
+    await new Promise(resolve => setTimeout(resolve, FOLLOW.interval));
+    if (generation !== session.generation) return;
+    try {
+      const found = await execute(session.tabId, collectVisible, [false], session.documentId);
+      if (!found || found.gone || found.pageOrigin !== session.pageOrigin) return;
+      const next = found.segments.slice(0, FOLLOW.segments - segments);
+      if (!next.length) continue;
+      segments += next.length;
+      characters += next.reduce((sum, segment) => sum + segment.text.length, 0);
+      await translatePage(next, session);
+    } catch { return; }
+  }
+}
 // Внутренний ответ popup содержит код и параметры; язык текста выбирается только в UI.
 async function act(message) {
   if (message.action === "cancel") { cancel(); return {ok:true,status:"cancelled"}; }
   const {tabId} = await activeTab();
   if (message.action === "clear") {
-    await execute(tabId, () => {
-      for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
-      window.__kotoSlipcastNodes = undefined;
-    });
+    cancel();
+    await execute(tabId, removeTranslations);
     return {ok:true,status:"cleared"};
   }
   const source = message.source || "auto", target = message.target || "ru";
@@ -95,60 +234,17 @@ async function act(message) {
     return {ok:true,text:result};
   }
   if (message.action !== "page") throw new Error("invalid_action");
-  const {segments,pageOrigin,documentId} = await snapshot(tabId, () => {
-    // Только видимые текстовые узлы main frame. Поля ввода и editable content исключены.
-    for (const record of window.__kotoSlipcastNodes?.values() || []) record.output?.remove();
-    const records = new Map();
-    const output = [];
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let node, inspected = 0, characters = 0;
-    while ((node = walker.nextNode()) && inspected++ < 5000 && output.length < 40) {
-      const text = node.textContent;
-      const parent = node.parentElement;
-      if (!parent || !text.trim() || text.length > 1500 || characters + text.length > 20000 ||
-          parent.closest("script,style,noscript,textarea,input,select,option,code,pre,[contenteditable]")) continue;
-      const style = getComputedStyle(parent);
-      if (style.visibility === "hidden" || style.display === "none") continue;
-      const range = document.createRange(); range.selectNodeContents(node);
-      const rect = range.getBoundingClientRect();
-      if (!rect.width || !rect.height || rect.bottom <= 0 || rect.top >= innerHeight) continue;
-      const id = output.length;
-      records.set(id, {node,original:text,output:null});
-      output.push({id,text});
-      characters += text.length;
-    }
-    window.__kotoSlipcastNodes = records;
-    return {segments:output,pageOrigin:location.origin};
-  });
-  let completed = 0;
-  // 4 запроса одновременно: столько же допускают мост (4 задачи на соединение) и очередь worker.
-  for (let index=0; index<segments.length; index+=4) {
-    if (generation !== current) throw new Error("cancelled");
-    const batch = await Promise.all(segments.slice(index,index+4).map(async segment => ({
-      id:segment.id,original:segment.text,text:await translate(segment.text,source,target,pageOrigin)
-    })));
-    if (generation !== current) throw new Error("cancelled");
-    completed += await execute(tabId, (batch,target) => {
-      let applied = 0;
-      for (const item of batch) {
-        const record = window.__kotoSlipcastNodes?.get(item.id);
-        // Поздний ответ не заменяет динамически обновлённый текст сайта.
-        if (!record?.node.isConnected || record.node.textContent !== item.original) continue;
-        const translated = document.createElement("span");
-        translated.textContent = item.text;
-        translated.lang = target;
-        // Текст перевода определяет направление независимо от языка сайта.
-        translated.dir = "auto";
-        Object.assign(translated.style,{display:"block",whiteSpace:"pre-wrap",padding:"4px 0",color:"#7656c9",unicodeBidi:"isolate"});
-        record.output?.remove();
-        record.node.parentNode.insertBefore(translated,record.node.nextSibling);
-        record.output = translated;
-        applied++;
-      }
-      return applied;
-    }, [batch,target], documentId);
+  const {segments,pageOrigin,documentId} = await snapshot(tabId, collectVisible, [true]);
+  const session = {tabId,documentId,source,target,pageOrigin,generation:current};
+  const count = await translatePage(segments, session);
+  const following = message.follow === true;
+  if (following) {
+    void followScroll(session, {
+      segments: segments.length,
+      characters: segments.reduce((sum, segment) => sum + segment.text.length, 0),
+    });
   }
-  return {ok:true,status:"page_translated",count:completed};
+  return {ok:true,status:"page_translated",count,following};
 }
 chrome.runtime.onMessage.addListener((message,sender,respond) => {
   // Команды принимает только собственный popup; content scripts не получают native RPC.

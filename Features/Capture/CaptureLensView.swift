@@ -71,7 +71,7 @@ struct CaptureLensView: View {
                 }
                     .frame(maxHeight: 90)
                 Divider()
-                TranslationOutputView(result: model.result)
+                TranslationOutputView(result: model.result, partial: model.progress, targetIdentifier: model.targetIdentifier)
                 TranslationStatusView(model: model)
                 HStack {
                     Button(copied ? String(localized: "Copied") : String(localized: "Copy")) {
@@ -91,7 +91,7 @@ struct CaptureLensView: View {
             } else {
                 VStack(alignment: .leading, spacing: 10) {
                     if !coordinator.captureBusy {
-                        Text(String(localized: "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R")).font(.callout).foregroundStyle(.secondary)
+                        Text(String(localized: "Selection: \(coordinator.shortcut(.selection))\nScreen region: \(coordinator.shortcut(.region))")).font(.callout).foregroundStyle(.secondary)
                     }
                     Spacer()
                 }

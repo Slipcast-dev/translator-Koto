@@ -11,6 +11,6 @@ xcrun swiftc -parse-as-library -swift-version 6 -default-isolation MainActor \
 xcrun swiftc -parse-as-library -swift-version 6 -default-isolation MainActor \
     -target arm64-apple-macosx26.0 "$ROOT_DIR"/Core/Bridge/*.swift "$ROOT_DIR"/Core/Translation/*.swift \
     "$ROOT_DIR/Support/PrivateStorage.swift" "$ROOT_DIR"/Services/Translation/*.swift \
-    "$ROOT_DIR"/Services/Cloud/*.swift "$ROOT_DIR/Services/Product/TranslationStore.swift" \
+    "$ROOT_DIR"/Services/Cloud/*.swift "$ROOT_DIR/Services/Product/TranslationStore.swift" "$ROOT_DIR/Services/Product/GlossaryExchange.swift" \
     "$ROOT_DIR"/Services/Local/*.swift "$ROOT_DIR/Services/Browser/BrowserBridgeServer.swift" \
     "$ROOT_DIR/Tests/BrowserBridgeHarness.swift" -o "$ROOT_DIR/build/stage5/bridge-harness"

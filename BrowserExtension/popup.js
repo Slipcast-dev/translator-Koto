@@ -7,6 +7,7 @@ const source = document.getElementById("source");
 const target = document.getElementById("target");
 const status = document.getElementById("status");
 const result = document.getElementById("result");
+const follow = document.getElementById("follow");
 const names = new Intl.DisplayNames([uiLocale], { type: "language" });
 source.add(new Option(message("detect_language"), "auto"));
 for (const code of [
@@ -17,10 +18,12 @@ for (const code of [
   target.add(new Option(names.of(code) || code, code));
 }
 
-chrome.storage.local.get({ source: "auto", target: "ru" }).then((value) => {
+chrome.storage.local.get({ source: "auto", target: "ru", follow: false }).then((value) => {
   source.value = value.source;
   target.value = value.target;
+  follow.checked = value.follow === true;
 });
+follow.addEventListener("change", () => chrome.storage.local.set({ follow: follow.checked === true }));
 for (const field of [source, target]) {
   field.addEventListener("change", () => chrome.storage.local.set({
     source: source.value, target: target.value,
@@ -33,10 +36,12 @@ for (const action of ["selection", "page", "clear", "cancel"]) {
     result.textContent = "";
     try {
       const response = await chrome.runtime.sendMessage({
-        action, source: source.value, target: target.value,
+        action, source: source.value, target: target.value, follow: follow.checked === true,
       });
       if (!response?.ok) throw new Error(response?.error || "bridge_error");
-      status.textContent = completionMessage(response);
+      status.textContent = response.following
+        ? completionMessage(response) + " " + message("following_scroll")
+        : completionMessage(response);
       // Перевод является пользовательскими данными: не локализуем его повторно
       // и не интерпретируем как HTML. Его направление независимо от оболочки.
       result.lang = target.value;

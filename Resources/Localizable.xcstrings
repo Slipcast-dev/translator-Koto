@@ -811,24 +811,6 @@
         }
       }
     },
-    "Choose a region containing text · ⌃⌥⌘R": {
-      "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose a region containing text · ⌃⌥⌘R"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выбрать область с текстом · ⌃⌥⌘R"
-          }
-        }
-      }
-    },
     "Choose a screen region for live translation": {
       "comment": "Пользовательская строка: Features/Live/LiveTranslationCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -1869,24 +1851,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Живой перевод — Koto"
-          }
-        }
-      }
-    },
-    "Live translation…  ⌃⌥⌘L": {
-      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Live translation…  ⌃⌥⌘L"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Живой перевод…  ⌃⌥⌘L"
           }
         }
       }
@@ -3025,42 +2989,6 @@
         }
       }
     },
-    "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R": {
-      "comment": "Пользовательская строка: Features/Capture/CaptureLensView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selection: ⌃⌥⌘T\nScreen region: ⌃⌥⌘R"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выделение: ⌃⌥⌘T\nОбласть экрана: ⌃⌥⌘R"
-          }
-        }
-      }
-    },
-    "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R": {
-      "comment": "Пользовательская строка: Features/Capture/CaptureCoordinator.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выделение: ⌃⌥⌘T · Область: ⌃⌥⌘R"
-          }
-        }
-      }
-    },
     "Settings applied": {
       "comment": "Пользовательская строка: Features/Settings/SettingsMigrationView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -3637,24 +3565,6 @@
         }
       }
     },
-    "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again.": {
-      "comment": "Пользовательская строка: Services/Hotkeys/GlobalHotkeyService.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The shortcuts ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L are in use. Release them in the other app and enable shortcuts again."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сочетания ⌃⌥⌘T / ⌃⌥⌘R / ⌃⌥⌘L заняты. Освободите их в другом приложении и повторите включение."
-          }
-        }
-      }
-    },
     "The system theme follows macOS settings.": {
       "comment": "Пользовательская строка: Features/Settings/SettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -3889,24 +3799,6 @@
         }
       }
     },
-    "Translate screen region…  ⌃⌥⌘R": {
-      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Translate screen region…  ⌃⌥⌘R"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевести область…  ⌃⌥⌘R"
-          }
-        }
-      }
-    },
     "Translate selection": {
       "comment": "Пользовательская строка: Features/Welcome/MainWindowView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -3921,24 +3813,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевести выделение"
-          }
-        }
-      }
-    },
-    "Translate selection  ⌃⌥⌘T": {
-      "comment": "Пользовательская строка: App/KotoCommands.swift, App/KotoMenuView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Translate selection  ⌃⌥⌘T"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевести выделение  ⌃⌥⌘T"
           }
         }
       }
@@ -4245,24 +4119,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось установить модель. Проверьте интернет и повторите попытку."
-          }
-        }
-      }
-    },
-    "Unable to read local storage. The file was not overwritten.": {
-      "comment": "Пользовательская строка: Services/Product/TranslationStore.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unable to read local storage. The file was not overwritten."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не удалось прочитать локальное хранилище. Файл не перезаписан."
           }
         }
       }
@@ -4767,24 +4623,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "p50 %@ мс · p95 %@ мс"
-          }
-        }
-      }
-    },
-    "⌃⌥⌘T — selected text\n⌃⌥⌘R — screen region (OCR)\n⌃⌥⌘L — live translation": {
-      "comment": "Пользовательская строка: Features/Capture/CaptureSettingsView.swift. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌃⌥⌘T — selected text\n⌃⌥⌘R — screen region (OCR)\n⌃⌥⌘L — live translation"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "⌃⌥⌘T — выделенный текст\n⌃⌥⌘R — область экрана (OCR)\n⌃⌥⌘L — живой перевод"
           }
         }
       }
@@ -6859,24 +6697,6 @@
         }
       }
     },
-    "Translate text selected in another app · ⌃⌥⌘T": {
-      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Translate text selected in another app · ⌃⌥⌘T"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевести текст, выделенный в другом приложении · ⌃⌥⌘T"
-          }
-        }
-      }
-    },
     "Screen region": {
       "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
       "extractionState": "manual",
@@ -6891,24 +6711,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Область экрана"
-          }
-        }
-      }
-    },
-    "Live translation of a screen region · ⌃⌥⌘L": {
-      "comment": "Пользовательская строка: Features/Capture, Features/Welcome, Features/Settings. Переводить целиком; коды, бренды и параметры сохранять.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Live translation of a screen region · ⌃⌥⌘L"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Живой перевод области экрана · ⌃⌥⌘L"
           }
         }
       }
@@ -7701,6 +7503,528 @@
           "stringUnit": {
             "state": "translated",
             "value": "Первая подготовка распознавания текста. Это может занять до минуты."
+          }
+        }
+      }
+    },
+    "Live translation is on": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation is on"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Идёт живой перевод"
+          }
+        }
+      }
+    },
+    "Translate selection  %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate selection  %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести выделенное  %@"
+          }
+        }
+      }
+    },
+    "Translate screen region…  %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate screen region…  %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести область экрана…  %@"
+          }
+        }
+      }
+    },
+    "Live translation…  %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation…  %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод…  %@"
+          }
+        }
+      }
+    },
+    "Use ⌘ or ⌃ together with another modifier, or with a function key.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use ⌘ or ⌃ together with another modifier, or with a function key."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используйте ⌘ или ⌃ вместе с ещё одним модификатором или с функциональной клавишей."
+          }
+        }
+      }
+    },
+    "This shortcut is already used by “%@”.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This shortcut is already used by “%@”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Это сочетание уже назначено команде «%@»."
+          }
+        }
+      }
+    },
+    "Selection: %@ · Region: %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection: %@ · Region: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделенное: %@ · Область: %@"
+          }
+        }
+      }
+    },
+    "Selection: %@\nScreen region: %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection: %@\nScreen region: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выделенный текст: %@\nОбласть экрана: %@"
+          }
+        }
+      }
+    },
+    "Restore default shortcuts": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore default shortcuts"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вернуть стандартные сочетания"
+          }
+        }
+      }
+    },
+    "Copy the selection with ⌘C when an app does not share it": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the selection with ⌘C when an app does not share it"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копировать выделенное через ⌘C, если приложение не отдаёт его"
+          }
+        }
+      }
+    },
+    "Koto restores the clipboard, but clipboard managers and Universal Clipboard may see the copied text. Turn this off to read selections only through Accessibility.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto restores the clipboard, but clipboard managers and Universal Clipboard may see the copied text. Turn this off to read selections only through Accessibility."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koto восстанавливает буфер обмена, но менеджеры буфера и Универсальный буфер могут увидеть скопированный текст. Выключите, чтобы читать выделенное только через Универсальный доступ."
+          }
+        }
+      }
+    },
+    "Press a shortcut… Esc cancels": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press a shortcut… Esc cancels"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите сочетание… Esc — отмена"
+          }
+        }
+      }
+    },
+    "Screen text is sent to %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen text is sent to %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текст с экрана отправляется в %@"
+          }
+        }
+      }
+    },
+    "Translate text selected in another app · %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate text selected in another app · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевести текст, выделенный в другом приложении · %@"
+          }
+        }
+      }
+    },
+    "Choose a region containing text · %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a region containing text · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать область с текстом · %@"
+          }
+        }
+      }
+    },
+    "Live translation of a screen region · %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live translation of a screen region · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живой перевод области экрана · %@"
+          }
+        }
+      }
+    },
+    "incomplete": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "incomplete"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "не завершён"
+          }
+        }
+      }
+    },
+    "Translating: %@ of %@ parts ready": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translating: %@ of %@ parts ready"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод: готово частей %@ из %@"
+          }
+        }
+      }
+    },
+    "Import phrases…": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import phrases…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импорт фраз…"
+          }
+        }
+      }
+    },
+    "Export JSON…": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export JSON…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт JSON…"
+          }
+        }
+      }
+    },
+    "Export CSV…": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export CSV…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт CSV…"
+          }
+        }
+      }
+    },
+    "CSV columns: source, target, input, output. An imported phrase replaces the same phrase with the same languages. The exported file is not encrypted.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV columns: source, target, input, output. An imported phrase replaces the same phrase with the same languages. The exported file is not encrypted."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Столбцы CSV: source, target, input, output. Импортированная фраза заменяет такую же фразу с той же парой языков. Файл экспорта не шифруется."
+          }
+        }
+      }
+    },
+    "The file was rejected: check the format, language codes and phrase length.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file was rejected: check the format, language codes and phrase length."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл отклонён: проверьте формат, коды языков и длину фраз."
+          }
+        }
+      }
+    },
+    "Phrases exported": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phrases exported"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фразы экспортированы"
+          }
+        }
+      }
+    },
+    "Unable to export phrases": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to export phrases"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось экспортировать фразы"
+          }
+        }
+      }
+    },
+    "The shortcut %@ is in use. Release it in the other app or choose another one.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shortcut %@ is in use. Release it in the other app or choose another one."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетание %@ занято. Освободите его в другом приложении или выберите другое."
+          }
+        }
+      }
+    },
+    "Unable to read local storage. The damaged file will be kept as a backup copy before any change.": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to read local storage. The damaged file will be kept as a backup copy before any change."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось прочитать локальное хранилище. Перед любым изменением повреждённый файл будет сохранён как резервная копия."
+          }
+        }
+      }
+    },
+    "Phrases imported: %@": {
+      "comment": "Пользовательская строка. Переводить целиком; бренды и параметры сохранять.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phrases imported: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импортировано фраз: %@"
+          }
+        }
+      }
+    },
+    "Cloud: %@": {
+      "comment": "Метка живого перевода: выбран облачный движок.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облако: %@"
           }
         }
       }

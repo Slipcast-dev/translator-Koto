@@ -11,7 +11,9 @@ struct TranslationStatusView: View {
         switch model.phase {
         case .idle: return "\(model.engineName) · \(readiness.text)"
         case .checking: return String(localized: "Checking language resources…")
-        case .translating: return String(localized: "Translating…")
+        case .translating:
+            guard let progress = model.progress, progress.total > 1 else { return String(localized: "Translating…") }
+            return String(localized: "Translating: \(AppLocalization.number(progress.completed)) of \(AppLocalization.number(progress.total)) parts ready")
         case .needsDownload: return String(localized: "Prepare languages for this pair.")
         case .preparing: return String(localized: "Waiting for system language preparation…")
         case .completed: return String(localized: "Done · \(model.engineName)")
@@ -41,6 +43,22 @@ struct TranslationStatusView: View {
                 .font(.callout)
                 .foregroundStyle(model.failure != nil ? Color.red : warnsAboutEngine ? Color.orange : Color.secondary)
                 .textSelection(.enabled)
+            if model.phase == .translating {
+                if let progress = model.progress, progress.total > 1 {
+                    ProgressView(value: progress.fraction).frame(width: 140)
+                        .accessibilityIdentifier("translation.progress")
+                }
+                if let started = model.translationStartedAt {
+                    // Для одного запроса доли неизвестны: прошедшее время показывает, что работа идёт.
+                    TimelineView(.periodic(from: started, by: 1)) { context in
+                        let seconds = Int(context.date.timeIntervalSince(started))
+                        if seconds >= 3 {
+                            Text(Duration.seconds(seconds).formatted(.time(pattern: .minuteSecond)))
+                                .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
             Spacer(minLength: 0)
             if model.phase == .needsDownload {
                 Button(String(localized: "Prepare languages")) { model.requestLanguagePreparation() }

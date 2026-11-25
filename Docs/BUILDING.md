@@ -19,6 +19,7 @@ python3 script/package_release.py
 - **Targets.** Приложение `Koto` и расширение Safari `Koto Safari` (папка `SafariExtension/`, встраивается в `Koto.app/Contents/PlugIns`; общие popup и локализация берутся из `BrowserExtension/`).
 - **Версия.** `CFBundleShortVersionString` числовая (`MARKETING_VERSION`), пустой `KotoReleaseChannel` означает стабильный выпуск, номер сборки — `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig`. Не задавайте `SWIFT_VERSION` минорной версией компилятора: 6.0 означает режим языка.
 - **Подпись.** Выпуск подписывается ad hoc; Developer ID и notarization — отдельный процесс. Не отключайте системные защиты ради проверки.
+- **Свой сертификат (необязательно).** `Tools/CreateSigningIdentity.swift` создаёт в связке ключей самоподписанный сертификат с неизвлекаемым ключом; `python3 script/package_release.py --identity <SHA1 сертификата>` привязывает разрешения macOS к его отпечатку. Workflow выпуска остаётся ad hoc: ключ в CI не передаётся. Первый переход с ad hoc потребует выдать разрешения заново. Этот путь на живой системе после изменения ещё не проверялся.
 - **Модель.** Запуск идёт из анонимного проверенного снимка через унаследованный stdin; на APFS снимок — мгновенный клон copy-on-write без дополнительного места, иначе делается полная копия (нужно временное место размером с модель). Без запросов runtime выгружается через 10 минут.
 
 ## Структура
@@ -31,11 +32,12 @@ python3 script/package_release.py
 python3 script/validate_repository.py
 python3 script/validate_localization.py
 bash script/test_swift_ci.sh
+KOTO_TEST_HOOKS=1 bash script/build_native_host.sh
 python3 script/test_bridge_integration.py
 build/tooling/swiftlint/swiftlint lint --strict --config .swiftlint.yml
 ```
 
-- `test_swift_ci.sh` выполняет 13 детерминированных прогонов: 9 shell-наборов (ручной перевод, захват, приватность, установка модели, качество, протокол моста, транспорт runtime, динамика локализации, политика облака), прямые harness Live и миграции настроек, проверку обновления на настоящих DMG и клиент моста Safari, а также Python-проверку длинного пути сокета. Модель и разрешения экрана не нужны.
+- `test_swift_ci.sh` выполняет 14 детерминированных прогонов: 10 shell-наборов (регрессии, ручной перевод, захват, приватность, установка модели, качество, протокол моста, транспорт runtime, динамика локализации, политика облака), прямые harness Live и миграции настроек, проверку обновления на настоящих DMG и клиент моста Safari, а также Python-проверку длинного пути сокета. Модель и разрешения экрана не нужны.
 - SwiftLint 0.65.1 ставится командой `bash script/install_swiftlint.sh` (SHA-256 архива проверяется).
 - Реальный Apple smoke (`./script/test_apple_translation.sh`) и интеграция моста требуют готовых системных ресурсов EN/RU. Их отсутствие — состояние среды, а не повод считать тест пройденным. Qwen-тесты требуют установленной пользователем модели.
 - Локализация: после Release-сборки `python3 script/test_localization.py` и `./script/test_localization_dynamics.sh`; Chrome: `node --experimental-vm-modules --test Tests/BrowserLocalizationTests.mjs`; каталоги: `python3 -m unittest discover -s Tests -p LocalizationCatalogTests.py`. Подробнее: [LOCALIZATION.md](LOCALIZATION.md).
@@ -47,7 +49,11 @@ CI GitHub на macOS 26 собирает приложение без подпи�
 
 ## Выпуск
 
-Выпуск автоматический. В pull request увеличьте `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig` и добавьте `Docs/RELEASE-<версия>.md` (например `RELEASE-1.0.1.md`, двуязычные заметки, ссылки только абсолютные или на соседние документы). После слияния в `main` workflow `.github/workflows/build-artifacts.yml`:
+Перед публикацией workflow повторяет проверки репозитория и локализации, тесты расширения, SwiftLint, сборку и `test_swift_ci.sh`. Job публикации работает только из `main` в окружении `release`. **Настройте на GitHub:** Settings → Environments → release → Required reviewers и ограничение веткой `main`; секрет `KOTO_UPDATE_SIGNING_KEY` лучше перенести из секретов репозитория в это окружение. Без этих настроек окружение создаётся без защиты.
+
+**Ротация ключа обновлений.** `KOTO_UPDATE_PUBLIC_KEY` принимает до четырёх ключей через запятую. Сначала выпустите версию с «старый,новый», подписанную старым ключом (первым в списке). Когда пользователи обновятся, поставьте новый ключ первым, замените секрет и в следующем выпуске уберите старый. Версии до этого изменения понимают только один ключ.
+
+Выпуск автоматический. В pull request увеличьте `CURRENT_PROJECT_VERSION` в `Config/Product.xcconfig` и добавьте `Docs/RELEASE-<версия>.md` (например `RELEASE-3.0.0.md`, двуязычные заметки, ссылки только абсолютные или на соседние документы). После слияния в `main` workflow `.github/workflows/build-artifacts.yml`:
 
 1. собирает приложение из исходников на macOS 26;
 2. упаковывает DMG, ZIP расширения Chrome и `SHA256SUMS.txt`;

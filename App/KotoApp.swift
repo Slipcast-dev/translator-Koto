@@ -49,9 +49,15 @@ struct KotoApp: App {
         MenuBarExtra {
             KotoMenuView(capture: capture)
         } label: {
-            Image("MenuBarIcon")
-                .renderingMode(.template)
-                .accessibilityLabel("Koto")
+            // Пока идёт живой перевод, значок в строке меню меняется: это видно и без плавающей метки.
+            if capture.live.running {
+                Image(systemName: "dot.radiowaves.left.and.right")
+                    .accessibilityLabel(String(localized: "Live translation is on"))
+            } else {
+                Image("MenuBarIcon")
+                    .renderingMode(.template)
+                    .accessibilityLabel("Koto")
+            }
         }
         .menuBarExtraStyle(.menu)
     }

@@ -10,7 +10,9 @@ final class CaptureCoordinator {
     var openLive: (() -> Void)?
     let manualModel = ManualTranslationModel(engine: RoutingTranslationEngine())
     let lensModel = ManualTranslationModel(engine: RoutingTranslationEngine(), context: .capture)
-    private(set) var message = String(localized: "Selection: ⌃⌥⌘T · Region: ⌃⌥⌘R")
+    private(set) var message = ""
+    private(set) var bindings = HotkeyPreferences.load()
+    @ObservationIgnored private var hotkeysSuspended = false
     private(set) var captureBusy = false
     private(set) var hotkeyIssue: String?
     private(set) var accessibilityGranted = false
@@ -43,7 +45,7 @@ final class CaptureCoordinator {
     @ObservationIgnored private let selectionService = SelectionCaptureService()
     @ObservationIgnored private let ocrService = ScreenOCRService()
     @ObservationIgnored private let selector = RegionSelector()
-    @ObservationIgnored private let hotkeys = GlobalHotkeyService()
+    @ObservationIgnored private let hotkeyService = GlobalHotkeyService()
     @ObservationIgnored private var lens: CaptureLensController?
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var operationID: UUID?
@@ -55,6 +57,36 @@ final class CaptureCoordinator {
 
     init() {
         hotkeysEnabled = UserDefaults.standard.object(forKey: "capture.hotkeysEnabled") as? Bool ?? true
+        message = String(localized: "Selection: \(shortcut(.selection)) · Region: \(shortcut(.region))")
+    }
+
+    func shortcut(_ action: HotkeyAction) -> String { (bindings[action] ?? action.defaultBinding).display }
+
+    /// На время записи нового сочетания регистрации снимаются.
+    func setHotkeysSuspended(_ suspended: Bool) {
+        hotkeysSuspended = suspended
+        if started { configureHotkeys() }
+    }
+
+    /// Занятое другим приложением сочетание не сохраняется: прежнее назначение восстанавливается.
+    func setHotkey(_ action: HotkeyAction, _ binding: HotkeyBinding) -> String? {
+        if let problem = HotkeyPreferences.problem(binding, for: action, in: bindings) { return problem }
+        let previous = bindings
+        bindings[action] = binding
+        configureHotkeys()
+        if let issue = hotkeyIssue {
+            bindings = previous
+            configureHotkeys()
+            return issue
+        }
+        HotkeyPreferences.save(bindings)
+        return nil
+    }
+
+    func resetHotkeys() {
+        bindings = HotkeyPreferences.defaults
+        UserDefaults.standard.removeObject(forKey: HotkeyPreferences.key)
+        configureHotkeys()
     }
 
     func start() {
@@ -78,7 +110,7 @@ final class CaptureCoordinator {
 
     func stop() {
         cancel()
-        hotkeys.unregister()
+        hotkeyService.unregister()
         LocalRuntimeSupervisor.shared.stop()
         BrowserBridgeServer.shared.stop()
         live.stop()
@@ -122,8 +154,8 @@ final class CaptureCoordinator {
     }
 
     private func configureHotkeys() {
-        hotkeys.unregister()
-        hotkeyIssue = hotkeysEnabled ? hotkeys.register { [weak self] id in
+        hotkeyService.unregister()
+        hotkeyIssue = hotkeysEnabled && !hotkeysSuspended ? hotkeyService.register(bindings) { [weak self] id in
             if id == 1 { self?.captureSelection() } else if id == 2 { self?.captureRegion() } else if id == 3 { self?.startLive() }
         } : nil
     }

@@ -53,7 +53,7 @@ final class HoverTooltip {
 @MainActor
 final class HoverTranslationController {
     private let ocr: ScreenOCRService
-    private let translator = QuickTranslator()
+    private let translator = QuickTranslator(engine: RoutingTranslationEngine())
     private let tooltip = HoverTooltip()
     private var loop: Task<Void, Never>?
     private var shownFrame: CGRect?
@@ -63,13 +63,14 @@ final class HoverTranslationController {
     var active: Bool { loop != nil }
 
     func start(region: CGRect, screen: NSScreen, pair: @escaping () -> (source: String, target: String),
-               onStatus: @escaping (String) -> Void) {
+               onStatus: @escaping (String) -> Void, onFailure: @escaping (String) -> Void) {
         stop()
         loop = Task { [weak self] in
             var lastPoint = NSEvent.mouseLocation
             var stillSince = ContinuousClock.now
             var handled = true
             var outside = !region.contains(lastPoint)
+            var captureFailures = 0
             while !Task.isCancelled {
                 // Пока курсор вне области, опрос редкий: так экономится энергия.
                 try? await Task.sleep(for: .milliseconds(outside ? 250 : 80))
@@ -87,12 +88,15 @@ final class HoverTranslationController {
                 guard !handled, stillSince.duration(to: .now) >= .milliseconds(180) else { continue }
                 handled = true
                 do {
-                    guard let word = try await self.ocr.word(at: point, within: region, screen: screen) else { self.hide(); continue }
+                    let found = try await self.ocr.word(at: point, within: region, screen: screen)
+                    captureFailures = 0
+                    guard let word = found else { self.hide(); continue }
                     // Курсор мог уйти, пока шёл OCR.
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
                     let text: String
                     switch await self.translator.translate(word.text, pair: pair()) {
                     case .text(let value), .failure(let value): text = value
+                    case .cancelled: continue
                     }
                     guard NSEvent.mouseLocation.distance(to: point) <= 6 else { continue }
                     self.shownFrame = word.frame
@@ -100,15 +104,23 @@ final class HoverTranslationController {
                 } catch is CancellationError { return }
                 catch {
                     self.hide()
-                    onStatus((error as? CaptureFailure)?.errorDescription ?? (error as? TranslationFailure)?.errorDescription
-                        ?? String(localized: "Live capture stopped after an error"))
-                    if error is CaptureFailure { return }
+                    captureFailures += 1
+                    let message = (error as? CaptureFailure)?.errorDescription
+                        ?? String(localized: "Live capture stopped after an error")
+                    if (error as? CaptureFailure) == .screenRequired || captureFailures >= LiveSchedule.captureFailureLimit {
+                        onFailure(message)
+                        return
+                    }
+                    onStatus(message)
+                    try? await Task.sleep(for: LiveSchedule.retryDelay(failures: captureFailures))
                 }
             }
         }
     }
 
-    func stop() { loop?.cancel(); loop = nil; hide() }
+    func stop() { loop?.cancel(); loop = nil; translator.cancel(); hide() }
+
+    func resetTranslator() { translator.reset() }
 
     private func hide() { shownFrame = nil; tooltip.hide() }
 }

@@ -54,11 +54,14 @@ final class RoutingTranslationEngine: TranslationEngine {
         return readiness
     }
     func translate(_ request: TranslationRequest) async throws -> TranslationResult {
+        try await translate(request, progress: { _ in })
+    }
+    func translate(_ request: TranslationRequest, progress: @escaping TranslationProgressHandler) async throws -> TranslationResult {
         guard let engine = snapshots.removeValue(forKey: request.id) else { throw TranslationFailure.cancelled }
         if engine is CloudTranslationEngine, !TranslationPrivacy.cloudAllowed(request.context) {
             throw TranslationFailure.cloudNotAllowed
         }
-        let translated = try await engine.translate(request)
+        let translated = try await engine.translate(request, progress: progress)
         try Task.checkCancellation()
         let result = TranslationResult(requestID: translated.requestID, text: translated.text,
             source: translated.source, target: translated.target, engineLabel: translated.engineLabel ?? engine.displayName)

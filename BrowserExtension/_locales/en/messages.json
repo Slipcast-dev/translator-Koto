@@ -170,5 +170,17 @@
   "error_bridge_error": {
     "message": "Check Koto and the browser bridge connection.",
     "description": "Общая ошибка, неизвестный код или отсутствующий ключ."
+  },
+  "follow_scroll": {
+    "message": "Keep translating while I scroll",
+    "description": "Флажок перевода при прокрутке."
+  },
+  "following_scroll": {
+    "message": "New text is translated while you scroll. Cancel stops it.",
+    "description": "Наблюдение за прокруткой включено."
+  },
+  "error_rate_limited": {
+    "message": "Too many requests in a minute. Wait a moment and try again.",
+    "description": "Превышен лимит запросов моста."
   }
 }

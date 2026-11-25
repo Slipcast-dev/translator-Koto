@@ -14,7 +14,7 @@ const errorCodes = new Set([
   "connection_lost", "native_host_unavailable", "unsupported_page", "cancelled",
   "timeout", "models_missing", "translation_failed", "invalid_or_busy",
   "cloud_not_allowed", "excluded_page", "busy", "duplicate_request",
-  "invalid_request", "invalid_language", "invalid_action", "bridge_error",
+  "invalid_request", "invalid_language", "invalid_action", "bridge_error", "rate_limited",
 ]);
 
 export function errorMessage(code) {

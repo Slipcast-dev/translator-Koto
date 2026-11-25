@@ -151,15 +151,14 @@ final class UpdateModel {
          processID: Int32 = ProcessInfo.processInfo.processIdentifier,
          defaults: UserDefaults = .standard,
          publicKey: Data? = (Bundle.main.object(forInfoDictionaryKey: "KotoUpdatePublicKey") as? String)
-             .flatMap { Data(base64Encoded: $0) },
+             .flatMap { UpdateInstaller.publicKeys(from: $0) },
          terminate: @escaping @MainActor () -> Void = {}) {
         self.publicKey = publicKey
         self.transport = transport
         self.current = current ?? AppVersion.bundle(Bundle.main.infoDictionary ?? [:])
             ?? AppVersion(major: 0, minor: 0, patch: 0, stable: false, build: 0)
         self.target = target
-        self.workDirectory = workDirectory
-            ?? FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Caches/dev.slipcast.koto/Updates", isDirectory: true)
+        self.workDirectory = workDirectory ?? UpdateInstaller.updatesDirectory
         self.bundleIdentifier = bundleIdentifier
         self.relaunch = relaunch
         self.processID = processID

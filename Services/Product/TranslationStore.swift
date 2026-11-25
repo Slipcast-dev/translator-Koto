@@ -21,6 +21,9 @@ final class TranslationStore {
     private(set) var glossary: [PhraseRecord] = []
     private(set) var memory: [PhraseRecord] = []
     private(set) var status = ""
+    /// Файлы, которые не удалось прочитать. Перед первой перезаписью такой файл переименовывается,
+    /// чтобы пустой список в памяти не уничтожил прежние данные пользователя.
+    @ObservationIgnored private var unreadable = Set<String>()
     @ObservationIgnored private var memoryDirty = false
     @ObservationIgnored private var memoryWriteScheduled = false
     var memoryEnabled: Bool {
@@ -33,10 +36,26 @@ final class TranslationStore {
         self.directoryOverride = directory
         self.defaults = defaults
         memoryEnabled = defaults.bool(forKey: "memory.enabled")
-        do {
-            glossary = try load("glossary.json", maximum: 200)
-            if memoryEnabled { memory = try load("memory.json", maximum: 500) }
-        } catch { status = String(localized: "Unable to read local storage. The file was not overwritten.") }
+        // Файлы читаются независимо: повреждённый словарь не должен скрывать память переводов и наоборот.
+        glossary = loadPreserving("glossary.json", maximum: 200)
+        if memoryEnabled { memory = loadPreserving("memory.json", maximum: 500) }
+    }
+    private func loadPreserving(_ name: String, maximum: Int) -> [PhraseRecord] {
+        do { return try load(name, maximum: maximum) }
+        catch {
+            unreadable.insert(name)
+            status = String(localized: "Unable to read local storage. The damaged file will be kept as a backup copy before any change.")
+            return []
+        }
+    }
+    /// Переносит непрочитанный файл в сторону. Если это невозможно, запись отменяется: данные важнее.
+    private func preserveUnreadable(_ name: String) throws {
+        guard unreadable.contains(name) else { return }
+        let url = try file(name)
+        let backup = url.deletingLastPathComponent().appendingPathComponent("\(name).corrupt-\(UUID().uuidString)")
+        var metadata = stat()
+        if lstat(url.path, &metadata) == 0 { try FileManager.default.moveItem(at: url, to: backup) }
+        unreadable.remove(name)
     }
     private func file(_ name: String) throws -> URL {
         if let directoryOverride { try PrivateStorage.ensureDirectory(directoryOverride); return directoryOverride.appendingPathComponent(name) }
@@ -60,8 +79,51 @@ final class TranslationStore {
             && record.source.count <= 32 && record.target.count <= 32
     }
     private func persist(_ records: [PhraseRecord], name: String) throws {
+        try preserveUnreadable(name)
         try PrivateStorage.write(JSONEncoder().encode(records), to: file(name))
     }
+    private func removeMemoryBackups() throws {
+        let directory = try file("memory.json").deletingLastPathComponent()
+        for name in try FileManager.default.contentsOfDirectory(atPath: directory.path)
+        where name.hasPrefix("memory.json.corrupt-") {
+            try FileManager.default.removeItem(at: directory.appendingPathComponent(name))
+        }
+    }
+
+    // MARK: Импорт и экспорт словаря
+
+    func report(_ message: String) { status = message }
+
+    func exportGlossary(_ format: GlossaryFormat) throws -> Data {
+        try GlossaryExchange.encode(glossary, format: format)
+    }
+
+    /// Импорт атомарен: либо принимаются все строки файла, либо словарь не меняется.
+    /// Фраза с тем же текстом и парой языков заменяет прежнюю.
+    @discardableResult
+    func importGlossary(_ data: Data, format: GlossaryFormat) -> Bool {
+        do {
+            var next = glossary
+            let incoming = try GlossaryExchange.decode(data, format: format)
+            for record in incoming {
+                guard valid(record), record.source != record.target else { throw GlossaryExchange.Failure.record }
+                next.removeAll { $0.input == record.input && $0.source == record.source && $0.target == record.target }
+                next.append(record)
+            }
+            guard next.count <= 200 else {
+                status = String(localized: "The limit of 200 phrases has been reached.")
+                return false
+            }
+            try persist(next, name: "glossary.json")
+            glossary = next
+            status = String(localized: "Phrases imported: \(AppLocalization.number(incoming.count))")
+            return true
+        } catch is GlossaryExchange.Failure {
+            status = String(localized: "The file was rejected: check the format, language codes and phrase length.")
+        } catch { status = String(localized: "Unable to save exact phrases") }
+        return false
+    }
+
     func lookup(_ request: TranslationRequest) -> (PhraseRecord, String)? {
         // Автоопределение не подбирает пользовательскую пару наугад.
         guard let source = request.source?.id else { return nil }
@@ -111,7 +173,8 @@ final class TranslationStore {
         guard memoryDirty else { return }
         memoryDirty = false
         let data = try? JSONEncoder().encode(memory)
-        let url = try? file("memory.json")
+        let url: URL?
+        do { try preserveUnreadable("memory.json"); url = try file("memory.json") } catch { url = nil }
         guard let data, let url else { status = String(localized: "Unable to save translation memory"); return }
         // @Sendable обязателен: иначе замыкание наследует MainActor и падает на проверке очереди.
         // Очередь последовательная, поэтому порядок записей сохраняется (последняя версия побеждает).
@@ -129,7 +192,12 @@ final class TranslationStore {
     func clearMemory() {
         memoryDirty = false
         flush()
-        do { try persist([], name: "memory.json"); memory.removeAll(); status = String(localized: "Memory cleared") }
+        do {
+            // Очистка — явная просьба удалить тексты, поэтому резервные копии памяти тоже удаляются.
+            unreadable.remove("memory.json")
+            try removeMemoryBackups()
+            try persist([], name: "memory.json"); memory.removeAll(); status = String(localized: "Memory cleared")
+        }
         catch { status = String(localized: "Unable to clear the memory file") }
     }
 }

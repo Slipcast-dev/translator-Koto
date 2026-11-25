@@ -16,9 +16,19 @@ struct KotoNativeHost {
         }
     }
 
+    /// Подмена каталога моста нужна только проверкам и существует лишь в тестовой сборке host:
+    /// выпускаемый бинарник переменные окружения не читает.
+    private static var testDirectory: String? {
+#if KOTO_TEST_HOOKS
+        ProcessInfo.processInfo.environment["KOTO_BRIDGE_DIRECTORY"]
+#else
+        nil
+#endif
+    }
+
     private static func run() throws {
         let directory: URL
-        if let test = ProcessInfo.processInfo.environment["KOTO_BRIDGE_DIRECTORY"] {
+        if let test = testDirectory {
             directory = URL(fileURLWithPath: test, isDirectory: true)
         } else { directory = try PrivateStorage.bridgeDirectory() }
         let socketPath = try PrivateStorage.bridgeSocketPath(in: directory)
@@ -89,7 +99,7 @@ struct KotoNativeHost {
                     } catch {
                         if socketFD >= 0 { close(socketFD); socketFD = -1 }
                         retryAt = now + 0.4
-                        if !launched && ProcessInfo.processInfo.environment["KOTO_BRIDGE_DIRECTORY"] == nil {
+                        if !launched && testDirectory == nil {
                             launched = true
                             launchDesktop()
                         }
@@ -100,7 +110,7 @@ struct KotoNativeHost {
                 close(socketFD); socketFD = -1; try failPending()
             }
             var descriptors = [
-                pollfd(fd: STDIN_FILENO, events: pending.count < 16 ? Int16(POLLIN) : 0, revents: 0),
+                pollfd(fd: STDIN_FILENO, events: Int16(POLLIN), revents: 0),
                 pollfd(fd: STDOUT_FILENO, events: toBrowser.isEmpty ? 0 : Int16(POLLOUT), revents: 0),
                 pollfd(fd: socketFD, events: Int16(POLLIN) | (toDesktop.isEmpty ? 0 : Int16(POLLOUT)), revents: 0)
             ]
@@ -118,7 +128,13 @@ struct KotoNativeHost {
                     lastActivity = now
                     for frame in try browserDecoder.append(Data(readBuffer.prefix(count))) {
                         guard [.translate, .ping, .cancel].contains(frame.type) else { throw BridgeProtocolFailure.identity }
-                        guard !pending.contains(frame.id), pending.count < 16 else { throw BridgeProtocolFailure.length }
+                        guard !pending.contains(frame.id) else { throw BridgeProtocolFailure.identity }
+                        // Перегрузка — не нарушение протокола: расширение получает busy, а host работает дальше.
+                        // Отмены имеют отдельный запас: именно они освобождают очередь.
+                        if pending.count >= (frame.type == .cancel ? 64 : 16) {
+                            enqueueBrowser(try response(frame.id, code: "busy"))
+                            continue
+                        }
                         pending.insert(frame.id)
                         if authenticated { toDesktop.append(try BridgeFrameDecoder.encode(frame)) }
                         else { waiting.append(frame) }

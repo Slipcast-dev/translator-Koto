@@ -74,7 +74,7 @@ async def native(directory: Path, origin: str = ORIGIN) -> asyncio.subprocess.Pr
     env = os.environ.copy()
     env["KOTO_BRIDGE_DIRECTORY"] = str(directory)
     return await asyncio.create_subprocess_exec(
-        str(ROOT / "Resources/BrowserBridge/koto-native-host"), origin, env=env,
+        str(ROOT / "build/test-host/koto-native-host"), origin, env=env,
         stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
     )
 

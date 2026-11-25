@@ -46,6 +46,20 @@ def validate_model_free_app(app: Path) -> None:
                 raise RuntimeError("Only small model metadata may be bundled")
 
 
+def designated_requirement(bundle_id: str, identity: str) -> str:
+    """Требование, по которому macOS узнаёт Koto при проверке выданных разрешений.
+
+    Ad hoc: только идентификатор. Хэш сборки сбрасывал бы разрешения после каждого обновления,
+    но идентификатор может заявить любая другая программа — это известное ограничение ad hoc.
+    Сертификат: идентификатор вместе с отпечатком, поэтому без закрытого ключа разрешения
+    получить нельзя, а между версиями с тем же сертификатом они сохраняются.
+    """
+    requirement = '=designated => identifier "' + bundle_id + '"'
+    if identity != "-":
+        requirement += ' and certificate leaf = H"' + identity.lower() + '"'
+    return requirement
+
+
 def write_documentation(stage: Path, identity: str) -> None:
     """Сохранять ru/en и локальные ссылки без копирования всего репозитория."""
     directory = stage / "Docs"
@@ -55,7 +69,8 @@ def write_documentation(stage: Path, identity: str) -> None:
             source = ROOT / "Docs" / (stem + suffix)
             if source.is_file():
                 shutil.copy2(source, directory / source.name)
-    for name in ("LICENSE", "CODE_OF_CONDUCT.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
+    for name in ("LICENSE", "CODE_OF_CONDUCT.md", "SECURITY.md", "SECURITY.en.md",
+                 "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"):
         shutil.copy2(ROOT / name, stage / name)
     # Release notes текущего выпуска нужны и вне репозитория.
     for path in (ROOT / "Docs").glob("RELEASE-*.md"):
@@ -107,6 +122,8 @@ def main() -> None:
         help="Суффикс локального пакета, сохраняющий прежний выпуск",
     )
     args = parser.parse_args()
+    if args.identity != "-" and not re.fullmatch(r"[0-9A-Fa-f]{40}", args.identity):
+        parser.error("identity must be '-' or the 40-digit SHA1 of a certificate")
     if args.artifact_suffix and not re.fullmatch(
         r"[a-z0-9-]+", args.artifact_suffix
     ):
@@ -158,12 +175,7 @@ def main() -> None:
         "--options", "runtime", "--timestamp=none",
         "--entitlements", str(ROOT / "Config/Release.entitlements"),
     ]
-    if args.identity == "-":
-        # Ad hoc подпись по умолчанию привязывает требование к хэшу конкретной сборки, и macOS теряет
-        # выданные разрешения (Универсальный доступ, Запись экрана) после каждого обновления.
-        # Требование по идентификатору остаётся одинаковым у всех сборок, поэтому доступ сохраняется.
-        # Компромисс: разрешения получает любое приложение с этим идентификатором и ad hoc подписью.
-        app_signing += ["-r", '=designated => identifier "' + metadata["CFBundleIdentifier"] + '"']
+    app_signing += ["-r", designated_requirement(metadata["CFBundleIdentifier"], args.identity)]
     run(app_signing + [str(app)])
     run([
         "/usr/bin/codesign", "--verify", "--deep", "--strict",

@@ -40,7 +40,7 @@ class Element {
 async function fixture(locale, preferences = { source: "en", target: "ja" }, numberRegion) {
   const language = locale.split(/[-_]/)[0] === "ru" ? "ru" : "en";
   const elements = Object.fromEntries(
-    ["source", "target", "selection", "page", "clear", "cancel", "status", "result"]
+    ["source", "target", "selection", "page", "clear", "cancel", "status", "result", "follow"]
       .map((id) => [id, new Element()]),
   );
   const translated = [];
@@ -148,7 +148,7 @@ async function fixture(locale, preferences = { source: "en", target: "ja" }, num
   });
   await popup.evaluate();
   await Promise.resolve();
-  return { elements, translated, document, state, storageWrites, requests, i18n, injectedWindow };
+  return { elements, translated, document, state, storageWrites, requests, i18n, injectedWindow, context };
 }
 
 test("catalogs, manifest, placeholders and extension identity", async () => {
@@ -331,4 +331,59 @@ test("unsupported snapshot origin sends no text", async () => {
   f.state.browserResults = [{text:"private fixture",pageOrigin:"null"}];
   await f.elements.selection.trigger("click");
   assert.equal(f.requests.length,0);
+});
+
+test("explicit source batches short fragments into one request", async () => {
+  const f = await fixture("en");
+  f.state.nativeText = "один\nдва";
+  f.state.browserResults = [[{ id: 0, text: "one" }, { id: 1, text: "two\n  lines" }], 2];
+  await f.elements.page.trigger("click");
+  assert.equal(f.requests.length, 1);
+  assert.equal(f.requests[0].payload.text, "one\ntwo lines");
+});
+
+test("automatic source never merges fragments of possibly different languages", async () => {
+  const f = await fixture("en", { source: "auto", target: "ru" });
+  f.state.browserResults = [[{ id: 0, text: "one" }, { id: 1, text: "zwei" }], 2];
+  await f.elements.page.trigger("click");
+  assert.deepEqual(f.requests.map((r) => r.payload.text), ["one", "zwei"]);
+});
+
+test("scroll following translates new text and stops after cancel", async () => {
+  const f = await fixture("en", { source: "en", target: "ru" });
+  const waits = [];
+  // Таймер наблюдения управляется тестом; остальные таймеры (таймаут запроса) настоящие.
+  f.context.setTimeout = (callback, delay) => delay === 1200 ? waits.push(callback) : setTimeout(callback, delay);
+  const settle = () => new Promise((resolve) => setImmediate(resolve));
+  f.elements.follow.checked = true;
+  f.state.browserResults = [[{ id: 0, text: "first" }], 1];
+  await f.elements.page.trigger("click");
+  assert.match(f.elements.status.textContent, /while you scroll/);
+  assert.equal(waits.length, 1);
+
+  f.state.browserResults = [{ segments: [{ id: 1, text: "scrolled" }], pageOrigin: "https://fixture.test" }, 1];
+  waits.shift()();
+  await settle();
+  assert.deepEqual(f.requests.map((r) => r.payload.text), ["first", "scrolled"]);
+  assert.deepEqual(Array.from(f.state.targets.at(-1).documentIds), ["fixture-document"]);
+  assert.equal(waits.length, 1);
+
+  await f.elements.cancel.trigger("click");
+  waits.shift()();
+  await settle();
+  assert.equal(f.requests.length, 2);
+  assert.equal(waits.length, 0, "cancel ends the watcher without further page reads");
+});
+
+test("scroll following stops when the document is replaced", async () => {
+  const f = await fixture("en", { source: "en", target: "ru" });
+  const waits = [];
+  f.context.setTimeout = (callback, delay) => delay === 1200 ? waits.push(callback) : setTimeout(callback, delay);
+  f.elements.follow.checked = true;
+  f.state.browserResults = [[{ id: 0, text: "first" }], 1];
+  await f.elements.page.trigger("click");
+  f.state.browserResults = [{ segments: [], pageOrigin: "https://fixture.test", gone: true }];
+  waits.shift()();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(waits.length, 0);
 });

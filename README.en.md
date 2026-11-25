@@ -1,15 +1,15 @@
 [Русский](README.md) | **English**
 
-Current release: **2.0.0**, Chrome **0.1.5**.
+Current release: **3.0.0**, Chrome **0.1.6**.
 
 <p align="center"><img src="Docs/assets/banner.png" alt="Koto — Translate. Stay in flow. Native macOS translator by Slipcast-Dev" width="100%"></p>
-<p align="center"><img alt="Version 2.0.0" src="https://img.shields.io/badge/release-2.0.0-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"> <a href="https://github.com/Slipcast-dev/translator-Koto/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Slipcast-dev/translator-Koto?style=flat&logo=github&color=efb366"></a> <a href="https://github.com/Slipcast-dev/translator-Koto/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/Slipcast-dev/translator-Koto/total?style=flat&logo=github&color=efb366"></a></p>
+<p align="center"><img alt="Version 3.0.0" src="https://img.shields.io/badge/release-3.0.0-efb366"> <img alt="macOS 26+" src="https://img.shields.io/badge/macOS-26%2B-333333"> <img alt="Apple Silicon" src="https://img.shields.io/badge/architecture-arm64-333333"> <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-F05138"> <a href="https://github.com/Slipcast-dev/translator-Koto/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Slipcast-dev/translator-Koto?style=flat&logo=github&color=efb366"></a> <a href="https://github.com/Slipcast-dev/translator-Koto/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/Slipcast-dev/translator-Koto/total?style=flat&logo=github&color=efb366"></a></p>
 
 # Koto · Slipcast-Dev
 
 A native macOS translator for text, selections and screen regions, with local engines and Chrome and Safari extensions. **Translate. Stay in flow.**
 
-**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v2.0.0/Koto-2.0.0-22-arm64.dmg)** · [Chrome 0.1.5 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v2.0.0/Koto-Chrome-0.1.5.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
+**[Download DMG](https://github.com/Slipcast-dev/translator-Koto/releases/download/v3.0.0/Koto-3.0.0-23-arm64.dmg)** · [Chrome 0.1.6 ZIP](https://github.com/Slipcast-dev/translator-Koto/releases/download/v3.0.0/Koto-Chrome-0.1.6.zip) · [Releases](https://github.com/Slipcast-dev/translator-Koto/releases) · [Installation](Docs/INSTALLATION.en.md) · [Build from source](Docs/BUILDING.en.md) · [Project status](Docs/STATUS.en.md)
 
 > Release for Apple Silicon. Ad hoc signing, without Apple Developer ID or notarization: macOS may block launch. Release checks were performed on M1 / macOS 27.2; macOS 26 remains untested.
 
@@ -18,12 +18,14 @@ A native macOS translator for text, selections and screen regions, with local en
 | Feature | Implementation |
 | --- | --- |
 | Manual translation | On-device Apple Translation; optional Qwen |
-| Selected text | Accessibility, `⌃⌥⌘T` |
-| Screen-region OCR | On-device Vision, `⌃⌥⌘R` |
-| Live | Live translation, `⌃⌥⌘L`; endurance testing remains pending |
-| Chrome and Safari | Translate selections and visible fragments through the included extensions (Safari: build verified, behaviour in Safari not yet tested) |
+| Selected text | Accessibility, `⌃⌥⌘T` by default |
+| Screen-region OCR | On-device Vision, `⌃⌥⌘R` by default |
+| Live | Live translation, `⌃⌥⌘L` by default; a badge with the engine and a Stop button; endurance testing remains pending |
+| Shortcuts | All three can be changed in Settings |
+| Chrome and Safari | Translate selections and visible text, optionally while scrolling (Safari: build verified, behaviour in Safari not yet tested) |
+| Long texts | Qwen and the cloud show finished parts and progress |
 | Updates | Check and install from GitHub Releases with one button in Settings |
-| Tools | Exact phrases, opt-in translation memory, speech and local explanations |
+| Tools | Exact phrases with JSON/CSV import and export, opt-in translation memory, speech and local explanations |
 | Cloud | Google/Yandex adapters with a Keychain-stored key; real accounts have not been validated |
 
 ## No bundled model weights
@@ -50,7 +52,6 @@ python3 script/package_release.py
 Requires Xcode with a suitable macOS SDK, Swift 6, Apple Silicon and Python 3. The runtime is built from pinned llama.cpp sources. Building does not download model weights. [Instructions →](Docs/BUILDING.en.md)
 
 ## Verification and limitations
-
 
 The root cause of the intermittent initial Apple framework failure is unknown. Koto's recovery handling has been fixed. Live endurance, sleep/wake, macOS 26 and some external integrations still require acceptance testing.
 
